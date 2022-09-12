@@ -1,100 +1,42 @@
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
-import Image from "next/image";
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ReactNode, useState } from 'react';
+import Image from 'next/image';
 
 export interface ILayoutAdminProps {
   children: ReactNode;
 }
-export const MENU = [
-  { name: "Trang chủ", path: "/" },
-  { name: "Cho thuê phòng trọ", path: "/cho-thue-phong-tro" },
-  { name: "Nhà cho thuê", path: "/nha-cho-thue" },
-  { name: "Cho thuê căn hộ", path: "/cho-thue-can-ho" },
-  { name: "Blog", path: "/blog" },
-  { name: "Hướng dẫn", path: "/gioi-thieu" },
-  { name: "Nạp tiền", path: "/nap-tien" },
-  { name: "Bảng giá", path: "/bang-gia" },
-  { name: "Quản lý", path: "/quan-ly" },
-];
-
-export const MENU_ADMIN = [
-  { name: "Quản lý tin đăng", path: "/quan-ly/quan-ly-tin-dang" },
-  { name: "Sửa thông tin cá nhân", path: "/quan-ly/sua-thong-tin-ca-nhan" },
-  { name: "Nạp tiền vào tài khoản", path: "/quan-ly/nap-tien" },
-  { name: "Lịch sử thanh toán", path: "/quan-ly/lich-su-thanh-toan" },
-  { name: "Bảng giá dịch vụ", path: "/bang-gia" },
-  { name: "Liên hệ", path: "/lien-he" },
-  { name: "Thoát", path: "/logout" },
-];
 
 const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
-  const [navbarOpen, setNavbarOpen] = useState(false);
-  // const changeToggle = () => {
-  //   setToggle(!toggle);
-  // };
+  const [toggle, setToggle] = useState(false);
+  const changeToggle = () => {
+    setToggle(!toggle);
+  };
   const router = useRouter();
 
-  console.log("fdfd", router.pathname.search("/manager/landlord"));
+  console.log('fdfd', router.pathname.search('/manager/landlord'));
 
   return (
-    <>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-pink-500 mb-3">
-        <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-          <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-            <a
-              className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
-              href="#pablo"
-            >
-              pink Tailwind Starter Kit
-            </a>
-            <button
-              className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-              type="button"
-              onClick={() => setNavbarOpen(!navbarOpen)}
-            >
-              <i className="fas fa-bars"></i>
-            </button>
-          </div>
-          <div
-            className={
-              "lg:flex flex-grow items-center" +
-              (navbarOpen ? " flex" : " hidden")
-            }
-            id="example-navbar-danger"
-          >
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="nav-item">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
-                >
-                  <i className="fab fa-facebook-square text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Share</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
-                >
-                  <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Tweet</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                  href="#pablo"
-                >
-                  <i className="fab fa-pinterest text-lg leading-lg text-white opacity-75"></i><span className="ml-2">Pin</span>
-                </a>
-              </li>
-            </ul>
+    <div className=" bg-gray-100">
+      <div className="md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300">
+        <div className="flex-none w-56 flex flex-row items-center">image</div>
+
+        <div className="animated md:hidden md:fixed md:top-0 md:w-full md:left-0 md:mt-16 md:border-t md:border-b md:border-gray-200 md:p-10 md:bg-white flex-1 pl-3 flex flex-row flex-wrap justify-between items-center md:flex-col md:items-center">
+          <div className="flex flex-row-reverse items-center">
+            <div className="icon">Icon</div>
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+
+      <div className="h-screen flex flex-row flex-wrap">
+        <div className="relative flex flex-col flex-wrap bg-white border-r border-gray-300 p-6 flex-none w-64 md:-ml-64 md:fixed md:top-0 md:z-30 md:h-screen md:shadow-xl animated faster">
+          <div className="flex flex-col text-red-400">thanh ben canh</div>
+          <div className="bg-gray-100 flex-1 p-6 md:mt-16 grid grid-cols-8">{children}</div>
+        </div>
+      </div>
+    </div>
   );
 };
 

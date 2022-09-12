@@ -1,9 +1,9 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { Router, useRouter } from "next/router";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import { SessionProvider } from "next-auth/react";
-import LayoutLandlords from "src/Layout/Manager/Landlords";
+import '../assets/styles/globals.css';
+import type { AppProps } from 'next/app';
+import { Router, useRouter } from 'next/router';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import { SessionProvider } from 'next-auth/react';
+import LayoutLandlords from 'src/Layout/Manager/Landlords';
 
 config.autoAddCss = false;
 
@@ -18,11 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   setLoading(false);
   // });
 
-  
-
-  if (router.pathname.search("/manager/landlord") >= 0) {
-    console.log('landlord');
-    
+  if (router.pathname.search('/manager/landlord') >= 0) {
     return (
       <LayoutLandlords>
         <Component {...pageProps} />
@@ -30,17 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
   }
 
-  if (router.pathname.search("/manager/ternant") >= 0) {
-    console.log('ternant');
-
+  if (router.pathname.search('/manager/ternant') >= 0) {
     return (
       <LayoutLandlords>
         <Component {...pageProps} />
       </LayoutLandlords>
     );
   } else {
-    console.log('no');
-    
     return <Component {...pageProps} />;
   }
 }
