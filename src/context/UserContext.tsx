@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: any) => {
     phoneNumber,
     setPhoneNumber,
     token,
-    setToken,
+    setToken, 
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
