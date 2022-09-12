@@ -1,0 +1,41 @@
+
+
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/context/*": ["./src/context/*"],
+      "@/util/*": ["./src/util/*"],
+      "@/styles/*": ["./src/styles/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "service/service.js",
+    "src/pages/api/productDetail.ts",
+
+    "src/pages/api/examples/protected.js",
+    "src/pages/api/examples/session.js",
+    "src/pages/api/examples/protected.js",
+    "src/pages/api/auth/[...nextauth].js",
+    "src/pages/signin/index.tsx"
+  ],
+  "exclude": ["node_modules"]
+}
