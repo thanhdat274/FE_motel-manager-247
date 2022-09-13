@@ -54,9 +54,19 @@ const HeaderPreview = (props: Props) => {
                 <Image src="/images/logo.svg" alt="logo" layout="fill" priority></Image>
               </a>
             </Link>
-            <div className="flex">
+            <div className="flex flex-col gap-2">
+              <Link href={`/manager/landlord`}>
+                <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                  Quan ly nha tro
+                </a>
+              </Link>
+              <Link href={`/manager/ternant`}>
+                <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                  Quan ly phong tro
+                </a>
+              </Link>
               {getAll && (
-                <div>
+                <>
                   <Link href={`/api/auth/signin`}>
                     <a
                       className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
@@ -73,7 +83,7 @@ const HeaderPreview = (props: Props) => {
                       Đăng ký
                     </a>
                   </Link>
-                </div>
+                </>
               )}
               {!getAll && (
                 <div className="flex ">
@@ -171,12 +181,6 @@ const HeaderPreview = (props: Props) => {
                   </div>
                 </div>
               )}
-              <Link href={'/dang-tin-moi'}>
-                <a className="hidden lg:inline-flex h-10 rounded bg-[#f73859] font-bold text-white items-center justify-center px-2.5 ml-1">
-                  <span className="mr-1">Đăng tin mới</span>
-                  <FontAwesomeIcon icon={faCirclePlus}></FontAwesomeIcon>
-                </a>
-              </Link>
             </div>
           </div>
         </div>

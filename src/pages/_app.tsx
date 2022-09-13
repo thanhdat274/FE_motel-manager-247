@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       );
     } else {
       return (
-        <div className="bg-gray-300">
+        <div className="bg-gray-200">
           <LayoutIntro>
             <Component {...pageProps} />
           </LayoutIntro>
