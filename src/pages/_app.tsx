@@ -7,6 +7,7 @@ import LayoutLandlords from 'src/Layout/Manager/Landlords';
 import { useState } from 'react';
 import ReactLoading from 'react-loading';
 import LayoutTenants from 'src/Layout/Manager/Tenants';
+import LayoutIntro from 'src/Layout/Preview';
 
 config.autoAddCss = false;
 
@@ -21,32 +22,41 @@ function MyApp({ Component, pageProps }: AppProps) {
   // Router.events.on('routeChangeComplete', () => {
   //   setLoading(false);
   // });
+  const switchLayout = () => {
+    if (router.pathname.search('/manager/landlord/list-home') >= 0) {
+      return <Component {...pageProps} />;
+    }
 
-  if (router.pathname.search('/manager/landlord/list-home') >= 0) {
-    return <Component {...pageProps} />;
-  }
+    if (router.pathname.search('/manager/landlord') >= 0) {
+      return (
+        <LayoutLandlords>
+          {loading ? (
+            <ReactLoading type={'spinningBubbles'} color="red" width={300} height={300} />
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </LayoutLandlords>
+      );
+    }
 
-  if (router.pathname.search('/manager/landlord') >= 0) {
-    return (
-      <LayoutLandlords>
-        {loading ? (
-          <ReactLoading type={'spinningBubbles'} color="red" width={300} height={300} />
-        ) : (
+    if (router.pathname.search('/manager/ternant') >= 0) {
+      return (
+        <LayoutTenants>
           <Component {...pageProps} />
-        )}
-      </LayoutLandlords>
-    );
-  }
+        </LayoutTenants>
+      );
+    } else {
+      return (
+        <div className="bg-gray-300">
+          <LayoutIntro>
+            <Component {...pageProps} />
+          </LayoutIntro>
+        </div>
+      );
+    }
+  };
 
-  if (router.pathname.search('/manager/ternant') >= 0) {
-    return (
-      <LayoutTenants>
-        <Component {...pageProps} />
-      </LayoutTenants>
-    );
-  } else {
-    return <Component {...pageProps} />;
-  }
+  return <SessionProvider>{switchLayout()}</SessionProvider>;
 }
 
 export default MyApp;
