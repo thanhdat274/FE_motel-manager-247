@@ -16,8 +16,6 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
   };
   const router = useRouter();
 
-  console.log('fdfd', router.pathname.search('/manager/landlord'));
-
   return (
     <div className=" bg-gray-100">
       <div className="md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300">

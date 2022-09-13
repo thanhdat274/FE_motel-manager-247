@@ -1,11 +1,11 @@
-import React from 'react'
+import { useRouter } from 'next/router';
 
-type Props = {}
+const LandlordHome = () => {
+  const router = useRouter();
+  // Make sure we're in the browser
+  if (typeof window !== 'undefined') {
+    router.push('/manager/landlord/list-home');
+  }
+};
 
-const Test = (props: Props) => {
-  return (
-    <div>Test</div>
-  )
-}
-
-export default Test
+export default LandlordHome;

@@ -15,7 +15,7 @@ import {
   faBars,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Tippy from '@tippyjs/react';
 
@@ -26,7 +26,7 @@ const HeaderPreview = (props: Props) => {
   const toggleNav = () => {
     setToogle(!toggle);
   };
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   const getAll = true;
   return (
@@ -54,8 +54,8 @@ const HeaderPreview = (props: Props) => {
                 <Image src="/images/logo.svg" alt="logo" layout="fill" priority></Image>
               </a>
             </Link>
-            <div className="flex flex-col gap-2">
-              <Link href={`/manager/landlord`}>
+            <div className="flex flex-col md:flex-row gap-2">
+              <Link href={`/manager/landlord/list-home`}>
                 <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
                   Quan ly nha tro
                 </a>
@@ -72,7 +72,7 @@ const HeaderPreview = (props: Props) => {
                       className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
                       onClick={(e) => {
                         e.preventDefault();
-                        signIn();
+                        // signIn();
                       }}
                     >
                       Đăng nhập
@@ -85,7 +85,7 @@ const HeaderPreview = (props: Props) => {
                   </Link>
                 </>
               )}
-              {!getAll && (
+              {/* {!getAll && (
                 <div className="flex ">
                   <Link href={'/'}>
                     <div className="flex cursor-pointer mr-2">
@@ -180,7 +180,7 @@ const HeaderPreview = (props: Props) => {
                     </Tippy>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>

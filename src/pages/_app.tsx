@@ -8,6 +8,7 @@ import { useState } from 'react';
 import ReactLoading from 'react-loading';
 import LayoutTenants from 'src/Layout/Manager/Tenants';
 import LayoutIntro from 'src/Layout/Preview';
+import LayoutListHome from 'src/Layout/ListHome';
 
 config.autoAddCss = false;
 
@@ -24,7 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   // });
   const switchLayout = () => {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
-      return <Component {...pageProps} />;
+      return (
+        <LayoutListHome>
+          <Component {...pageProps} />
+        </LayoutListHome>
+      );
     }
 
     if (router.pathname.search('/manager/landlord') >= 0) {
@@ -56,7 +61,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  return <SessionProvider>{switchLayout()}</SessionProvider>;
+  // return (
+  // <SessionProvider>
+  //   {switchLayout()}
+  // </SessionProvider>);
+  return <div>{switchLayout()}</div>;
 }
 
 export default MyApp;
