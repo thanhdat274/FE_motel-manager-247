@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import LayoutLandlords from 'src/Layout/Manager/Landlords';
 import { useState } from 'react';
 import ReactLoading from 'react-loading';
+import LayoutTenants from 'src/Layout/Manager/Tenants';
 
 config.autoAddCss = false;
 
@@ -21,6 +22,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   setLoading(false);
   // });
 
+  if (router.pathname.search('/manager/landlord/list-home') >= 0) {
+    return <Component {...pageProps} />;
+  }
+
   if (router.pathname.search('/manager/landlord') >= 0) {
     return (
       <LayoutLandlords>
@@ -35,9 +40,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   if (router.pathname.search('/manager/ternant') >= 0) {
     return (
-      <LayoutLandlords>
+      <LayoutTenants>
         <Component {...pageProps} />
-      </LayoutLandlords>
+      </LayoutTenants>
     );
   } else {
     return <Component {...pageProps} />;
