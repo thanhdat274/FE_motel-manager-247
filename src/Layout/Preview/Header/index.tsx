@@ -12,6 +12,8 @@ import {
   faListCheck,
   faPen,
   faRightFromBracket,
+  faHome,
+  faCalculator,
   faBars,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
@@ -65,6 +67,11 @@ const HeaderPreview = (props: Props) => {
                   Quan ly phong tro
                 </a>
               </Link>
+              <div className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                {/* Quan ly phong tro */}
+                <FontAwesomeIcon className="text-[10px] h-[20px]" icon={faCalculator} />
+              </div>
+
               {getAll && (
                 <>
                   <Link href={`/api/auth/signin`}>
