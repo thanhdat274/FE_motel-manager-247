@@ -112,8 +112,11 @@ const HeaderPreview = (props: Props) => {
         ></div>
       )}
 
-      <Modal isOpen={modalIsOpen} contentLabel="Example Modal" close={() => closeModal()}>
-        <SignUp />
+      <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
+        <SignUp onHandleClick={closeModal}/>
+      </Modal>
+      <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
+        <SignUp onHandleClick={closeModal}/>
       </Modal>
     </div>
   );

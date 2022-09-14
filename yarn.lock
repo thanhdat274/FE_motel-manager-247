@@ -495,16 +495,14 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
-  version "18.0.19"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.19.tgz"
-  integrity sha512-BDc3Q+4Q3zsn7k9xZrKfjWyJsSlEDMs38gD1qp2eDazLCdcPqAT+vq1ND+Z8AGel/UiwzNUk8ptpywgNQcJ1MQ==
+"@types/react-modal@^3.13.1":
+  version "3.13.1"
+  resolved "https://registry.npmjs.org/@types/react-modal/-/react-modal-3.13.1.tgz"
+  integrity sha512-iY/gPvTDIy6Z+37l+ibmrY+GTV4KQTHcCyR5FIytm182RQS69G5ps4PH2FxtC7bAQ2QRHXMevsBgck7IQruHNg==
   dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
+    "@types/react" "*"
 
-"@types/react@18.0.15":
+"@types/react@*", "@types/react@18.0.15":
   version "18.0.15"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.15.tgz"
   integrity sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow==

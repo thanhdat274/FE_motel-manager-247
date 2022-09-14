@@ -2,7 +2,9 @@ import React from 'react';
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './style.module.css';
-type Props = {};
+type Props = {
+  onHandleClick: () => void;
+};
 
 const SignUp = (props: Props) => {
   return (
@@ -87,6 +89,14 @@ const SignUp = (props: Props) => {
                   <div className="flex">
                     <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">
                       Đăng kí
+                    </button>
+                  </div>
+                  <div className="flex">
+                    <button
+                      onClick={() => props.onHandleClick()}
+                      className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
+                    >
+                      Close
                     </button>
                   </div>
                   <div className="mt-6 text-grey-dark">
