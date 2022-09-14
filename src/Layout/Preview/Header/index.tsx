@@ -18,12 +18,14 @@ import {
 // import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Tippy from '@tippyjs/react';
-import SignUp from '@/components/SignUp';
+import SignIn from '@/components/signin';
+import SignUp from '@/components/signup';
 
 type Props = {};
 
 const HeaderPreview = (props: Props) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen2, setIsOpen2] = React.useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -31,6 +33,13 @@ const HeaderPreview = (props: Props) => {
 
   function closeModal() {
     setIsOpen(false);
+  }
+  function openModal2() {
+    setIsOpen2(true);
+  }
+
+  function closeModal2() {
+    setIsOpen2(false);
   }
   const [toggle, setToogle] = useState(false);
   const toggleNav = () => {
@@ -77,13 +86,10 @@ const HeaderPreview = (props: Props) => {
               </Link>
               {getAll && (
                 <>
-                  <Link href={`/api/auth/signin`}>
+                  <Link href={``}>
                     <a
                       className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // signIn();
-                      }}
+                      onClick={() => openModal2()}
                     >
                       Đăng nhập
                     </a>
@@ -111,13 +117,15 @@ const HeaderPreview = (props: Props) => {
           onClick={() => toggleNav()}
         ></div>
       )}
-
-      <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
-        <SignUp onHandleClick={closeModal}/>
-      </Modal>
-      <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
-        <SignUp onHandleClick={closeModal}/>
-      </Modal>
+      
+        <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
+          <SignUp onHandleClick={closeModal} />
+        </Modal>
+       
+        <Modal isOpen={modalIsOpen2} contentLabel="Example Modal" onRequestClose={() => closeModal2()}>
+          <SignIn onHandleClick={closeModal2} />
+        </Modal>
+      
     </div>
   );
 };
