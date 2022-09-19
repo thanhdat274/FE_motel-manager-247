@@ -37,17 +37,10 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
   return (
     <div>
       <SideBar />
+      <Navbar />
       <div className="relative md:ml-64 bg-blueGray-100">
-        <Navbar />
-        <div className="flex flex-row-reverse items-end gap-4">
-          <div className="icon">Icon</div>
-          <div className="caculator-on" onClick={() => setIsOpen(true)}>
-            Caculator
-          </div>
-        </div>
-      </div>
-        <div className="px-4 md:px-10 mx-auto w-full m-24">
-          <div>{children}</div>
+        <div className="px-4 md:px-10 mx-auto w-full">
+          <div className='bg-gray-100'>{children}</div>
           <AdminFooter />
         </div>
       </div>

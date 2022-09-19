@@ -6,8 +6,8 @@ type Props = {}
 const LisElectric = (props: Props) => {
     const router = useRouter();
   return (
-    <div>LisElectric
-        Loc conndsajdaksj
+    <div>
+      dsadksajdjslakdas
     </div>
   )
 }

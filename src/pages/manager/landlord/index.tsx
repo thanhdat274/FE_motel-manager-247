@@ -5,6 +5,7 @@ const LandlordHome = () => {
   // Make sure we're in the browser
   if (typeof window !== 'undefined') {
     // router.push('/manager/landlord/list-home');
+    // router.push('/manager/landlord');
   }
 };
 
