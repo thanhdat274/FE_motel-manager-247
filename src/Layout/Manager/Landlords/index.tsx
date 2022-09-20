@@ -32,7 +32,7 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
   }
 
   return (
-    <div className=" bg-gray-100">
+    <div className=" ">
       <div className="md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300">
         <div className="flex-none w-56 flex flex-row items-center">image</div>
 
@@ -44,11 +44,8 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
         </div>
       </div>
 
-      <div className="h-screen flex flex-row flex-wrap">
-        <div className="relative flex flex-col flex-wrap bg-white border-r border-gray-300 p-6 flex-none w-64 md:-ml-64 md:fixed md:top-0 md:z-30 md:h-screen md:shadow-xl animated faster">
-          <div className="flex flex-col text-red-400">thanh ben canh</div>
-          <div className="bg-gray-100 flex-1 p-6 md:mt-16 grid grid-cols-8">{children}</div>
-        </div>
+      <div>
+        <div className="flex-1 p-6 md:mt-16 grid grid-cols-8">{children}</div>
       </div>
 
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
