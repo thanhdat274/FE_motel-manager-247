@@ -10,16 +10,12 @@ export interface ILayoutAdminProps {
   children: ReactNode;
 }
 
-
-
 const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
   const [toggle, setToggle] = useState(false);
   const changeToggle = () => {
     setToggle(!toggle);
   };
   const router = useRouter();
-
-
 
   return (
     <div>
