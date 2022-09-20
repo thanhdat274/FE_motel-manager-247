@@ -77,7 +77,7 @@ const RoomList = (props: Props) => {
                             >
                               Thêm khách
                             </a>
-                            <a href="" className="text-amber-500 hover:text-amber-600 px-4 py-2">
+                            <a href="/manager/landlord/room-list/1" className="text-amber-500 hover:text-amber-600 px-4 py-2">
                               <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                             </a>
                             <button className="btn text-red-500 hover:text-red-600 px-4 py-2">
