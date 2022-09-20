@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { ReactCalculator } from 'simple-react-calculator';
 import {
-    faBars
+    faBars,faCompass,faHouse,faHospital,faBox,faPlug,faShower,faCalculator,faCoins
   } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {}
@@ -28,10 +28,13 @@ const SideBar = (props: Props) => {
     const [mns,setMns] = useState(true)
 
     const Menus = [
-        { url: '/', title: 'Home'},
-        { url: '/manager/landlord/electric-number', title: 'Số điện' },
-        { url: '', title: 'Services' },
-        { url: '', title: 'Contact Us',gap : true },
+        { url: '/', title: 'Home', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />},
+        { url: '',gap : true, title: 'Phòng', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
+        { url: '', title: 'Dịch vụ' , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} />},
+        { url: '/manager/landlord/electric-number', title: 'Số điện', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} /> },
+        { url: '', title: 'Số nước' , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} />},
+        { url: '', title: 'Tính tiền',gap : true , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />},
+        { url: '', title: 'Phiếu chi' , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} />},
     ]
     const [bgs, setBgs] = useState(false);
     const sideBar = () => {
@@ -68,7 +71,8 @@ const SideBar = (props: Props) => {
                               return (
                                 <li key={index} className={`${menu.gap? 'mt-9' : 'mt-2'} rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                                     <Link href={menu.url}>
-                                        <a className=' flex items-center gap-4 text-sm text-gray-700 font-light px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md'>
+                                        <a className=' flex items-center gap-4 text-sm text-gray-700 px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md'>
+                                            {menu.icon}
                                             <span className={`${lis && 'hidden'} font-bold text-black`}>{menu.title}</span>
                                         </a>
                                     </Link>
