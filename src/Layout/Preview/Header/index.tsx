@@ -2,22 +2,8 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faAngleDown,
-  faCirclePlus,
-  faCircleUser,
-  faClockRotateLeft,
-  faCreditCard,
-  faHeart,
-  faListCheck,
-  faPen,
-  faRightFromBracket,
-  faBars,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons';
-// import { signIn, signOut, useSession } from 'next-auth/react';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import Tippy from '@tippyjs/react';
 import SignIn from '@/components/signin';
 import SignUp from '@/components/signup';
 
