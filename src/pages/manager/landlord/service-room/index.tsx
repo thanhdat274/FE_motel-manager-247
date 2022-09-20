@@ -82,7 +82,7 @@ const ListServiceRoom = (props: Props) => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-center flex">
-                            <a href="" className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                            <a href="/manager/landlord/service-room/edit-service-room" className="text-amber-500 hover:text-amber-600 mx-[10px]">
                               <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                             </a>
                             <a href="" className="text-amber-500 hover:text-amber-600 mx-[10px]">
