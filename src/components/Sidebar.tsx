@@ -31,6 +31,7 @@ const SideBar = (props: Props) => {
         { url: '/', title: 'Home'},
         { url: '/manager/landlord/electric-number', title: 'Số điện' },
         { url: '', title: 'Services' },
+        { url: '/manager/landlord/service-room', title: 'Dịch vụ' },
         { url: '', title: 'Contact Us',gap : true },
     ]
     const [bgs, setBgs] = useState(false);
