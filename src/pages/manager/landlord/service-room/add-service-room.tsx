@@ -1,7 +1,9 @@
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import swal from 'sweetalert';
 
 type Props = {};
 interface IFormInputs {
@@ -10,6 +12,7 @@ interface IFormInputs {
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -19,7 +22,8 @@ const AddServiceRoom = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
       await axios.post('http://localhost:3001/api/service/', data);
-      alert('Bạn đã thêm thành công!');
+      swal("Bạn đã thêm mới thành công!", "You clicked the button!", "success");
+      router.push("/manager/landlord/service-room");
     } catch (error) {
       console.log(error);
     }

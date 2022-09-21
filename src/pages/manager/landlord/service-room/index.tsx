@@ -16,7 +16,8 @@ const ListServiceRoom = (props: Props) => {
       } catch (error) {}
     };
     getService();
-  },[]);
+  }, []);
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -61,7 +62,7 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Tên
                         </th>
-                       
+
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -75,34 +76,34 @@ const ListServiceRoom = (props: Props) => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {listServices&&listServices.map((item:any,index)=>(
-                        <tr key={index}>
+                      {listServices &&
+                        listServices.map((item: any, index) => (
+                          <tr key={index}>
                             <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                              <div className="text-center">{index+1}</div>
+                              <div className="text-center">{index + 1}</div>
                             </td>
                             <td className="px-6 py-4 whitespace">
                               <div className="text-center">{item.name}</div>
                             </td>
-                           
+
                             <td className="px-6 py-4 whitespace">
                               <div className="text-center">{item.price}</div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-center flex">
                                 <Link
-                                  href="/manager/landlord/service-room/edit-service-room"
+                                  href={`/manager/landlord/service-room/${item.id}`}
                                   className="text-amber-500 hover:text-amber-600 mx-[10px]"
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <a href="" className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]">
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
-                                </a>
+                                </button>
                               </div>
                             </td>
                           </tr>
-                      ))}
-                    
+                        ))}
                     </tbody>
                   </table>
                 </div>
