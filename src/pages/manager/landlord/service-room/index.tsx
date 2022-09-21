@@ -33,7 +33,7 @@ const ListServiceRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Quản lý Dịch vụ
+                Quản lý
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
