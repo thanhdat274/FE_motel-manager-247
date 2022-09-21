@@ -17,7 +17,15 @@ const ListServiceRoom = (props: Props) => {
     };
     getService();
   }, []);
-
+  const remove = async (id: any) => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
+    if (confirm) {
+      const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
+      if (data) {
+        setListServices(listServices.filter((item: any) => item.id !== id));
+      }
+    }
+  };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -97,7 +105,7 @@ const ListServiceRoom = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                <button onClick={()=>{remove(item.id)}} className="text-amber-500 hover:text-amber-600 mx-[10px]">
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
                               </div>
