@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 type Props = {};
 
@@ -21,7 +22,20 @@ const RoomList = (props: Props) => {
     };
     getRoom();
   }, []);
-  
+
+  const remove = async (id: any) => {
+    const confirm = window.confirm('Bạn chắc chắn muốn xóa?');
+    if (confirm) {
+      const { data } = await axios.delete('http://localhost:3001/room/' + id);
+      if (data) {
+        setRoom(room.filter((item: any) => item.id !== id));
+      }
+      swal("Bạn đã xóa thành công!",{
+        icon: "success",
+      });
+    }
+  };
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -64,6 +78,9 @@ const RoomList = (props: Props) => {
                           giá
                         </th>
                         <th scope="col" className="px-9 py-3 text-center text-xs font-bold uppercase tracking-wider">
+                          diện tích phòng
+                        </th>
+                        <th scope="col" className="px-9 py-3 text-center text-xs font-bold uppercase tracking-wider">
                           số lượng người thuê
                         </th>
                         <th
@@ -87,6 +104,9 @@ const RoomList = (props: Props) => {
                                 <div className="text-center">{item.price}</div>
                               </td>
                               <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.room_size} m2</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.people}</div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
@@ -100,14 +120,19 @@ const RoomList = (props: Props) => {
                                     </a>
                                   </Link>
                                   <Link
-                                    href="/manager/landlord/room-list/1"
+                                    href={`/manager/landlord/room-list/${item.id}`}
                                     className="text-amber-500 hover:text-amber-600 px-4 py-2"
                                   >
                                     <a className="text-amber-500 hover:text-amber-600 px-4 py-2">
                                       <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                     </a>
                                   </Link>
-                                  <button className="btn text-red-500 hover:text-red-600 px-4 py-2">
+                                  <button
+                                    onClick={() => {
+                                      remove(item.id);
+                                    }}
+                                    className="btn text-red-500 hover:text-red-600 px-4 py-2"
+                                  >
                                     <FontAwesomeIcon className="h-[20px]" icon={faTrash}></FontAwesomeIcon>
                                   </button>
                                 </div>
