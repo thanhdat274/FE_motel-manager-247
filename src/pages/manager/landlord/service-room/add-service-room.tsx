@@ -1,16 +1,31 @@
-import React from 'react';
-import { useForm, SubmitHandler } from "react-hook-form";
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
 type Props = {};
 interface IFormInputs {
-  name: string
-  price: number
-  desc:string
+  name: string;
+  price: number;
+  desc: string;
 }
 const AddServiceRoom = (props: Props) => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInputs>();
-  const onSubmit: SubmitHandler<IFormInputs> = data => console.log(data);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IFormInputs>();
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    try {
+      await axios.post('http://localhost:3001/api/service/', data);
+      alert('Bạn đã thêm thành công!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className='h-screen'>
+    <div className="h-screen">
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -38,9 +53,9 @@ const AddServiceRoom = (props: Props) => {
                           type="text"
                           id="name-product"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
-                          {...register("name", { required: true })}
+                          {...register('name', { required: true })}
                         />
-                        <span className='text-red-500'>{errors.name && "Không được bỏ trống!"}</span>
+                        <span className="text-red-500">{errors.name && 'Không được bỏ trống!'}</span>
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -50,9 +65,9 @@ const AddServiceRoom = (props: Props) => {
                           type="number"
                           id="price-product"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
-                          {...register("price", { required: true })}
+                          {...register('price', { required: true })}
                         />
-                          <span className='text-red-500'>{errors.price && "Không được bỏ trống!"}</span>
+                        <span className="text-red-500">{errors.price && 'Không được bỏ trống!'}</span>
                       </div>
 
                       <div>
@@ -65,9 +80,9 @@ const AddServiceRoom = (props: Props) => {
                             id="short_desc-product"
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                             defaultValue={''}
-                            {...register("desc", { required: true })}
+                            {...register('desc', { required: true })}
                           />
-                           <span className='text-red-500'>{errors.price && "Không được bỏ trống!"}</span>
+                          <span className="text-red-500">{errors.price && 'Không được bỏ trống!'}</span>
                         </div>
                       </div>
                     </div>
