@@ -1,8 +1,57 @@
-import React from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import swal from 'sweetalert';
+import useSWR from 'swr';
 
 type Props = {};
+type FromValues = {
+  id: number;
+  name: string;
+  price: number;
+  room_size: number;
+  people: number;
+  desc: string;
+  homeId: string;
+};
 
 const Edit = (props: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
+  
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FromValues>();
+
+  useEffect(() => {
+    const getPro = async () => {
+      const { data } = await axios.get('http://localhost:3001/room/' + id);
+      console.log('data', data);
+      reset(data);
+    };
+    getPro();
+  }, []);
+
+  const onSubmit: SubmitHandler<FromValues> = async (data) => {
+    try {
+      await axios.put('http://localhost:3001/room/'+id, data);
+      swal('Bạn đã cập nhật thành công! Chuyển trang sau 2s', {
+        icon: 'success',
+      });
+      setTimeout(() => {
+        router.push('/manager/landlord/room-list');
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="min-h-full">
@@ -21,7 +70,7 @@ const Edit = (props: Props) => {
           <div className="max-w-full mx-auto py-6 ">
             <div className="md:grid md:grid-cols-3 md:gap-6 ">
               <div className="mt-5 md:mt-0 md:col-span-3 border">
-                <form id="formEdit">
+                <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
                   <div className="shadow sm:rounded-md sm:overflow-hidden">
                     <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                       <div className="col-span-6">
@@ -29,11 +78,14 @@ const Edit = (props: Props) => {
                           Danh sách nhà <span className="text-[red]">*</span>
                         </label>
                         <select
-                          name=""
-                          id="cateId"
+                          // name="homeId"
+                          id="homeId"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md pl-[10px]"
+                          {...register('homeId')}
                         >
-                          <option value="${post.id}">11</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="11">11</option>
                         </select>
                       </div>
                       <div className="col-span-6">
@@ -42,9 +94,16 @@ const Edit = (props: Props) => {
                         </label>
                         <input
                           type="text"
-                          id="name-product"
+                          id="name"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
+                          {...register('name', { required: true, minLength: 5 })}
                         />
+                        {errors.name && errors.name.type === 'required' && (
+                          <span style={{ color: 'red' }}>Không dược để trống!</span>
+                        )}
+                        {errors.name && errors.name.type === 'minLength' && (
+                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
+                        )}
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -52,9 +111,16 @@ const Edit = (props: Props) => {
                         </label>
                         <input
                           type="number"
-                          id="price-product"
+                          id="price"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
+                          {...register('price', { required: true, minLength: 5 })}
                         />
+                        {errors.price && errors.price.type === 'required' && (
+                          <span style={{ color: 'red' }}>Không dược để trống!</span>
+                        )}
+                        {errors.price && errors.price.type === 'minLength' && (
+                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
+                        )}
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -64,7 +130,14 @@ const Edit = (props: Props) => {
                           type="number"
                           id="quantity-product"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
+                          {...register('room_size', { required: true, minLength: 5 })}
                         />
+                        {errors.room_size && errors.room_size.type === 'required' && (
+                          <span style={{ color: 'red' }}>Không dược để trống!</span>
+                        )}
+                        {errors.room_size && errors.room_size.type === 'minLength' && (
+                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
+                        )}
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -74,7 +147,14 @@ const Edit = (props: Props) => {
                           type="number"
                           id="quantity-product"
                           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md"
+                          {...register('people', { required: true, minLength: 5 })}
                         />
+                        {errors.people && errors.people.type === 'required' && (
+                          <span style={{ color: 'red' }}>Không dược để trống!</span>
+                        )}
+                        {errors.people && errors.people.type === 'minLength' && (
+                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -86,18 +166,31 @@ const Edit = (props: Props) => {
                             id="desc-product"
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                             defaultValue={''}
+                            {...register('desc', { required: true, minLength: 5 })}
                           />
+                          {errors.desc && errors.desc.type === 'required' && (
+                            <span style={{ color: 'red' }}>Không dược để trống!</span>
+                          )}
+                          {errors.desc && errors.desc.type === 'minLength' && (
+                            <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
-                      <a
+                      <Link
                         href="/manager/landlord/room-list"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        Quay lại
-                      </a>
-                      <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          Quay lại
+                        </a>
+                      </Link>
+
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
                         Lưu
                       </button>
                     </div>
