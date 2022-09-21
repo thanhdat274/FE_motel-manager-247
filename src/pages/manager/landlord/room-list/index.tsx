@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import axios from 'axios';
 
 type Props = {};
 
 const RoomList = (props: Props) => {
+  const [room, setRoom] = useState([]);
+
+  useEffect(() => {
+    const getRoom = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:3001/room');
+        setRoom(data);
+        console.log('data', data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRoom();
+  }, []);
+  
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -56,36 +73,48 @@ const RoomList = (props: Props) => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">1</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">phòng 1</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">10000</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">3</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-center flex">
-                            <a
-                              href=""
-                              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                              Thêm khách
-                            </a>
-                            <a href="/manager/landlord/room-list/1" className="text-amber-500 hover:text-amber-600 px-4 py-2">
-                              <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
-                            </a>
-                            <button className="btn text-red-500 hover:text-red-600 px-4 py-2">
-                              <FontAwesomeIcon className="h-[20px]" icon={faTrash}></FontAwesomeIcon>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
+                      {room &&
+                        room.map((item: any, index) => {
+                          return (
+                            <tr key={index}>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{index + 1}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.price}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.people}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-center flex">
+                                  <Link
+                                    href="/manager/landlord/room-list/1"
+                                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  >
+                                    <a className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                      Thêm khách
+                                    </a>
+                                  </Link>
+                                  <Link
+                                    href="/manager/landlord/room-list/1"
+                                    className="text-amber-500 hover:text-amber-600 px-4 py-2"
+                                  >
+                                    <a className="text-amber-500 hover:text-amber-600 px-4 py-2">
+                                      <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                                    </a>
+                                  </Link>
+                                  <button className="btn text-red-500 hover:text-red-600 px-4 py-2">
+                                    <FontAwesomeIcon className="h-[20px]" icon={faTrash}></FontAwesomeIcon>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
