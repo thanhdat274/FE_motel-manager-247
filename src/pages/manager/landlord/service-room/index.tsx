@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import axios from 'axios';
 type Props = {};
 
 const ListServiceRoom = (props: Props) => {
+  const [listServices, setListServices] = useState([]);
+  useEffect(() => {
+    const getService = async () => {
+      try {
+        const data = await axios.get('http://localhost:3001/api/service');
+        setListServices(data.data);
+        console.log(data);
+      } catch (error) {}
+    };
+    getService();
+  },[]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -15,14 +28,14 @@ const ListServiceRoom = (props: Props) => {
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
-              <a href="/manager/landlord/service-room/add-service-room" className="sm:ml-3">
+              <Link href="/manager/landlord/service-room/add-service-room" className="sm:ml-3">
                 <button
                   type="button"
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Thêm mới
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -48,12 +61,7 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Tên
                         </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Loại dịch vụ
-                        </th>
+                       
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -67,30 +75,34 @@ const ListServiceRoom = (props: Props) => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">1</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">Nước</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">Nước</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">10000</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-center flex">
-                            <a href="/manager/landlord/service-room/edit-service-room" className="text-amber-500 hover:text-amber-600 mx-[10px]">
-                              <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
-                            </a>
-                            <a href="" className="text-amber-500 hover:text-amber-600 mx-[10px]">
-                              <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
+                      {listServices&&listServices.map((item:any,index)=>(
+                        <tr key={index}>
+                            <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                              <div className="text-center">{index+1}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace">
+                              <div className="text-center">{item.name}</div>
+                            </td>
+                           
+                            <td className="px-6 py-4 whitespace">
+                              <div className="text-center">{item.price}</div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-center flex">
+                                <Link
+                                  href="/manager/landlord/service-room/edit-service-room"
+                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                >
+                                  <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                                </Link>
+                                <a href="" className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                  <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                      ))}
+                    
                     </tbody>
                   </table>
                 </div>
