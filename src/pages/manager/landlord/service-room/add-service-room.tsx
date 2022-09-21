@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -93,7 +94,7 @@ const AddServiceRoom = (props: Props) => {
                       >
                         Hủy
                       </a>
-                      <button className="inline-flex justify-center py-2 px-4 m-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <button type='submit' className="inline-flex justify-center py-2 px-4 m-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Thêm mới
                       </button>
                     </div>
