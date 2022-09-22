@@ -26,7 +26,7 @@ const EditServiceRoom = (props: Props) => {
       reset(data.data);
     };
     getService();
-  }, []);
+  }, [id,reset]);
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
       await axios.put('http://localhost:3001/api/service/' + id, data);
