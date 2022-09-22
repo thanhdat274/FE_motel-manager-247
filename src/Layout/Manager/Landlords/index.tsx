@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router';
 import { ReactNode, useState } from 'react';
 
@@ -23,7 +22,7 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
       <Navbar />
       <div className="relative md:ml-64 bg-blueGray-100">
         <div className="px-[8px] mx-auto w-full">
-          <div className='bg-gray-100 p-4'>{children}</div>
+          <div className="bg-gray-100 p-4">{children}</div>
           <AdminFooter />
         </div>
       </div>
