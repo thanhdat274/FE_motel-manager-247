@@ -29,7 +29,8 @@ const SideBar = (props: Props) => {
 
     const Menus = [
         { url: '/', title: 'Home', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />},
-        { url: '/manager/landlord/room-list',gap : true, title: 'Phòng', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
+        { url: '/manager/landlord/house',gap : true, title: 'Nhà', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
+        { url: '',gap : true, title: 'Phòng', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
         { url: '', title: 'Dịch vụ' , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} />},
         { url: '/manager/landlord/electric-number', title: 'Số điện', icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} /> },
         { url: '', title: 'Số nước' , icon : <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} />},
