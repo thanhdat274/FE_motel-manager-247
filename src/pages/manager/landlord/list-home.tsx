@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import axios from "axios"
 
 type Props = {};
 
@@ -46,6 +47,19 @@ export const listHome = [
 ];
 
 const ListHome = (props: Props) => {
+
+   const [house, setHouse] = useState([])
+
+   useEffect(() =>{
+      const getHouse = async () =>{
+         const {data} =  await axios.get("http://localhost:3000/peoples")
+         setHouse(data)
+      }
+      getHouse()
+   },[]) 
+   console.log(house);
+   
+
   const router = useRouter();
 
   console.log('landlord', router.pathname.search('/manager/landlord'));
