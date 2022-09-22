@@ -83,7 +83,7 @@ const ListHome = (props: Props) => {
                     </div>
                     <div>
                       <div>
-                        <Link href="1/list-room">
+                        <Link href="room-list">
                           <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
                             Quản lý
                           </a>

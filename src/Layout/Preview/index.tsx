@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { ReactCalculator } from 'simple-react-calculator';
 import FooterPreview from './Footer';
 import HeaderPreview from './Header';
 
