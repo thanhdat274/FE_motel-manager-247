@@ -87,9 +87,6 @@ const Add = (props: Props) => {
                         {errors.name && errors.name.type === 'required' && (
                           <span style={{ color: 'red' }}>Không dược để trống!</span>
                         )}
-                        {errors.name && errors.name.type === 'minLength' && (
-                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
-                        )}
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -103,9 +100,6 @@ const Add = (props: Props) => {
                         />
                         {errors.price && errors.price.type === 'required' && (
                           <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                        {errors.price && errors.price.type === 'minLength' && (
-                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
                         )}
                       </div>
                       <div className="col-span-6">
@@ -121,9 +115,6 @@ const Add = (props: Props) => {
                         {errors.room_size && errors.room_size.type === 'required' && (
                           <span style={{ color: 'red' }}>Không dược để trống!</span>
                         )}
-                        {errors.room_size && errors.room_size.type === 'minLength' && (
-                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
-                        )}
                       </div>
                       <div className="col-span-6">
                         <label className="block text-sm font-medium text-gray-700">
@@ -137,9 +128,6 @@ const Add = (props: Props) => {
                         />
                         {errors.people && errors.people.type === 'required' && (
                           <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                        {errors.people && errors.people.type === 'minLength' && (
-                          <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
                         )}
                       </div>
                       <div>
@@ -156,9 +144,6 @@ const Add = (props: Props) => {
                           />
                           {errors.desc && errors.desc.type === 'required' && (
                             <span style={{ color: 'red' }}>Không dược để trống!</span>
-                          )}
-                          {errors.desc && errors.desc.type === 'minLength' && (
-                            <span style={{ color: 'red' }}>Ít nhất 5 kí tự</span>
                           )}
                         </div>
                       </div>
