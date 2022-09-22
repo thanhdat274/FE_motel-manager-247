@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { ReactCalculator } from 'simple-react-calculator';
 import {
-    faBars, faCompass, faHouse, faHospital, faBox, faPlug, faShower, faCalculator, faCoins, faDesktop
+    faBars, faCompass, faHouse, faHospital, faBox, faPlug, faShower, faCalculator, faCoins, faDesktop, faXmark
 } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {}
@@ -43,7 +43,7 @@ const SideBar = (props: Props) => {
                     <button
                         className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
                         type="button"
-                        onClick={() => setCollapseShow("bg-white m-2 py-3 px-6")}
+                        onClick={() => setCollapseShow("bg-white w-[30%] py-3 px-6 h-screen md:w-full")}
                     >
                         <FontAwesomeIcon className="w-[16px] text-black" icon={faBars} />
                     </button>
@@ -79,19 +79,19 @@ const SideBar = (props: Props) => {
                                     <Link href="/">
                                         <a
                                             href="#pablo"
-                                            className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                                            className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold py-4 px-0"
                                         >
-                                            Quản Lý Phòng Trọ 24/7
+                                            QLPT 24/7
                                         </a>
                                     </Link>
                                 </div>
                                 <div className="w-6/12 flex justify-end">
                                     <button
                                         type="button"
-                                        className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+                                        className="ml-4 cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
                                         onClick={() => setCollapseShow("hidden")}
                                     >
-                                        <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
+                                        <FontAwesomeIcon className="w-[16px] text-black" icon={faXmark} />
                                     </button>
                                 </div>
                             </div>
@@ -133,6 +133,7 @@ const SideBar = (props: Props) => {
                         </ul>
                     </div>
                 </div>
+            
             </nav>
         </>
     );

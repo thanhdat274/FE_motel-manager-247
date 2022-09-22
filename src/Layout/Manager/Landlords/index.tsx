@@ -19,14 +19,17 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
 
   return (
     <div>
-      <SideBar />
-      <Navbar />
-      <div className="relative md:ml-64 bg-blueGray-100">
-        <div className="px-[8px] mx-auto w-full">
-          <div className='bg-gray-100 p-4'>{children}</div>
-          <AdminFooter />
+      <div className='md:text-[12px]'>
+        <SideBar />
+        <Navbar />
+        <div className="relative md:ml-64 bg-blueGray-100">
+          <div className="px-[8px] mx-auto w-full">
+            <div className='bg-gray-100 p-4'>{children}</div>
+            <AdminFooter />
+          </div>
         </div>
       </div>
+      
     </div>
   );
 };
