@@ -30,8 +30,8 @@ const RoomList = (props: Props) => {
       if (data) {
         setRoom(room.filter((item: any) => item.id !== id));
       }
-      swal("Bạn đã xóa thành công!",{
-        icon: "success",
+      swal('Bạn đã xóa thành công!', {
+        icon: 'success',
       });
     }
   };

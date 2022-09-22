@@ -36,12 +36,11 @@ const HouseAdd = (props: Props) => {
 
   return (
     <div className="w-full ">
-       <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
-          <div className="">
-            <h2 className="pt-2 text-xl">Thêm nhà </h2>
-          </div>
-         
+      <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
+        <div className="">
+          <h2 className="pt-2 text-xl">Thêm nhà </h2>
         </div>
+      </div>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

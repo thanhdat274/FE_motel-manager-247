@@ -21,7 +21,7 @@ const Edit = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   console.log(id);
-  
+
   const {
     register,
     handleSubmit,
@@ -41,7 +41,7 @@ const Edit = (props: Props) => {
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     try {
-      await axios.put('http://localhost:3001/room/'+id, data);
+      await axios.put('http://localhost:3001/room/' + id, data);
       swal('Bạn đã cập nhật thành công! Chuyển trang sau 2s', {
         icon: 'success',
       });

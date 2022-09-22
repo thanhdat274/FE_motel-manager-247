@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 // import { useNavigate } from 'react-router-dom';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import swal from 'sweetalert';
 
 type Props = {};
@@ -24,15 +24,15 @@ const Add = (props: Props) => {
     watch,
     formState: { errors },
   } = useForm<FromValues>();
-  const router = useRouter()
+  const router = useRouter();
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     try {
       await axios.post('http://localhost:3001/room', data);
-      swal("Bạn đã thêm thành công! Chuyển trang sau 2s",{
-        icon: "success",
+      swal('Bạn đã thêm thành công! Chuyển trang sau 2s', {
+        icon: 'success',
       });
       setTimeout(() => {
-        router.push('/manager/landlord/room-list')
+        router.push('/manager/landlord/room-list');
       }, 2000);
     } catch (error) {
       console.log(error);

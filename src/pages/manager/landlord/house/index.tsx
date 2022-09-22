@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faHouse,faPenToSquare , faTrashCan} from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faHouse, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { listHouse, removeHouse } from 'src/pages/api/house';
@@ -24,7 +24,7 @@ const ListHome = (props: Props) => {
     const confirm = window.confirm('Bạn có chắc chắn muốn xóa không?');
     if (confirm) {
       await removeHouse(id);
-      setHouse(houses.filter((item:any) => item.id !== id));
+      setHouse(houses.filter((item: any) => item.id !== id));
       swal('Bạn đã cập nhật thành công!', {
         icon: 'success',
       });
@@ -44,7 +44,7 @@ const ListHome = (props: Props) => {
           </div>
         </div>
         <div className=" my-4 mx-4  sm:grid sm:grid-cols-2  sm:gap-2 xl:grid  xl:grid-cols-4  xl:gap-4 ">
-          {houses.map((item:any, index) => {
+          {houses.map((item: any, index) => {
             return (
               <>
                 <div className="border-2   py-8   mt-3 bg-slate-200" key={index}>
@@ -60,26 +60,27 @@ const ListHome = (props: Props) => {
                     <p className="p-2">{item.address}</p>
                   </div>
                   <div className="">
-                    <div className='flex'>
-                     
-
+                    <div className="flex">
                       <div>
-                      <Link href={`/manager/landlord/house/${item.id}`}>
-                        <a className="text-sm border mr-2 ml-2 pr-2 pl-2 pt-2 pb-2 rounded-md bg-blue-600 text-white hover:bg-sky-800 flex">
-                        <span><FontAwesomeIcon className="w-[16px]  text-white" icon={faPenToSquare} /></span>
-                        <span className='pl-2'>Chỉnh sửa</span>
-                        </a>
-                      </Link>
+                        <Link href={`/manager/landlord/house/${item.id}`}>
+                          <a className="text-sm border mr-2 ml-2 pr-2 pl-2 pt-2 pb-2 rounded-md bg-blue-600 text-white hover:bg-sky-800 flex">
+                            <span>
+                              <FontAwesomeIcon className="w-[16px]  text-white" icon={faPenToSquare} />
+                            </span>
+                            <span className="pl-2">Chỉnh sửa</span>
+                          </a>
+                        </Link>
                       </div>
                       <div>
-                      <button
-                        className=" text-sm border pr-3 pl-3 pt-2 pb-2 rounded-md bg-rose-600 text-white hover:bg-rose-800  flex"
-                        onClick={() => onHandleRemove(item.id)}
-                      >
-                        <span><FontAwesomeIcon className="w-[16px]  text-white" icon={faTrashCan} /></span>
-                        <span className='pl-2'>Xóa</span>
-                        
-                      </button>
+                        <button
+                          className=" text-sm border pr-3 pl-3 pt-2 pb-2 rounded-md bg-rose-600 text-white hover:bg-rose-800  flex"
+                          onClick={() => onHandleRemove(item.id)}
+                        >
+                          <span>
+                            <FontAwesomeIcon className="w-[16px]  text-white" icon={faTrashCan} />
+                          </span>
+                          <span className="pl-2">Xóa</span>
+                        </button>
                       </div>
                     </div>
                   </div>
