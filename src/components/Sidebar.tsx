@@ -35,26 +35,32 @@ const SideBar = (props: Props) => {
   const [mns, setMns] = useState(true);
 
   const Menus = [
-    { url: '', title: 'Contact Us', gap: true },
-    { url: '/', title: 'Home', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} /> },
-    { url: '', gap: true, title: 'Phòng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
+    { url: '', title: 'Home', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} /> },
     {
-      url: '/manager/landlord/service-room',
-      title: 'Dịch vụ',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} />,
+      url: 'house',
+      gap: true,
+      title: 'Nhà',
+      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
     },
     {
-      url: '/manager/landlord/electric-number',
+      url: 'list-room',
+      gap: true,
+      title: 'Phòng',
+      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
+    },
+    { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
+    {
+      url: 'electric-used',
       title: 'Số điện',
       icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
     },
-    { url: '', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-    {
-      url: '',
-      title: 'Tính tiền',
-      gap: true,
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-    },
+    { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
+    // {
+    //   url: '',
+    //   title: 'Tính tiền',
+    //   gap: true,
+    //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
+    // },
     { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   ];
   const [bgs, setBgs] = useState(false);
@@ -67,6 +73,9 @@ const SideBar = (props: Props) => {
   function closeModal() {
     setIsOpen(false);
   }
+
+  const { id } = router.query;
+  console.log('id', id);
   return (
     <div>
       <div className={``}>
@@ -102,8 +111,8 @@ const SideBar = (props: Props) => {
                         menu.gap ? 'mt-9' : 'mt-2'
                       } rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}
                     >
-                      <Link href={menu.url}>
-                        <a className=" flex items-center gap-4 text-sm text-gray-700 px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
+                      <Link href={`/manager/landlord/${id}/${menu.url}`}>
+                        <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
                           {menu.icon}
                           <span className={`${lis && 'hidden'} font-bold text-black`}>{menu.title}</span>
                         </a>

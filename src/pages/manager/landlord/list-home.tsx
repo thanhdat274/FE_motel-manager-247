@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
+import Modal from 'react-modal';
+import AddRoom from '@/components/AddRoom';
 
 type Props = {};
 
@@ -45,7 +48,30 @@ export const listHome = [
   },
 ];
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 const ListHome = (props: Props) => {
+  const [house, setHouse] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
+  useEffect(() => {
+    const getHouse = async () => {
+      const { data } = await axios.get('http://localhost:3000/peoples');
+      setHouse(data);
+    };
+    getHouse();
+  }, []);
+  console.log(house);
+
   const router = useRouter();
 
   console.log('landlord', router.pathname.search('/manager/landlord'));
@@ -55,13 +81,24 @@ const ListHome = (props: Props) => {
   const renderList = () => {
     return (
       <div>
+        <Modal isOpen={openModal} onRequestClose={() => setOpenModal(false)} style={customStyles}>
+          <div className="w-full text-end">
+            <div className="close-modal" onClick={() => setOpenModal(false)}>
+              Close
+            </div>
+            <AddRoom />
+          </div>
+        </Modal>
         <div className="border-2">
           <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
             <div className="">
               <h2 className="pt-2 text-xl">Danh sách nhà </h2>
             </div>
             <div className="">
-              <button className="float-right border-2  px-2 py-2 bg-amber-700 hover:bg-red-600 rounded">
+              <button
+                onClick={() => setOpenModal(true)}
+                className="float-right border-2  px-2 py-2 bg-amber-700 hover:bg-red-600 rounded"
+              >
                 Thêm nhà
               </button>
             </div>
@@ -83,7 +120,7 @@ const ListHome = (props: Props) => {
                     </div>
                     <div>
                       <div>
-                        <Link href="1/list-room">
+                        <Link href="10">
                           <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
                             Quản lý
                           </a>
