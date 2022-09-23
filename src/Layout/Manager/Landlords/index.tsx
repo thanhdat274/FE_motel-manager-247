@@ -20,7 +20,7 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
       <SideBar />
       <Navbar />
       <div className="relative md:ml-64 bg-blueGray-100">
-        <div className="px-[8px] mx-auto w-full h-full">
+        <div className=" mx-auto w-full h-full">
           <div className="bg-gray-100 p-4 min-h-screen">{children}</div>
         </div>
       </div>
