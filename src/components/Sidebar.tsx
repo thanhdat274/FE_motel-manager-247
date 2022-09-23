@@ -42,20 +42,25 @@ const SideBar = (props: Props) => {
       title: 'Nhà',
       icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
     },
-    { url: '', gap: true, title: 'Phòng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
-    { url: '', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
+    {
+      url: 'list-room',
+      gap: true,
+      title: 'Phòng',
+      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
+    },
+    { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
     {
       url: 'electric-used',
       title: 'Số điện',
       icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
     },
     { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-    {
-      url: '',
-      title: 'Tính tiền',
-      gap: true,
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-    },
+    // {
+    //   url: '',
+    //   title: 'Tính tiền',
+    //   gap: true,
+    //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
+    // },
     { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   ];
   const [bgs, setBgs] = useState(false);
