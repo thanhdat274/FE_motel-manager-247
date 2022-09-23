@@ -20,7 +20,7 @@ type FromValues = {
 const Edit = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
+  console.log('id', id);
 
   const {
     register,

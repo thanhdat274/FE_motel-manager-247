@@ -3,7 +3,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import axios from "axios"
+import axios from 'axios';
 
 type Props = {};
 
@@ -47,18 +47,16 @@ export const listHome = [
 ];
 
 const ListHome = (props: Props) => {
+  const [house, setHouse] = useState([]);
 
-   const [house, setHouse] = useState([])
-
-   useEffect(() =>{
-      const getHouse = async () =>{
-         const {data} =  await axios.get("http://localhost:3000/peoples")
-         setHouse(data)
-      }
-      getHouse()
-   },[]) 
-   console.log(house);
-   
+  useEffect(() => {
+    const getHouse = async () => {
+      const { data } = await axios.get('http://localhost:3000/peoples');
+      setHouse(data);
+    };
+    getHouse();
+  }, []);
+  console.log(house);
 
   const router = useRouter();
 
@@ -97,7 +95,7 @@ const ListHome = (props: Props) => {
                     </div>
                     <div>
                       <div>
-                        <Link href="room-list">
+                        <Link href="home/10">
                           <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
                             Quản lý
                           </a>
