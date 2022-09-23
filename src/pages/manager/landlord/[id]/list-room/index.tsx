@@ -30,7 +30,7 @@ const ListRoom = (props: Props) => {
       <div className="list flex flex-col flex-1 gap-4">
         {data &&
           data.map((item: any) => (
-            <div className=" ">
+            <div className="" key={item.name}>
               <div className="name-room">{item.name}</div>
               <div className="status-room">{item.status}</div>
             </div>
