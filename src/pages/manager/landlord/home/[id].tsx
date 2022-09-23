@@ -37,7 +37,7 @@ const Edit = (props: Props) => {
       reset(data);
     };
     getPro();
-  }, []);
+  }, [id]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     try {
