@@ -42,20 +42,25 @@ const SideBar = (props: Props) => {
       title: 'Nhà',
       icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
     },
-    { url: '', gap: true, title: 'Phòng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} /> },
-    { url: '', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
+    {
+      url: 'list-room',
+      gap: true,
+      title: 'Phòng',
+      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
+    },
+    { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
     {
       url: 'electric-used',
       title: 'Số điện',
       icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
     },
     { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-    {
-      url: '',
-      title: 'Tính tiền',
-      gap: true,
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-    },
+    // {
+    //   url: '',
+    //   title: 'Tính tiền',
+    //   gap: true,
+    //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
+    // },
     { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   ];
   const [bgs, setBgs] = useState(false);
@@ -106,7 +111,7 @@ const SideBar = (props: Props) => {
                         menu.gap ? 'mt-9' : 'mt-2'
                       } rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}
                     >
-                      <Link href={`/manager/landlord/home/${id}/${menu.url}`}>
+                      <Link href={`/manager/landlord/${id}/${menu.url}`}>
                         <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
                           {menu.icon}
                           <span className={`${lis && 'hidden'} font-bold text-black`}>{menu.title}</span>
