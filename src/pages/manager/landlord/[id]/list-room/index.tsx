@@ -5,6 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import swal from 'sweetalert';
 import { useRouter } from 'next/router';
+import { supabase } from 'src/apis/supabase';
 type Props = {};
 
 const data = [
@@ -20,30 +21,38 @@ const data = [
 const ListRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
-  const [room, setRoom] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
+  const [changeData, setChangeData] = useState(0);
+
+  const getRoom = async () => {
+    try {
+      const res = await supabase.from('list-room').select('*');
+      if (res.data) {
+        setRooms(res.data as any);
+        console.log('data', res.data);
+      }
+      if (res.error) {
+        setErrorMessage(res.error as any);
+      }
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const { data } = await axios.get('http://localhost:3001/room');
-        setRoom(data);
-        console.log('data', data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getRoom();
-  }, []);
+  }, [changeData]);
 
-  const remove = async (id: any) => {
-    const confirm = window.confirm('Bạn chắc chắn muốn xóa?');
-    if (confirm) {
-      const { data } = await axios.delete('http://localhost:3001/room/' + id);
-      if (data) {
-        setRoom(room.filter((item: any) => item.id !== id));
-      }
-      swal('Bạn đã xóa thành công!', {
+  const removeRoom = async (id: number) => {
+    try {
+      await supabase.from('list-room').delete().match({ id });
+
+      swal('Thêm nhà  thành công!', {
         icon: 'success',
+      });
+      setChangeData(changeData + 1);
+    } catch (error) {
+      swal('Đã xảy ra lỗi!', {
+        icon: 'error',
       });
     }
   };
@@ -73,8 +82,8 @@ const ListRoom = (props: Props) => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full ">
                 <div className="flex flex-wrap gap-[20px]">
-                  {room &&
-                    room.map((item: any, index) => {
+                  {rooms &&
+                    rooms.map((item: any, index) => {
                       return (
                         <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
                           <h2 className="text-xl flex items-center gap-2 mb-[20px]">
@@ -106,7 +115,7 @@ const ListRoom = (props: Props) => {
                             </Link>
                             <button
                               onClick={() => {
-                                remove(item.id);
+                                removeRoom(item.id);
                               }}
                               className="btn text-red-500 hover:text-red-600"
                             >
