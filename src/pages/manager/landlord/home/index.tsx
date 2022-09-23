@@ -4,6 +4,7 @@ import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import axios from 'axios';
 import swal from 'sweetalert';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
@@ -30,11 +31,16 @@ const RoomList = (props: Props) => {
       if (data) {
         setRoom(room.filter((item: any) => item.id !== id));
       }
-      swal("Bạn đã xóa thành công!",{
-        icon: "success",
+      swal('Bạn đã xóa thành công!', {
+        icon: 'success',
       });
     }
   };
+
+  const router = useRouter();
+  const { pid } = router.query;
+
+  console.log('pid', pid);
 
   return (
     <div className="h-screen">
