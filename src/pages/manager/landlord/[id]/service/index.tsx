@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import Link from 'next/link'
+import React ,{useState,useEffect} from 'react'
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
 import axios from 'axios';
-type Props = {};
+type Props = {}
 
-const ListServiceRoom = (props: Props) => {
-  const [listServices, setListServices] = useState([]);
-  useEffect(() => {
-    const getService = async () => {
-      try {
-        const data = await axios.get('http://localhost:3001/api/service');
-        setListServices(data.data);
-        console.log(data);
-      } catch (error) {}
-    };
-    getService();
-  }, []);
-  const remove = async (id: any) => {
-    const confirm = window.confirm('Bạn có muốn xóa không?');
-    if (confirm) {
-      const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
-      if (data) {
-        setListServices(listServices.filter((item: any) => item.id !== id));
+const ListServiceRoom  = (props: Props) => {
+    const router = useRouter();
+    const { id } = router.query;
+    const [listServices, setListServices] = useState([]);
+    useEffect(() => {
+      const getService = async () => {
+        try {
+          const data = await axios.get('http://localhost:3001/api/service');
+          setListServices(data.data);
+          console.log(data);
+        } catch (error) {}
+      };
+      getService();
+    }, []);
+    const remove = async (id: any) => {
+      const confirm = window.confirm('Bạn có muốn xóa không?');
+      if (confirm) {
+        const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
+        if (data) {
+          setListServices(listServices.filter((item: any) => item.id !== id));
+        }
       }
-    }
-  };
+    };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -33,17 +36,14 @@ const ListServiceRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Quản lý
+                Quản lý dịch vụ 
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
-              <Link href="/manager/landlord/service-room/add-service-room" className="sm:ml-3">
-                <button
-                  type="button"
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
+              <Link href={`/manager/landlord/${id}/service/add`}>
+                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
-                </button>
+                </a>
               </Link>
             </div>
           </div>
@@ -105,7 +105,7 @@ const ListServiceRoom = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <button onClick={()=>{remove(item.id)}} className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]">
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
                               </div>
@@ -121,7 +121,7 @@ const ListServiceRoom = (props: Props) => {
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default ListServiceRoom;
+export default ListServiceRoom 
