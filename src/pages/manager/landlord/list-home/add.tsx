@@ -24,7 +24,7 @@ const AddHome = (props: Props) => {
   const onSubmit = async (dataForm: any) => {
     console.log('data', dataForm);
     try {
-      const { data, error } = await supabase.from('houses').insert([dataForm]);
+      const { data, error } = await supabase.from('houses').insert([{ dataForm }]);
 
       router.push('/manager/landlord/list-home');
       swal('Thêm nhà  thành công!', {
