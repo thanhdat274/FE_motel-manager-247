@@ -30,13 +30,13 @@ const EditRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const param = router.query;
-  const { id } = router.query;
+  // const { id } = router.query;
 
   useEffect(() => {
     const getRoom = async () => {
       try {
         const res = await axios.get(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
+          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
         );
         if (res.data) {
           reset(res.data as any);
@@ -47,18 +47,18 @@ const EditRoom = (props: Props) => {
       }
     };
     getRoom();
-  }, [id, param.id_room]);
+  }, [param.id, param.id_room]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     console.log('data từ form', data);
     setLoading(true);
     try {
       await axios
-        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`, data)
+        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`, data)
         .then((data: any) => {
           setLoading(false);
           setShowMsg(true);
-          router.push(`/manager/landlord/${id}/list-room`);
+          router.push(`/manager/landlord/${param.id}/list-room`);
           Toast('success', 'Cập nhật phòng thành công');
         });
     } catch (error) {
@@ -167,7 +167,7 @@ const EditRoom = (props: Props) => {
 
                   <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
                     <Link
-                      href={`/manager/landlord/${id}/list-room`}
+                      href={`/manager/landlord/${param.id}/list-room`}
                       className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
