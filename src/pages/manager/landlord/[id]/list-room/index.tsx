@@ -1,9 +1,11 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { supabase } from 'src/apis/supabase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import axios from 'axios';
 import swal from 'sweetalert';
-
+import { useRouter } from 'next/router';
+import { supabase } from 'src/apis/supabase';
 type Props = {};
 
 const data = [
@@ -17,6 +19,8 @@ const data = [
 ];
 
 const ListRoom = (props: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [rooms, setRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState([]);
   const [changeData, setChangeData] = useState(0);
@@ -53,67 +57,85 @@ const ListRoom = (props: Props) => {
     }
   };
 
-  const router = useRouter();
-
-  const { id } = router.query;
-
-  const finData = (data: any) => {
-    console.log('data', data);
-
-    const a = data.filter((items: { id_house: any }) => items.id_house == id);
-
-    console.log('a', a);
-
-    return a;
+  const findData = (dataA: any) => {
+    const data = dataA.filter((item: any) => item.id_house == id);
+    return data;
   };
   return (
-    <div className="container flex flex-col ">
-      <div className="flex flex-col items-end">
-        <Link href={`/manager/landlord/${id}/list-room/add`}>
-          <a className="text-end p-1 border ">them phong</a>
-        </Link>
-      </div>
-      <div className="title text-center">Danh sach phong tro</div>
+    <div className="h-screen">
+      <header className="bg-white shadow">
+        <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <div className="lg:flex lg:items-center lg:justify-between">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
+                Quản lý phòng
+              </h2>
+            </div>
+            <div className="mt-5 flex lg:mt-0 lg:ml-4">
+              <Link href={`/manager/landlord/${id}/list-room/add`}>
+                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Thêm mới
+                </a>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="flex flex-col">
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="py-2 align-middle inline-block min-w-full ">
+                <div className="flex flex-wrap gap-[20px]">
+                  {rooms &&
+                    findData(rooms).map((item: any, index: React.Key | null | undefined) => {
+                      return (
+                        <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
+                          <h2 className="text-xl flex items-center gap-2 mb-[20px]">
+                            <FontAwesomeIcon className="h-[15px]" icon={faHouse}></FontAwesomeIcon>
+                            {item.name}
+                          </h2>
+                          <Link
+                            href="/manager/landlord/room-renter/add"
+                            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block"
+                          >
+                            <a className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block mb-[20px]">
+                              Thêm khách
+                            </a>
+                          </Link>
 
-      <div className=" my-4 mx-4  sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4 ">
-        {rooms &&
-          finData(rooms).map(
-            (item: { id: number; name: string; status: boolean }, index: React.Key | null | undefined) => {
-              return (
-                <>
-                  <div className="border-2 text-center  py-8 bg-gray-100  mt-3" key={index}>
-                    <div className="">
-                      <h1 className="">
-                        <span className="bg-sky-400 border text-lg hover:bg-cyan-500 text-white hover:text-black rounded-md  font-bold p-3">
-                          {item?.name}
-                        </span>
-                      </h1>
-                    </div>
-                    <div className="m-3 border bg-slate-300 rounded-md text-left ">
-                      <p className="p-2">{item?.status ? 'sẵn sàng' : 'chưa sẵn sàng'}</p>
-                    </div>
-                    <div>
-                      <div>
-                        <a
-                          href=""
-                          className="border mr-2 ml-2 pr-2 pl-2 pt-1 pb-1 rounded-md bg-blue-600 text-white hover:bg-sky-800"
-                        >
-                          Chỉnh sửa
-                        </a>
-                        <button
-                          onClick={() => removeRoom(item?.id)}
-                          className="border pr-2 pl-2 pt-1 pb-1 rounded-md bg-rose-600 text-white hover:bg-rose-800 "
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            },
-          )}
-      </div>
+                          <p className="flex items-center gap-2 mb-[20px]">
+                            <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill}></FontAwesomeIcon>
+                            <span className="text-red-500"> {item.price}</span>
+                          </p>
+
+                          <div className="text-center flex gap-3">
+                            <Link
+                              href={`/manager/landlord/room-list/${item.id}`}
+                              className="text-amber-500 hover:text-amber-600"
+                            >
+                              <a className="text-amber-500 hover:text-amber-600">
+                                <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                              </a>
+                            </Link>
+                            <button
+                              onClick={() => {
+                                removeRoom(item.id);
+                              }}
+                              className="btn text-red-500 hover:text-red-600"
+                            >
+                              <FontAwesomeIcon className="h-[20px]" icon={faTrash}></FontAwesomeIcon>
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

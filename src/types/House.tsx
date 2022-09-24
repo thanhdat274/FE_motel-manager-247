@@ -1,5 +1,5 @@
-export type HouseType ={
-    id:any,
-    name:string,
-    address:string
-}
+export type HouseType = {
+  id: any;
+  name: string;
+  address: string;
+};
