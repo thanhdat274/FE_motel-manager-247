@@ -1,20 +1,17 @@
-import axios from 'axios';
+import { MotionValue } from 'framer-motion';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { addHouse } from 'src/pages/api/house';
 import swal from 'sweetalert';
 type Props = {};
 
-type FromValues = {
+type FormInput = {
   name: string;
-  price: number;
-  room_size: number;
-  people: number;
-  desc: string;
-  homeId: string;
+
+  address: string;
 };
 
 const AddRoom = (props: Props) => {
@@ -28,9 +25,11 @@ const AddRoom = (props: Props) => {
   const { id } = router.query;
   const onSubmit = async (dataForm: any) => {
     console.log('data', dataForm);
+
     try {
       await supabase.from('list-room').insert([{ ...dataForm, id_house: Number(id) }]);
-      swal('Bạn đã thêm thành công! Chuyển trang sau 2s', {
+
+      swal('Bạn đã thêm phòng thành công! Chuyển trang sau 2s', {
         icon: 'success',
       });
       setTimeout(() => {
@@ -44,138 +43,128 @@ const AddRoom = (props: Props) => {
   };
 
   return (
-    <div>
-      <div className="min-h-full">
-        <header className="bg-white shadow">
-          <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div className="lg:flex lg:items-center lg:justify-between">
-              <div className="flex-1 min-w-0">
-                <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                  thêm mới phòng
-                </h2>
-              </div>
+    <div className="w-full ">
+      <header className="bg-white shadow border rounded-md">
+        <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <div className="lg:flex lg:items-center lg:justify-between">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
+                thêm mới phòng
+              </h2>
             </div>
           </div>
-        </header>
-        <main>
-          <div className="max-w-full mx-auto py-6 ">
-            <div className="md:grid md:grid-cols-3 md:gap-6 ">
-              <div className="mt-5 md:mt-0 md:col-span-3 border">
-                <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
-                  <div className="shadow sm:rounded-md sm:overflow-hidden">
-                    <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                      <div className="col-span-6">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Danh sách nhà <span className="text-[red]">*</span>
-                        </label>
-                        <select
-                          id="homeId"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md outline-0 pl-[10px]"
-                          {...register('homeId')}
-                        >
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                          <option value="11">11</option>
-                        </select>
-                      </div>
-                      <div className="col-span-6">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Phòng số <span className="text-[red]">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md outline-0 pl-[10px]"
-                          {...register('name', { required: true })}
-                        />
-                        {errors.name && errors.name.type === 'required' && (
-                          <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                      </div>
-                      <div className="col-span-6">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Giá <span className="text-[red]">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          id="price"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md outline-0 pl-[10px]"
-                          {...register('price', { required: true })}
-                        />
-                        {errors.price && errors.price.type === 'required' && (
-                          <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                      </div>
-                      <div className="col-span-6">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Diện tích phòng (m2) <span className="text-[red]">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          id="quantity-product"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md outline-0 pl-[10px]"
-                          {...register('room_size', { required: true })}
-                        />
-                        {errors.room_size && errors.room_size.type === 'required' && (
-                          <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                      </div>
-                      <div className="col-span-6">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Số lượng người thuê tối đa<span className="text-[red]">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          id="quantity-product"
-                          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm h-[30px] border border-gray-300 rounded-md outline-0 pl-[10px]"
-                          {...register('people', { required: true })}
-                        />
-                        {errors.people && errors.people.type === 'required' && (
-                          <span style={{ color: 'red' }}>Không dược để trống!</span>
-                        )}
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Mô tả <span className="text-[red]">*</span>
-                        </label>
-                        <div className="mt-1">
-                          <textarea
-                            rows={5}
-                            id="desc-product"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md outline-0 pl-[10px]"
-                            defaultValue={''}
-                            {...register('desc', { required: true })}
-                          />
-                          {errors.desc && errors.desc.type === 'required' && (
-                            <span style={{ color: 'red' }}>Không dược để trống!</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
-                      <Link
-                        href={`/manager/landlord/${id}/list-room`}
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          Quay lại
-                        </a>
-                      </Link>
+        </div>
+      </header>
 
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      <main>
+        <div className="max-w-full mx-auto py-6 ">
+          <div className="md:grid md:grid-cols-3 md:gap-6">
+            <div className="mt-5 md:mt-0 md:col-span-3 border rounded-md">
+              <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
+                <div className="shadow rounded-md overflow-hidden">
+                  <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    <div className="col-span-6">
+                      <label className="block text-sm font-bold text-gray-700" htmlFor="username">
+                        Tên phòng <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="name"
+                        type="text"
+                        {...register('name', { required: true, minLength: 6 })}
+                      />
+                      {errors.name?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                      {errors.name?.type === 'minLength' && (
+                        <span className="text-[red] mt-1 block">Tối thiểu 6 ký tự</span>
+                      )}
+                    </div>
+
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Trạng thái phòng
+                      </label>
+                      <select
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        {...register('status', { required: true })}
+                        name=""
+                        id="status"
                       >
-                        Lưu
-                      </button>
+                        <option value="true">Sẵn sàng</option>
+                        <option value="false">Chưa sẵn sàng</option>
+                      </select>
+                    </div>
+
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Giá phòng <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        {...register('price', { required: true, min: 1000 })}
+                      />
+                      {errors.price && errors.price.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div>
+
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Số người ở tối đa <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="max"
+                        type="number"
+                        {...register('max', { required: true, min: 0 })}
+                      />
+                      {errors.max && errors.max.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div>
+
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Diện tích <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="area"
+                        type="number"
+                        {...register('area', { required: true, min: 1 })}
+                      />
+                      {errors.area && errors.area.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
                     </div>
                   </div>
-                </form>
-              </div>
+
+                  <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
+                    <Link
+                      href={`/manager/landlord/${id}/list-room`}
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Quay lại
+                      </a>
+                    </Link>
+
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      Lưu
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
