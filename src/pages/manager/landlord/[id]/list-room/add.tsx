@@ -19,17 +19,17 @@ type FromValues = {
 
 const AddRoom = (props: Props) => {
   const [houses, setHouse] = useState([]);
-  const router = useRouter();
-  const { id } = router.query;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
+  const { id } = router.query;
   const onSubmit = async (dataForm: any) => {
     console.log('data', dataForm);
     try {
-      await supabase.from('list-room').insert([dataForm]);
+      await supabase.from('list-room').insert([{ ...dataForm, id_house: Number(id) }]);
       swal('Bạn đã thêm thành công! Chuyển trang sau 2s', {
         icon: 'success',
       });

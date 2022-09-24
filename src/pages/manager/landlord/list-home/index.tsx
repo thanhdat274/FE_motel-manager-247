@@ -28,6 +28,10 @@ const ListHome = () => {
 
     getHouse();
   }, [changeData]);
+  const router = useRouter();
+
+  const { id } = router.query;
+  console.log('id', id);
 
   const removeHouse = async (id: number) => {
     try {
@@ -44,9 +48,8 @@ const ListHome = () => {
       });
     }
   };
-  // console.log(house);
 
-  const router = useRouter();
+  // console.log(house);
 
   // console.log('landlord', router.pathname.search('/manager/landlord'));
 
@@ -71,7 +74,7 @@ const ListHome = () => {
           </div>
           <div className=" my-4 mx-4  sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4 ">
             {house &&
-              house.map((item: { id: number; name: string; address: string }, index) => {
+              house.map((item: { id: number; name: string; address: string }, index: React.Key | null | undefined) => {
                 return (
                   <>
                     <div className="border-2 text-center  py-8 bg-gray-100  mt-3" key={index}>
@@ -87,7 +90,7 @@ const ListHome = () => {
                       </div>
                       <div>
                         <div>
-                          <Link href="10">
+                          <Link href={`${item?.id}`}>
                             <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
                               Quản lý
                             </a>
