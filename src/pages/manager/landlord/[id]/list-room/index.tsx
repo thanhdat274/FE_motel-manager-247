@@ -56,6 +56,11 @@ const ListRoom = (props: Props) => {
       });
     }
   };
+
+  const findData = (dataA: any) => {
+    const data = dataA.filter((item: any) => item.id_house == id);
+    return data;
+  };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -83,7 +88,7 @@ const ListRoom = (props: Props) => {
               <div className="py-2 align-middle inline-block min-w-full ">
                 <div className="flex flex-wrap gap-[20px]">
                   {rooms &&
-                    rooms.map((item: any, index) => {
+                    findData(rooms).map((item: any, index: React.Key | null | undefined) => {
                       return (
                         <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
                           <h2 className="text-xl flex items-center gap-2 mb-[20px]">
