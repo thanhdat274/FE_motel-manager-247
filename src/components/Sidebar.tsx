@@ -35,13 +35,6 @@ const SideBar = (props: Props) => {
   const [mns, setMns] = useState(true);
 
   const Menus = [
-    { url: '', title: 'Home', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} /> },
-    {
-      url: 'house',
-      gap: true,
-      title: 'Nhà',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
-    },
     {
       url: 'list-room',
       gap: true,
@@ -103,6 +96,23 @@ const SideBar = (props: Props) => {
             <div className="flex flex-col">
               <hr className="my-4 min-w-full" />
               <ul className="flex-col min-w-full flex list-none">
+                <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
+                  <Link href={'/'}>
+                    <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
+                      <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
+                      <span className={`${lis && 'hidden'} font-bold text-black`}>Trở lại trang chủ</span>
+                    </a>
+                  </Link>
+                </li>
+
+                <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
+                  <Link href={'/manager/landlord/list-home'}>
+                    <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
+                      <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
+                      <span className={`${lis && 'hidden'} font-bold text-black`}>Trở lại danh sách nhà</span>
+                    </a>
+                  </Link>
+                </li>
                 {Menus.map((menu, index) => {
                   return (
                     <li
