@@ -25,13 +25,6 @@ export const UserProvider = ({ children }: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
 
-  // const [typeRealEstate, setTypeRealEstate] = useState(0);
-  // const [fillterAddress, setFilterAddress] = useState('');
-  // const [filterAboutPrice, setFilterAboutPrice] = useState(null);
-  // const [filterArea, setFilterArea] = useState(null);
-
-  // const SetFilterData = (typeRE:number , address:string , )
-
   const value: UserState = {
     loading,
     setLoading,
@@ -42,7 +35,7 @@ export const UserProvider = ({ children }: any) => {
     phoneNumber,
     setPhoneNumber,
     token,
-    setToken, 
+    setToken,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
