@@ -106,7 +106,7 @@ const ListRoom = (props: Props) => {
 
                           <p className="flex items-center gap-2 mb-[20px]">
                             <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill}></FontAwesomeIcon>
-                            <span className="text-red-500"> {item.price}</span>
+                            <span className="text-red-500"> {item.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</span>
                           </p>
 
                           <div className="text-center flex gap-3">
