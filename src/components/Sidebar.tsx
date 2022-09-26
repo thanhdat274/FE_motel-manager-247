@@ -20,12 +20,6 @@ type Props = {};
 
 const SideBar = (props: Props) => {
   const Menus = [
-    { url: '/', title: 'Home', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} /> },
-    {
-      url: '/manager/landlord',
-      title: 'DashBoard',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faDesktop} />,
-    },
     {
       url: 'list-room',
       gap: true,
@@ -50,15 +44,19 @@ const SideBar = (props: Props) => {
 
   const [collapseShow, setCollapseShow] = React.useState('hidden');
   const router = useRouter();
+  const { id } = router.query;
+  console.log('id', id);
   return (
     <>
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0  md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           {/* Toggler */}
           <button
             className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
             type="button"
-            onClick={() => setCollapseShow('bg-white w-[30%] py-3 px-6 h-screen md:w-full')}
+            onClick={() =>
+              setCollapseShow('bg-white w-[30%] 2xs:w-[80%] xs:w-[60%] s:w-[40%] py-3 px-6 h-screen md:w-full')
+            }
           >
             <FontAwesomeIcon className="w-[16px] text-black" icon={faBars} />
           </button>
@@ -79,7 +77,7 @@ const SideBar = (props: Props) => {
           {/* Collapse */}
           <div
             className={
-              'md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded ' +
+              'md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-x-hidden h-auto items-center flex-1 rounded ' +
               collapseShow
             }
           >
@@ -118,7 +116,7 @@ const SideBar = (props: Props) => {
               </div>
             </form>
 
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+            <ul className="md:flex-col md:min-w-full flex flex-col 2xs:h-screen md:h-screen sm:h-screen s:h-screen xs:h-screen list-none">
               <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                 <Link href={'/'}>
                   <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
@@ -143,7 +141,7 @@ const SideBar = (props: Props) => {
                     key={index}
                     className="items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md"
                   >
-                    <Link href={menu.url}>
+                    <Link href={`/manager/landlord/${id}/${menu.url}`}>
                       <a
                         href="#pablo"
                         className={
