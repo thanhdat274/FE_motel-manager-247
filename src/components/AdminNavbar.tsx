@@ -32,7 +32,13 @@ const Navbar = (props: Props) => {
       <nav className="left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div className="flex w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
           <div className="md:flex hidden flex-row items-center w-full justify-end mr-3">
-            <div onClick={() => setIsOpen(true)} className="cursor-pointer">
+            <div onClick={() => setIsOpen(true)} className="cursor-pointer px-4">
+              <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />
+            </div>
+            <div onClick={() => setIsOpen(true)} className="cursor-pointer px-4">
+              <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />
+            </div>
+            <div onClick={() => setIsOpen(true)} className="cursor-pointer px-4">
               <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />
             </div>
           </div>
