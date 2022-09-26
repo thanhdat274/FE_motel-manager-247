@@ -1,4 +1,4 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCalculator, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,16 +30,13 @@ const Navbar = (props: Props) => {
   return (
     <div>
       <nav className="left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
-        <div className="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-          <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-            <div className="w-full text-end">
-              <div className="close-modal" onClick={() => closeModal()}>
-                Close
-              </div>
+        <div className="flex w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
+          <div className="md:flex hidden flex-row items-center w-full justify-end mr-3">
+            <div onClick={() => setIsOpen(true)} className="cursor-pointer">
+              <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />
             </div>
-            <ReactCalculator key="Calculator" />
-          </Modal>
-          <form className="md:flex md:ml-[30%] hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
+          </div>
+          <form className="min-w-[167px] md:flex md:ml-[30%] hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
             <div className="relative flex w-full flex-wrap items-stretch">
               <span className="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                 <FontAwesomeIcon className="w-[16px] text-black" icon={faSearch} />
@@ -53,6 +50,14 @@ const Navbar = (props: Props) => {
           </form>
         </div>
       </nav>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+        <div className="w-full text-end">
+          <div className="cursor-pointer" onClick={() => closeModal()}>
+            <button className="btn close-modal border rounded-md px-2 mb-2 bg-gray-300">Close</button>
+          </div>
+        </div>
+        <ReactCalculator key="Calculator" />
+      </Modal>
     </div>
   );
 };
