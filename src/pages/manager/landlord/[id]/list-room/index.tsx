@@ -111,7 +111,7 @@ const ListRoom = (props: Props) => {
 
                           <div className="text-center flex gap-3">
                             <Link
-                              href={`/manager/landlord/room-list/${item.id}`}
+                              href={`/manager/landlord/${id}/list-room/${item.id}/edit`}
                               className="text-amber-500 hover:text-amber-600"
                             >
                               <a className="text-amber-500 hover:text-amber-600">
