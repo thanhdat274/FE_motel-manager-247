@@ -1,9 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from 'react-modal';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { ReactCalculator } from 'simple-react-calculator';
 import {
   faBars,
   faCompass,
@@ -19,17 +17,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {};
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
 
 const SideBar = (props: Props) => {
   const Menus = [
