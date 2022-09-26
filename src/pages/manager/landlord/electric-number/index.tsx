@@ -8,7 +8,7 @@ const LisElectric = (props: Props) => {
   return (
     <div>
       <div className="h-screen">
-        <div className="relative flex flex-col w-full min-w-0 mb-0 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border">
+        <div className="relative flex flex-col w-full min-w-0 mb-0 break-words bg-white border-0 border-transparent border-solid shadow-xl bg-clip-border">
           <div className="p-6 pb-0 mb-0 bg-white rounded-t-2xl">
             <h6>Authors table</h6>
           </div>
