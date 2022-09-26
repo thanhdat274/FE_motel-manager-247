@@ -1,7 +1,7 @@
 import { MotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { addHouse } from 'src/pages/api/house';
@@ -14,13 +14,34 @@ const EditRoom = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const router = useRouter();
   const param = router.query;
   const { id } = router.query;
-  
+  const [changeData, setChangeData] = useState(0);
+  const [rooms, setRooms] = useState([]);
+  const [errorMessage, setErrorMessage] = useState([]);
+
   console.log('id', id);
   console.log('param', param);
+
+  const getRoom = async () => {
+    try {
+      const res = await supabase.from('list-room').select('*');
+      if (res.data) {
+        reset(res.data as any);
+        console.log('data', res.data);
+      }
+      if (res.error) {
+        setErrorMessage(res.error as any);
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getRoom();
+  }, [changeData]);
+
   const onSubmit = async (dataForm: any) => {
     console.log('data', dataForm);
 
