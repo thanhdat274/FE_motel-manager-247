@@ -1,12 +1,32 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
+import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import SignIn from '@/components/signin';
+import SignUp from '@/components/signup';
 
 type Props = {};
 
 const HeaderPreview = (props: Props) => {
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen2, setIsOpen2] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function openModal2() {
+    setIsOpen2(true);
+  }
+
+  function closeModal2() {
+    setIsOpen2(false);
+  }
   const [toggle, setToogle] = useState(false);
   const toggleNav = () => {
     setToogle(!toggle);
@@ -58,24 +78,25 @@ const HeaderPreview = (props: Props) => {
                   Quản lý phòng trọ
                 </a>
               </Link>
-              <>
-                <Link href={`/api/auth/signin`}>
-                  <a
-                    className="h-10 rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // signIn();
-                    }}
+              {getAll && (
+                <>
+                  <Link href={``}>
+                    <a
+                      className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
+                      onClick={() => openModal2()}
+                    >
+                      Đăng nhập
+                    </a>
+                  </Link>
+
+                  <button
+                    onClick={() => openModal()}
+                    className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1"
                   >
-                    Đăng nhập
-                  </a>
-                </Link>
-                <Link href={'/dangky'}>
-                  <a className="h-10 rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
                     Đăng ký
-                  </a>
-                </Link>
-              </>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -90,6 +111,15 @@ const HeaderPreview = (props: Props) => {
           onClick={() => toggleNav()}
         ></div>
       )}
+      
+        <Modal isOpen={modalIsOpen} contentLabel="Example Modal" onRequestClose={() => closeModal()}>
+          <SignUp onHandleClick={closeModal} />
+        </Modal>
+       
+        <Modal isOpen={modalIsOpen2} contentLabel="Example Modal" onRequestClose={() => closeModal2()}>
+          <SignIn onHandleClick={closeModal2} />
+        </Modal>
+      
     </div>
   );
 };
