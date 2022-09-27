@@ -527,13 +527,6 @@
   dependencies:
     tippy.js "^6.3.1"
 
-"@types/faker@6.6.6":
-  version "6.6.6"
-  resolved "https://registry.yarnpkg.com/@types/faker/-/faker-6.6.6.tgz#c9302c41d843abe5ab520da501ac8e10714b7bf8"
-  integrity sha512-4U2kbpZ75kW5KTw9ZFyB8wfvBUFCmvdxyfgO5K88le7qg1zuK484bwAMul8IIs6uxyzdDo1rWK+Aw4C2GS2n6g==
-  dependencies:
-    faker "*"
-
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
@@ -1531,11 +1524,6 @@ ext@^1.1.2:
   integrity sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==
   dependencies:
     type "^2.7.2"
-
-faker@*, faker@^6.6.6:
-  version "6.6.6"
-  resolved "https://registry.yarnpkg.com/faker/-/faker-6.6.6.tgz#e9529da0109dca4c7c5dbfeaadbd9234af943033"
-  integrity sha512-9tCqYEDHI5RYFQigXFwF1hnCwcWCOJl/hmll0lr5D2Ljjb0o4wphb69wikeJDz5qCEzXCoPvG6ss5SDP6IfOdg==
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
