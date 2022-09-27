@@ -44,7 +44,7 @@ const Auth = (props: Props) => {
     <Box>
       <div className="min-h-[700px] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
-          <div className="rounded bg-white max-w-md rounded overflow-hidden shadow-xl p-5">
+          <div className="rounded bg-white max-w-md overflow-hidden shadow-xl p-5">
             <div className="flex justify-center">
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                 <Tab label="Đăng nhập" {...a11yProps(0)} />
@@ -100,7 +100,7 @@ const Auth = (props: Props) => {
                         Email
                       </label>
                       <input
-                        type="text"
+                        type="email"
                         placeholder="Nhập Email..."
                         className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                       />
@@ -116,7 +116,7 @@ const Auth = (props: Props) => {
                       />
                     </div>
                     <div className="col-span-12">
-                      <label htmlFor="email_address" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
                         Số điện thoại
                       </label>
                       <input
