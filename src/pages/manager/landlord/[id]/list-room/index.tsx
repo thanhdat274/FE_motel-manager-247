@@ -8,16 +8,6 @@ import { useRouter } from 'next/router';
 import { supabase } from 'src/apis/supabase';
 type Props = {};
 
-const data = [
-  { name: 'phong so 1', status: 'phong trong' },
-  { name: 'phong so 2', status: 'phong trong' },
-  { name: 'phong so 3', status: 'phong trong' },
-  { name: 'phong so 4', status: 'phong trong' },
-  { name: 'phong so 5', status: 'phong trong' },
-  { name: 'phong so 6', status: 'phong trong' },
-  { name: 'phong so 7', status: 'phong trong' },
-];
-
 const ListRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
@@ -46,7 +36,7 @@ const ListRoom = (props: Props) => {
     try {
       await supabase.from('list-room').delete().match({ id });
 
-      swal('Thêm nhà  thành công!', {
+      swal('Xóa  thành công!', {
         icon: 'success',
       });
       setChangeData(changeData + 1);
