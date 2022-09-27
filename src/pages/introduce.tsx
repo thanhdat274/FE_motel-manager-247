@@ -10,11 +10,11 @@ const Introduce = (props: Props) => {
   const router = useRouter();
 
   return (
-    <div className=" bg-slate-200">
-      <div className="  m-auto">
+    <div className="  bg-slate-200">
+      <div className=" ">
         <div className="lg:grid grid-cols-3 pt-10  pb-10">
           <div className="col-span-2">
-            <div className=" bg-white mr-10  ml-10 p-5">
+            <div className=" bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5">
               <div>
                 <h1 className="text-xl font-bold">GIỚI THIỆU</h1>
                 <p>
@@ -49,7 +49,7 @@ const Introduce = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 bg-white mr-10  ml-10 p-5 ">
+            <div className="mt-10 bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5 ">
               <h1 className="text-2xl font-bold">CHỨC NĂNG</h1>
               <div className="text-center">
                 <div>
@@ -118,7 +118,7 @@ const Introduce = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 bg-white mr-10  ml-10 p-5 ">
+            <div className="mt-10 bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5 ">
               <h1 className="text-xl font-bold">ĐƠN GIÁ</h1>
 
               <div>
@@ -160,7 +160,7 @@ const Introduce = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 bg-white mr-10  ml-10 p-5 ">
+            <div className="mt-10 bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5 ">
               <h1 className="font-bold text-2xl">BẢO HÀNH VÀ NÂNG CẤP</h1>
               <div className="mt-5">
                 <h2 className="font-bold">BẢO HÀNH</h2>
@@ -178,7 +178,7 @@ const Introduce = (props: Props) => {
                 </p>
               </div>
             </div>
-            <div className="mt-10 bg-white mr-10  ml-10 p-5 ">
+            <div className="mt-10 bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5 ">
               <h1 className="font-bold text-2xl">QUY TRÌNH MUA PHẦN MỀM</h1>
 
               <p className="pt-5">
@@ -197,7 +197,7 @@ const Introduce = (props: Props) => {
                 4. Bàn giao và đưa vào sử dụng, áp dụng chế độ hỗ trợ xuyên suốt quá trình sử dụng.
               </p>
             </div>
-            <div className="mt-10 bg-white mr-10  ml-10 p-5 ">
+            <div className="mt-10 bg-white lg:mr-10  lg:ml-10 mr-5 ml-5 p-5 ">
               <h1 className="font-bold text-2xl">CHI TIẾT CHỨC NĂNG</h1>
 
               <p className="pt-5">- Quản lý phòng, khu vực</p>
@@ -225,7 +225,7 @@ const Introduce = (props: Props) => {
 
           <div>
             <div>
-              <div className="bg-white mr-10 p-5 ml-10 lg:ml-0 mt-10 lg:mt-0 ">
+              <div className="bg-white lg:mr-10   mr-5 ml-5 p-5  lg:ml-0 mt-10 lg:mt-0 ">
                 <h1 className="text-2xl font-bold ">Phòng trọ 24/7 và những con số</h1>
                 <h1 className="text-2xl font-bold pt-6 pb-5">1,170+ chủ trọ đăng ký</h1>
                 <h1 className="text-2xl font-bold">9,175+ phòng trọ</h1>
@@ -233,7 +233,7 @@ const Introduce = (props: Props) => {
               </div>
             </div>
             <div className="mt-10">
-              <div className="bg-white mr-10 p-5 ml-10 lg:ml-0 mt-10 lg:mt-0 ">
+              <div className="bg-white lg:mr-10   mr-5 ml-5 p-5  lg:ml-0 mt-10 lg:mt-0 ">
                 <h1 className="text-2xl font-bold ">LIÊN HỆ</h1>
                 <div className="text-gray-500">
                   <div className="flex pt-5">
@@ -274,7 +274,7 @@ const Introduce = (props: Props) => {
               </div>
             </div>
             <div className="mt-10">
-              <div className="bg-white mr-10 p-5 ml-10 lg:ml-0 mt-10 lg:mt-0 ">
+              <div className="bg-white lg:mr-10   mr-5 ml-5 p-5  lg:ml-0 mt-10 lg:mt-0 ">
                 <h1 className="text-2xl font-bold ">KHÁCH HÀNG</h1>
                 <p className="pt-5">CCMN 958/3 ÂU CƠ - Tân Bình, TP.HCM: 123 phòng</p>
                 <p className="pt-5">Chị Hiền - Khu nhà trọ Phú Hòa, Bình Dương: 24 phòng</p>
@@ -283,7 +283,7 @@ const Introduce = (props: Props) => {
               </div>
             </div>
             <div className="mt-10">
-              <div className="bg-white mr-10 p-5 ml-10 lg:ml-0 mt-10 lg:mt-0 ">
+              <div className="bg-white lg:mr-10   mr-5 ml-5 p-5  lg:ml-0 mt-10 lg:mt-0 ">
                 <h1 className="text-2xl font-bold ">ĐÁNH GIÁ</h1>
                 <p className="pt-5 border-l-4 border-green-300 pl-2 flex">
                   {' '}

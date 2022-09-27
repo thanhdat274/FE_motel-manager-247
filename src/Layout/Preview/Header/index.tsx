@@ -36,7 +36,7 @@ const HeaderPreview = (props: Props) => {
   const getAll = true;
   return (
     <div className="shadow lg:shadow-none">
-      <div className="container mx-auto">
+      <div className=" ">
         <div className="flex lg:hidden justify-between items-center pl-4 pr-4">
           <div className="w-[100px] h-[100px] relative">
             <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority />
@@ -52,10 +52,10 @@ const HeaderPreview = (props: Props) => {
           toggle ? 'right-0' : 'right-[-100%]'
         }`}
       >
-        <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent pl-4 pr-4">
+        <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
           <div className="flex justify-between items-center h-fit  px-[15px] lg:px-0 py-[20px] lg:py-0">
             <Link href={'/'}>
-              <a className="hidden lg:block w-[100px] h-[100px] relative ">
+              <a className="hidden lg:block w-[100px] h-[100px] relative">
                 <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority></Image>
               </a>
             </Link>
