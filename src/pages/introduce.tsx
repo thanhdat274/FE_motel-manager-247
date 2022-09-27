@@ -6,7 +6,7 @@ type Props = {};
 const Introduce = (props: Props) => {
   const router = useRouter();
 
-  return <div className="container">fdfsdf</div>;
+  return <div className="container">Trang chủ </div>;
 };
 
 export default Introduce;
