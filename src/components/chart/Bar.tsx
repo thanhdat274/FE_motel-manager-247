@@ -30,9 +30,10 @@ export const data = {
     }
   ],
 };
+
 const BarChart = () => {
   return (
-    <div className='block max-w-full'>
+    <div className='block'>
       <Bar options={options} data={data} />
     </div>
   );
