@@ -6,8 +6,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
+      display: false,
       position: 'top' as const,
     },
     title: {
@@ -37,15 +39,16 @@ export const data = {
   datasets: [
     {
       label: '',
-      data: [121, 19, 3, 5, 2, 3, 22, 33, 44, 55, 66, 3],
+      data: [20, 10, 3, 8, 3, 5, 6, 33, 44, 55, 66, 3],
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      borderWidth: 1,
     },
   ],
 };
 
 const BarChart = () => {
   return (
-    <div className="block">
+    <div className='block h-[300px] lg:h-[400px]'>
       <Bar options={options} data={data} />
     </div>
   );

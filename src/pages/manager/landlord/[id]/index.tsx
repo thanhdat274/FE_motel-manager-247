@@ -74,11 +74,11 @@ const HomeManagerPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex gap-y-4 lg:gap-4 xl:flex-nowrap flex-wrap">
-        <div className="w-[100%] xl:w-[50%] bg-white shadow border rounded-md p-2">
+      <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
+        <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <BarChart />
         </div>
-        <div className="w-[100%] xl:w-[50%] bg-white shadow border rounded-md p-2">
+        <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <PieChart />
         </div>
       </div>
