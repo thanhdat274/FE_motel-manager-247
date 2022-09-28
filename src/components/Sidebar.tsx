@@ -55,7 +55,7 @@ const SideBar = (props: Props) => {
             className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
             type="button"
             onClick={() =>
-              setCollapseShow('bg-white w-[30%] 2xs:w-[80%] xs:w-[60%] s:w-[40%] py-3 px-6 h-screen md:w-full')
+              setCollapseShow('bg-white w-[50%] 2xs:w-[80%] xs:w-[60%] s:w-[40%] py-3 px-6 h-screen md:w-full')
             }
           >
             <FontAwesomeIcon className="w-[16px] text-black" icon={faBars} />
