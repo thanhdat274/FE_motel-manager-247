@@ -1,34 +1,34 @@
-import Link from 'next/link'
-import React ,{useState,useEffect} from 'react'
+import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-type Props = {}
+type Props = {};
 
-const ListServiceRoom  = (props: Props) => {
-    const router = useRouter();
-    const { id } = router.query;
-    const [listServices, setListServices] = useState([]);
-    useEffect(() => {
-      const getService = async () => {
-        try {
-          const data = await axios.get('http://localhost:3001/api/service');
-          setListServices(data.data);
-          console.log(data);
-        } catch (error) {}
-      };
-      getService();
-    }, []);
-    const remove = async (id: any) => {
-      const confirm = window.confirm('Bạn có muốn xóa không?');
-      if (confirm) {
-        const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
-        if (data) {
-          setListServices(listServices.filter((item: any) => item.id !== id));
-        }
-      }
+const ListServiceRoom = (props: Props) => {
+  const router = useRouter();
+  const id = router.query;
+  const [listServices, setListServices] = useState([]);
+  useEffect(() => {
+    const getService = async () => {
+      try {
+        const data = await axios.get('http://localhost:3001/api/service');
+        setListServices(data.data);
+        console.log(data);
+      } catch (error) {}
     };
+    getService();
+  }, []);
+  const removeServiceId = async (id: any) => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
+    if (confirm) {
+      const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
+      if (data) {
+        setListServices(listServices.filter((item: any) => item.id !== id));
+      }
+    }
+  };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -36,7 +36,7 @@ const ListServiceRoom  = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Quản lý dịch vụ 
+                Quản lý dịch vụ
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -100,12 +100,18 @@ const ListServiceRoom  = (props: Props) => {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-center flex">
                                 <Link
-                                  href={`/manager/landlord/service-room/${item.id}`}
+                                  href={`/manager/landlord/${id}/service/${item.id}/edit`}
                                   className="text-amber-500 hover:text-amber-600 mx-[10px]"
                                 >
-                                  <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                                  <FontAwesomeIcon
+                                    className="w-[20px] cursor-pointer"
+                                    icon={faPenToSquare}
+                                  ></FontAwesomeIcon>
                                 </Link>
-                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                <button
+                                  onClick={() => removeServiceId(item.id)}
+                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                >
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
                               </div>
@@ -121,7 +127,7 @@ const ListServiceRoom  = (props: Props) => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default ListServiceRoom 
+export default ListServiceRoom;
