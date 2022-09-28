@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import swal from 'sweetalert';
 type Props = {}
 
 const ListServiceRoom  = (props: Props) => {
@@ -13,7 +14,7 @@ const ListServiceRoom  = (props: Props) => {
     useEffect(() => {
       const getService = async () => {
         try {
-          const data = await axios.get('http://localhost:3001/api/service');
+          const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service');
           setListServices(data.data);
           console.log(data);
         } catch (error) {}
@@ -23,7 +24,10 @@ const ListServiceRoom  = (props: Props) => {
     const remove = async (id: any) => {
       const confirm = window.confirm('Bạn có muốn xóa không?');
       if (confirm) {
-        const { data } = await axios.delete('http://localhost:3001/api/service/' + id);
+        const { data } = await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id);
+        console.log(data);
+        
+        swal('Bạn đã Xóa thành công!', 'success');
         if (data) {
           setListServices(listServices.filter((item: any) => item.id !== id));
         }
@@ -80,6 +84,12 @@ const ListServiceRoom  = (props: Props) => {
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                         Đơn vị
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         ></th>
                       </tr>
                     </thead>
@@ -97,6 +107,9 @@ const ListServiceRoom  = (props: Props) => {
                             <td className="px-6 py-4 whitespace">
                               <div className="text-center">{item.price}</div>
                             </td>
+                            <td className="px-6 py-4 whitespace">
+                              <div className="text-center">{item.unit}</div>
+                            </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-center flex">
                                 <Link
@@ -105,7 +118,7 @@ const ListServiceRoom  = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]" onClick={() =>remove (item?.id)}>
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
                               </div>
