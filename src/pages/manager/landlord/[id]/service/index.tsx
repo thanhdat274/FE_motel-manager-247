@@ -8,7 +8,7 @@ type Props = {};
 
 const ListServiceRoom = (props: Props) => {
   const router = useRouter();
-  const id = router.query;
+  const { id } = router.query;
   const [listServices, setListServices] = useState([]);
   useEffect(() => {
     const getService = async () => {
