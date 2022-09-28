@@ -8,16 +8,6 @@ import { useRouter } from 'next/router';
 import { supabase } from 'src/apis/supabase';
 type Props = {};
 
-const data = [
-  { name: 'phong so 1', status: 'phong trong' },
-  { name: 'phong so 2', status: 'phong trong' },
-  { name: 'phong so 3', status: 'phong trong' },
-  { name: 'phong so 4', status: 'phong trong' },
-  { name: 'phong so 5', status: 'phong trong' },
-  { name: 'phong so 6', status: 'phong trong' },
-  { name: 'phong so 7', status: 'phong trong' },
-];
-
 const ListRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
@@ -48,7 +38,7 @@ const ListRoom = (props: Props) => {
     try {
       await supabase.from('list-room').delete().match({ id });
 
-      swal('Thêm nhà  thành công!', {
+      swal('Xóa  thành công!', {
         icon: 'success',
       });
       setChangeData(changeData + 1);
@@ -94,7 +84,7 @@ const ListRoom = (props: Props) => {
                       return (
                         <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
                           <h2 className="text-xl flex items-center gap-2 mb-[20px]">
-                            <FontAwesomeIcon className="h-[15px]" icon={faHouse}></FontAwesomeIcon>
+                            <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                             {item.name}
                           </h2>
                           <Link
@@ -107,8 +97,10 @@ const ListRoom = (props: Props) => {
                           </Link>
 
                           <p className="flex items-center gap-2 mb-[20px]">
-                            <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill}></FontAwesomeIcon>
-                            <span className="text-red-500"> {item.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</span>
+                            <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                            <span className="text-red-500">
+                              {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                            </span>
                           </p>
 
                           <div className="text-center flex gap-3">
@@ -116,17 +108,17 @@ const ListRoom = (props: Props) => {
                               href={`/manager/landlord/${id}/list-room/${item.id}/edit`}
                               className="text-amber-500 hover:text-amber-600"
                             >
-                              <a className="text-amber-500 hover:text-amber-600">
-                                <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                              <a className="text-amber-500 hover:text-amber-600 flex">
+                                <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> chinh sua
                               </a>
                             </Link>
                             <button
                               onClick={() => {
                                 removeRoom(item.id);
                               }}
-                              className="btn text-red-500 hover:text-red-600"
+                              className="btn text-red-500 hover:text-red-600 flex"
                             >
-                              <FontAwesomeIcon className="h-[20px]" icon={faTrash}></FontAwesomeIcon>
+                              <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xoa
                             </button>
                           </div>
                         </div>

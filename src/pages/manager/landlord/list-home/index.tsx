@@ -95,13 +95,11 @@ const ListHome = () => {
                               Quản lý
                             </a>
                           </Link>
-
-                          <a
-                            href=""
-                            className="border mr-2 ml-2 pr-2 pl-2 pt-1 pb-1 rounded-md bg-blue-600 text-white hover:bg-sky-800"
-                          >
-                            Chỉnh sửa
-                          </a>
+                          <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
+                            <a className="border mr-2 ml-2 pr-2 pl-2 pt-1 pb-1 rounded-md bg-blue-600 text-white hover:bg-sky-800">
+                              Chỉnh sửa
+                            </a>
+                          </Link>
                           <button
                             onClick={() => removeHouse(item?.id)}
                             className="border pr-2 pl-2 pt-1 pb-1 rounded-md bg-rose-600 text-white hover:bg-rose-800 "

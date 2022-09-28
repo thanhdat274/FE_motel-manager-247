@@ -9,7 +9,7 @@ type Props = {
 
 const LayoutIntro = ({ children }: Props) => {
   return (
-    <div className="container mx-auto bg-white min-h-screen ">
+    <div className=" m-auto bg-white min-h-screen ">
       <HeaderPreview />
       <div className="chil ">{children}</div>
       <FooterPreview />
