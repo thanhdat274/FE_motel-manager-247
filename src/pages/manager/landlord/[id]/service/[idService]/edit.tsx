@@ -9,6 +9,7 @@ interface IFormInputs {
   name: string;
   price: number;
   desc: string;
+  unit: string;
 }
 const EditService = (props: Props) => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const EditService = (props: Props) => {
 
   useEffect(() => {
     const getServiceId = async () => {
-      const data = await axios.get('http://localhost:3001/api/service/' + idService);
+      const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService);
       console.log(data);
 
       reset(data.data);
@@ -34,7 +35,7 @@ const EditService = (props: Props) => {
   }, []);
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
-      await axios.put('http://localhost:3001/api/service/'+idService, data);
+      await axios.put('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService, data);
       swal('Bạn đã chỉnh sửa thành công!', 'success');
       router.push(`/manager/landlord/${idService}/service`);
     } catch (error) {
@@ -93,6 +94,23 @@ const EditService = (props: Props) => {
                           <span className="text-rose-600">Không được bỏ trống</span>
                         )}
                       </div>
+
+                      <div className="col-span-6">
+                        <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                          Đơn vị <span className="text-[red]">*</span>
+                        </label>
+                        <input
+                          className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          type="text"
+                          id="unit"
+                          placeholder="Nhập giá dịch vụ..."
+                          {...register('unit', { required: true })}
+                        />
+                        {errors.price && errors.price.type === 'required' && (
+                          <span className="text-rose-600">Không được bỏ trống</span>
+                        )}
+                      </div>
+
                       <div>
                         <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                           Ghi chú <span className="text-[red]">*</span>
@@ -102,11 +120,11 @@ const EditService = (props: Props) => {
                             rows={5}
                             id="desc-product"
                             className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            {...register('desc', { required: true })}
+                            {...register('desc')}
                           ></textarea>
-                           {errors.desc && errors.desc.type === 'required' && (
-                          <span className="text-rose-600">Không được bỏ trống</span>
-                        )}
+                          {errors.desc && errors.desc.type === 'required' && (
+                            <span className="text-rose-600">Không được bỏ trống</span>
+                          )}
                         </div>
                       </div>
                     </div>

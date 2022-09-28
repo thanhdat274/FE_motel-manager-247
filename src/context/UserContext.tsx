@@ -1,3 +1,4 @@
+import { Router } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { createContext } from 'react';
 
@@ -24,6 +25,14 @@ export const UserProvider = ({ children }: any) => {
   const [dateOfBirth, setDateOfBirth] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
+
+  Router.events.on('routeChangeStart', () => {
+    setLoading(true);
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    setLoading(false);
+  });
 
   const value: UserState = {
     loading,

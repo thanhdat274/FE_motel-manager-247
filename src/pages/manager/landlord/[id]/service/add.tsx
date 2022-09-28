@@ -8,6 +8,7 @@ type Props = {};
 interface IFormInputs {
   name: string;
   price: number;
+  unit:string;
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
@@ -21,7 +22,7 @@ const AddServiceRoom = (props: Props) => {
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
-      await axios.post('http://localhost:3001/api/service/', data);
+      await axios.post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data);
       swal('Bạn đã thêm mới thành công!', 'success');
       router.push(`/manager/landlord/${id}/service`);
     } catch (error) {
@@ -71,9 +72,24 @@ const AddServiceRoom = (props: Props) => {
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="text"
+                        type="number"
                         placeholder="Nhập giá dịch vụ..."
                         {...register('price', { required: true })}
+                      />
+                      {errors.price && errors.price.type === 'required' && (
+                        <span className="text-rose-600">Không được bỏ trống</span>
+                      )}
+                    </div>
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Đơn vị <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="unit"
+                        type="text"
+                        placeholder="Nhập giá dịch vụ..."
+                        {...register('unit', { required: true })}
                       />
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-rose-600">Không được bỏ trống</span>
