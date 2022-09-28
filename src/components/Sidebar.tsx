@@ -104,7 +104,7 @@ const SideBar = (props: Props) => {
                     </a>
                   </Link>
                 </li>
-
+              
                 <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                   <Link href={'/manager/landlord/list-home'}>
                     <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
