@@ -108,7 +108,7 @@ const ListRoom = (props: Props) => {
                               href={`/manager/landlord/${id}/list-room/${item.id}/edit`}
                               className="text-amber-500 hover:text-amber-600"
                             >
-                              <a className="text-amber-500 hover:text-amber-600 flex">
+                              <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
                                 <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> chinh sua
                               </a>
                             </Link>
@@ -116,7 +116,7 @@ const ListRoom = (props: Props) => {
                               onClick={() => {
                                 removeRoom(item.id);
                               }}
-                              className="btn text-red-500 hover:text-red-600 flex"
+                              className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                             >
                               <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xoa
                             </button>
