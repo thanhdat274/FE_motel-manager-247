@@ -1,18 +1,28 @@
+import axios from 'axios';
 import { MotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { addHouse } from 'src/pages/api/house';
 import swal from 'sweetalert';
 type Props = {};
-
+type FromValues = {
+  id: string;
+  name: string;
+  price: number;
+  status: true;
+  area: number;
+  max: number;
+  // houseId: string;
+};
 const EditRoom = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm();
@@ -23,18 +33,17 @@ const EditRoom = (props: Props) => {
   const [rooms, setRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState([]);
 
-  console.log('id', id);
-  console.log('param', param);
+  // console.log('id', id);
+  // console.log('param:', param);
 
   const getRoom = async () => {
     try {
-      const res = await supabase.from('list-room').select('*');
+      const res = await axios.get(
+        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
+      );
       if (res.data) {
         reset(res.data as any);
         console.log('data', res.data);
-      }
-      if (res.error) {
-        setErrorMessage(res.error as any);
       }
     } catch (error) {}
   };
@@ -42,27 +51,30 @@ const EditRoom = (props: Props) => {
     getRoom();
   }, [changeData]);
 
-  const onSubmit = async (dataForm: any) => {
-    console.log('data', dataForm);
+  const onSubmit = async (data:any) => {
+    console.log('data', data);
 
-    try {
-      await supabase.from('list-room').insert([{ ...dataForm, id_house: Number(id) }]);
+    // try {
+    //   await axios.put(
+    //     `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
+    //     data
+    //   );
 
-      swal('Bạn đã thêm phòng thành công! Chuyển trang sau 2s', {
-        icon: 'success',
-      });
-      setTimeout(() => {
-        router.push(`/manager/landlord/${id}/list-room`);
-      }, 2000);
-    } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
-    }
+    //   swal('Bạn đã thêm phòng thành công! Chuyển trang sau 2s', {
+    //     icon: 'success',
+    //   });
+    //   setTimeout(() => {
+    //     router.push(`/manager/landlord/${id}/list-room`);
+    //   }, 2000);
+    // } catch (error) {
+    //   swal('Đã xảy ra lỗi!', {
+    //     icon: 'error',
+    //   });
+    // }
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <header className="bg-white shadow border rounded-md">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -122,7 +134,7 @@ const EditRoom = (props: Props) => {
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="text"
+                        type="number"
                         {...register('price', { required: true, min: 1000 })}
                       />
                       {errors.price && errors.price.type === 'required' && (

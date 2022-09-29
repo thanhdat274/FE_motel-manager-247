@@ -80,7 +80,7 @@ const HeaderPreview = (props: Props) => {
       </header>
       {toggle && (
         <div
-          className=" before:bg-[#0000003b] before:w-full before:h-full before:absolute before:inset-0"
+          className="lg:before:bg-inherit before:bg-[#0000003b] before:w-full before:h-full before:absolute before:inset-0"
           onClick={() => toggleNav()}
         ></div>
       )}

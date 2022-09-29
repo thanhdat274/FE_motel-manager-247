@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from 'src/apis/supabase';
 import swal from 'sweetalert';
+import axios from 'axios';
 
 const ListHome = () => {
   const [house, setHouse] = useState([]);
@@ -10,17 +11,29 @@ const ListHome = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [changeData, setChangeData] = useState(0);
 
+  // const getHouse = async () => {
+  //   try {
+  //     const res = await supabase.from('houses').select('*');
+  //     if (res.data) {
+  //       setHouse(res.data as any);
+  //       console.log('data', res.data);
+  //     }
+  //     if (res.error) {
+  //       setErrorMessage(res.error as any);
+  //     }
+  //   } catch (error) {}
+  // };
+
   const getHouse = async () => {
     try {
-      const res = await supabase.from('houses').select('*');
+      const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
       if (res.data) {
         setHouse(res.data as any);
         console.log('data', res.data);
       }
-      if (res.error) {
-        setErrorMessage(res.error as any);
-      }
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error); 
+    }
   };
 
   useEffect(() => {
