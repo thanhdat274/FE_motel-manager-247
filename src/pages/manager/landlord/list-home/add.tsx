@@ -1,10 +1,10 @@
-import { MotionValue } from 'framer-motion';
+import { useUserContext } from '@/context/UserContext';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
+import { Toast } from 'src/hooks/toast';
 import { addHouse } from 'src/pages/api/house';
-import swal from 'sweetalert';
 type Props = {};
 
 type FormInput = {
@@ -16,24 +16,25 @@ type FormInput = {
 const AddHome = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const router = useRouter();
+  const { setLoading } = useUserContext();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (dataForm: any) => {
+    setLoading(true);
     console.log('data', dataForm);
     try {
-      const { data, error } = await supabase.from('houses').insert([dataForm]);
-
-      router.push('/manager/landlord/list-home');
-      swal('Thêm nhà  thành công!', {
-        icon: 'success',
-      });
+      await supabase
+        .from('houses')
+        .insert([dataForm])
+        .then(() => {
+          router.push('/manager/landlord/list-home');
+          Toast('success', 'Thêm nhà  thành công!');
+        });
     } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
+      Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 
