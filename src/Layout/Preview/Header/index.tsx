@@ -34,40 +34,38 @@ const HeaderPreview = (props: Props) => {
         }`}
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
-          <div className="flex justify-between items-center h-fit  px-[15px] lg:px-0 py-[20px] lg:py-0">
+          <div className="flex flex-col gap-y-4 items-center h-fit  px-[15px] lg:px-0 py-[20px] lg:py-0">
             <Link href={'/'}>
               <a className="hidden lg:block w-[100px] h-[100px] relative">
                 <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority></Image>
               </a>
             </Link>
             <div>
-              <h1 className='lg:text-xl xl:text-2xl font-bold'>PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h1>
+              <h1 className="lg:text-xl xl:text-2xl font-bold">PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h1>
               <h2>Đơn giản - Dễ sử dụng - Chính xác</h2>
-              
-              <div>
 
-              </div>
+              <div></div>
             </div>
-            <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
               <Link href={`/manager/landlord/list-home`}>
-                <a className="h-10 rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                <a className="h-auto rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                   Quản lý nhà trọ
                 </a>
               </Link>
               <Link href={`/manager/ternant`}>
-                <a className="h-10 rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                <a className="h-auto rounded bg-[#ffc107] lg:bg-cyan-500 font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                   Quản lý phòng trọ
                 </a>
               </Link>
               {getAll && (
                 <>
                   <Link href={`/auth`}>
-                    <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                       Đăng nhập
                     </a>
                   </Link>
 
-                  <button className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                  <button className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                     Đăng ký
                   </button>
                 </>
