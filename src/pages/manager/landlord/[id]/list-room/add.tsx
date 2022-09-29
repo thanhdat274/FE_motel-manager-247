@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { supabase } from 'src/apis/supabase';
 
 import { Toast } from 'src/hooks/toast';
 type Props = {};
