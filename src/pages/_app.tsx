@@ -1,28 +1,19 @@
 import '../assets/styles/globals.css';
 import type { AppProps } from 'next/app';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { SessionProvider } from 'next-auth/react';
 import LayoutLandlords from 'src/Layout/Manager/Landlords';
-import { useState } from 'react';
-import ReactLoading from 'react-loading';
 import LayoutTenants from 'src/Layout/Manager/Tenants';
 import LayoutIntro from 'src/Layout/Preview';
 import LayoutListHome from 'src/Layout/ListHome';
+import UserProvider from '@/context/UserContext';
 
 config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
-  // Router.events.on('routeChangeStart', () => {
-  //   setLoading(true);
-  // });
-
-  // Router.events.on('routeChangeComplete', () => {
-  //   setLoading(false);
-  // });
   const switchLayout = () => {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
@@ -35,11 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/landlord') >= 0) {
       return (
         <LayoutLandlords>
-          {loading ? (
-            <ReactLoading type={'spinningBubbles'} color="red" width={300} height={300} />
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <Component {...pageProps} />
         </LayoutLandlords>
       );
     }
@@ -61,11 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  // return (
-  // <SessionProvider>
-  //   {switchLayout()}
-  // </SessionProvider>);
-  return <div>{switchLayout()}</div>;
+  return <UserProvider>{switchLayout()}</UserProvider>;
 }
 
 export default MyApp;

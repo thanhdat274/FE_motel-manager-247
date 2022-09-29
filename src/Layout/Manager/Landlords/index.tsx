@@ -3,20 +3,20 @@ import { ReactNode, useState } from 'react';
 
 import SideBar from '@/components/Sidebar';
 import Navbar from '@/components/AdminNavbar';
+import { useUserContext } from '@/context/UserContext';
+import { CircleSpinnerOverlay } from 'react-spinner-overlay';
 
 export interface ILayoutAdminProps {
   children: ReactNode;
 }
 
 const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
-  const [toggle, setToggle] = useState(false);
-  const changeToggle = () => {
-    setToggle(!toggle);
-  };
-  const router = useRouter();
+  const { loading } = useUserContext();
 
   return (
     <div>
+      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
+
       <SideBar />
       <Navbar />
       <div className="relative md:ml-64 bg-blueGray-100">

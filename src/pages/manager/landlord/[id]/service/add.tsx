@@ -1,16 +1,21 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import swal from 'sweetalert';
+import { useUserContext } from '@/context/UserContext';
+import { CircleSpinnerOverlay } from 'react-spinner-overlay';
 type Props = {};
 interface IFormInputs {
   name: string;
   price: number;
+  unit: string;
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
+  const [msgErorr,setMsgErorr]=useState("");
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -20,10 +25,18 @@ const AddServiceRoom = (props: Props) => {
     formState: { errors },
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    setLoading(true);
     try {
-      await axios.post('http://localhost:3001/api/service/', data);
+      await axios.post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data).then((result: any) => {
+        if (result) setLoading(false);
+         router.push(`/manager/landlord/${id}/service`);
+      })
+      // .catch((errors:any)=>{ if(errors)})
+      //  setMsg
+      // setModal
+      // setLoading
       swal('Bạn đã thêm mới thành công!', 'success');
-      router.push(`/manager/landlord/${id}/service`);
+     
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +84,7 @@ const AddServiceRoom = (props: Props) => {
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="text"
+                        type="number"
                         placeholder="Nhập giá dịch vụ..."
                         {...register('price', { required: true })}
                       />
@@ -79,8 +92,23 @@ const AddServiceRoom = (props: Props) => {
                         <span className="text-rose-600">Không được bỏ trống</span>
                       )}
                     </div>
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Đơn vị <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="unit"
+                        type="text"
+                        placeholder="Nhập giá dịch vụ..."
+                        {...register('unit', { required: true })}
+                      />
+                      {errors.price && errors.price.type === 'required' && (
+                        <span className="text-rose-600">Không được bỏ trống</span>
+                      )}
+                    </div>
                     <div>
-                    <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Ghi chú <span className="text-[red]">*</span>
                       </label>
                       <div className="mt-1">
