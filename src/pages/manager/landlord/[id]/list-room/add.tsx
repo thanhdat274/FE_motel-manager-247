@@ -1,48 +1,51 @@
 import { useUserContext } from '@/context/UserContext';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 
 import { Toast } from 'src/hooks/toast';
 type Props = {};
 
-type FormInput = {
+type FromValues = {
+  id: string;
   name: string;
-
-  address: string;
+  price: number;
+  area: number;
+  max: number;
+  status: boolean;
+  houseId: string;
 };
 
 const AddRoom = (props: Props) => {
   const { setLoading } = useUserContext();
-  const [houses, setHouse] = useState([]);
-
+  const [showMsg, setShowMsg] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
+  console.log('id nhà', id);
 
-  const [showMsg, setShowMsg] = useState(false);
-  const onSubmit = async (dataForm: any) => {
-    console.log('data', dataForm);
+  const onSubmit: SubmitHandler<FromValues> = async (data) => {
+    console.log('data từ form', data);
     setLoading(true);
-
     try {
-      await supabase
-        .from('list-room')
-        .insert([{ ...dataForm, id_house: Number(id) }])
+      await axios
+        .post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data)
         .then((data: any) => {
           setLoading(false);
           setShowMsg(true);
           router.push(`/manager/landlord/${id}/list-room`);
-          Toast('success', 'Thêm phòng thành công');
+          Toast('success', 'Thêm mới phòng thành công');
         });
     } catch (error) {
-      Toast('error', 'Thêm phòng không thành công');
+      setLoading(false);
+      Toast('error', 'Thêm mới phòng không thành công');
     }
   };
 
@@ -92,7 +95,6 @@ const AddRoom = (props: Props) => {
                       <select
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('status', { required: true })}
-                        name=""
                         id="status"
                       >
                         <option value="true">Sẵn sàng</option>
@@ -123,7 +125,7 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="max"
                         type="number"
-                        {...register('max', { required: true, min: 0 })}
+                        {...register('max', { required: true})}
                       />
                       {errors.max && errors.max.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
@@ -138,7 +140,7 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="area"
                         type="number"
-                        {...register('area', { required: true, min: 1 })}
+                        {...register('area', { required: true})}
                       />
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>

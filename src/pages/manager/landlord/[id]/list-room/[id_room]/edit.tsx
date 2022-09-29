@@ -1,75 +1,70 @@
+import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import { MotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { supabase } from 'src/apis/supabase';
-import { addHouse } from 'src/pages/api/house';
+import { Toast } from 'src/hooks/toast';
+
 type Props = {};
+
 type FromValues = {
   id: string;
   name: string;
   price: number;
-  status: true;
   area: number;
   max: number;
-  // houseId: string;
+  status: boolean;
+  houseId: string;
 };
+
 const EditRoom = (props: Props) => {
-  const [houses, setHouse] = useState([]);
+  const { setLoading } = useUserContext();
+  const [showMsg, setShowMsg] = useState(false);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm<FromValues>();
   const router = useRouter();
   const param = router.query;
   const { id } = router.query;
-  const [changeData, setChangeData] = useState(0);
-  const [rooms, setRooms] = useState([]);
-  const [errorMessage, setErrorMessage] = useState([]);
 
-  // console.log('id', id);
-  // console.log('param:', param);
-
-  const getRoom = async () => {
-    try {
-      const res = await axios.get(
-        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
-      );
-      if (res.data) {
-        reset(res.data as any);
-        console.log('data', res.data);
-      }
-    } catch (error) {}
-  };
   useEffect(() => {
+    const getRoom = async () => {
+      try {
+        const res = await axios.get(
+          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
+        );
+        if (res.data) {
+          reset(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getRoom();
-  }, [changeData]);
+  }, [id, param.id_room]);
 
-  const onSubmit = async (data:any) => {
-    console.log('data', data);
-
-    // try {
-    //   await axios.put(
-    //     `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`,
-    //     data
-    //   );
-
-    //   swal('Bạn đã thêm phòng thành công! Chuyển trang sau 2s', {
-    //     icon: 'success',
-    //   });
-    //   setTimeout(() => {
-    //     router.push(`/manager/landlord/${id}/list-room`);
-    //   }, 2000);
-    // } catch (error) {
-    //   swal('Đã xảy ra lỗi!', {
-    //     icon: 'error',
-    //   });
-    // }
+  const onSubmit: SubmitHandler<FromValues> = async (data) => {
+    console.log('data từ form', data);
+    setLoading(true);
+    try {
+      await axios
+        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + `${param.id_room}`, data)
+        .then((data: any) => {
+          setLoading(false);
+          setShowMsg(true);
+          router.push(`/manager/landlord/${id}/list-room`);
+          Toast('success', 'Cập nhật phòng thành công');
+        });
+    } catch (error) {
+      Toast('error', 'Cập nhật phòng không thành công');
+    }
   };
 
   return (
@@ -117,9 +112,8 @@ const EditRoom = (props: Props) => {
                       </label>
                       <select
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        {...register('status', { required: true })}
-                        name=""
                         id="status"
+                        {...register('status', { required: true })}
                       >
                         <option value="true">Sẵn sàng</option>
                         <option value="false">Chưa sẵn sàng</option>
@@ -134,7 +128,7 @@ const EditRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
                         type="number"
-                        {...register('price', { required: true, min: 1000 })}
+                        {...register('price', { required: true })}
                       />
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
@@ -149,7 +143,7 @@ const EditRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="max"
                         type="number"
-                        {...register('max', { required: true, min: 0 })}
+                        {...register('max', { required: true })}
                       />
                       {errors.max && errors.max.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
@@ -164,7 +158,7 @@ const EditRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="area"
                         type="number"
-                        {...register('area', { required: true, min: 1 })}
+                        {...register('area', { required: true })}
                       />
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
