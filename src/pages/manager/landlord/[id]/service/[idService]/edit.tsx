@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import swal from 'sweetalert';
+import { useUserContext } from '@/context/UserContext';
 type Props = {};
 interface IFormInputs {
   name: string;
@@ -11,10 +12,10 @@ interface IFormInputs {
   desc: string;
 }
 const EditService = (props: Props) => {
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { idService } = router.query;
   console.log(idService);
-
   const {
     register,
     handleSubmit,
@@ -25,20 +26,30 @@ const EditService = (props: Props) => {
 
   useEffect(() => {
     const getServiceId = async () => {
-      const data = await axios.get('http://localhost:3001/api/service/' + idService);
+      const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService);
       console.log(data);
-
       reset(data.data);
     };
     getServiceId();
   }, []);
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    setLoading(true);
     try {
-      await axios.put('http://localhost:3001/api/service/'+idService, data);
-      swal('Bạn đã chỉnh sửa thành công!', 'success');
-      router.push(`/manager/landlord/${idService}/service`);
+      await axios
+        .put('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService, data)
+        .then((result: any) => {
+          if (result) setLoading(false);
+          swal('Bạn đã chỉnh sửa thành công!', 'success');
+          router.push(`/manager/landlord/${idService}/service`);
+        });
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+      if (errors) {
+        swal('Hệ thống đang lỗi! Bạn thử lại sau nhé', {
+          icon: 'error',
+        });
+        setLoading(false);
+      }
     }
   };
 
@@ -50,7 +61,7 @@ const EditService = (props: Props) => {
             <div className="lg:flex lg:items-center lg:justify-between">
               <div className="flex-1 min-w-0">
                 <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                  Thêm dịch vụ
+                  Sửa dịch vụ
                 </h2>
               </div>
             </div>
@@ -104,9 +115,9 @@ const EditService = (props: Props) => {
                             className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             {...register('desc', { required: true })}
                           ></textarea>
-                           {errors.desc && errors.desc.type === 'required' && (
-                          <span className="text-rose-600">Không được bỏ trống</span>
-                        )}
+                          {errors.desc && errors.desc.type === 'required' && (
+                            <span className="text-rose-600">Không được bỏ trống</span>
+                          )}
                         </div>
                       </div>
                     </div>

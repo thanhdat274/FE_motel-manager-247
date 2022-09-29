@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import swal from 'sweetalert';
 import { useUserContext } from '@/context/UserContext';
-import { CircleSpinnerOverlay } from 'react-spinner-overlay';
 type Props = {};
 interface IFormInputs {
   name: string;
@@ -14,7 +13,9 @@ interface IFormInputs {
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
-  const [msgErorr,setMsgErorr]=useState("");
+  const [msgError, setMsgError] = useState('');
+  const [modal, setModal] = useState(false);
+
   const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
@@ -27,16 +28,23 @@ const AddServiceRoom = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setLoading(true);
     try {
-      await axios.post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data).then((result: any) => {
-        if (result) setLoading(false);
-         router.push(`/manager/landlord/${id}/service`);
-      })
-      // .catch((errors:any)=>{ if(errors)})
-      //  setMsg
-      // setModal
-      // setLoading
-      swal('Bạn đã thêm mới thành công!', 'success');
-     
+      await axios
+        .post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data)
+        .then((result: any) => {
+          if (result) setLoading(false);
+          router.push(`/manager/landlord/${id}/service`);
+          swal('Bạn đã thêm mới thành công!', 'success');
+        })
+        .catch((errors) => {
+          console.log(errors);
+          if (errors) {
+            setMsgError('Hệ thống đang lỗi! Bạn thử lại sau nhé!');
+            swal(msgError, {
+              icon: 'error',
+            });
+            setLoading(false);
+          }
+        });
     } catch (error) {
       console.log(error);
     }

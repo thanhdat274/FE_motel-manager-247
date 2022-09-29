@@ -11,6 +11,7 @@ type Props = {};
 
 const ListServiceRoom = (props: Props) => {
   const { loading } = useUserContext();
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
@@ -25,11 +26,12 @@ const ListServiceRoom = (props: Props) => {
     getService();
   }, []);
   const remove = async (id: any) => {
+    setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       const { data } = await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id);
+      if (data) setLoading(false);
       console.log(data);
-
       swal('Bạn đã Xóa thành công!', 'success');
       if (data) {
         setListServices(listServices.filter((item: any) => item.id !== id));
@@ -39,7 +41,6 @@ const ListServiceRoom = (props: Props) => {
 
   return (
     <div className="h-screen">
-        {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
       <header className="bg-white shadow">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
