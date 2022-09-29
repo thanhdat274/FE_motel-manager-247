@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.css-h2okw {
+  max-height: 500px !important;
+  max-width: 500px !important;
+  min-width: 300px !important;
+  width: 20vw !important;
+}
+
+.css-hayew9 {
+  font-size: 50px !important;
+
+  max-height: fit-content !important;
+}
+
+.css-h2okw>button {
+  font-size: 50px !important;
+  border: 1px solid black !important;
+}

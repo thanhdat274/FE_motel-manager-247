@@ -1,11 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-type Props = {}
+type Props = {};
 
 const Ternant = (props: Props) => {
-  return (
-    <div>Ternant</div>
-  )
-}
+  return <div>Xin chào Việt nam</div>;
+};
 
-export default Ternant
+export default Ternant;

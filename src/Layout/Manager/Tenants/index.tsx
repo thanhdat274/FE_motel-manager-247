@@ -5,7 +5,14 @@ type Props = {
 };
 
 const LayoutTenants = ({ children }: Props) => {
-  return <div>{children}</div>;
+  return (
+    <div>
+      <div className="header">Header</div>
+      {children}
+
+      <div className="footer">footer</div>
+    </div>
+  );
 };
 
 export default LayoutTenants;
