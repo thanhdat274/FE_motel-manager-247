@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from 'src/apis/supabase';
-import swal from 'sweetalert';
+import { Toast } from 'src/hooks/toast';
 
 const ListHome = () => {
   const [house, setHouse] = useState([]);
@@ -35,17 +35,17 @@ const ListHome = () => {
 
   const removeHouse = async (id: number) => {
     try {
-      const { data, error } = await supabase.from('houses').delete().match({ id });
-
-      router.push('/manager/landlord/list-home');
-      swal('Thêm nhà  thành công!', {
-        icon: 'success',
-      });
-      setChangeData(changeData + 1);
+      await supabase
+        .from('houses')
+        .delete()
+        .match({ id })
+        .then(() => {
+          Toast('success', 'Xóa phòng thành công');
+          setChangeData(changeData + 1);
+          router.push('/manager/landlord/list-home');
+        });
     } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
+      Toast('success', 'Xóa phòng không thành công');
     }
   };
 
