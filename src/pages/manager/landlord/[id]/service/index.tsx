@@ -1,38 +1,56 @@
-import Link from 'next/link'
-import React ,{useState,useEffect} from 'react'
+import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import swal from 'sweetalert';
-type Props = {}
+import { useUserContext } from '@/context/UserContext';
+import { Toast } from 'src/hooks/toast';
+type Props = {};
 
-const ListServiceRoom  = (props: Props) => {
-    const router = useRouter();
-    const { id } = router.query;
-    const [listServices, setListServices] = useState([]);
-    useEffect(() => {
-      const getService = async () => {
-        try {
-          const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service');
+const ListServiceRoom = (props: Props) => {
+  const router = useRouter();
+  const { id } = router.query;
+  const [listServices, setListServices] = useState([]);
+  const { setLoading } = useUserContext();
+
+  useEffect(() => {
+    const getService = async () => {
+      setLoading(true);
+      await axios
+        .get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service')
+        .then((data: any) => {
           setListServices(data.data);
-          console.log(data);
-        } catch (error) {}
-      };
-      getService();
-    }, []);
-    const remove = async (id: any) => {
-      const confirm = window.confirm('Bạn có muốn xóa không?');
-      if (confirm) {
-        const { data } = await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id);
-        console.log(data);
-        
-        swal('Bạn đã Xóa thành công!', 'success');
-        if (data) {
-          setListServices(listServices.filter((item: any) => item.id !== id));
-        }
-      }
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     };
+    getService();
+  }, []);
+  const remove = async (id: any) => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
+
+    if (confirm) {
+      setLoading(true);
+
+      await axios
+        .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+
+          Toast('error', 'Xóa dịch vụ không thành công');
+        })
+        .finally(() => {
+          setListServices(listServices.filter((item: any) => item.id !== id));
+          Toast('success', 'Xóa dịch vụ thành công');
+        });
+    }
+  };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -40,7 +58,7 @@ const ListServiceRoom  = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Quản lý dịch vụ 
+                Quản lý dịch vụ
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -85,7 +103,7 @@ const ListServiceRoom  = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                         Đơn vị
+                          Đơn vị
                         </th>
                         <th
                           scope="col"
@@ -118,7 +136,10 @@ const ListServiceRoom  = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]" onClick={() =>remove (item?.id)}>
+                                <button
+                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                  onClick={() => remove(item?.id)}
+                                >
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
                               </div>
@@ -134,7 +155,7 @@ const ListServiceRoom  = (props: Props) => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default ListServiceRoom 
+export default ListServiceRoom;

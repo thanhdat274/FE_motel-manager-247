@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { readHouse, updateHouse } from 'src/pages/api/house';
-import swal from 'sweetalert';
 type Props = {};
 
 const EditHouse = (props: Props) => {
@@ -30,9 +29,7 @@ const EditHouse = (props: Props) => {
 
     try {
       updateHouse(data);
-      swal('Bạn đã cập nhật thành công!', {
-        icon: 'success',
-      });
+
       router.push('/manager/landlord/house');
     } catch (error) {}
   };

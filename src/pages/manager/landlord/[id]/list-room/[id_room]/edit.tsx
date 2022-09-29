@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { addHouse } from 'src/pages/api/house';
-import swal from 'sweetalert';
 type Props = {};
 type FromValues = {
   id: string;

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import axios from 'axios';
-import swal from 'sweetalert';
 import { useRouter } from 'next/router';
 import { supabase } from 'src/apis/supabase';
+import { Toast } from 'src/hooks/toast';
+import { useUserContext } from '@/context/UserContext';
+import axios from 'axios';
 type Props = {};
 
 const ListRoom = (props: Props) => {
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const idd = router.query;
   console.log('id nhà', idd);
@@ -33,23 +35,18 @@ const ListRoom = (props: Props) => {
 
   const removeRoom = async (id: number) => {
     console.log('id phòng', id);
+    setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       try {
-        const { data } = await axios.delete(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${idd.id}/room/` + id,
-        );
-        swal('Xóa  thành công!', {
-          icon: 'success',
-        });
-        if (data) {
+        await axios.delete(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${idd.id}/room/` + id).then(() => {
+          Toast('success', 'Xóa phòng thành công');
           setRooms(rooms.filter((item: any) => item.id !== id));
-        }
-        // setChangeData(changeData + 1);
-      } catch (error) {
-        swal('Đã xảy ra lỗi!', {
-          icon: 'error',
+          setLoading(false);
         });
+      } catch (error) {
+        Toast('error', 'Xóa phòng không thành công');
+        setLoading(false);
       }
     }
   };
