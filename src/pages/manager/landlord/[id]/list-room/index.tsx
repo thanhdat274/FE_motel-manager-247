@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
@@ -13,11 +12,9 @@ const ListRoom = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
   const idd = router.query;
-  console.log('id nhà', idd);
+  console.log('id nhà', idd.id);
 
   const [rooms, setRooms] = useState([]);
-  const [errorMessage, setErrorMessage] = useState([]);
-
   useEffect(() => {
     const getRoom = async () => {
       try {

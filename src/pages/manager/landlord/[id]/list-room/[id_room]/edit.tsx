@@ -1,6 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
-import { MotionValue } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
