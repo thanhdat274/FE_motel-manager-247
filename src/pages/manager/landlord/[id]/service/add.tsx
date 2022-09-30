@@ -2,7 +2,7 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 type Props = {};
@@ -13,9 +13,9 @@ interface IFormInputs {
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
-  const { setLoading } = useUserContext();
   const {
     register,
     handleSubmit,
