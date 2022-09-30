@@ -36,7 +36,6 @@ const EditService = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setLoading(true);
     try {
-<<<<<<< HEAD
       await axios
         .put('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService, data)
         .then((result: any) => {
@@ -48,11 +47,6 @@ const EditService = (props: Props) => {
           Toast('error', 'Bạn đã chỉnh sửa không thành công!');
           setLoading(false);
         });
-=======
-      await axios.put('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService, data);
-      swal('Bạn đã chỉnh sửa thành công!', 'success');
-      router.push(`/manager/landlord/${idService}/service`);
->>>>>>> 09f8fe329b848ac09fd154653bed3153c345eea6
     } catch (error) {
       console.log('error', error);
     }
