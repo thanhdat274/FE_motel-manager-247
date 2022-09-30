@@ -77,11 +77,11 @@ const ListRoom = (props: Props) => {
           <div className="flex flex-col">
             <div className="sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full ">
-                <div className="flex flex-wrap gap-[20px]">
+                <div className="flex flex-wrap gap-[5px] sm:gap-[20px]">
                   {rooms &&
                     findData(rooms).map((item: any, index: React.Key | null | undefined) => {
                       return (
-                        <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
+                        <div className="w-full sm:w-[250px] lg:w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
                           <h2 className="text-xl flex items-center gap-2 mb-[20px]">
                             <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                             {item.name}
