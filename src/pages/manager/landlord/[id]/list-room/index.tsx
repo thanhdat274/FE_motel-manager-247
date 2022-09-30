@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import axios from 'axios';
-import swal from 'sweetalert';
 import { useRouter } from 'next/router';
 import { supabase } from 'src/apis/supabase';
+import { Toast } from 'src/hooks/toast';
+import { useUserContext } from '@/context/UserContext';
 type Props = {};
 
 const ListRoom = (props: Props) => {
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
   const [rooms, setRooms] = useState([]);
@@ -33,17 +34,20 @@ const ListRoom = (props: Props) => {
   }, [changeData]);
 
   const removeRoom = async (id: number) => {
+    setLoading(true);
     try {
-      await supabase.from('list-room').delete().match({ id });
-
-      swal('Xóa  thành công!', {
-        icon: 'success',
-      });
-      setChangeData(changeData + 1);
+      await supabase
+        .from('list-room')
+        .delete()
+        .match({ id })
+        .then(() => {
+          Toast('success', 'Xóa phòng thành công');
+          setChangeData(changeData + 1);
+          setLoading(false);
+        });
     } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
+      Toast('error', 'Xóa phòng không thành công');
+      setLoading(false);
     }
   };
 

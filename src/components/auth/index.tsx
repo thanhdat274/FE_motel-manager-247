@@ -2,7 +2,6 @@ import React from 'react';
 type Props = {};
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 interface TabPanelProps {
   children?: React.ReactNode;

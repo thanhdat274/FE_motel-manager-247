@@ -1,10 +1,10 @@
+import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import swal from 'sweetalert';
-import { useUserContext } from '@/context/UserContext';
+import { Toast } from 'src/hooks/toast';
 type Props = {};
 interface IFormInputs {
   name: string;
@@ -13,9 +13,6 @@ interface IFormInputs {
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
-  const [msgError, setMsgError] = useState('');
-  const [modal, setModal] = useState(false);
-
   const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
@@ -30,20 +27,14 @@ const AddServiceRoom = (props: Props) => {
     try {
       await axios
         .post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data)
-        .then((result: any) => {
-          if (result) setLoading(false);
+        .then(() => {
+          Toast('success', 'Thêm dịch vụ thành công');
           router.push(`/manager/landlord/${id}/service`);
-          swal('Bạn đã thêm mới thành công!', 'success');
+          setLoading(false);
         })
-        .catch((errors) => {
-          console.log(errors);
-          if (errors) {
-            setMsgError('Hệ thống đang lỗi! Bạn thử lại sau nhé!');
-            swal(msgError, {
-              icon: 'error',
-            });
-            setLoading(false);
-          }
+        .catch(() => {
+          Toast('error', 'Thêm dịch vụ không thành công');
+          setLoading(false);
         });
     } catch (error) {
       console.log(error);

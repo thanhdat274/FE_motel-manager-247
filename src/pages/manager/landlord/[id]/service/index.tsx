@@ -4,41 +4,53 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import swal from 'sweetalert';
 import { useUserContext } from '@/context/UserContext';
-import { CircleSpinnerOverlay } from 'react-spinner-overlay';
+import { Toast } from 'src/hooks/toast';
 type Props = {};
 
 const ListServiceRoom = (props: Props) => {
-  const { loading } = useUserContext();
-  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
+  const { setLoading } = useUserContext();
+
   useEffect(() => {
     const getService = async () => {
-      try {
-        const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/');
-        setListServices(data.data);
-        console.log(data);
-      } catch (error) {}
+      setLoading(true);
+      await axios
+        .get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service')
+        .then((data: any) => {
+          setListServices(data.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     };
     getService();
   }, []);
   const remove = async (id: any) => {
-    setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
+
     if (confirm) {
-      const { data } = await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id);
-      if (data) setLoading(false);
-      console.log(data);
-      swal('Bạn đã Xóa thành công!', 'success');
-      if (data) {
-        setListServices(listServices.filter((item: any) => item.id !== id));
-      }
+      setLoading(true);
+
+      await axios
+        .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+
+          Toast('error', 'Xóa dịch vụ không thành công');
+        })
+        .finally(() => {
+          setListServices(listServices.filter((item: any) => item.id !== id));
+          Toast('success', 'Xóa dịch vụ thành công');
+        });
     }
   };
-
   return (
     <div className="h-screen">
       <header className="bg-white shadow">

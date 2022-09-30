@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import swal from 'sweetalert';
 import { useUserContext } from '@/context/UserContext';
+import { Toast } from 'src/hooks/toast';
 type Props = {};
 interface IFormInputs {
   name: string;
@@ -39,17 +39,15 @@ const EditService = (props: Props) => {
         .put('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService, data)
         .then((result: any) => {
           if (result) setLoading(false);
-          swal('Bạn đã chỉnh sửa thành công!', 'success');
+          Toast('success', 'Bạn đã chỉnh sửa thành công!');
           router.push(`/manager/landlord/${idService}/service`);
+        })
+        .catch(() => {
+          Toast('error', 'Bạn đã chỉnh sửa không thành công!');
+          setLoading(false);
         });
     } catch (error) {
       console.log('error', error);
-      if (errors) {
-        swal('Hệ thống đang lỗi! Bạn thử lại sau nhé', {
-          icon: 'error',
-        });
-        setLoading(false);
-      }
     }
   };
 
