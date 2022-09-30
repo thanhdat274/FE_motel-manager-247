@@ -1,38 +1,57 @@
-import Link from 'next/link'
-import React ,{useState,useEffect} from 'react'
+import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import swal from 'sweetalert';
-type Props = {}
+import { useUserContext } from '@/context/UserContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
 
-const ListServiceRoom  = (props: Props) => {
-    const router = useRouter();
-    const { id } = router.query;
-    const [listServices, setListServices] = useState([]);
-    useEffect(() => {
-      const getService = async () => {
-        try {
-          const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service');
-          setListServices(data.data);
-          console.log(data);
-        } catch (error) {}
-      };
-      getService();
-    }, []);
-    const remove = async (id: any) => {
-      const confirm = window.confirm('Bạn có muốn xóa không?');
-      if (confirm) {
-        const { data } = await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id);
+type Props = {};
+const customStyles = {
+  content: {
+    top: '20%',
+    left: '50%',
+    right: '300px',
+    bottom: 'auto',
+
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
+const ListServiceRoom = (props: Props) => {
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const { setLoading } = useUserContext();
+  const router = useRouter();
+  const { id } = router.query;
+  const [listServices, setListServices] = useState([]);
+  useEffect(() => {
+    const getService = async () => {
+      try {
+        const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service');
+        setListServices(data.data);
         console.log(data);
-        
-        swal('Bạn đã Xóa thành công!', 'success');
-        if (data) {
-          setListServices(listServices.filter((item: any) => item.id !== id));
-        }
-      }
+      } catch (error) {}
     };
+    getService();
+  }, []);
+  const remove = async (id: any) => {
+    setIsOpen(false);
+    setLoading(true);
+    try {
+      await axios.delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id).then((result: any) => {
+        if (result) setLoading(false);
+      });
+      swal('Bạn đã Xóa thành công!', { icon: 'success' });
+      setListServices(listServices.filter((item: any) => item.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -40,7 +59,7 @@ const ListServiceRoom  = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Quản lý dịch vụ 
+                Quản lý dịch vụ
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -85,7 +104,7 @@ const ListServiceRoom  = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                         Đơn vị
+                          Đơn vị
                         </th>
                         <th
                           scope="col"
@@ -118,9 +137,35 @@ const ListServiceRoom  = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
                                 </Link>
-                                <button className="text-amber-500 hover:text-amber-600 mx-[10px]" onClick={() =>remove (item?.id)}>
+
+                                <button
+                                  onClick={() => setIsOpen(true)}
+                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                >
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
+                                <Modal
+                                  isOpen={modalIsOpen}
+                                  onRequestClose={() => setIsOpen(false)}
+                                  style={customStyles}
+                                >
+                                  <div className="text-center ">
+                                    <h1 className="text-amber-500 font-bold text-2xl">Bạn có muốn xóa ?</h1>
+
+                                    <button
+                                      className="border px-6 mt-5 mr-4 bg-red-500 rounded-lg text-white"
+                                      onClick={() => remove(item?.id)}
+                                    >
+                                      OK
+                                    </button>
+                                    <button
+                                      className="border px-6 mt-5 mr-4 bg-zinc-400 rounded-lg text-white"
+                                      onClick={() => setIsOpen(false)}
+                                    >
+                                      Hủy
+                                    </button>
+                                  </div>
+                                </Modal>
                               </div>
                             </td>
                           </tr>
@@ -134,7 +179,7 @@ const ListServiceRoom  = (props: Props) => {
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default ListServiceRoom 
+export default ListServiceRoom;
