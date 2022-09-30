@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
@@ -142,6 +142,7 @@ const ListServiceRoom = (props: Props) => {
                                 >
                                   <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                 </button>
+                               
                               </div>
                             </td>
                           </tr>
