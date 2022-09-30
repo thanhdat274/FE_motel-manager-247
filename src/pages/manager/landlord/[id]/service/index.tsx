@@ -34,7 +34,6 @@ const ListServiceRoom = (props: Props) => {
 
     if (confirm) {
       setLoading(true);
-
       await axios
         .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
         .then(() => {
@@ -51,6 +50,7 @@ const ListServiceRoom = (props: Props) => {
         });
     }
   };
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
