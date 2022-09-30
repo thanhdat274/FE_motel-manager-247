@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { useUserContext } from '@/context/UserContext';
 const ListHome = () => {
   const [house, setHouse] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [changeData, setChangeData] = useState(0);
+  const { setLoading } = useUserContext();
 
   const getHouse = async () => {
     try {
@@ -61,50 +65,66 @@ const ListHome = () => {
         <div className="border-2">
           <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
             <div className="">
-              <h2 className="pt-2 text-xl">Danh sách nhà </h2>
+              <h2 className="pt-2 text-xl font-bold ">Danh sách nhà </h2>
             </div>
             <div className="">
-              <Link
-                href="/manager/landlord/list-home/add"
-                className="float-right border-2  px-2 py-2 bg-amber-700 hover:bg-red-600 rounded"
-              >
-                <a>Thêm nhà</a>
+              <Link href="/manager/landlord/list-home/add" className=" border-2  px-2 py-2  hover:bg-red-600 rounded">
+                <a
+                  className="border float-right  p-2 bg-gradient-to-r from-cyan-500 to-blue-800 font-bold 
+                hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-900 hover:font-bold"
+                >
+                  Thêm nhà
+                </a>
               </Link>
             </div>
           </div>
-          <div className=" my-4 mx-4  sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4 ">
+          <div className="   sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4  drop-shadow-2xl  ">
             {house &&
               house.map((item: { id: number; name: string; address: string }, index: React.Key | null | undefined) => {
                 return (
                   <>
-                    <div className="border-2 text-center  py-8 bg-gray-100  mt-3" key={index}>
-                      <div className="">
-                        <h1 className="">
-                          <span className="bg-sky-400 border text-lg hover:bg-cyan-500 text-white hover:text-black rounded-md  font-bold p-3">
-                            {item?.name}
-                          </span>
-                        </h1>
+                    <div className="   m-5 border-2  pt-3 bg-white rounded mt-3" key={index}>
+                      <div className=" text-lg   rounded-md  font-bold pl-3 flex ">
+                        <span className="pr-3">
+                          <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
+                        </span>
+                        <span>{item?.name}</span>
                       </div>
-                      <div className="m-3 border bg-slate-300 rounded-md text-left ">
-                        <p className="p-2">{item?.address}</p>
+                      <div className="m-4  rounded-md text-left text-sm flex ">
+                        <span className="pr-3">
+                          <FontAwesomeIcon className="w-[10px]  pt-1 text-indigo-700" icon={faLocationDot} />
+                        </span>
+                        <span>{item?.address}</span>
                       </div>
                       <div>
-                        <div>
+                        <div className="flex pl-2  pb-4">
                           <Link href={`${item?.id}`}>
-                            <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
-                              Quản lý
+                            <a className="text-white  ">
+                              <div className="mt-[5px] mr-2 bg-sky-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                                <span className="pr-2">
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />
+                                </span>
+                                <span>Quản lý</span>
+                              </div>
                             </a>
                           </Link>
                           <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
-                            <a className="border mr-2 ml-2 pr-2 pl-2 pt-1 pb-1 rounded-md bg-blue-600 text-white hover:bg-sky-800">
-                              Chỉnh sửa
+                            <a className="text-white ">
+                              <div className="mt-[5px] mr-2 bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                                <span className="pr-2">
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faPenToSquare} />
+                                </span>
+                                <span>Chỉnh sửa</span>
+                              </div>
                             </a>
                           </Link>
-                          <button
-                            onClick={() => removeHouse(item?.id)}
-                            className="border pr-2 pl-2 pt-1 pb-1 rounded-md bg-rose-600 text-white hover:bg-rose-800 "
-                          >
-                            Xóa
+                          <button onClick={() => removeHouse(item?.id)} className="text-white    ">
+                            <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                              <span className="pr-2">
+                                <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faTrash} />
+                              </span>
+                              <span>Xóa</span>
+                            </div>
                           </button>
                         </div>
                       </div>
