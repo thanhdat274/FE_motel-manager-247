@@ -4,17 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { ReactCalculator } from 'simple-react-calculator';
-import {
-  faBars,
-  faCompass,
-  faHouse,
-  faHospital,
-  faBox,
-  faPlug,
-  faShower,
-  faCalculator,
-  faCoins,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { MENU_LANDLORD } from 'src/util/MENU';
 
 type Props = {};
 
@@ -30,36 +21,9 @@ const customStyles = {
 };
 
 const SideBar = (props: Props) => {
-  const [collapseShow, setCollapseShow] = useState(true);
   const [lis, setLis] = useState(false);
   const [mns, setMns] = useState(true);
 
-  const Menus = [
-    {
-      url: 'list-room',
-      gap: true,
-      title: 'Phòng',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
-    },
-    { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
-    {
-      url: 'electric-used',
-      title: 'Số điện',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
-    },
-    { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-    // {
-    //   url: '',
-    //   title: 'Tính tiền',
-    //   gap: true,
-    //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-    // },
-    { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  ];
-  const [bgs, setBgs] = useState(false);
-  const sideBar = () => {
-    setBgs(!bgs);
-  };
   const router = useRouter();
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -104,7 +68,7 @@ const SideBar = (props: Props) => {
                     </a>
                   </Link>
                 </li>
-              
+
                 <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                   <Link href={'/manager/landlord/list-home'}>
                     <a className=" flex items-center gap-4 text-sm px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 text-white shadow-md">
@@ -113,7 +77,7 @@ const SideBar = (props: Props) => {
                     </a>
                   </Link>
                 </li>
-                {Menus.map((menu, index) => {
+                {MENU_LANDLORD.map((menu, index) => {
                   return (
                     <li
                       key={index}

@@ -8,6 +8,8 @@ import LayoutTenants from 'src/Layout/Manager/Tenants';
 import LayoutIntro from 'src/Layout/Preview';
 import LayoutListHome from 'src/Layout/ListHome';
 import UserProvider from '@/context/UserContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 config.autoAddCss = false;
 
@@ -48,7 +50,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  return <UserProvider>{switchLayout()}</UserProvider>;
+  return (
+    <UserProvider>
+      {switchLayout()}
+      <ToastContainer />
+    </UserProvider>
+  );
 }
 
 export default MyApp;
