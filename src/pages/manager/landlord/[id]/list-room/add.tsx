@@ -1,11 +1,11 @@
-import { MotionValue } from 'framer-motion';
+import { useUserContext } from '@/context/UserContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
-import { addHouse } from 'src/pages/api/house';
-import swal from 'sweetalert';
+
+import { Toast } from 'src/hooks/toast';
 type Props = {};
 
 type FormInput = {
@@ -15,7 +15,9 @@ type FormInput = {
 };
 
 const AddRoom = (props: Props) => {
+  const { setLoading } = useUserContext();
   const [houses, setHouse] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -23,22 +25,24 @@ const AddRoom = (props: Props) => {
   } = useForm();
   const router = useRouter();
   const { id } = router.query;
+
+  const [showMsg, setShowMsg] = useState(false);
   const onSubmit = async (dataForm: any) => {
     console.log('data', dataForm);
+    setLoading(true);
 
     try {
-      await supabase.from('list-room').insert([{ ...dataForm, id_house: Number(id) }]);
-
-      swal('Bạn đã thêm phòng thành công! Chuyển trang sau 2s', {
-        icon: 'success',
-      });
-      setTimeout(() => {
-        router.push(`/manager/landlord/${id}/list-room`);
-      }, 2000);
+      await supabase
+        .from('list-room')
+        .insert([{ ...dataForm, id_house: Number(id) }])
+        .then((data: any) => {
+          setLoading(false);
+          setShowMsg(true);
+          router.push(`/manager/landlord/${id}/list-room`);
+          Toast('success', 'Thêm phòng thành công');
+        });
     } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
+      Toast('error', 'Thêm phòng không thành công');
     }
   };
 

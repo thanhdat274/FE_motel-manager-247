@@ -2,46 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import {
-  faBars,
-  faCompass,
-  faHouse,
-  faHospital,
-  faBox,
-  faPlug,
-  faShower,
-  faCalculator,
-  faCoins,
-  faDesktop,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { ReactCalculator } from 'simple-react-calculator';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { MENU_LANDLORD } from 'src/util/MENU';
 
 type Props = {};
 
 const SideBar = (props: Props) => {
-  const Menus = [
-    {
-      url: 'list-room',
-      gap: true,
-      title: 'Phòng',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
-    },
-    { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
-    {
-      url: 'electric-used',
-      title: 'Số điện',
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
-    },
-    { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-    {
-      url: '',
-      title: 'Tính tiền',
-      gap: true,
-      icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-    },
-    { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  ];
-
+  const [lis, setLis] = useState(false);
+  const [mns, setMns] = useState(true);
   const [collapseShow, setCollapseShow] = React.useState('hidden');
   const router = useRouter();
   const { id } = router.query;
@@ -127,7 +96,7 @@ const SideBar = (props: Props) => {
                 </Link>
               </li>
 
-              {Menus.map((menu, index) => {
+              {MENU_LANDLORD.map((menu, index) => {
                 return (
                   <li
                     key={index}
