@@ -2,8 +2,9 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import styles from './style.module.css';
 
 type Props = {};
 
@@ -58,17 +59,49 @@ const HeaderPreview = (props: Props) => {
                 </a>
               </Link>
               {getAll && (
-                <>
-                  <Link href={`/auth`}>
-                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      Đăng nhập
-                    </a>
-                  </Link>
+                // <>
+                //   <Link href={`/auth`}>
+                //     <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                //       Đăng nhập
+                //     </a>
+                //   </Link>
 
-                  <button className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                    Đăng ký
+                //   <button className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
+                //     Đăng ký
+                //   </button>
+                // </>
+
+                <div className={`${styles['dropdown']} dropdown inline-block relative`}>
+                  <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                    <span className="mr-1">Đăng nhập/Đăng kí</span>
+                    <FontAwesomeIcon className="w-[12px]" icon={faCaretDown} />
                   </button>
-                </>
+                  <ul
+                    className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
+                  >
+                    <li>
+                      <Link href={'/auth'}>
+                        <a
+                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                          href="#"
+                        >
+                          Đăng nhập
+                        </a>
+                      </Link>
+                    </li>
+
+                    <li>
+                      <Link href={'/auth'}>
+                        <a
+                          className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap"
+                          href="#"
+                        >
+                          Đăng kí
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               )}
             </div>
           </div>

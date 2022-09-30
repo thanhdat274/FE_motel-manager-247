@@ -34,7 +34,6 @@ const ListServiceRoom = (props: Props) => {
 
     if (confirm) {
       setLoading(true);
-
       await axios
         .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
         .then(() => {
@@ -51,6 +50,7 @@ const ListServiceRoom = (props: Props) => {
         });
     }
   };
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -131,10 +131,13 @@ const ListServiceRoom = (props: Props) => {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-center flex">
                                 <Link
-                                  href={`/manager/landlord/service-room/${item.id}`}
+                                  href={`/manager/landlord/${id}/service/${item.id}/edit`}
                                   className="text-amber-500 hover:text-amber-600 mx-[10px]"
                                 >
-                                  <FontAwesomeIcon className="w-[20px]" icon={faPenToSquare}></FontAwesomeIcon>
+                                  <FontAwesomeIcon
+                                    className="w-[20px] cursor-pointer"
+                                    icon={faPenToSquare}
+                                  ></FontAwesomeIcon>
                                 </Link>
                                 <button
                                   className="text-amber-500 hover:text-amber-600 mx-[10px]"
