@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { supabase } from 'src/apis/supabase';
 
 import { Toast } from 'src/hooks/toast';
 type Props = {};
@@ -34,14 +35,12 @@ const AddRoom = (props: Props) => {
     console.log('data từ form', data);
     setLoading(true);
     try {
-      await axios
-        .post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data)
-        .then((data: any) => {
-          setLoading(false);
-          setShowMsg(true);
-          router.push(`/manager/landlord/${id}/list-room`);
-          Toast('success', 'Thêm mới phòng thành công');
-        });
+      await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
+        setLoading(false);
+        setShowMsg(true);
+        router.push(`/manager/landlord/${id}/list-room`);
+        Toast('success', 'Thêm mới phòng thành công');
+      });
     } catch (error) {
       setLoading(false);
       Toast('error', 'Thêm mới phòng không thành công');
@@ -124,7 +123,7 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="max"
                         type="number"
-                        {...register('max', { required: true})}
+                        {...register('max', { required: true })}
                       />
                       {errors.max && errors.max.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
@@ -139,7 +138,7 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="area"
                         type="number"
-                        {...register('area', { required: true})}
+                        {...register('area', { required: true })}
                       />
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
