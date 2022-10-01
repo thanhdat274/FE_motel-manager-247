@@ -2,62 +2,61 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from 'src/apis/supabase';
+import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { useUserContext } from '@/context/UserContext';
 const ListHome = () => {
+  const { setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [changeData, setChangeData] = useState(0);
-  const { setLoading } = useUserContext();
 
-  const getHouse = async () => {
-    try {
-      const res = await supabase.from('houses').select('*');
-      if (res.data) {
-        setHouse(res.data as any);
-        console.log('data', res.data);
-      }
-      if (res.error) {
-        setErrorMessage(res.error as any);
-      }
-    } catch (error) {}
-  };
+  // const getHouse = async () => {
+  //   try {
+  //     const res = await supabase.from('houses').select('*');
+  //     if (res.data) {
+  //       setHouse(res.data as any);
+  //       console.log('data', res.data);
+  //     }
+  //     if (res.error) {
+  //       setErrorMessage(res.error as any);
+  //     }
+  //   } catch (error) {}
+  // };
 
   useEffect(() => {
     console.log('run');
-
+    const getHouse = async () => {
+      try {
+        const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
+        if (res.data) {
+          setHouse(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
     getHouse();
-  }, [changeData]);
-  const router = useRouter();
-
-  const { id } = router.query;
-  console.log('id', id);
+  }, []);
 
   const removeHouse = async (id: number) => {
+    console.log(id);
+    setLoading(true);
     try {
-      await supabase
-        .from('houses')
-        .delete()
-        .match({ id })
-        .then(() => {
-          Toast('success', 'Xóa phòng thành công');
-          setChangeData(changeData + 1);
-          router.push('/manager/landlord/list-home');
-        });
+      await axios.delete('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + id).then(() => {
+        Toast('success', 'Xóa nhà thành công');
+        setHouse(house.filter((item: any) => item.id !== id));
+        setLoading(false);
+      });
     } catch (error) {
-      Toast('success', 'Xóa phòng không thành công');
+      Toast('success', 'Xóa nhà không thành công');
+      setLoading(false);
     }
   };
-
-  // console.log(house);
-
-  // console.log('landlord', router.pathname.search('/manager/landlord'));
-
-  // console.log('ternant', router.pathname.search('/manager/ternant'));
 
   const renderList = () => {
     return (
@@ -80,7 +79,7 @@ const ListHome = () => {
           </div>
           <div className="   sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4  drop-shadow-2xl  ">
             {house &&
-              house.map((item: { id: number; name: string; address: string }, index: React.Key | null | undefined) => {
+              house.map((item: any, index: React.Key | null | undefined) => {
                 return (
                   <>
                     <div className="   m-5 border-2  pt-3 bg-white rounded mt-3" key={index}>

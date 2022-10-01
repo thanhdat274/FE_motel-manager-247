@@ -2,10 +2,10 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-
+import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+
 type Props = {};
 
 type FromValues = {
@@ -18,42 +18,62 @@ type FromValues = {
   houseId: string;
 };
 
-const AddRoom = (props: Props) => {
+const EditRoom = (props: Props) => {
   const { setLoading } = useUserContext();
   const [showMsg, setShowMsg] = useState(false);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
+    reset,
   } = useForm<FromValues>();
   const router = useRouter();
-  const { id } = router.query;
-  console.log('id nhà', id);
+  const param = router.query;
+  // const { id } = router.query;
+
+  useEffect(() => {
+    const getRoom = async () => {
+      try {
+        const res = await axios.get(
+          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
+        );
+        if (res.data) {
+          reset(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRoom();
+  }, [param.id, param.id_room]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     console.log('data từ form', data);
     setLoading(true);
     try {
-      await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
-        setLoading(false);
-        setShowMsg(true);
-        router.push(`/manager/landlord/${id}/list-room`);
-        Toast('success', 'Thêm mới phòng thành công');
-      });
+      await axios
+        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`, data)
+        .then((data: any) => {
+          setLoading(false);
+          setShowMsg(true);
+          router.push(`/manager/landlord/${param.id}/list-room`);
+          Toast('success', 'Cập nhật phòng thành công');
+        });
     } catch (error) {
-      setLoading(false);
-      Toast('error', 'Thêm mới phòng không thành công');
+      Toast('error', 'Cập nhật phòng không thành công');
     }
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <header className="bg-white shadow border rounded-md">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                thêm mới phòng
+                Cập nhật phòng
               </h2>
             </div>
           </div>
@@ -91,8 +111,8 @@ const AddRoom = (props: Props) => {
                       </label>
                       <select
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        {...register('status', { required: true })}
                         id="status"
+                        {...register('status', { required: true })}
                       >
                         <option value="true">Sẵn sàng</option>
                         <option value="false">Chưa sẵn sàng</option>
@@ -106,8 +126,8 @@ const AddRoom = (props: Props) => {
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="text"
-                        {...register('price', { required: true, min: 1000 })}
+                        type="number"
+                        {...register('price', { required: true })}
                       />
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
@@ -147,7 +167,7 @@ const AddRoom = (props: Props) => {
 
                   <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
                     <Link
-                      href={`/manager/landlord/${id}/list-room`}
+                      href={`/manager/landlord/${param.id}/list-room`}
                       className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -172,4 +192,4 @@ const AddRoom = (props: Props) => {
   );
 };
 
-export default AddRoom;
+export default EditRoom;
