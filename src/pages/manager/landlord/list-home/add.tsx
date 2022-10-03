@@ -1,4 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,13 +27,10 @@ const AddHome = (props: Props) => {
     setLoading(true);
     console.log('data', dataForm);
     try {
-      await supabase
-        .from('houses')
-        .insert([dataForm])
-        .then(() => {
-          router.push('/manager/landlord/list-home');
-          Toast('success', 'Thêm nhà  thành công!');
-        });
+      await axios.post('https://633505ceea0de5318a0bacba.mockapi.io/api/house', dataForm).then(() => {
+        router.push('/manager/landlord/list-home');
+        Toast('success', 'Thêm nhà  thành công!');
+      });
     } catch (error) {
       Toast('error', 'Đã xảy ra lỗi!');
     }
