@@ -46,15 +46,19 @@ const ListHome = () => {
   const removeHouse = async (id: number) => {
     console.log(id);
     setLoading(true);
-    try {
-      await axios.delete('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + id).then(() => {
-        Toast('success', 'Xóa nhà thành công');
-        setHouse(house.filter((item: any) => item.id !== id));
+
+    const confirm = window.confirm('Bạn có muốn xóa không ?');
+    if (confirm) {
+      try {
+        await axios.delete('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + id).then(() => {
+          Toast('success', 'Xóa nhà thành công');
+          setHouse(house.filter((item: any) => item.id !== id));
+          setLoading(false);
+        });
+      } catch (error) {
+        Toast('success', 'Xóa nhà không thành công');
         setLoading(false);
-      });
-    } catch (error) {
-      Toast('success', 'Xóa nhà không thành công');
-      setLoading(false);
+      }
     }
   };
 

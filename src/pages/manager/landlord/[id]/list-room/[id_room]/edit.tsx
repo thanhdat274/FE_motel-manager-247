@@ -31,6 +31,8 @@ const EditRoom = (props: Props) => {
   const router = useRouter();
   const param = router.query;
   // const { id } = router.query;
+  console.log(param);
+  
 
   useEffect(() => {
     const getRoom = async () => {
