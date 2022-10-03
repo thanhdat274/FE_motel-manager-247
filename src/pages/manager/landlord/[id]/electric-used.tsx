@@ -103,7 +103,7 @@ const LisElectric = (props: Props) => {
                         />
                       </div>
                       <li className="p-2 text-sm hover:bg-sky-600 hover:text-white">
-                        <p>{options1.value}</p>
+                        <p>Kỳ 15 ngày</p>
                       </li>
                       <li className="p-2 text-sm hover:bg-sky-600 hover:text-white">
                         <p>Kỳ 1 tháng</p>
