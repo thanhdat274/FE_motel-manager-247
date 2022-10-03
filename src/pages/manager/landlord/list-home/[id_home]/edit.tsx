@@ -1,37 +1,52 @@
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
-import { addHouse } from 'src/pages/api/house';
+
 type Props = {};
 
-type FormInput = {
-  name: string;
-
-  address: string;
-};
-
-const AddHome = (props: Props) => {
-  const [houses, setHouse] = useState([]);
+const EditHouse = (props: Props) => {
   const router = useRouter();
+  const [house, setHouse] = useState([]);
   const { setLoading } = useUserContext();
+
+  const param = router.query;
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+  console.log('param', param);
+
+  useEffect(() => {
+    const getHome = async () => {
+      try {
+        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id_home}`);
+        if (res.data) {
+          reset(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHome();
+  }, [param.id_home]);
   const onSubmit = async (dataForm: any) => {
     setLoading(true);
     console.log('data', dataForm);
     try {
-      await axios.post('https://633505ceea0de5318a0bacba.mockapi.io/api/house', dataForm).then(() => {
-        setLoading(false);
-        router.push('/manager/landlord/list-home');
-        Toast('success', 'Thêm nhà  thành công!');
-      });
+      await axios
+        .put('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + `${param.id_home}`, dataForm)
+        .then(() => {
+          setLoading(false);
+
+          router.push('/manager/landlord/list-home');
+          Toast('success', 'Sửa nhà  thành công!');
+        });
     } catch (error) {
       Toast('error', 'Đã xảy ra lỗi!');
     }
@@ -41,7 +56,7 @@ const AddHome = (props: Props) => {
     <div className="w-full ">
       <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
         <div className="">
-          <h2 className="pt-2 text-xl">Thêm nhà </h2>
+          <h2 className="pt-2 text-xl">Sửa nhà </h2>
         </div>
       </div>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
@@ -79,7 +94,7 @@ const AddHome = (props: Props) => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Thêm nhà
+            Sửa nhà
           </button>
         </div>
       </form>
@@ -87,4 +102,4 @@ const AddHome = (props: Props) => {
   );
 };
 
-export default AddHome;
+export default EditHouse;
