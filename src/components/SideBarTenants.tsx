@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { ReactCalculator } from 'simple-react-calculator';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { MENU_TENANTS } from 'src/util/MENUTENANTS';
+import { MENU_TENANTS } from '@/util/MENUTENANTS';
 
 type Props = {};
 
