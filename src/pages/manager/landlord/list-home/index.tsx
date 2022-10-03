@@ -81,12 +81,12 @@ const ListHome = () => {
               </Link>
             </div>
           </div>
-          <div className="   sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4  drop-shadow-2xl  ">
+          <div className="   sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-2  drop-shadow-2xl m-5 ">
             {house &&
               house.map((item: any, index: React.Key | null | undefined) => {
                 return (
                   <>
-                    <div className="   m-5 border-2  pt-3 bg-white rounded mt-3" key={index}>
+                    <div className=" border-2  pt-3 bg-white rounded " key={index}>
                       <div className=" text-lg   rounded-md  font-bold pl-3 flex ">
                         <span className="pr-3">
                           <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
