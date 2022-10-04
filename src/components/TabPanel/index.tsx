@@ -32,7 +32,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ py: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -57,9 +57,16 @@ export default function TabPanelComponent({ data }: ITabPanel) {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          className="overflow-auto"
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          // scrollButtons
+          allowScrollButtonsMobile
+        >
           {data.map((data: IData) => (
-            <Tab key={data.label} label={data?.label} {...a11yProps(data?.value)} />
+            <Tab className="overflow-auto" key={data.label} label={data?.label} {...a11yProps(data?.value)} />
           ))}
         </Tabs>
       </Box>
