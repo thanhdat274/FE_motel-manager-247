@@ -111,6 +111,7 @@ const ListRoom = (props: Props) => {
                                 <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
                               </a>
                             </Link>
+                            
                             <button
                               onClick={() => {
                                 removeRoom(item.id);
