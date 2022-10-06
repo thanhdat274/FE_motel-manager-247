@@ -22,5 +22,5 @@ export const MENU_LANDLORD = [
   //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
   // },
   { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  { url: '', title: 'Mẫu hợp  đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faFileContract} /> },
+  { url: 'contract-form', title: 'Mẫu hợp  đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faFileContract} /> },
 ];
