@@ -2,6 +2,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
 
 type Props = {};
 
@@ -32,7 +34,8 @@ const ContractForm = (props: Props) => {
                 <a className="border ">Sửa</a>
               </Link>
             </p>
-            <div dangerouslySetInnerHTML={{ __html: item?.contract }} className=" border p-5"></div>
+
+            <ReactQuill value={item?.contract} readOnly={true} theme={'bubble'} />
           </>
         );
       })}
