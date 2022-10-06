@@ -40,15 +40,15 @@ const LisElectric = (props: Props) => {
           <div className="flex ml-auto">
             <button className="border items-center flex bg-orange-400 rounded-md p-1.5 mx-2">
               <FontAwesomeIcon className="w-[16px] text-white" icon={faSearch} />
-              <span className='font-semibold mx-1'>Xem</span>
+              <span className="font-semibold mx-1">Xem</span>
             </button>
             <button className="border items-center flex bg-emerald-500 rounded-md p-1.5 mx-2">
               <FontAwesomeIcon className="w-[16px] text-white " icon={faSave} />
-              <span className='font-semibold mx-1'>Lưu</span>
+              <span className="font-semibold mx-1">Lưu</span>
             </button>
             <button className="border flex bg-sky-500 items-center rounded-md p-1.5 mx-2">
               <FontAwesomeIcon className="w-[16px] text-white" icon={faFileExcel} />
-              <span className='font-semibold mx-1'>Xuất file excel</span>
+              <span className="font-semibold mx-1">Xuất file excel</span>
             </button>
           </div>
         </div>
@@ -131,11 +131,7 @@ const LisElectric = (props: Props) => {
                         !open ? ' z-50' : 'm-0'
                       }  ${!selected && 'text-gray-700'}`}
                     >
-                      {selected
-                        ? selected?.length > 25
-                          ? selected?.substring(0, 25) + '...'
-                          : selected
-                        : 'Lựa chọn'}
+                      {selected ? (selected?.length > 25 ? selected?.substring(0, 25) + '...' : selected) : 'Lựa chọn'}
                       <FontAwesomeIcon className="w-[16px] text-black text-right ml-auto" icon={faChevronDown} />
                     </div>
                     <ul className={`bg-white overflow-y-auto ${open ? 'max-h-60 fixed z-50' : 'max-h-0'} `}>
@@ -187,11 +183,7 @@ const LisElectric = (props: Props) => {
                         !open ? ' z-50' : 'm-0'
                       }  ${!selected && 'text-gray-700'}`}
                     >
-                      {selected
-                        ? selected?.length > 25
-                          ? selected?.substring(0, 25) + '...'
-                          : selected
-                        : 'Lựa chọn'}
+                      {selected ? (selected?.length > 25 ? selected?.substring(0, 25) + '...' : selected) : 'Lựa chọn'}
                       <FontAwesomeIcon className="w-[16px] text-black text-right ml-auto" icon={faChevronDown} />
                     </div>
                     <ul className={`bg-white overflow-y-auto ${open2 ? 'max-h-60 fixed z-50' : 'max-h-0'} `}>
@@ -238,7 +230,7 @@ const LisElectric = (props: Props) => {
               Thống kê số điện
             </h6>
           </div>
-          <div className="flex-auto px-0 pt-0 pb-2">
+          <div className="flex-auto px-0 pt-0 pb-2  overflow-x-scroll overflow-y-scroll">
             <div className="p-0">
               <table className="items-center w-full m-2 align-top border-gray-200 text-slate-500">
                 <thead className="align-bottom">
