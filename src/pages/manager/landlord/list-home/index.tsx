@@ -81,13 +81,13 @@ const ListHome = () => {
               </Link>
             </div>
           </div>
-          <div className="   sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-2  drop-shadow-2xl m-5 ">
+          <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid lg:grid-cols-4 lg:gap-2 drop-shadow-2xl m-3">
             {house &&
               house.map((item: any, index: React.Key | null | undefined) => {
                 return (
                   <>
-                    <div className=" border-2  pt-3 bg-white rounded " key={index}>
-                      <div className=" text-lg   rounded-md  font-bold pl-3 flex ">
+                    <div className="border pt-3 bg-white rounded pr-2" key={index}>
+                      <div className=" text-2xl rounded-md  font-bold pl-3 flex items-center">
                         <span className="pr-3">
                           <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
                         </span>
@@ -100,10 +100,10 @@ const ListHome = () => {
                         <span>{item?.address}</span>
                       </div>
                       <div>
-                        <div className="flex pl-2  pb-4">
+                        <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
                           <Link href={`${item?.id}`}>
-                            <a className="text-white  ">
-                              <div className="mt-[5px] mr-2 bg-sky-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                            <a className="text-white base-1/3 bg-sky-500 w-1/3">
+                              <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                 <span className="pr-2">
                                   <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />
                                 </span>
@@ -112,17 +112,20 @@ const ListHome = () => {
                             </a>
                           </Link>
                           <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
-                            <a className="text-white ">
-                              <div className="mt-[5px] mr-2 bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                            <a className="text-white base-1/3 2 bg-yellow-400 w-1/3 ">
+                              <div className="bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                 <span className="pr-2">
-                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faPenToSquare} />
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} />
                                 </span>
                                 <span>Chỉnh sửa</span>
                               </div>
                             </a>
                           </Link>
-                          <button onClick={() => removeHouse(item?.id)} className="text-white    ">
-                            <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[10px] font-bold">
+                          <button
+                            onClick={() => removeHouse(item?.id)}
+                            className="text-white base-1/3  bg-red-500 w-1/3"
+                          >
+                            <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                               <span className="pr-2">
                                 <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faTrash} />
                               </span>
