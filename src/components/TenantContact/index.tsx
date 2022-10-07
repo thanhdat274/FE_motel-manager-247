@@ -17,7 +17,7 @@ const TenantContract = (props: Props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  console.log(param);
+  // console.log(param);
 
   // useEffect(() => {
   //   const getHome = async () => {
@@ -50,7 +50,7 @@ const TenantContract = (props: Props) => {
   return (
     <div>
       <button onClick={handlePrint}>Dowload hợp đồng</button>
-      <div className=''>
+      <div className="">
         <div ref={componentRef} className="w-10/12 m-auto  ">
           <div className="text-center">
             <h1>Cộng hòa xã hội chủ ngĩa Việt Nam</h1>
@@ -118,7 +118,8 @@ const TenantContract = (props: Props) => {
             </p>
             <p>2. Mục đích thuê phòng trọ:</p>
             <p>
-              Bên B thuê, đưa vào sử dụng phòng trọ tại địa chỉ:  để ở theo nhu cầu của Bên B và theo đúng quy định của pháp luật.
+              Bên B thuê, đưa vào sử dụng phòng trọ tại địa chỉ: để ở theo nhu cầu của Bên B và theo đúng quy định của
+              pháp luật.
             </p>
             <h1>Điều II: Thời hạn cho thuê, giá cho thuê và điều kiện thanh toán</h1>
             <p>1. Thời hạn cho thuê:</p>
