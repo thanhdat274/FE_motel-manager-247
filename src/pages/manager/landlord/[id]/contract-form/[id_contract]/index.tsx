@@ -73,6 +73,7 @@ const ContracEdit = (props: Props) => {
         });
     } catch (error) {
       Toast('error', 'Cập nhật hợp đồng không thành công');
+      setLoading(false)
     }
   };
   return (
