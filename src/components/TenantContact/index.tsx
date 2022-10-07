@@ -19,94 +19,96 @@ const TenantContract = (props: Props) => {
   });
   // console.log(param);
 
-  // useEffect(() => {
-  //   const getHome = async () => {
-  //     try {
-  //       const res = await axios.get( `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}` );
-  //       if (res.data) {
-  //         setHouse(res.data as any)
-  //         console.log('data', res.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getHome();
-  // }, []);
-  // useEffect(() => {
-  //   const getHouse = async () => {
-  //     try {
-  //       const res = await axios.get( `https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id}` );
-  //       if (res.data) {
-  //         setHouses(res.data as any)
-  //         console.log('data', res.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getHouse();
-  // }, []);
+  useEffect(() => {
+    const getHome = async () => {
+      try {
+        const res = await axios.get(
+          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
+        );
+        if (res.data) {
+          setHouse(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHome();
+  }, []);
+  useEffect(() => {
+    const getHouse = async () => {
+      try {
+        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id}`);
+        if (res.data) {
+          setHouses(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHouse();
+  }, []);
   return (
     <div>
       <button onClick={handlePrint}>Dowload hợp đồng</button>
       <div className="">
         <div ref={componentRef} className="w-10/12 m-auto  ">
           <div className="text-center">
-            <h1>Cộng hòa xã hội chủ ngĩa Việt Nam</h1>
-            <p>Độc Lập - Tự Do - Hạnh Phúc</p>
+            <h1 className="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h1>
+            <p className="font-bold">Độc Lập - Tự Do - Hạnh Phúc</p>
             <p>- - - o0o - - -</p>
-            <h1>
+            <h1 className="font-bold pt-5">
               HỢP ĐỒNG <br /> CHO THUÊ PHÒNG TRỌ
             </h1>
           </div>
-          <div className="text-xs italic">
+          <div className="text-xs italic leading-5">
             <p>- Căn cứ Bộ luật Dân sự số 91/2015/QH13 ngày 24/11/2015 và các văn bản hướng dẫn thi hành;</p>
             <p>- Căn cứ Luật Nhà ở, Luật Đất đai và các văn bản hướng dẫn thi hành;</p>
             <p>- Căn cứ nhu cầu thuê phòng trọ của Ông (Bà) abc abc;</p>
             <p>- Căn cứ vào năng lực và nhu cầu của các bên chủ thể giao kết hợp đồng. </p>
           </div>
           <div>
-            <p>
+            <p className="text-xs  pt-5  leading-5">
               Hôm nay, ngày …… tháng …… năm ………., tại địa chỉ ……………………………...............................................{' '}
               <br />
               Chúng tôi gồm có:
             </p>
           </div>
-          <div>
-            <h1 className="font-bold">BÊN CHO THUÊ: </h1>
-            <p>
+          <div className="pt-5  ">
+            <h1 className="font-bold text-sm  leading-5">BÊN CHO THUÊ: </h1>
+            <p className="text-xs  leading-5">
               <strong>Ông/bà: </strong> Năm Sinh:
             </p>
-            <p>CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
-            <p>Địa chỉ: </p>
-            <p>Điện thoại: </p>
-            <p className="text-xs italic">(Sau đây được gọi tắt là Bên a)</p>
+            <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
+            <p className="text-xs  leading-5">Địa chỉ: </p>
+            <p className="text-xs  leading-5">Điện thoại: </p>
+            <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên a)</p>
           </div>
           <div>
-            <h1 className="font-bold">BÊN THUÊ: </h1>
-            <p>
+            <h1 className="font-bold text-sm  leading-5">BÊN THUÊ: </h1>
+            <p className="text-xs  leading-5">
               <strong>Ông/bà:</strong> Năm Sinh:
             </p>
-            <p>CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
-            <p>Địa chỉ: </p>
-            <p>Điện thoại: </p>
-            <p className="text-xs italic">(Sau đây được gọi tắt là Bên B)</p>
+            <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
+            <p className="text-xs  leading-5">Địa chỉ: </p>
+            <p className="text-xs  leading-5">Điện thoại: </p>
+            <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên B)</p>
           </div>
-          <div>
-            <strong>
+          <div className="text-xs  leading-5">
+            <strong className="italic  leading-5">
               Sau khi cùng bàn bạc và thoả thuận trên tinh thần hợp tác, thiện chí và bình đẳng, Hai Bên nhất trí ký kết
               Hợp đồng cho thuê phòng trọ (gọi tắt là Hợp đồng) với các điều khoản sau đây:
             </strong>
-            <p>Điều I: Đối tượng của Hợp đồng</p>
+            <p className="font-bold text-base  leading-5">Điều I: Đối tượng của Hợp đồng</p>
             <p>
               Hợp đồng này là sự thoả thuận giữa Bên A và Bên B, theo đó Bên A cho Bên B thuê phòng trọ thuộc quyền quản
               lý, sử dụng hợp pháp của mình, còn Bên B trả tiền thuê cho Bên A theo giá trị, phương thức thỏa thuận
               trong hợp đồng. Cụ thể như sau :
             </p>
           </div>
-          <div>
-            <h2>1. Phòng trọ cho thuê</h2>
+          <div className="text-xs  leading-5">
+            <h2 className="font-bold text-sm  leading-5">1. Phòng trọ cho thuê</h2>
             <p>Phòng trọ cho thuê có các đặc điểm như sau:</p>
             <p>Phòng số: . Tổng diện tích sử dụng: 29 m2</p>
             <p>Địa chỉ: </p>
@@ -116,25 +118,27 @@ const TenantContract = (props: Props) => {
               hình thức nào bởi các việc: mua, bán, trao đổi, tặng, cho, cho thuê, cho mượn, bị kê biên bởi cơ quan có
               thẩm quyền.
             </p>
-            <p>2. Mục đích thuê phòng trọ:</p>
+            <p className="font-bold text-sm  leading-5">2. Mục đích thuê phòng trọ:</p>
             <p>
               Bên B thuê, đưa vào sử dụng phòng trọ tại địa chỉ: để ở theo nhu cầu của Bên B và theo đúng quy định của
               pháp luật.
             </p>
-            <h1>Điều II: Thời hạn cho thuê, giá cho thuê và điều kiện thanh toán</h1>
-            <p>1. Thời hạn cho thuê:</p>
+            <h1 className="font-bold text-base  leading-5">
+              Điều II: Thời hạn cho thuê, giá cho thuê và điều kiện thanh toán
+            </h1>
+            <p className="font-bold text-sm  leading-5">1. Thời hạn cho thuê:</p>
             <p>Từ ngày 5 tháng 9 năm 2022 đến hết ngày 4 tháng 3 năm 2023</p>
-            <p>2. Giá cho thuê: đồng/01/tháng.</p>
-            <p>3. Điều kiện thanh toán:</p>
+            <p className="font-bold text-sm  leading-5">2. Giá cho thuê: đồng/01/tháng.</p>
+            <p className="font-bold text-sm  leading-5">3. Điều kiện thanh toán:</p>
             <p>- Đồng tiền thanh toán: tiền VNĐ</p>
             <p>- Phương thức thanh toán: chuyển khoản hoặc tiền mặt.</p>
             <p>
               - Kỳ thanh toán: trả 1 tháng/lần, lần đầu trả ngay sau khi ký Hợp đồng. Nộp tiền thanh toán sử dụng phòng
               của tháng sau vào thời điểm không quá ngày …. của tháng trước liền kề.
             </p>
-            <h1>Điều III: Quyền và nghĩa vụ của Bên A</h1>
+            <h1 className="font-bold text-base  leading-5">Điều III: Quyền và nghĩa vụ của Bên A</h1>
             <p>
-              <strong>1. Bên A có các quyền sau đây:</strong>
+              <strong className="font-bold text-sm  leading-5">1. Bên A có các quyền sau đây:</strong>
             </p>
             <p>- Nhận tiền cho thuê phòng trọ theo đúng kỳ hạn đã thỏa thuận với Bên B;</p>
             <p>
@@ -159,7 +163,7 @@ const TenantContract = (props: Props) => {
               hưởng nghiêm trọng đến hoạt động bình thường của khu vực xung quanh;
             </p>
             <p>
-              <strong>2. Bên A có các nghĩa vụ sau đây:</strong>
+              <strong className="font-bold text-sm">2. Bên A có các nghĩa vụ sau đây:</strong>
             </p>
             <p>- Bàn giao phòng trọ cho Bên B đúng thời gian đã thoả thuận;</p>
             <p>- Cấp nguồn điện, nước riêng có công tơ đo đếm cho Bên B sử dụng;</p>
@@ -167,9 +171,9 @@ const TenantContract = (props: Props) => {
               - Tạo điều kiện đảm bảo cho Bên B sử dụng phòng trọ đã thuê ổn định, trọn vẹn, độc lập trong thời hạn Bên
               B thuê;
             </p>
-            <p>Điều IV: Quyền và nghĩa vụ của Bên B</p>
+            <p className="font-bold text-base">Điều IV: Quyền và nghĩa vụ của Bên B</p>
             <p>
-              <strong>1. Bên B có các quyền sau đây:</strong>
+              <strong className="font-bold text-sm">1. Bên B có các quyền sau đây:</strong>
             </p>
             <p>- Nhận bàn giao phòng trọ thuê theo đúng thỏa thuận với Bên A;</p>
             <p>
@@ -185,7 +189,7 @@ const TenantContract = (props: Props) => {
               mới có giá trị thực hiện;
             </p>
             <p>
-              <strong>2. Bên B có các nghĩa vụ sau đây:</strong>
+              <strong className="font-bold text-sm">2. Bên B có các nghĩa vụ sau đây:</strong>
             </p>
             <p>- Sử dụng phòng trọ theo đúng mục đích để ở đã thỏa thuận với Bên A tại Hợp đồng;</p>
             <p>- Trả đủ và đúng kỳ hạn tiền thuê phòng trọ như đã thỏa thuận với Bên A ;</p>
@@ -210,7 +214,7 @@ const TenantContract = (props: Props) => {
               (………………….. đồng Việt Nam).
             </p>
             <p>
-              <strong> Điều V: Điều khoản chung</strong>
+              <strong className="font-bold text-base"> Điều V: Điều khoản chung</strong>
             </p>
             <p>
               1. Hai Bên cam kết thực hiện đúng và đầy đủ các điều khoản đã ghi trong bản Hợp đồng, nếu Bên nào vi phạm
@@ -223,8 +227,16 @@ const TenantContract = (props: Props) => {
               tranh chấp sẽ được giải quyết bằng con đường Tòa án theo quy định của hệ thống pháp luật Việt Nam.
             </p>
           </div>
+          <div className='text-xs mt-7 mb-[100px] font-bold '>
+            <p className='text-right pr-[100px]'> Ngày.... Tháng.... Năm  </p>
+            <div className='grid grid-cols-2 text-center pt-5'>
+            <p> BÊN A</p>
+            <p className=''>BÊN B</p>
+            </div>
+                  
+          </div>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };
