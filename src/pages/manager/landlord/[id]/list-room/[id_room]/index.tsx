@@ -1,3 +1,4 @@
+import { IMember } from '@/components/ListMember';
 import TabPanelComponent from '@/components/TabPanel';
 import TenantContract from '@/components/TenantContact';
 import TenantMember from '@/components/TenantMember';
@@ -34,6 +35,29 @@ const ManageRoom = () => {
     }
   };
 
+  const TenantMemberData: IMember[] = [
+    // {
+    //   name: 'pham dai nghia',
+    //   phoneNumber: '0824144695',
+    //   cardNumber: '071233434',
+    // },
+    // {
+    //   name: 'pham dai nghia',
+    //   phoneNumber: '0824144695',
+    //   cardNumber: '071233434',
+    // },
+    // {
+    //   name: 'pham dai nghia',
+    //   phoneNumber: '0824144695',
+    //   cardNumber: '071233434',
+    // },
+    // {
+    //   name: 'pham dai nghia',
+    //   phoneNumber: '0824144695',
+    //   cardNumber: '071233434',
+    // },
+  ];
+
   const param = router.query;
   useEffect(() => {
     if (param.id) {
@@ -50,7 +74,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember />,
+      children: <TenantMember data={TenantMemberData} />,
     },
 
     {

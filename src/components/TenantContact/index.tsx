@@ -17,7 +17,7 @@ const TenantContract = (props: Props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  console.log(param);
+  // console.log(param);
 
   useEffect(() => {
     const getHome = async () => {
@@ -51,9 +51,9 @@ const TenantContract = (props: Props) => {
   }, []);
   return (
     <div>
-      <button onClick={handlePrint} className =" border bg-cyan-500 p-2 mb-2 rounded text-white hover:bg-cyan-800">Dowload hợp đồng</button>
-      <div className=" border-double border-4 border-indigo-600 pt-5">
-        <div ref={componentRef} className="w-11/12 m-auto ">
+      <button onClick={handlePrint}>Dowload hợp đồng</button>
+      <div className="">
+        <div ref={componentRef} className="w-10/12 m-auto  ">
           <div className="text-center">
             <h1 className="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h1>
             <p className="font-bold">Độc Lập - Tự Do - Hạnh Phúc</p>
