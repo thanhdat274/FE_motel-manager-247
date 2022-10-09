@@ -64,12 +64,12 @@ const ManageRoom = () => {
   useEffect(() => {
     if (param.id) {
       getRoom();
+     
     }
+     getPeople();
   }, [param.id]);
+  
 
-  useEffect(() => {
-    getPeople();
-  }, []);
 
   const data = [
     {

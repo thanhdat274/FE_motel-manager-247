@@ -69,7 +69,7 @@ const TenantMember = ({ data }: IProps) => {
         <button onClick={openModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
           Thêm thành viên
         </button>
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel="Example Modal">
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}   style={customStyles} contentLabel="Example Modal">
           <div className="w-full ">
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">
