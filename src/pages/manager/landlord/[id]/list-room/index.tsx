@@ -3,60 +3,57 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
 import { useUserContext } from '@/context/UserContext';
+import axios from 'axios';
 type Props = {};
 
 const ListRoom = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
-  const { id } = router.query;
+  const param = router.query;
+  console.log('id nhà', param.id);
+
   const [rooms, setRooms] = useState([]);
-  const [errorMessage, setErrorMessage] = useState([]);
-  const [changeData, setChangeData] = useState(0);
-
-  const getRoom = async () => {
-    try {
-      const res = await supabase.from('list-room').select('*');
-      if (res.data) {
-        setRooms(res.data as any);
-        console.log('data', res.data);
-      }
-      if (res.error) {
-        setErrorMessage(res.error as any);
-      }
-    } catch (error) {}
-  };
-
   useEffect(() => {
+    const getRoom = async () => {
+      try {
+        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room`);
+        if (res.data) {
+          setRooms(res.data as any);
+          console.log('data', res.data);
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
     getRoom();
-  }, [changeData]);
+  }, [param.id]);
 
   const removeRoom = async (id: number) => {
+    console.log('id phòng', id);
     setLoading(true);
-    try {
-      await supabase
-        .from('list-room')
-        .delete()
-        .match({ id })
-        .then(() => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
+    if (confirm) {
+      try {
+        await axios.delete(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + id).then(() => {
           Toast('success', 'Xóa phòng thành công');
-          setChangeData(changeData + 1);
+          setRooms(rooms.filter((item: any) => item.id !== id));
           setLoading(false);
         });
-    } catch (error) {
-      Toast('error', 'Xóa phòng không thành công');
-      setLoading(false);
+      } catch (error) {
+        Toast('error', 'Xóa phòng không thành công');
+        setLoading(false);
+      }
     }
   };
 
   const findData = (dataA: any) => {
-    const data = dataA.filter((item: any) => item.id_house == id);
+    const data = dataA.filter((item: any) => item.houseId == param.id);
     return data;
   };
   return (
-    <div className="h-screen">
+    <div className="h-auto">
       <header className="bg-white shadow">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -66,7 +63,7 @@ const ListRoom = (props: Props) => {
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
-              <Link href={`/manager/landlord/${id}/list-room/add`}>
+              <Link href={`/manager/landlord/${param.id}/list-room/add`}>
                 <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
                 </a>
@@ -78,25 +75,25 @@ const ListRoom = (props: Props) => {
       <main>
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="py-2 align-middle inline-block min-w-full ">
-                <div className="flex flex-wrap gap-[20px]">
+            <div className="sm:-mx-6 lg:-mx-8">
+              <div className="py-2 align-mparamle inline-block min-w-full ">
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 drop-shadow-xl ">
                   {rooms &&
                     findData(rooms).map((item: any, index: React.Key | null | undefined) => {
                       return (
-                        <div className="w-full max-w-[250px] border-2 p-[20px] bg-white rounded-[5px]" key={index}>
+                        <div className="w-full border-2 p-[20px] bg-white rounded-[5px]" key={index}>
                           <h2 className="text-xl flex items-center gap-2 mb-[20px]">
                             <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                             {item.name}
                           </h2>
-                          <Link
+                          {/* <Link
                             href="/manager/landlord/room-renter/add"
                             className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block"
                           >
                             <a className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block mb-[20px]">
                               Thêm khách
                             </a>
-                          </Link>
+                          </Link> */}
 
                           <p className="flex items-center gap-2 mb-[20px]">
                             <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
@@ -107,20 +104,21 @@ const ListRoom = (props: Props) => {
 
                           <div className="text-center flex gap-3">
                             <Link
-                              href={`/manager/landlord/${id}/list-room/${item.id}/edit`}
+                              href={`/manager/landlord/${param.id}/list-room/${item.id}/`}
                               className="text-amber-500 hover:text-amber-600"
                             >
-                              <a className="text-amber-500 hover:text-amber-600 flex">
-                                <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> chinh sua
+                              <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
+                                <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
                               </a>
                             </Link>
+                            
                             <button
                               onClick={() => {
                                 removeRoom(item.id);
                               }}
-                              className="btn text-red-500 hover:text-red-600 flex"
+                              className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                             >
-                              <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xoa
+                              <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
                             </button>
                           </div>
                         </div>

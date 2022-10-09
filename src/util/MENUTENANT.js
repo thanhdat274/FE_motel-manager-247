@@ -1,20 +1,20 @@
-import { faBox, faCoins, faHospital, faPlug, faShower,faFileContract } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faCoins, faHospital, faPlug, faShower } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const MENU_LANDLORD = [
+export const MENU_TENANTS = [
   {
-    url: 'list-room',
+    url: '',
     gap: true,
     title: 'Phòng',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
   },
-  { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
+  { url: '', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
   {
-    url: 'electric-used',
+    url: '',
     title: 'Số điện',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },
-  { url: 'water-used', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
+  { url: '', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
   // {
   //   url: '',
   //   title: 'Tính tiền',
@@ -22,5 +22,4 @@ export const MENU_LANDLORD = [
   //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
   // },
   { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  { url: 'contract-form', title: 'Mẫu hợp  đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faFileContract} /> },
 ];
