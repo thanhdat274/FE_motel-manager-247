@@ -8,7 +8,7 @@ type IProps = {
 };
 
 const TenantMember = ({ data }: IProps) => {
-  console.log('data', data);
+  //console.log('data', data);
 
   return (
     <div className="flex flex-row flex-wrap w-full gap-4">

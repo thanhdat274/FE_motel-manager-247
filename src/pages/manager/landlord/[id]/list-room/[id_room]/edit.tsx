@@ -31,8 +31,7 @@ const EditRoom = (props: Props) => {
   const router = useRouter();
   const param = router.query;
   // const { id } = router.query;
-  console.log(param);
-  
+  //console.log(param);
 
   useEffect(() => {
     const getRoom = async () => {
@@ -42,17 +41,17 @@ const EditRoom = (props: Props) => {
         );
         if (res.data) {
           reset(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getRoom();
   }, [param.id, param.id_room]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
-    console.log('data từ form', data);
+    //console.log('data từ form', data);
     setLoading(true);
     try {
       await axios

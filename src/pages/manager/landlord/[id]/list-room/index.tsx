@@ -12,7 +12,7 @@ const ListRoom = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
-  console.log('id nhà', param.id);
+  //console.log('id nhà', param.id);
 
   const [rooms, setRooms] = useState([]);
   useEffect(() => {
@@ -21,17 +21,17 @@ const ListRoom = (props: Props) => {
         const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room`);
         if (res.data) {
           setRooms(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log('error', error);
+        //console.log('error', error);
       }
     };
     getRoom();
   }, [param.id]);
 
   const removeRoom = async (id: number) => {
-    console.log('id phòng', id);
+    //console.log('id phòng', id);
     setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
@@ -111,7 +111,7 @@ const ListRoom = (props: Props) => {
                                 <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
                               </a>
                             </Link>
-                            
+
                             <button
                               onClick={() => {
                                 removeRoom(item.id);

@@ -15,7 +15,7 @@ const SideBar = (props: Props) => {
   const [collapseShow, setCollapseShow] = React.useState('hidden');
   const router = useRouter();
   const { id } = router.query;
-  console.log('id', id);
+  //console.log('id', id);
   return (
     <>
       <div

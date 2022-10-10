@@ -25,7 +25,7 @@ const AddHome = (props: Props) => {
   } = useForm();
   const onSubmit = async (dataForm: any) => {
     setLoading(true);
-    console.log('data', dataForm);
+    //console.log('data', dataForm);
     try {
       await axios.post('https://633505ceea0de5318a0bacba.mockapi.io/api/house', dataForm).then(() => {
         setLoading(false);
