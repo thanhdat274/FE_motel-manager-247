@@ -9,60 +9,28 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { style } from '@mui/system';
+import TenantContract from '../TenantContact';
 
 const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false });
 
 type IProps = {
   data: IMember[];
+  data1:any
 };
 
-const TenantMember = ({ data }: IProps) => {
+
+const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
-
-  const [roomData, setRoomData] = useState([]);
-
   const { setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
-
-  const getRoom = async () => {
-    setLoading(true);
-
-    try {
-      const res = await axios.get(
-        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
-      );
-      if (res.data) {
-        setRoomData(res.data as any);
-        setLoading(false);
-        console.log(res.data.max);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (param.id) {
-      getRoom();
-    }
-  }, [param.id]);
-  //
-
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-
-  const onOpenModal1 = () => setOpen1(true);
-  const onCloseModal1 = () => setOpen1(false);
-
   const onSubmit = async (data: any) => {
     setLoading(true);
 
@@ -84,20 +52,13 @@ const TenantMember = ({ data }: IProps) => {
     <div>
       <div>
         {' '}
-        {data.length < roomData.max ? (
+        {data.length < data1.max ? (
           <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
             Thêm thành viên
           </button>
         ) : (
           <>
-            <button onClick={onOpenModal1} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500 ">
-              Thêm thành viên
-            </button>
-            <Modal open={open1} onClose={onCloseModal1} center>
-              <div className="text-center">
-                <p className="pb-3 text-lg font-bold pt-5">Tối đa {roomData.max} thành viên</p>
-              </div>
-            </Modal>
+            <button className='border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50' >Đủ người</button>
           </>
         )}
         <Modal open={open} onClose={onCloseModal} center>
@@ -123,7 +84,9 @@ const TenantMember = ({ data }: IProps) => {
                   placeholder="Xin mời nhập tên thành viên"
                   {...register('full_name', { required: true, minLength: 6 })}
                 />
-                {errors.full_name?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên thành viên</span>}
+                {errors.full_name?.type === 'required' && (
+                  <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
+                )}
                 {errors.full_name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
 

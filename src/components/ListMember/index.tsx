@@ -54,9 +54,10 @@ const ListMember = (props: IMember) => {
 
   const removeRoom = async (id: number) => {
     console.log('id phòng', id);
-    setLoading(true);
+    
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
+      setLoading(true);
       try {
         await axios
           .delete(
@@ -89,6 +90,7 @@ const ListMember = (props: IMember) => {
     };
     getRoom();
   }, [param.id, param.id_room, id]);
+  
 
   const onSubmit = async (data: any) => {
     console.log('data từ form', data);

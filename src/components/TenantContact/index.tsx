@@ -5,7 +5,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 type Props = {};
-
+export type IMember = {
+  id: number;
+  full_name: string;
+  cccd: string;
+  role: string;
+  phone: string;
+  address: string;
+};
 const TenantContract = (props: Props) => {
   const router = useRouter();
   const [house, setHouse] = useState([]);

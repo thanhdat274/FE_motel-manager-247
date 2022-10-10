@@ -82,7 +82,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={peopleData as IMember[]} />,
+      children: <TenantMember data={peopleData as IMember[]} data1 = {roomData}  />,
     },
 
     {
