@@ -48,6 +48,8 @@ const EditRoom = (props: Props) => {
         console.log(error);
       }
     };
+   
+    
     getRoom();
   }, [param.id, param.id_room]);
 

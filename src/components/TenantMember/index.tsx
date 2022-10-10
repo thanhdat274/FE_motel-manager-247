@@ -1,59 +1,76 @@
-
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IMember } from '../ListMember';
-import Modal from 'react-modal';
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
+import { style } from '@mui/system';
 
 const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false });
 
 type IProps = {
   data: IMember[];
 };
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    width: '800px',
-    transform: 'translate(-50%, -50%)',
-  },
-};
+
 const TenantMember = ({ data }: IProps) => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+
+  const [roomData, setRoomData] = useState([]);
+
   const { setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
+
+  const getRoom = async () => {
+    setLoading(true);
+
+    try {
+      const res = await axios.get(
+        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
+      );
+      if (res.data) {
+        setRoomData(res.data as any);
+        setLoading(false);
+        console.log(res.data.max);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (param.id) {
+      getRoom();
+    }
+  }, [param.id]);
+  //
+
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log('data', data);
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
 
-  function openModal() {
-
-    setIsOpen(true);
-  }
+  const onOpenModal1 = () => setOpen1(true);
+  const onCloseModal1 = () => setOpen1(false);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
+
     try {
       await axios
         .post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people`, data)
         .then((data: any) => {
           setLoading(false);
-          setIsOpen(false);
           router.push(`/manager/landlord/${param.id}/list-room`);
           Toast('success', 'Thêm mới thành viên thành công');
         });
@@ -66,11 +83,29 @@ const TenantMember = ({ data }: IProps) => {
   return (
     <div>
       <div>
-        <button onClick={openModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
-          Thêm thành viên
-        </button>
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}   style={customStyles} contentLabel="Example Modal">
-          <div className="w-full ">
+        {' '}
+        {data.length < roomData.max ? (
+          <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
+            Thêm thành viên
+          </button>
+        ) : (
+          <>
+            <button onClick={onOpenModal1} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500 ">
+              Thêm thành viên
+            </button>
+            <Modal open={open1} onClose={onCloseModal1} center>
+              <div className="text-center">
+                <p className="pb-3 text-lg font-bold pt-5">Tối đa {roomData.max} thành viên</p>
+              </div>
+            </Modal>
+          </>
+        )}
+        <Modal open={open} onClose={onCloseModal} center>
+          <div className="w-full">
+            <h1 className="pt-2">
+              -----------------------------------------------------------------------------------------------------------------------
+            </h1>
+            <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">
                 <h2 className="pt-2 text-xl">Thêm thành viên </h2>
@@ -88,10 +123,10 @@ const TenantMember = ({ data }: IProps) => {
                   placeholder="Xin mời nhập tên thành viên"
                   {...register('full_name', { required: true, minLength: 6 })}
                 />
-                {errors.name?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên thành viên</span>}
-                {errors.name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.full_name?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên thành viên</span>}
+                {errors.full_name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
-             
+
               <div className="col-span-6">
                 <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                   Trạng thái phòng
@@ -101,8 +136,8 @@ const TenantMember = ({ data }: IProps) => {
                   {...register('role', { required: true })}
                   id="role"
                 >
-                  <option value="true">Chủ phòng</option>
-                  <option value="false">Thành viên</option>
+                  <option value="1">Chủ phòng</option>
+                  <option value="0">Thành viên</option>
                 </select>
               </div>
               <div className="mb-4">
@@ -111,13 +146,28 @@ const TenantMember = ({ data }: IProps) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="address"
+                  id="cccd"
                   type="text"
                   placeholder="Xin mời nhập  CMT/CCCD"
                   {...register('cccd', { required: true, minLength: 6 })}
                 />
-                {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.address?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.cccd?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
+                {errors.cccd?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                  Số điện thoại
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="phone"
+                  type="text"
+                  placeholder="Xin mời nhập  sô điện thoại"
+                  {...register('phone', { required: true, minLength: 6, maxLength: 11 })}
+                />
+                {errors.phone?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
+                {errors.phone?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.phone?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
               </div>
 
               <div className="flex items-center">
@@ -126,12 +176,6 @@ const TenantMember = ({ data }: IProps) => {
                   type="submit"
                 >
                   Thêm thành viên
-                </button>
-                <button
-                  className="ml-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  onClick={closeModal}
-                >
-                  Hủy
                 </button>
               </div>
             </form>
@@ -154,4 +198,3 @@ const TenantMember = ({ data }: IProps) => {
 };
 
 export default TenantMember;
-

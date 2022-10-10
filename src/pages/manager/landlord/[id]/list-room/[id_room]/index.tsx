@@ -30,6 +30,8 @@ const ManageRoom = () => {
       if (res.data) {
         setRoomData(res.data);
         setLoading(false);
+        console.log(res.data.max);
+        
       }
     } catch (error) {
       setLoading(false);
