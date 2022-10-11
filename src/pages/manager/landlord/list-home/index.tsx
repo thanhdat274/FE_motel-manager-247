@@ -19,7 +19,7 @@ const ListHome = () => {
   //     const res = await supabase.from('houses').select('*');
   //     if (res.data) {
   //       setHouse(res.data as any);
-  //       console.log('data', res.data);
+  //       //console.log('data', res.data);
   //     }
   //     if (res.error) {
   //       setErrorMessage(res.error as any);
@@ -28,23 +28,23 @@ const ListHome = () => {
   // };
 
   useEffect(() => {
-    console.log('run');
+    //console.log('run');
     const getHouse = async () => {
       try {
         const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
         if (res.data) {
           setHouse(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log('error', error);
+        //console.log('error', error);
       }
     };
     getHouse();
   }, []);
 
   const removeHouse = async (id: number) => {
-    console.log(id);
+    //console.log(id);
     setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');

@@ -16,14 +16,14 @@ const AddRoom = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const router = useRouter();
   const { id } = router.query;
-  console.log('id', id);
+  //console.log('id', id);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (dataForm: any) => {
-    console.log('data', dataForm);
+    //console.log('data', dataForm);
     const { data, error } = await supabase.from('houses').insert([{ ...dataForm }]);
   };
 

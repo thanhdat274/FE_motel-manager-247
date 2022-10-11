@@ -16,7 +16,7 @@ const EditService = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
   const { idService } = router.query;
-  console.log(idService);
+  //console.log(idService);
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ const EditService = (props: Props) => {
   useEffect(() => {
     const getServiceId = async () => {
       const data = await axios.get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + idService);
-      console.log(data);
+      //console.log(data);
       reset(data.data);
     };
     getServiceId();
@@ -48,7 +48,7 @@ const EditService = (props: Props) => {
           setLoading(false);
         });
     } catch (error) {
-      console.log('error', error);
+      //console.log('error', error);
     }
   };
 

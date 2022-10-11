@@ -32,7 +32,7 @@ const SideBarTenants = (props: Props) => {
   }
 
   const { id } = router.query;
-  console.log('id', id);
+  //console.log('id', id);
   return (
     <div>
       <div className={``}>

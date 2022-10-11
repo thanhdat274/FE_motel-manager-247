@@ -103,7 +103,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   <option value="0">Thành viên</option>
                 </select>
               </div>
-              <div className="mb-4">
+              <div className="mb-4 mt-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                   CMT/CCCD
                 </label>
