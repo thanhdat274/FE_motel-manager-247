@@ -13,7 +13,7 @@ const LayoutIntro = ({ children }: Props) => {
   const { loading } = useUserContext();
 
   return (
-    <div className=" m-auto bg-white min-h-screen ">
+    <div className=" m-auto bg-white w-full min-h-screen ">
       {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
 
       <HeaderPreview />
