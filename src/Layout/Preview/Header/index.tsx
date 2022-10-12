@@ -80,7 +80,7 @@ const HeaderPreview = (props: Props) => {
                     className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
                   >
                     <li>
-                      <Link href={'/auth'}>
+                      <Link href={'/auth/signin'}>
                         <a
                           className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                           href="#"
@@ -91,7 +91,7 @@ const HeaderPreview = (props: Props) => {
                     </li>
 
                     <li>
-                      <Link href={'/auth'}>
+                      <Link href={'/auth/signup'}>
                         <a
                           className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap"
                           href="#"
