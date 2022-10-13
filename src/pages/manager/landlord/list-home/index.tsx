@@ -2,58 +2,65 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from 'src/apis/supabase';
-import swal from 'sweetalert';
-
+import axios from 'axios';
+import { Toast } from 'src/hooks/toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useUserContext } from '@/context/UserContext';
 const ListHome = () => {
+  const { setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [changeData, setChangeData] = useState(0);
 
-  const getHouse = async () => {
-    try {
-      const res = await supabase.from('houses').select('*');
-      if (res.data) {
-        setHouse(res.data as any);
-        console.log('data', res.data);
-      }
-      if (res.error) {
-        setErrorMessage(res.error as any);
-      }
-    } catch (error) {}
-  };
+  // const getHouse = async () => {
+  //   try {
+  //     const res = await supabase.from('houses').select('*');
+  //     if (res.data) {
+  //       setHouse(res.data as any);
+  //       //console.log('data', res.data);
+  //     }
+  //     if (res.error) {
+  //       setErrorMessage(res.error as any);
+  //     }
+  //   } catch (error) {}
+  // };
 
   useEffect(() => {
-    console.log('run');
-
+    //console.log('run');
+    const getHouse = async () => {
+      try {
+        const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
+        if (res.data) {
+          setHouse(res.data as any);
+          //console.log('data', res.data);
+        }
+      } catch (error) {
+        //console.log('error', error);
+      }
+    };
     getHouse();
-  }, [changeData]);
-  const router = useRouter();
-
-  const { id } = router.query;
-  console.log('id', id);
+  }, []);
 
   const removeHouse = async (id: number) => {
-    try {
-      const { data, error } = await supabase.from('houses').delete().match({ id });
+    //console.log(id);
+    setLoading(true);
 
-      router.push('/manager/landlord/list-home');
-      swal('Thêm nhà  thành công!', {
-        icon: 'success',
-      });
-      setChangeData(changeData + 1);
-    } catch (error) {
-      swal('Đã xảy ra lỗi!', {
-        icon: 'error',
-      });
+    const confirm = window.confirm('Bạn có muốn xóa không ?');
+    if (confirm) {
+      try {
+        await axios.delete('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + id).then(() => {
+          Toast('success', 'Xóa nhà thành công');
+          setHouse(house.filter((item: any) => item.id !== id));
+          setLoading(false);
+        });
+      } catch (error) {
+        Toast('success', 'Xóa nhà không thành công');
+        setLoading(false);
+      }
     }
   };
-
-  // console.log(house);
-
-  // console.log('landlord', router.pathname.search('/manager/landlord'));
-
-  // console.log('ternant', router.pathname.search('/manager/ternant'));
 
   const renderList = () => {
     return (
@@ -61,50 +68,69 @@ const ListHome = () => {
         <div className="border-2">
           <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
             <div className="">
-              <h2 className="pt-2 text-xl">Danh sách nhà </h2>
+              <h2 className="pt-2 text-xl font-bold ">Danh sách nhà </h2>
             </div>
             <div className="">
-              <Link
-                href="/manager/landlord/list-home/add"
-                className="float-right border-2  px-2 py-2 bg-amber-700 hover:bg-red-600 rounded"
-              >
-                <a>Thêm nhà</a>
+              <Link href="/manager/landlord/list-home/add" className=" border-2  px-2 py-2  hover:bg-red-600 rounded">
+                <a
+                  className="border float-right  p-2 bg-gradient-to-r from-cyan-500 to-blue-800 font-bold 
+                hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-900 hover:font-bold"
+                >
+                  Thêm nhà
+                </a>
               </Link>
             </div>
           </div>
-          <div className=" my-4 mx-4  sm:grid sm:grid-cols-2  sm:gap-2 lg:grid lg:grid-cols-4  lg:gap-4 ">
+          <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid lg:grid-cols-4 lg:gap-2 drop-shadow-2xl m-3">
             {house &&
-              house.map((item: { id: number; name: string; address: string }, index: React.Key | null | undefined) => {
+              house.map((item: any, index: React.Key | null | undefined) => {
                 return (
                   <>
-                    <div className="border-2 text-center  py-8 bg-gray-100  mt-3" key={index}>
-                      <div className="">
-                        <h1 className="">
-                          <span className="bg-sky-400 border text-lg hover:bg-cyan-500 text-white hover:text-black rounded-md  font-bold p-3">
-                            {item?.name}
-                          </span>
-                        </h1>
+                    <div className="border pt-3 bg-white rounded pr-2" key={index}>
+                      <div className=" text-2xl rounded-md  font-bold pl-3 flex items-center">
+                        <span className="pr-3">
+                          <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
+                        </span>
+                        <span>{item?.name}</span>
                       </div>
-                      <div className="m-3 border bg-slate-300 rounded-md text-left ">
-                        <p className="p-2">{item?.address}</p>
+                      <div className="m-4  rounded-md text-left text-sm flex ">
+                        <span className="pr-3">
+                          <FontAwesomeIcon className="w-[10px]  pt-1 text-indigo-700" icon={faLocationDot} />
+                        </span>
+                        <span>{item?.address}</span>
                       </div>
                       <div>
-                        <div>
+                        <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
                           <Link href={`${item?.id}`}>
-                            <a className="border  pr-2 pl-2 pt-1 pb-1 rounded-md bg-emerald-500 text-white hover:bg-green-800">
-                              Quản lý
+                            <a className="text-white base-1/3 bg-sky-500 w-1/3">
+                              <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+                                <span className="pr-2">
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />
+                                </span>
+                                <span>Quản lý</span>
+                              </div>
                             </a>
                           </Link>
                           <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
-                            <a className="border mr-2 ml-2 pr-2 pl-2 pt-1 pb-1 rounded-md bg-blue-600 text-white hover:bg-sky-800">
-                              Chỉnh sửa
+                            <a className="text-white base-1/3 2 bg-yellow-400 w-1/3 ">
+                              <div className="bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+                                <span className="pr-2">
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} />
+                                </span>
+                                <span>Chỉnh sửa</span>
+                              </div>
                             </a>
                           </Link>
                           <button
                             onClick={() => removeHouse(item?.id)}
-                            className="border pr-2 pl-2 pt-1 pb-1 rounded-md bg-rose-600 text-white hover:bg-rose-800 "
+                            className="text-white base-1/3  bg-red-500 w-1/3"
                           >
-                            Xóa
+                            <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+                              <span className="pr-2">
+                                <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faTrash} />
+                              </span>
+                              <span>Xóa</span>
+                            </div>
                           </button>
                         </div>
                       </div>

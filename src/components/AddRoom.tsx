@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { addHouse } from 'src/pages/api/house';
-import swal from 'sweetalert';
 type Props = {};
 
 type FormInput = {
@@ -17,26 +16,15 @@ const AddRoom = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const router = useRouter();
   const { id } = router.query;
-  console.log('id', id);
+  //console.log('id', id);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (dataForm: any) => {
-    console.log('data', dataForm);
+    //console.log('data', dataForm);
     const { data, error } = await supabase.from('houses').insert([{ ...dataForm }]);
-    // try {
-    //   addHouse(data);
-    //   router.push('/manager/landlord/house');
-    //   swal('Thêm nhà  thành công!', {
-    //     icon: 'success',
-    //   });
-    // } catch (error) {
-    //   swal('Đã xảy ra lỗi!', {
-    //     icon: 'error',
-    //   });
-    // }
   };
 
   return (

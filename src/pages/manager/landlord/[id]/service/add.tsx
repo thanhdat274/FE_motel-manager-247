@@ -1,17 +1,19 @@
+import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import swal from 'sweetalert';
+import { Toast } from 'src/hooks/toast';
 type Props = {};
 interface IFormInputs {
   name: string;
   price: number;
-  unit:string;
+  unit: string;
   desc: string;
 }
 const AddServiceRoom = (props: Props) => {
+  const { setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -21,12 +23,21 @@ const AddServiceRoom = (props: Props) => {
     formState: { errors },
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    setLoading(true);
     try {
-      await axios.post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data);
-      swal('Bạn đã thêm mới thành công!', 'success');
-      router.push(`/manager/landlord/${id}/service`);
+      await axios
+        .post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data)
+        .then(() => {
+          Toast('success', 'Thêm dịch vụ thành công');
+          router.push(`/manager/landlord/${id}/service`);
+          setLoading(false);
+        })
+        .catch(() => {
+          Toast('error', 'Thêm dịch vụ không thành công');
+          setLoading(false);
+        });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -96,7 +107,7 @@ const AddServiceRoom = (props: Props) => {
                       )}
                     </div>
                     <div>
-                    <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Ghi chú <span className="text-[red]">*</span>
                       </label>
                       <div className="mt-1">
