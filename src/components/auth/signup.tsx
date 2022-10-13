@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { UserSignup } from 'src/pages/api/auth';
-import ReCAPTCHA from 'react-google-recaptcha';
 type Props = {};
 interface IFormInputs {
   email: string;
@@ -17,11 +16,6 @@ interface IFormInputs {
 const Signup = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
-  const [captcha, setCaptcha] = useState(false);
-  const onChange = (value: any) => {
-    setCaptcha(true);
-  };
-
   const {
     register,
     formState: { errors },
@@ -92,7 +86,6 @@ const Signup = (props: Props) => {
                 <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
               )}
             </div>
-            <ReCAPTCHA sitekey={'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} onChange={onChange} />
             <div className="flex mt-[20px]">
               <button
                 type="submit"
