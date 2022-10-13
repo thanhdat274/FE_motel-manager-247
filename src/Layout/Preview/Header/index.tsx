@@ -18,6 +18,7 @@ const HeaderPreview = (props: Props) => {
   // console.log('dữ liệu khi dăng nhập', user);
   // const { data: session, status } = useSession();
   const logout = () => {
+    localStorage.removeItem("user");
     window.location.reload();
   }
   return (
