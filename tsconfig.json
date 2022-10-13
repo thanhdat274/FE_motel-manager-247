@@ -1,5 +1,3 @@
-
-
 {
   "compilerOptions": {
     "target": "es5",
@@ -36,6 +34,6 @@
     "src/pages/api/examples/protected.js",
     "src/pages/api/auth/[...nextauth].js",
     "src/pages/signin/index.tsx"
-, "src/components/auth/signup.tsx"  ],
+  ],
   "exclude": ["node_modules"]
 }
