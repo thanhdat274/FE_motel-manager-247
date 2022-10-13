@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import styles from './style.module.css';
+import { useUserContext } from '@/context/UserContext';
 
 type Props = {};
 
@@ -13,9 +14,13 @@ const HeaderPreview = (props: Props) => {
   const toggleNav = () => {
     setToogle(!toggle);
   };
+  const { user } = useUserContext();
+  // console.log('dữ liệu khi dăng nhập', user);
   // const { data: session, status } = useSession();
-
-  const getAll = true;
+  const logout = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  }
   return (
     <div className="shadow lg:shadow-none">
       <div className=" ">
@@ -48,29 +53,7 @@ const HeaderPreview = (props: Props) => {
               <div></div>
             </div>
             <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
-              <Link href={`/manager/landlord/list-home`}>
-                <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                  Quản lý nhà trọ
-                </a>
-              </Link>
-              <Link href={`/manager/ternant`}>
-                <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                  Quản lý phòng trọ
-                </a>
-              </Link>
-              {getAll && (
-                // <>
-                //   <Link href={`/auth`}>
-                //     <a className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
-                //       Đăng nhập
-                //     </a>
-                //   </Link>
-
-                //   <button className="h-10 rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-2.5 ml-1">
-                //     Đăng ký
-                //   </button>
-                // </>
-
+              {!user ? (
                 <div className={`${styles['dropdown']} dropdown inline-block relative`}>
                   <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                     <span className="mr-1">Đăng nhập/Đăng kí</span>
@@ -81,10 +64,7 @@ const HeaderPreview = (props: Props) => {
                   >
                     <li>
                       <Link href={'/auth/signin'}>
-                        <a
-                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                          href="#"
-                        >
+                        <a className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">
                           Đăng nhập
                         </a>
                       </Link>
@@ -92,15 +72,42 @@ const HeaderPreview = (props: Props) => {
 
                     <li>
                       <Link href={'/auth/signup'}>
-                        <a
-                          className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap"
-                          href="#"
-                        >
+                        <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap">
                           Đăng kí
                         </a>
                       </Link>
                     </li>
                   </ul>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:grid-cols-1 sm:grid md:flex md:flex-row gap-2">
+                  <Link href={`/manager/landlord/list-home`}>
+                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                      Quản lý nhà trọ
+                    </a>
+                  </Link>
+                  <Link href={`/manager/ternant`}>
+                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                      Quản lý phòng trọ
+                    </a>
+                  </Link>
+                  <div className={`${styles['dropdown']} dropdown inline-block relative`}>
+                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                      <span className="mr-1">Xin chào: {user?.name}</span>
+                    </button>
+                    <ul
+                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2  rounded-md`}
+                    >
+                      <li>
+                        <button
+                          onClick={() => logout()}
+                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 inline-block whitespace-no-wrap"
+                        >
+                          Đăng xuất
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )}
             </div>
