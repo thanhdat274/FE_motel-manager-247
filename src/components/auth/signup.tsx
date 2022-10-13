@@ -24,15 +24,16 @@ const Signup = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     console.log(data);
     setLoading(true);
-    
+
     await UserSignup(data)
       .then(() => {
         Toast('success', 'Bạn đã đăng ký thành công , mời bạn đăng nhập!');
-        router.push("/auth/signin");
+        router.push('/auth/signin');
         setLoading(false);
       })
-      .catch(() => {
-        Toast('error', 'Bạn đã đăng ký không thành công!');
+      .catch((error) => {
+        const msgError = error.response.data.error;
+        Toast('error', msgError);
         setLoading(false);
       });
   };
@@ -75,11 +76,15 @@ const Signup = (props: Props) => {
                 type="password"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập mật khẩu"
-                {...register('password', { required: true,minLength:8,maxLength:20 })}
+                {...register('password', { required: true, minLength: 8, maxLength: 20 })}
               />
-              {errors.password?.type==='required' && <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>}
-              {errors.password?.type==='minLength'&& <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>}
-              {errors.password?.type==='maxLength'&& <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>}
+              {errors.password?.type === 'required' && <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>}
+              {errors.password?.type === 'minLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+              )}
+              {errors.password?.type === 'maxLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+              )}
             </div>
             <div className="flex mt-[20px]">
               <button
