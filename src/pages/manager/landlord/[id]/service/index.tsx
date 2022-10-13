@@ -14,6 +14,13 @@ const ListServiceRoom = (props: Props) => {
   const [listServices, setListServices] = useState([]);
   const { setLoading } = useUserContext();
 
+  const [fillter, setfillter] = useState('');
+
+  const handleSearch = (event: any) => {
+    const value = event.target.value;
+    setfillter(value);
+  };
+
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
@@ -62,6 +69,18 @@ const ListServiceRoom = (props: Props) => {
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
+              <div className="mr-[20px]">
+                <form>
+                  <input
+                    type="text"
+                    name="keyword"
+                    className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Tìm kiếm..."
+                    onChange={handleSearch}
+                    value={fillter}
+                  />
+                </form>
+              </div>
               <Link href={`/manager/landlord/${id}/service/add`}>
                 <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
@@ -113,43 +132,50 @@ const ListServiceRoom = (props: Props) => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {listServices &&
-                        listServices.map((item: any, index) => (
-                          <tr key={index}>
-                            <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                              <div className="text-center">{index + 1}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.name}</div>
-                            </td>
+                        listServices
+                          .filter((val: any) => {
+                            if (fillter == '') {
+                              return val;
+                            } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                              return val;
+                            }
+                          })
+                          .map((item: any, index) => (
+                            <tr key={index}>
+                              <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                <div className="text-center">{index + 1}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.name}</div>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.price}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.unit}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-center flex">
-                                <Link
-                                  href={`/manager/landlord/${id}/service/${item.id}/edit`}
-                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                >
-                                  <FontAwesomeIcon
-                                    className="w-[20px] cursor-pointer"
-                                    icon={faPenToSquare}
-                                  ></FontAwesomeIcon>
-                                </Link>
-                                <button
-                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                  onClick={() => remove(item?.id)}
-                                >
-                                  <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
-                                </button>
-                               
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.price}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.unit}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-center flex">
+                                  <Link
+                                    href={`/manager/landlord/${id}/service/${item.id}/edit`}
+                                    className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                  >
+                                    <FontAwesomeIcon
+                                      className="w-[20px] cursor-pointer"
+                                      icon={faPenToSquare}
+                                    ></FontAwesomeIcon>
+                                  </Link>
+                                  <button
+                                    className="text-amber-500 hover:text-amber-600 mx-[10px]"
+                                    onClick={() => remove(item?.id)}
+                                  >
+                                    <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                     </tbody>
                   </table>
                 </div>
