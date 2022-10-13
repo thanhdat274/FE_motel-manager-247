@@ -10,17 +10,12 @@ import { useUserContext } from '@/context/UserContext';
 type Props = {};
 
 const HeaderPreview = (props: Props) => {
-  const [toggle, setToogle] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const toggleNav = () => {
-    setToogle(!toggle);
+    setToggle(!toggle);
   };
-  const { user } = useUserContext();
-  // console.log('dữ liệu khi dăng nhập', user);
-  // const { data: session, status } = useSession();
-  const logout = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
-  }
+  const { user, logoutResetData } = useUserContext();
+
   return (
     <div className="shadow lg:shadow-none">
       <div className=" ">
@@ -100,7 +95,7 @@ const HeaderPreview = (props: Props) => {
                     >
                       <li>
                         <button
-                          onClick={() => logout()}
+                          onClick={() => logoutResetData()}
                           className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 inline-block whitespace-no-wrap"
                         >
                           Đăng xuất
