@@ -14,7 +14,7 @@ type FormValues = {
 };
 
 const Signin = (props: Props) => {
-  const { setLoading, setUser } = useUserContext();
+  const { setLoading, setUser, setToken } = useUserContext();
   const router = useRouter();
   const {
     register,
@@ -27,9 +27,11 @@ const Signin = (props: Props) => {
       .then((data) => {
         setLoading(false);
         setUser(data.data.user);
+        setToken(data.data.token);
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
-        console.log(data.data.user);
+        // console.log(data.data.user);
+        // console.log(data.data.token);
       })
       .catch((error) => {
         console.log(error.response.data.error);

@@ -15,7 +15,7 @@ const HeaderPreview = (props: Props) => {
     setToogle(!toggle);
   };
   const { user } = useUserContext();
-  console.log('dữ liệu khi dăng nhập', user);
+  // console.log('dữ liệu khi dăng nhập', user);
   // const { data: session, status } = useSession();
   const logout = () => {
     window.location.reload();
