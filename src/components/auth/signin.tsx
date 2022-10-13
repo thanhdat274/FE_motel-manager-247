@@ -10,6 +10,7 @@ const Signin = (props: Props) => {
     console.log('Captcha value:', value);
     setCaptcha(true);
   };
+
   return (
     <div className="min-h-[700px] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -23,7 +24,7 @@ const Signin = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder='Nhập email'
+                placeholder="Nhập email"
               />
             </div>
             <div className="mt-4">
@@ -33,7 +34,7 @@ const Signin = (props: Props) => {
               <input
                 type="password"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder='Nhập mật khẩu'
+                placeholder="Nhập mật khẩu"
               />
             </div>
             <div className="flex items-center justify-end">
@@ -42,8 +43,8 @@ const Signin = (props: Props) => {
               </Link>
             </div>
 
-            <ReCAPTCHA  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" onChange={onChange} />
-            
+            <ReCAPTCHA sitekey={'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} onChange={onChange} />
+
             <div className="flex mt-[20px]">
               <button
                 disabled={!captcha}

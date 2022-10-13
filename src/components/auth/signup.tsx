@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { UserSignup } from 'src/pages/api/auth';
+import ReCAPTCHA from 'react-google-recaptcha';
 type Props = {};
 interface IFormInputs {
   email: string;
@@ -16,6 +17,11 @@ interface IFormInputs {
 const Signup = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
+  const [captcha, setCaptcha] = useState(false);
+  const onChange = (value: any) => {
+    setCaptcha(true);
+  };
+
   const {
     register,
     formState: { errors },
@@ -24,15 +30,16 @@ const Signup = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     console.log(data);
     setLoading(true);
-    
+
     await UserSignup(data)
       .then(() => {
         Toast('success', 'Bạn đã đăng ký thành công , mời bạn đăng nhập!');
-        router.push("/auth/signin");
+        router.push('/auth/signin');
         setLoading(false);
       })
-      .catch(() => {
-        Toast('error', 'Bạn đã đăng ký không thành công!');
+      .catch((error) => {
+        const msgError = error.response.data.error;
+        Toast('error', msgError);
         setLoading(false);
       });
   };
@@ -75,12 +82,17 @@ const Signup = (props: Props) => {
                 type="password"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập mật khẩu"
-                {...register('password', { required: true,minLength:8,maxLength:20 })}
+                {...register('password', { required: true, minLength: 8, maxLength: 20 })}
               />
-              {errors.password?.type==='required' && <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>}
-              {errors.password?.type==='minLength'&& <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>}
-              {errors.password?.type==='maxLength'&& <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>}
+              {errors.password?.type === 'required' && <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>}
+              {errors.password?.type === 'minLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+              )}
+              {errors.password?.type === 'maxLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+              )}
             </div>
+            <ReCAPTCHA sitekey={'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} onChange={onChange} />
             <div className="flex mt-[20px]">
               <button
                 type="submit"
