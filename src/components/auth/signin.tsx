@@ -1,16 +1,9 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 type Props = {};
 
 const Signin = (props: Props) => {
-  const [captcha, setCaptcha] = useState(false);
-  const onChange = (value: any) => {
-    console.log('Captcha value:', value);
-    setCaptcha(true);
-  };
-
   return (
     <div className="min-h-[700px] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -43,13 +36,8 @@ const Signin = (props: Props) => {
               </Link>
             </div>
 
-            <ReCAPTCHA sitekey={'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} onChange={onChange} />
-
             <div className="flex mt-[20px]">
-              <button
-                disabled={!captcha}
-                className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600"
-              >
+              <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600">
                 Đăng nhập
               </button>
             </div>
