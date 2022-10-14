@@ -6,13 +6,16 @@ import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-ico
 import axios from 'axios';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
+type Props = {};
 
-const ListServiceRoom = () => {
+const ListServiceRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
   const { setLoading } = useUserContext();
+
   const [fillter, setfillter] = useState('');
+
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
@@ -22,7 +25,7 @@ const ListServiceRoom = () => {
     const getService = async () => {
       setLoading(true);
       await axios
-        .get('https://6333eaba90a73d0fede260f2.mockapi.io/api/service')
+        .get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service')
         .then((data: any) => {
           setListServices(data.data);
           setLoading(false);
