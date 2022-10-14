@@ -5,7 +5,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 type Props = {};
-
+export type IMember = {
+  id: number;
+  full_name: string;
+  cccd: string;
+  role: string;
+  phone: string;
+  address: string;
+};
 const TenantContract = (props: Props) => {
   const router = useRouter();
   const [house, setHouse] = useState([]);
@@ -17,7 +24,7 @@ const TenantContract = (props: Props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  // console.log(param);
+  // //console.log(param);
 
   useEffect(() => {
     const getHome = async () => {
@@ -27,10 +34,10 @@ const TenantContract = (props: Props) => {
         );
         if (res.data) {
           setHouse(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getHome();
@@ -41,10 +48,10 @@ const TenantContract = (props: Props) => {
         const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id}`);
         if (res.data) {
           setHouses(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getHouse();
@@ -227,16 +234,15 @@ const TenantContract = (props: Props) => {
               tranh chấp sẽ được giải quyết bằng con đường Tòa án theo quy định của hệ thống pháp luật Việt Nam.
             </p>
           </div>
-          <div className='text-xs mt-7 mb-[100px] font-bold '>
-            <p className='text-right pr-[100px]'> Ngày.... Tháng.... Năm  </p>
-            <div className='grid grid-cols-2 text-center pt-5'>
-            <p> BÊN A</p>
-            <p className=''>BÊN B</p>
+          <div className="text-xs mt-7 mb-[100px] font-bold ">
+            <p className="text-right pr-[100px]"> Ngày.... Tháng.... Năm </p>
+            <div className="grid grid-cols-2 text-center pt-5">
+              <p> BÊN A</p>
+              <p className="">BÊN B</p>
             </div>
-                  
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   );
 };

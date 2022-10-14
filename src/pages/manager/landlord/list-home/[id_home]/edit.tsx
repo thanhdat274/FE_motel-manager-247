@@ -19,7 +19,7 @@ const EditHouse = (props: Props) => {
     formState: { errors },
     reset,
   } = useForm();
-  console.log('param', param);
+  //console.log('param', param);
 
   useEffect(() => {
     const getHome = async () => {
@@ -27,17 +27,17 @@ const EditHouse = (props: Props) => {
         const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id_home}`);
         if (res.data) {
           reset(res.data as any);
-          console.log('data', res.data);
+          //console.log('data', res.data);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getHome();
   }, [param.id_home]);
   const onSubmit = async (dataForm: any) => {
     setLoading(true);
-    console.log('data', dataForm);
+    //console.log('data', dataForm);
     try {
       await axios
         .put('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + `${param.id_home}`, dataForm)

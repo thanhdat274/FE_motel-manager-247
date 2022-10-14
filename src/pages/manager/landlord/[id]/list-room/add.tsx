@@ -28,10 +28,10 @@ const AddRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
-  console.log('id nhà', id);
+  //console.log('id nhà', id);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
-    console.log('data từ form', data);
+    //console.log('data từ form', data);
     setLoading(true);
     try {
       await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
