@@ -6,8 +6,6 @@ import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-ico
 import axios from 'axios';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
-import { paginate12 } from '../../../../../util/paginate';
-import Pagination from '@/components/Pagination/Pagination';
 
 const ListServiceRoom = () => {
   const router = useRouter();
@@ -15,8 +13,6 @@ const ListServiceRoom = () => {
   const [listServices, setListServices] = useState([]);
   const { setLoading } = useUserContext();
   const [fillter, setfillter] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 12;
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
@@ -58,10 +54,7 @@ const ListServiceRoom = () => {
         });
     }
   };
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
-  };
-  const paginatePost = paginate12(listServices, currentPage, pageSize);
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -135,8 +128,8 @@ const ListServiceRoom = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {paginatePost &&
-                        paginatePost
+                      {listServices &&
+                        listServices
                           .filter((val: any) => {
                             if (fillter == '') {
                               return val;
@@ -182,14 +175,6 @@ const ListServiceRoom = () => {
                           ))}
                     </tbody>
                   </table>
-                  <div className="flex justify-end p-2">
-                    <Pagination
-                      items={listServices.length}
-                      currentPage={currentPage}
-                      pageSize={pageSize}
-                      onPageChange={handlePageChange}
-                    />
-                  </div>
                 </div>
               </div>
             </div>
