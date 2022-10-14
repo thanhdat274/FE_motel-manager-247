@@ -13,6 +13,7 @@ type FormValues = {
   password: string;
 };
 
+
 const Signin = (props: Props) => {
   const { setLoading, setUser, setToken } = useUserContext();
   const router = useRouter();
@@ -28,7 +29,8 @@ const Signin = (props: Props) => {
         setLoading(false);
         setUser(data.data.user);
         setToken(data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.token) as string);
+        localStorage.setItem('user', JSON.stringify(data.data) as string);
+        // localStorage.setItem('user', JSON.stringify(data.data.user) as string);
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
         // console.log(data.data.user);

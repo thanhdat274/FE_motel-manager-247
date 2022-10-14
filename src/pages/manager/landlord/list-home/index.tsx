@@ -7,33 +7,23 @@ import { Toast } from 'src/hooks/toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
+import { listHouse } from 'src/pages/api/house';
+
+// const a = JSON.parse(localStorage.getItem('user') as string);
 const ListHome = () => {
   const { setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [changeData, setChangeData] = useState(0);
+console.log(house);
 
-  // const getHouse = async () => {
-  //   try {
-  //     const res = await supabase.from('houses').select('*');
-  //     if (res.data) {
-  //       setHouse(res.data as any);
-  //       //console.log('data', res.data);
-  //     }
-  //     if (res.error) {
-  //       setErrorMessage(res.error as any);
-  //     }
-  //   } catch (error) {}
-  // };
 
   useEffect(() => {
-    //console.log('run');
+    const a = JSON.parse(localStorage.getItem('user') as any);
+
     const getHouse = async () => {
       try {
-        const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
-        if (res.data) {
-          setHouse(res.data as any);
+        const {data} = await listHouse(a);
+        if (data.data) {
+          setHouse(data.data as any);
           //console.log('data', res.data);
         }
       } catch (error) {
@@ -101,7 +91,7 @@ const ListHome = () => {
                       </div>
                       <div>
                         <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
-                          <Link href={`${item?.id}`}>
+                          <Link href={`${item?._id}`}>
                             <a className="text-white base-1/3 bg-sky-500 w-1/3">
                               <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                 <span className="pr-2">
@@ -111,7 +101,7 @@ const ListHome = () => {
                               </div>
                             </a>
                           </Link>
-                          <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
+                          <Link href={`/manager/landlord/list-home/${item?._id}/edit`}>
                             <a className="text-white base-1/3 2 bg-yellow-400 w-1/3 ">
                               <div className="bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                 <span className="pr-2">
@@ -122,7 +112,7 @@ const ListHome = () => {
                             </a>
                           </Link>
                           <button
-                            onClick={() => removeHouse(item?.id)}
+                            onClick={() => removeHouse(item?._id)}
                             className="text-white base-1/3  bg-red-500 w-1/3"
                           >
                             <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
