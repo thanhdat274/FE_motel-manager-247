@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listHouse = (a: any) => {
-  const url = `house/${a.user._id}`;
+export const listRoom = () => {
+  const a = JSON.parse(localStorage.getItem('user') as string);
+
+  const url = `list-room`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
@@ -10,50 +12,48 @@ export const listHouse = (a: any) => {
   });
 };
 
-export const addHouse = (data: any) => {
+export const addRoom = (data: any) => {
   const a = JSON.parse(localStorage.getItem('user') as string);
-
-  const url = `/house/${a.user._id}`;
+  const url = `/room/${a.user._id}`;
   return instance.post(url, data, {
     headers: {
-      "Content-Type": "multipart/form-data",
-      "Accept": "application/json",
-      "type": "formData",
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+      type: 'formData',
       Authorization: `Bearer ${a.token}`,
-     
     },
   });
 };
 
-export const removeHouses = (_id: number) => {
+export const removeRoom = (_id: number) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/${_id}`;
+  const url = `room/${_id}`;
   return instance.delete(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const readHouse = (id_home: string) => {
+export const readRoom = (id_home: string) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/detail/${id_home}`;
+  const url = `room/detail/${id_home}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const updateHouse = (house: any) => {
+export const updateRoom = (house: any) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/${house._id}`;
+  const url = `room/${house._id}`;
   return instance.put(url, house, {
     headers: {
-      "Content-Type": "multipart/form-data",
-      "Accept": "application/json",
-      "type": "formData",
+      'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+      type: 'formData',
       Authorization: `Bearer ${a.token}`,
     },
   });

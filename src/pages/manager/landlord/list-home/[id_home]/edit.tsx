@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { readHouse, updateHouse } from 'src/pages/api/house';
 
 type Props = {};
 
@@ -19,12 +20,12 @@ const EditHouse = (props: Props) => {
     formState: { errors },
     reset,
   } = useForm();
-  //console.log('param', param);
+  console.log('param', param);
 
   useEffect(() => {
     const getHome = async () => {
       try {
-        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id_home}`);
+        const res = await readHouse(`${param.id_home}`);
         if (res.data) {
           reset(res.data as any);
           //console.log('data', res.data);
@@ -34,20 +35,19 @@ const EditHouse = (props: Props) => {
       }
     };
     getHome();
-  }, [param.id_home]);
+  }, []);
   const onSubmit = async (dataForm: any) => {
     setLoading(true);
     //console.log('data', dataForm);
     try {
-      await axios
-        .put('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + `${param.id_home}`, dataForm)
+      await updateHouse(dataForm)
         .then(() => {
           setLoading(false);
-
           router.push('/manager/landlord/list-home');
           Toast('success', 'Sửa nhà  thành công!');
         });
     } catch (error) {
+      setLoading(false);
       Toast('error', 'Đã xảy ra lỗi!');
     }
   };

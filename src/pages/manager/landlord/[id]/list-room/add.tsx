@@ -2,10 +2,12 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Toast } from 'src/hooks/toast';
+import { readHouse } from 'src/pages/api/house';
+import { addRoom } from 'src/pages/api/room';
 type Props = {};
 
 type FromValues = {
@@ -21,20 +23,43 @@ type FromValues = {
 const AddRoom = (props: Props) => {
   const { setLoading } = useUserContext();
   const [showMsg, setShowMsg] = useState(false);
+  const [house, setHouse] = useState()
+
+  console.log(house);
+  
+
+  
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
+    
   } = useForm<FromValues>();
   const router = useRouter();
+
   const { id } = router.query;
   //console.log('id nhà', id);
+  useEffect(() => {
+    const getHome = async () => {
+      try {
+        const res = await readHouse(`${id}`);
+        if (res.data) {
+          setHouse(res.data as any);
+          //console.log('data', res.data);
+        }
+      } catch (error) {
+        //console.log(error);
+      }
+    };
+    getHome();
+  }, []);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
     //console.log('data từ form', data);
     setLoading(true);
     try {
-      await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
+      await addRoom(data).then((data: any) => {
         setLoading(false);
         setShowMsg(true);
         router.push(`/manager/landlord/${id}/list-room`);
@@ -46,6 +71,7 @@ const AddRoom = (props: Props) => {
     }
   };
 
+
   return (
     <div className="w-full ">
       <header className="bg-white shadow border rounded-md">
@@ -53,7 +79,7 @@ const AddRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                thêm mới phòng
+                {/* {(house.name)} */}
               </h2>
             </div>
           </div>
@@ -129,6 +155,20 @@ const AddRoom = (props: Props) => {
                       )}
                     </div>
 
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Diện tích <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="area"
+                        type="number"
+                        {...register('area', { required: true })}
+                      />
+                      {errors.area && errors.area.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div>
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Diện tích <span className="text-[red]">*</span>

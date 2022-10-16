@@ -25,14 +25,15 @@ const AddHome = (props: Props) => {
   } = useForm();
   const onSubmit = async (dataForm: any) => {
     setLoading(true);
-    //console.log('data', dataForm);
     try {
-      await axios.post('https://633505ceea0de5318a0bacba.mockapi.io/api/house', dataForm).then(() => {
+       await addHouse(dataForm)
+       .then(() => {
         setLoading(false);
         router.push('/manager/landlord/list-home');
         Toast('success', 'Thêm nhà  thành công!');
       });
     } catch (error) {
+      setLoading(false);
       Toast('error', 'Đã xảy ra lỗi!');
     }
   };
