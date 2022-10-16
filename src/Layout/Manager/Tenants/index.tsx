@@ -8,7 +8,6 @@ type Props = {
   children: ReactNode;
 };
 
-
 const LayoutTenants = ({ children }: Props) => {
   const { loading } = useUserContext();
 
@@ -20,7 +19,9 @@ const LayoutTenants = ({ children }: Props) => {
       <Navbar />
       <div className="relative md:ml-64 bg-blueGray-100">
         <div className=" mx-auto w-full h-full">
-          <div className="bg-gray-100 p-4 min-h-screen">{children}</div>
+          <div className="bg-gray-100 p-4 min-h-screen sm:mt-[55px] s:mt-[55px] 2xs:mt-[55px] xs:mt-[55px] md:mt-0">
+            {children}
+          </div>
         </div>
       </div>
     </div>
