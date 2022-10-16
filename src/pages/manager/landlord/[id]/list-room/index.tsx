@@ -12,35 +12,36 @@ type Props = {};
 const ListRoom = (props: Props) => {
   const { setLoading, user } = useUserContext();
 
-
   console.log('id người dùng', user);
 
   const router = useRouter();
-  const param = router.query;
-  console.log('id nhà', param.id);
+  const {id} = router.query;
+  console.log('id nhà', id);
   const [fillter, setfillter] = useState('');
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
   };
 
-
   const [rooms, setRooms] = useState([]);
+
+  // console.log(rooms);
+  
 
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const res = await listRoom();
+        const res = await listRoom(id);
         if (res.data) {
           setRooms(res.data as any);
-          //console.log('data', res.data);
+          console.log('data', res.data);
         }
       } catch (error) {
-        //console.log('error', error);
+        console.log('error', error);
       }
     };
     getRoom();
-  }, [param.id]);
+  }, [id]);
 
   const removeRoom = async (id: number) => {
     //console.log('id phòng', id);
@@ -48,7 +49,7 @@ const ListRoom = (props: Props) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       try {
-        await axios.delete(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + id).then(() => {
+        await axios.delete(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room/` + id).then(() => {
           Toast('success', 'Xóa phòng thành công');
           setRooms(rooms.filter((item: any) => item.id !== id));
           setLoading(false);
@@ -59,9 +60,8 @@ const ListRoom = (props: Props) => {
       }
     }
   };
-
   const findData = (dataA: any) => {
-    const data = dataA.filter((item: any) => item.houseId == param.id);
+    const data = dataA.filter((item: any) => item.houseId == id);
     return data;
   };
   return (
@@ -87,7 +87,7 @@ const ListRoom = (props: Props) => {
                   />
                 </form>
               </div>
-              <Link href={`/manager/landlord/${param.id}/list-room/add`}>
+              <Link href={`/manager/landlord/${id}/list-room/add`}>
                 <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
                 </a>
@@ -136,7 +136,7 @@ const ListRoom = (props: Props) => {
 
                             <div className="text-center flex gap-3">
                               <Link
-                                href={`/manager/landlord/${param.id}/list-room/${item.id}/`}
+                                href={`/manager/landlord/${id}/list-room/${item.id}/`}
                                 className="text-amber-500 hover:text-amber-600"
                               >
                                 <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">

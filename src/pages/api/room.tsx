@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listRoom = () => {
+export const listRoom = (id:any) => {
   const a = JSON.parse(localStorage.getItem('user') as string);
 
-  const url = `list-room`;
+  const url = `list-room/${a.user._id}/${id}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
