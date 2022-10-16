@@ -25,7 +25,7 @@ const ListRoom = (props: Props) => {
 
   const [rooms, setRooms] = useState([]);
 
-  // console.log(rooms);
+  console.log(rooms);
   
 
   useEffect(() => {
