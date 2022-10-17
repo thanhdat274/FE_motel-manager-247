@@ -71,7 +71,7 @@ const AddHome = (props: Props) => {
             placeholder="Xin mời nhập địa chỉ"
             {...register('address', { required: true, minLength: 6 })}
           />
-          {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên nhà</span>}
+          {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập địa chỉ</span>}
           {errors.address?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
         </div>
 

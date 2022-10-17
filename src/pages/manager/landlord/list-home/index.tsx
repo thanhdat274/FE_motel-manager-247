@@ -56,7 +56,7 @@ const ListHome = () => {
     return (
       <div>
         <div className="border-2">
-          <div className="gr_id gr_id-flow-col px-4 py-2 text-white bg-cyan-500 ">
+          <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
             <div className="">
               <h2 className="pt-2 text-xl font-bold ">Danh sách nhà </h2>
             </div>
@@ -83,7 +83,7 @@ const ListHome = () => {
               </Link>
             </div>
           </div>
-          <div className="sm:gr_id sm:gr_id-cols-2 sm:gap-4 lg:gr_id lg:gr_id-cols-4 lg:gap-2 drop-shadow-2xl m-3">
+          <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid lg:grid-cols-4 lg:gap-2 drop-shadow-2xl m-3">
             {house &&
               house
                 .filter((val: any) => {

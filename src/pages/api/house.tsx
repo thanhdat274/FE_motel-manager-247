@@ -20,7 +20,6 @@ export const addHouse = (data: any) => {
       "Accept": "application/json",
       "type": "formData",
       Authorization: `Bearer ${a.token}`,
-     
     },
   });
 };
