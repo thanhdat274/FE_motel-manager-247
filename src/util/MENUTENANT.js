@@ -10,7 +10,7 @@ export const MENU_TENANTS = [
   },
   { url: '', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
   {
-    url: '',
+    url: 'electricity',
     title: 'Số điện',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },
