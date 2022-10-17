@@ -14,46 +14,46 @@ export const listRoom = (id:any) => {
 
 export const addRoom = (data: any) => {
   const a = JSON.parse(localStorage.getItem('user') as string);
-  const url = `/room/${a.user._id}`;
+  const url = `/room/add`;
   return instance.post(url, data, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-      Accept: 'application/json',
-      type: 'formData',
+      // 'Content-Type': 'multipart/form-data',
+      // Accept: 'application/json',
+      // type: 'formData',
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
 
-export const removeRoom = (_id: number) => {
+export const removeRoom = (id: number) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `room/${_id}`;
+  const url = `room/remove/${id}`;
   return instance.delete(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const readRoom = (id_home: string) => {
+export const readRoom = (id_room: string) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `room/detail/${id_home}`;
+  const url = `room/${id_room}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const updateRoom = (house: any) => {
+export const updateRoom = (room: any) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `room/${house._id}`;
-  return instance.put(url, house, {
+  const url = `/room/update/${room._id}`;
+  return instance.put(url, room, {
     headers: {
-      'Content-Type': 'multipart/form-data',
-      Accept: 'application/json',
-      type: 'formData',
+      // 'Content-Type': 'multipart/form-data',
+      // Accept: 'application/json',
+      // type: 'formData',
       Authorization: `Bearer ${a.token}`,
     },
   });

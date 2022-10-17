@@ -2,15 +2,15 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
 import { addHouse } from 'src/pages/api/house';
 type Props = {};
 
 type FormInput = {
+  _id:string,
   name: string;
-
   address: string;
 };
 
@@ -22,8 +22,8 @@ const AddHome = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = async (dataForm: any) => {
+  } = useForm<FormInput>();
+  const onSubmit: SubmitHandler<FormInput>  = async (dataForm: any) => {
     setLoading(true);
     try {
        await addHouse(dataForm)

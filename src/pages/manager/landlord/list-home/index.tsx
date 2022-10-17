@@ -9,32 +9,25 @@ import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawe
 import { useUserContext } from '@/context/UserContext';
 import { listHouse, removeHouses } from 'src/pages/api/house';
 
-// const a = JSON.parse(localStorage.getItem('user') as string);
 const ListHome = () => {
   const { setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
-console.log(house);
-
-
   useEffect(() => {
     const a = JSON.parse(localStorage.getItem('user') as any);
-
     const getHouse = async () => {
       try {
-        const {data} = await listHouse(a);
+        const { data } = await listHouse(a);
         if (data.data) {
           setHouse(data.data as any);
-          //console.log('data', res.data);
         }
       } catch (error) {
-        //console.log('error', error);
+        console.log('error', error);
       }
     };
     getHouse();
   }, []);
 
   const removeHouse = async (_id: number) => {
-    //console.log(_id);
     setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');
@@ -68,7 +61,7 @@ console.log(house);
               <h2 className="pt-2 text-xl font-bold ">Danh sách nhà </h2>
             </div>
             <div className="flex items-center justify-end">
-              <div className='mr-[20px]'>
+              <div className="mr-[20px]">
                 <form>
                   <input
                     type="text"

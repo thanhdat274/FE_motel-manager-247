@@ -11,52 +11,43 @@ import { addRoom } from 'src/pages/api/room';
 type Props = {};
 
 type FromValues = {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   area: number;
-  max: number;
-  status: boolean;
-  houseId: string;
+  maxMember: number;
+  status: string;
+  idHouse: string;
+  idAuth: string;
 };
 
 const AddRoom = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { setLoading, user } = useUserContext();
   const [showMsg, setShowMsg] = useState(false);
-  const [house, setHouse] = useState()
-
-  console.log(house);
+  const [house, setHouse] = useState<FromValues>();
   
 
-  
-  
   const {
     register,
     handleSubmit,
     formState: { errors },
-    
   } = useForm<FromValues>();
   const router = useRouter();
-
   const { id } = router.query;
-  //console.log('id nhà', id);
   useEffect(() => {
     const getHome = async () => {
       try {
-        const res = await readHouse(`${id}`);
-        if (res.data) {
-          setHouse(res.data as any);
-          //console.log('data', res.data);
-        }
+        const { data } = await readHouse(`${id}`);
+
+        setHouse(data as any);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }
     };
     getHome();
-  }, []);
+  }, [id]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
-    //console.log('data từ form', data);
     setLoading(true);
     try {
       await addRoom(data).then((data: any) => {
@@ -70,7 +61,6 @@ const AddRoom = (props: Props) => {
       Toast('error', 'Thêm mới phòng không thành công');
     }
   };
-
 
   return (
     <div className="w-full ">
@@ -125,7 +115,7 @@ const AddRoom = (props: Props) => {
                       </select>
                     </div>
 
-                    <div className="col-span-6">
+                    {/* <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
@@ -138,7 +128,7 @@ const AddRoom = (props: Props) => {
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
-                    </div>
+                    </div> */}
 
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
@@ -146,16 +136,16 @@ const AddRoom = (props: Props) => {
                       </label>
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="max"
+                        id="maxMember"
                         type="number"
-                        {...register('max', { required: true })}
+                        {...register('maxMember', { required: true })}
                       />
-                      {errors.max && errors.max.type === 'required' && (
+                      {errors.maxMember && errors.maxMember.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
                     </div>
 
-                    <div className="col-span-6">
+                    {/* <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Diện tích <span className="text-[red]">*</span>
                       </label>
@@ -168,17 +158,35 @@ const AddRoom = (props: Props) => {
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
-                    </div>
+                    </div> */}
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                        Diện tích <span className="text-[red]">*</span>
+                        Nhà <span className="text-[red]">*</span>
                       </label>
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="area"
-                        type="number"
-                        {...register('area', { required: true })}
+                        id="house"
+                        type="text"
+                        value={house?._id}
+                        {...register('idHouse', { required: true })}
                       />
+
+                      {errors.area && errors.area.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div>
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Tài khoản<span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="user"
+                        type="text"
+                        value={user?._id}
+                        {...register('idAuth', { required: true })}
+                      />
+
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
