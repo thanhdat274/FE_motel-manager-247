@@ -14,7 +14,7 @@ export const MENU_TENANTS = [
     title: 'Số điện',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },
-  { url: '', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
+  { url: 'water', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
   // {
   //   url: '',
   //   title: 'Tính tiền',
