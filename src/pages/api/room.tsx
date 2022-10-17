@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listRoom = (id:any) => {
+export const listRoom = (id: any) => {
   const a = JSON.parse(localStorage.getItem('user') as string);
 
   const url = `list-room/${a.user._id}/${id}`;
@@ -17,9 +17,6 @@ export const addRoom = (data: any) => {
   const url = `/room/add`;
   return instance.post(url, data, {
     headers: {
-      // 'Content-Type': 'multipart/form-data',
-      // Accept: 'application/json',
-      // type: 'formData',
       Authorization: `Bearer ${a.token}`,
     },
   });
@@ -51,9 +48,6 @@ export const updateRoom = (room: any) => {
   const url = `/room/update/${room._id}`;
   return instance.put(url, room, {
     headers: {
-      // 'Content-Type': 'multipart/form-data',
-      // Accept: 'application/json',
-      // type: 'formData',
       Authorization: `Bearer ${a.token}`,
     },
   });

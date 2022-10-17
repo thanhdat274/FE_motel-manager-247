@@ -9,7 +9,7 @@ import { addHouse } from 'src/pages/api/house';
 type Props = {};
 
 type FormInput = {
-  _id:string,
+  _id: string;
   name: string;
   address: string;
 };
@@ -23,18 +23,17 @@ const AddHome = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>();
-  const onSubmit: SubmitHandler<FormInput>  = async (dataForm: any) => {
+  const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
     setLoading(true);
     try {
-       await addHouse(dataForm)
-       .then(() => {
+      await addHouse(dataForm).then(() => {
         setLoading(false);
+        // Toast('success', 'Thêm nhà  thành công!');
         router.push('/manager/landlord/list-home');
-        Toast('success', 'Thêm nhà  thành công!');
       });
     } catch (error) {
       setLoading(false);
-      Toast('error', 'Đã xảy ra lỗi!');
+      // Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 

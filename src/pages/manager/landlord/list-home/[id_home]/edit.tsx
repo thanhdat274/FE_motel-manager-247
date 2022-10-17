@@ -43,12 +43,13 @@ const EditHouse = (props: Props) => {
       await updateHouse(dataForm)
         .then(() => {
           setLoading(false);
+          // Toast('success', 'Sửa nhà  thành công!');
           router.push('/manager/landlord/list-home');
-          Toast('success', 'Sửa nhà  thành công!');
+          
         });
     } catch (error) {
       setLoading(false);
-      Toast('error', 'Đã xảy ra lỗi!');
+      // Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 

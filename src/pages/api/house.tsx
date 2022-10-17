@@ -16,9 +16,6 @@ export const addHouse = (data: any) => {
   const url = `/house/${a.user._id}`;
   return instance.post(url, data, {
     headers: {
-      "Content-Type": "multipart/form-data",
-      "Accept": "application/json",
-      "type": "formData",
       Authorization: `Bearer ${a.token}`,
     },
   });
@@ -50,9 +47,6 @@ export const updateHouse = (house: any) => {
   const url = `house/${house._id}`;
   return instance.put(url, house, {
     headers: {
-      "Content-Type": "multipart/form-data",
-      "Accept": "application/json",
-      "type": "formData",
       Authorization: `Bearer ${a.token}`,
     },
   });
