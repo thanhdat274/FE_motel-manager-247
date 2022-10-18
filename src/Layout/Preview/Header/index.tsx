@@ -79,7 +79,7 @@ const HeaderPreview = (props: Props) => {
               <div></div>
             </div>
             <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
-              {user ? (
+              {!user ? (
                 <div className={`${styles['dropdown']} dropdown inline-block relative`}>
                   <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                     <span className="mr-1">Đăng nhập/Đăng kí</span>
