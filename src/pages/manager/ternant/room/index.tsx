@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
-const Index1 = (props: Props) => {
+const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
   useEffect(() => {
     const { data } = JSON.parse(localStorage.getItem('code_room') as string);
@@ -174,4 +174,4 @@ const Index1 = (props: Props) => {
   );
 };
 
-export default Index1;
+export default InfoRoom;
