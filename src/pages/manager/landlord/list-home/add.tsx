@@ -2,15 +2,15 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
 import { addHouse } from 'src/pages/api/house';
 type Props = {};
 
 type FormInput = {
+  _id: string;
   name: string;
-
   address: string;
 };
 
@@ -22,18 +22,18 @@ const AddHome = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = async (dataForm: any) => {
+  } = useForm<FormInput>();
+  const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
     setLoading(true);
-    //console.log('data', dataForm);
     try {
-      await axios.post('https://633505ceea0de5318a0bacba.mockapi.io/api/house', dataForm).then(() => {
+      await addHouse(dataForm).then(() => {
         setLoading(false);
+        // Toast('success', 'Thêm nhà  thành công!');
         router.push('/manager/landlord/list-home');
-        Toast('success', 'Thêm nhà  thành công!');
       });
     } catch (error) {
-      Toast('error', 'Đã xảy ra lỗi!');
+      setLoading(false);
+      // Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 
@@ -70,7 +70,7 @@ const AddHome = (props: Props) => {
             placeholder="Xin mời nhập địa chỉ"
             {...register('address', { required: true, minLength: 6 })}
           />
-          {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên nhà</span>}
+          {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập địa chỉ</span>}
           {errors.address?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
         </div>
 

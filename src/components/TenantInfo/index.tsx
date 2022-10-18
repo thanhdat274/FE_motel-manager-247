@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { updateRoom } from 'src/pages/api/room';
 
 type IForm = {
   name: string;
@@ -18,6 +19,8 @@ type Props = {
 
 const TenantInformation = ({ data }: any) => {
   const { name, price, status, max, area } = data;
+  console.log(data);
+  
   const router = useRouter();
   const param = router.query;
 
@@ -37,17 +40,17 @@ const TenantInformation = ({ data }: any) => {
   } = useForm({
     defaultValues: {
       name: name,
-      price: price,
       status: status,
-      max: max,
-      area: area,
+      maxMember: max,
+      price:price,
+      area:area
+    
     },
   });
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-      await axios
-        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`, data)
+      await updateRoom(data)
         .then(() => {
           setLoading(false);
           router.push(`/manager/landlord/${param.id}/list-room`);
@@ -55,6 +58,7 @@ const TenantInformation = ({ data }: any) => {
         });
     } catch (error) {
       Toast('error', 'Cập nhật phòng không thành công');
+      setLoading(false);
     }
   };
 
@@ -120,9 +124,9 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="max"
                     type="number"
-                    {...register('max', { required: true })}
+                    {...register('maxMember', { required: true })}
                   />
-                  {errors.max && errors.max.type === 'required' && (
+                  {errors.maxMember && errors.maxMember.type === 'required' && (
                     <span className="text-[red] mt-1 block">Không dược để trống!</span>
                   )}
                 </div>

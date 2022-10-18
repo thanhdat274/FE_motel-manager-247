@@ -6,6 +6,7 @@ function RedirectPage() {
   if (typeof window !== 'undefined') {
     router.push('/introduce');
   }
+  
 }
 
 export default RedirectPage;

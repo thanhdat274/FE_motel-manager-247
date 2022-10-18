@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   const switchLayout = () => {
+    
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
         <LayoutListHome>
@@ -24,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </LayoutListHome>
       );
     }
-
+    
     if (router.pathname.search('/manager/landlord') >= 0) {
       return (
         <LayoutLandlords>
@@ -49,8 +50,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       );
     }
   };
+  
 
   return (
+    
     <UserProvider>
       {switchLayout()}
       <ToastContainer />
