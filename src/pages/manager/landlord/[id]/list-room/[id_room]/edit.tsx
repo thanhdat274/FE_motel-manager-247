@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { readRoom } from 'src/pages/api/room';
 
 type Props = {};
 
@@ -36,9 +37,7 @@ const EditRoom = (props: Props) => {
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const res = await axios.get(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
-        );
+        const res = await readRoom(`${param.id_room}`)
         if (res.data) {
           reset(res.data as any);
           //console.log('data', res.data);

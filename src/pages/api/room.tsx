@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listHouse = (a: any) => {
-  const url = `house/${a.user._id}`;
+export const listRoom = (id: any) => {
+  const a = JSON.parse(localStorage.getItem('user') as string);
+
+  const url = `list-room/${a.user._id}/${id}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
@@ -10,10 +12,9 @@ export const listHouse = (a: any) => {
   });
 };
 
-export const addHouse = (data: any) => {
+export const addRoom = (data: any) => {
   const a = JSON.parse(localStorage.getItem('user') as string);
-
-  const url = `/house/${a.user._id}`;
+  const url = `/room/add`;
   return instance.post(url, data, {
     headers: {
       Authorization: `Bearer ${a.token}`,
@@ -21,31 +22,31 @@ export const addHouse = (data: any) => {
   });
 };
 
-export const removeHouses = (_id: number) => {
+export const removeRoom = (id: number) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/${_id}`;
+  const url = `room/remove/${id}`;
   return instance.delete(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const readHouse = (id_home: string) => {
+export const readRoom = (id_room: string) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/detail/${id_home}`;
+  const url = `room/${id_room}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
   });
 };
-export const updateHouse = (house: any) => {
+export const updateRoom = (room: any) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/${house._id}`;
-  return instance.put(url, house, {
+  const url = `/room/update/${room._id}`;
+  return instance.put(url, room, {
     headers: {
       Authorization: `Bearer ${a.token}`,
     },
