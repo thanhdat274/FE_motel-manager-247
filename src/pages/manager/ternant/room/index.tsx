@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
-const index = (props: Props) => {
+const InfoRoom = (props: Props) => {
+  const [codeRoom, setCodeRoom] = useState<any>();
+  useEffect(() => {
+    const { data } = JSON.parse(localStorage.getItem('code_room') as string);
+    setCodeRoom(data as any);
+  }, []);
   return (
     <div className="h-auto">
       <div className="bg-white shadow">
@@ -60,19 +65,19 @@ const index = (props: Props) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     <tr>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">Phòng 1</div>
+                        <div className="text-center">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">1.300.000 đ</div>
+                        <div className="text-center">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
                         <div className="text-center">20 m2</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">4</div>
+                        <div className="text-center">{codeRoom?.maxMember}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">2</div>
+                        <div className="text-center">{codeRoom?.listMember?.length}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -140,21 +145,24 @@ const index = (props: Props) => {
                       </th>
                     </tr>
                   </thead>
+
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">Nguyễn Văn A</div>
-                      </td>
-                      <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">0010208290</div>
-                      </td>
-                      <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">0823584983</div>
-                      </td>
-                      <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">Chủ phòng</div>
-                      </td>
-                    </tr>
+                    {codeRoom?.listMember?.map((item: any, index: number) => (
+                      <tr key={index}>
+                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                          <div className="text-center">{item.memberName}</div>
+                        </td>
+                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                          <div className="text-center">{item.cardNumber}</div>
+                        </td>
+                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                          <div className="text-center">{item.phoneNumber}</div>
+                        </td>
+                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                          <div className="text-center">{item.status ? 'Chủ phòng' : 'thành viên'}</div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -166,4 +174,6 @@ const index = (props: Props) => {
   );
 };
 
-export default index;
+
+export default InfoRoom;
+
