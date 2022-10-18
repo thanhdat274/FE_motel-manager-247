@@ -7,6 +7,7 @@ import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { readRoom } from 'src/pages/api/room';
 
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
 
@@ -24,13 +25,10 @@ const ManageRoom = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get(
-        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
-      );
-      if (res.data) {
-        setRoomData(res.data);
+      const {data} = await  readRoom(`${param.id_room}`)
+      if (data.data) {
+        setRoomData(data.data);
         setLoading(false);
-        console.log(res.data.max);
         
       }
     } catch (error) {

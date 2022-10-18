@@ -2,25 +2,31 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Toast } from 'src/hooks/toast';
+import { readHouse } from 'src/pages/api/house';
+import { addRoom } from 'src/pages/api/room';
 type Props = {};
 
 type FromValues = {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   area: number;
-  max: number;
-  status: boolean;
-  houseId: string;
+  maxMember: number;
+  status: string;
+  idHouse: string;
+  idAuth: string;
 };
 
 const AddRoom = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { setLoading, user } = useUserContext();
   const [showMsg, setShowMsg] = useState(false);
+  const [house, setHouse] = useState<FromValues>();
+  
+
   const {
     register,
     handleSubmit,
@@ -28,13 +34,23 @@ const AddRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
-  //console.log('id nhà', id);
+  useEffect(() => {
+    const getHome = async () => {
+      try {
+        const { data } = await readHouse(`${id}`);
+
+        setHouse(data as any);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHome();
+  }, [id]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data) => {
-    //console.log('data từ form', data);
     setLoading(true);
     try {
-      await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
+      await addRoom(data).then((data: any) => {
         setLoading(false);
         setShowMsg(true);
         router.push(`/manager/landlord/${id}/list-room`);
@@ -53,7 +69,7 @@ const AddRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                thêm mới phòng
+                {/* {(house.name)} */}
               </h2>
             </div>
           </div>
@@ -99,7 +115,7 @@ const AddRoom = (props: Props) => {
                       </select>
                     </div>
 
-                    <div className="col-span-6">
+                    {/* <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
@@ -112,7 +128,7 @@ const AddRoom = (props: Props) => {
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
-                    </div>
+                    </div> */}
 
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
@@ -120,16 +136,16 @@ const AddRoom = (props: Props) => {
                       </label>
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="max"
+                        id="maxMember"
                         type="number"
-                        {...register('max', { required: true })}
+                        {...register('maxMember', { required: true })}
                       />
-                      {errors.max && errors.max.type === 'required' && (
+                      {errors.maxMember && errors.maxMember.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
                     </div>
 
-                    <div className="col-span-6">
+                    {/* <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Diện tích <span className="text-[red]">*</span>
                       </label>
@@ -139,6 +155,38 @@ const AddRoom = (props: Props) => {
                         type="number"
                         {...register('area', { required: true })}
                       />
+                      {errors.area && errors.area.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div> */}
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Nhà <span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="house"
+                        type="text"
+                        value={house?._id}
+                        {...register('idHouse', { required: true })}
+                      />
+
+                      {errors.area && errors.area.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      )}
+                    </div>
+                    <div className="col-span-6">
+                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                        Tài khoản<span className="text-[red]">*</span>
+                      </label>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="user"
+                        type="text"
+                        value={user?._id}
+                        {...register('idAuth', { required: true })}
+                      />
+
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
