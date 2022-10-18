@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {};
 
-const listWater = (props: Props) => {
+const listElectricity = (props: Props) => {
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -11,7 +11,7 @@ const listWater = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                quản lý số nước hàng tháng
+                quản lý số điện hàng tháng
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -46,20 +46,20 @@ const listWater = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số nước cũ
+                          Số điện cũ
                         </th>
 
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số nước mới
+                          Số điện mới
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số nước tiêu thu
+                          Số điện tiêu thu
                         </th>
                       </tr>
                     </thead>
@@ -69,14 +69,14 @@ const listWater = (props: Props) => {
                           <div className="text-center">Tháng 9</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">100 khối</div>
+                          <div className="text-center">100 Kwh</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">150 khối</div>
+                          <div className="text-center">150 Kwh</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">50 khối</div>
+                          <div className="text-center">50 Kwh</div>
                         </td>
                       </tr>
                     </tbody>
@@ -91,4 +91,4 @@ const listWater = (props: Props) => {
   );
 };
 
-export default listWater;
+export default listElectricity;
