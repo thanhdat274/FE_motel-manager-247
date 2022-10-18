@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-
+import 'react-responsive-modal/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
@@ -142,7 +142,9 @@ const HeaderPreview = (props: Props) => {
                               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                               id="name"
                               type="text"
-                              placeholder="Xin mời nhập tên thành viên"
+
+                              placeholder="Xin mời nhập mã"
+
                               {...register('code_room', { required: true })}
                             />
                             {errors.code_room?.type === 'required' && (

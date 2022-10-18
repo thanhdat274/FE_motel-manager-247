@@ -174,4 +174,6 @@ const InfoRoom = (props: Props) => {
   );
 };
 
+
 export default InfoRoom;
+
