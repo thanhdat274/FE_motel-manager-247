@@ -8,7 +8,7 @@ export const MENU_TENANTS = [
     title: 'Phòng',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
   },
-  { url: '', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
+  { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
   {
     url: 'electricity',
     title: 'Số điện',
