@@ -43,7 +43,7 @@ const ContractAdd = (props: Props) => {
     register('content', { required: true, minLength: 15 });
   }, [register]);
 
-//   const contract1 = watch('content');
+  //   const contract1 = watch('content');
   const onSubmit = async (data: any) => {
     setLoading(true);
     console.log(data);
@@ -61,10 +61,17 @@ const ContractAdd = (props: Props) => {
     <div>
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <button type="submit" className="bg-cyan-400 text-white rounded-md px-5 py-3  mb-5 hover:bg-cyan-500">
-          Thêm 
+          Thêm
         </button>
-        <input type="text" {...register('title', { required: true, minLength: 6 })} />
-        <ReactQuill theme="snow" modules={modules}  onChange={onEditorStateChange} />
+        <div>
+          <h2 className='font-bold'>Tiêu đề</h2>
+          <input
+            className="border p-2 w-[600px] mb-2"
+            type="text"
+            {...register('title', { required: true, minLength: 6 })}
+          />
+        </div>
+        <ReactQuill theme="snow" modules={modules} onChange={onEditorStateChange} />
         <h1 className="Error">{errors.content && 'Bạn phải nhập trường này'}</h1>
       </form>
     </div>

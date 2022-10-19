@@ -32,6 +32,7 @@
     "react-quill": "^2.0.0",
     "react-responsive-modal": "^6.2.0",
     "react-router-dom": "^6.4.0",
+    "react-slideshow-image": "^4.0.5",
     "react-spinner-overlay": "^0.1.33",
     "react-to-print": "^2.14.7",
     "react-toastify": "^9.0.8",

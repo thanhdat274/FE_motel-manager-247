@@ -6,6 +6,9 @@ import 'react-quill/dist/quill.bubble.css';
 import dynamic from 'next/dynamic';
 import { useUserContext } from '@/context/UserContext';
 import { listContract } from 'src/pages/api/contract';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
 type Props = {};
 
 const ContractForm = (props: Props) => {
@@ -26,12 +29,6 @@ const ContractForm = (props: Props) => {
     getContract();
   }, []);
 
-  const [onClick, setonClick] = useState(false)
-  
-  const click =() =>{
-    setonClick(true)
-  }
-  
   return (
     <div>
       <p className=" mb-5 mt-5">
@@ -40,21 +37,25 @@ const ContractForm = (props: Props) => {
         </Link>
       </p>
 
-      {contract1?.map((item: any, index: React.Key | null | undefined) => {
-        //console.log(item);
-        return (
-          <>
-            <div className="mb-3">
-              <button onClick={click}>review</button>
-              {onClick ? ( <div>
-                <h1 key={index} className="text-xl font-bold ="> {item?.title}</h1>
-              <ReactQuill value={item?.content} readOnly={true} theme={'bubble'} className="border mt-5" />
-              </div>) :null }
-              
-            </div>
-          </>
-        );
-      })}
+      <div className="">
+        <Slide>
+          {contract1?.map((item: any, index: React.Key | null | undefined) => {
+            //console.log(item);
+            return (
+              <>
+                <div className="m-5  ">
+                  <div className=" snap-start ">
+                    <h1 key={index} className="text-xl font-bold =">
+                      {item?.title}
+                    </h1>
+                    <ReactQuill value={item?.content} readOnly={true} theme={'bubble'} className="border mt-5" />
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </Slide>
+      </div>
     </div>
   );
 };
