@@ -1,157 +1,44 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-
 import { supabase } from 'src/apis/supabase';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import axios from 'axios';
 import { useUserContext } from '@/context/UserContext';
-import { Toast } from 'src/hooks/toast';
+import { listRoom } from 'src/pages/api/room';
+// import 'react-month-picker/css/'
 
 type Props = {};
 
-
-
-// const ElictricNumber = [
-//   { id: 1, idMember: 1, customName: 'Nguyễn Đắc Phương', elictricNumber: 123, updateElictricNumber: 213, idRoom: 3 },
-// ];
-// const options1 = [
-//   { value: 'Kỳ 15 ngày', name: 1, id: 1 },
-//   { value: 'Kỳ 1 tháng', name: 2, id: 2 },
-//   { value: 'Kỳ 3 tháng', name: 3, id: 3 },
-//   { value: 'Kỳ 6 tháng', name: 4, id: 4 },
-// ];
-
-// const options2 = [
-//   { value: 'Phòng trống', name: 1, id: 1 },
-//   { value: 'Đã đặt cọc', name: 2, id: 2 },
-//   { value: 'Đã thuê', name: 3, id: 3 },
-// ];
-const MonthPicker = ({ range }) => {
-  const [isVisible, setVisibility] = useState(false);
-  const [monthYear, setMonthYear] = useState({});
-
-  const showMonthPicker = (event) => {
-    setVisibility(true);
-    event.preventDefault();
-  };
-
-  const handleOnDismiss = () => {
-    setVisibility(false);
-  };
-
-  console.log("monthYear", monthYear);
-
-  const handleOnChange = (year, month) => {
-    setMonthYear({ year, month });
-    setVisibility(false);
-  };
-
-  const getMonthValue = () => {
-    const month = monthYear && monthYear.month ? monthYear.month : 0;
-    const year = monthYear && monthYear.year ? monthYear.year : 0;
-
-    return month && year ? `${month}-${year}` : "Select Month";
-  };
-
-  return (
-    <div className="MonthYearPicker">
-      <button onClick={showMonthPicker}>{getMonthValue()}</button>
-
-      <ReactMonthPicker
-        show={isVisible}
-        lang={[
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ]}
-        years={range}
-        value={monthYear}
-        onChange={handleOnChange}
-        onDismiss={handleOnDismiss}
-      />
-    </div>
-  );
-};
-
-
-
-
 const LisElectric = (props: Props) => {
+  // const [formatDate, setFormatDate] = useState('2019/04');
+  // const onChange = (date, formatDate) => {
+  //   setFormatDate(formatDate);
+  //   console.log(formatDate);
+  // };
 
   const { setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
-  const [countries, setCountries] = useState();
+  const { id } = router.query;
 
+  const [countries, setCountries] = useState();
   const [rooms, setRooms] = useState([]);
-  const dataListHouse = {};
+
   useEffect(() => {
-    const getHouse = async () => {
-      try {
-        const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house/');
-        if (res.data) {
-          setCountries(res.data as any);
-          console.log('data', res.data);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    getHouse();
-  }, []);
-  useEffect(() => {
-    const id = param.id;
     const getRoom = async () => {
       try {
-        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`);
-        if (res.data) {
-          setRooms(res.data as any);
-          console.log('rôm', res.data);
+        const { data } = await listRoom(id);
+        if (data.data) {
+          setRooms(data.data as any);
         }
       } catch (error) {
         console.log('error', error);
       }
     };
     getRoom();
-  }, [param.id]);
+  }, [id]);
 
-  useEffect(() => {
-    const getRooms = async () => {
-      try {
-        const res = await axios.get('');
-      } catch (error) {}
-    };
-  });
-  const submitHandleElectric = async (id: any) => {
-  
-
-    console.log('param id = ', param.id);
-    console.log('Id phòng', id);
-
-    try {
-      await axios
-        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + id)
-        .then((data: any) => {
-          setLoading(false);
-
-          Toast('success', 'Cập nhật phòng thành công');
-        });
-    } catch (error) {
-      Toast('error', 'Cập nhật phòng không thành công');
-    }
-  };
+  const submitHandleElectric = async (id: any) => {};
 
   return (
     <div>
@@ -184,11 +71,7 @@ const LisElectric = (props: Props) => {
                   >
                     Tháng/năm
                   </label>
-                  <input
-                    type="date"
-                    className="w-[70%] border-0 px-3 py-2.5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    defaultValue=""
-                  />
+                  {/* <MonthPicker size="large" onChange={onChange} placeholder="Select month" /> */}
                 </div>
               </div>
             </div>
