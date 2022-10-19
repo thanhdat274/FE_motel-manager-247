@@ -24,7 +24,8 @@ const TenantInformation = ({ data }: any) => {
   const router = useRouter();
   const param = router.query;
 
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
+  const a = cookies?.user;
 
   useEffect(() => {
     if (data) {
@@ -48,9 +49,10 @@ const TenantInformation = ({ data }: any) => {
     },
   });
   const onSubmit = async (data: any) => {
+    const newData = { ...data, a };
     setLoading(true);
     try {
-      await updateRoom(data)
+      await updateRoom(newData)
         .then(() => {
           setLoading(false);
           router.push(`/manager/landlord/${param.id}/list-room`);

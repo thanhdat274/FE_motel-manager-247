@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
+import useCookies from 'react-cookie/cjs/useCookies';
 
 type Props = {};
 
@@ -21,11 +22,10 @@ const HeaderPreview = (props: Props) => {
   const param = router.query;
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const { setLoading } = useUserContext();
   const toggleNav = () => {
     setToggle(!toggle);
   };
-  const { user, logoutResetData } = useUserContext();
+  const { cookies, logoutResetData, setLoading } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -79,7 +79,7 @@ const HeaderPreview = (props: Props) => {
               <div></div>
             </div>
             <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
-              {!user ? (
+              {!cookies?.user ? (
                 <div className={`${styles['dropdown']} dropdown inline-block relative`}>
                   <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                     <span className="mr-1">Đăng nhập/Đăng kí</span>
@@ -142,9 +142,7 @@ const HeaderPreview = (props: Props) => {
                               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                               id="name"
                               type="text"
-
                               placeholder="Xin mời nhập mã"
-
                               {...register('code_room', { required: true })}
                             />
                             {errors.code_room?.type === 'required' && (
@@ -167,7 +165,7 @@ const HeaderPreview = (props: Props) => {
 
                   <div className={`${styles['dropdown']} dropdown inline-block relative`}>
                     <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      <span className="mr-1">Xin chào: {user?.name}</span>
+                      <span className="mr-1">Xin chào: {cookies?.user?.user.name}</span>
                     </button>
                     <ul
                       className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2  rounded-md`}

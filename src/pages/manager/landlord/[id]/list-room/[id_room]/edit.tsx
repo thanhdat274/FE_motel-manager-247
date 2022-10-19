@@ -36,15 +36,15 @@ const EditRoom = (props: Props) => {
 
   useEffect(() => {
     const getRoom = async () => {
-      try {
-        const res = await readRoom(`${param.id_room}`)
-        if (res.data) {
-          reset(res.data as any);
-          //console.log('data', res.data);
-        }
-      } catch (error) {
-        //console.log(error);
-      }
+      // try {
+      //   const res = await readRoom(`${param.id_room}`, a as any)
+      //   if (res.data) {
+      //     reset(res.data as any);
+      //     //console.log('data', res.data);
+      //   }
+      // } catch (error) {
+      //   //console.log(error);
+      // }
     };
    
     

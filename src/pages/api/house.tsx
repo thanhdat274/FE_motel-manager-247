@@ -11,30 +11,24 @@ export const listHouse = (a: any) => {
 };
 
 export const addHouse = (data: any) => {
-  const a = JSON.parse(localStorage.getItem('user') as string);
-
-  const url = `/house/${a.user._id}`;
+  const url = `/house/${data.a.user._id}`;
   return instance.post(url, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${data.a.token}`,
     },
   });
 };
 
-export const removeHouses = (_id: number) => {
-  const a = JSON.parse(localStorage.getItem('user') as any);
-
-  const url = `house/${_id}`;
+export const removeHouses = (data: any) => {
+  const url = `house/${data._id}`;
   return instance.delete(url, {
     headers: {
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${data.a.token}`,
     },
   });
 };
-export const readHouse = (id_home: string) => {
-  const a = JSON.parse(localStorage.getItem('user') as any);
-
+export const readHouse = (id_home: string, a: any) => {
   const url = `house/detail/${id_home}`;
   return instance.get(url, {
     headers: {
@@ -43,12 +37,10 @@ export const readHouse = (id_home: string) => {
   });
 };
 export const updateHouse = (house: any) => {
-  const a = JSON.parse(localStorage.getItem('user') as any);
-
   const url = `house/${house._id}`;
   return instance.put(url, house, {
     headers: {
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${house.a.token}`,
     },
   });
 };

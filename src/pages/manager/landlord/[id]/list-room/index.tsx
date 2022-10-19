@@ -10,13 +10,13 @@ import { listRoom, removeRoom } from 'src/pages/api/room';
 type Props = {};
 
 const ListRoom = (props: Props) => {
-  const { setLoading, user } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
   console.log(rooms);
-  
+  const a = cookies?.user;
   const router = useRouter();
-  const {id} = router.query;
-  
+  const { id } = router.query;
+
   const [fillter, setfillter] = useState('');
   const handleSearch = (event: any) => {
     const value = event.target.value;
@@ -26,10 +26,9 @@ const ListRoom = (props: Props) => {
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const { data } = await listRoom(id);
+        const { data } = await listRoom(id, a as any);
         if (data.data) {
           setRooms(data.data as any);
-
         }
       } catch (error) {
         console.log('error', error);
@@ -38,12 +37,12 @@ const ListRoom = (props: Props) => {
     getRoom();
   }, [id]);
 
-  const removeRooms = async (_id: number) => {    
+  const removeRooms = async (_id: number, a: any) => {
     setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       try {
-        await removeRoom(_id).then(() => {
+        await removeRoom({ _id: _id, a: a }).then(() => {
           Toast('success', 'Xóa phòng thành công');
           setRooms(rooms.filter((item: any) => item._id !== _id));
           setLoading(false);
@@ -131,7 +130,7 @@ const ListRoom = (props: Props) => {
 
                           <button
                             onClick={() => {
-                              removeRooms(item._id);
+                              removeRooms(item._id, a);
                             }}
                             className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                           >

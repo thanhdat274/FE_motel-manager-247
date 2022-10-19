@@ -17,16 +17,18 @@ type FormInput = {
 const AddHome = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const router = useRouter();
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
+  const a = cookies?.user;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>();
   const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
+    const newData = { ...dataForm, a };
     setLoading(true);
     try {
-      await addHouse(dataForm).then(() => {
+      await addHouse(newData).then(() => {
         setLoading(false);
         // Toast('success', 'Thêm nhà  thành công!');
         router.push('/manager/landlord/list-home');

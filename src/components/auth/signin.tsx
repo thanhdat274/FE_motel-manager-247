@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import useCookies from 'react-cookie/cjs/useCookies';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { SignIn } from 'src/pages/api/auth';
@@ -13,10 +14,10 @@ type FormValues = {
   password: string;
 };
 
-
 const Signin = (props: Props) => {
-  const { setLoading, setUser, setToken } = useUserContext();
+  const { setLoading, setUser, setToken,setCookie } = useUserContext();
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -27,9 +28,10 @@ const Signin = (props: Props) => {
     await SignIn(data)
       .then((data) => {
         setLoading(false);
-        setUser(data.data.user);
-        setToken(data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data) as string);
+        // setUser(data.data.user);
+        // setToken(data.data.token);
+        setCookie('user', JSON.stringify(data.data),{ path: '/' });
+        // localStorage.setItem('user', JSON.stringify(data.data) as string);
         // localStorage.setItem('user', JSON.stringify(data.data.user) as string);
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
