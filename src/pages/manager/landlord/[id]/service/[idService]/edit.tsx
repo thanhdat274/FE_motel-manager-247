@@ -9,7 +9,6 @@ import { readService, updateService } from 'src/pages/api/service';
 
 type Props = {};
 interface IFormInputs {
-  _id: string;
   name: string;
   price: number;
   unit: string;
@@ -45,20 +44,17 @@ const EditService = (props: Props) => {
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setLoading(true);
-    try {
-      await updateService(data)
+
+    await updateService(data)
       .then((data: any) => {
-          Toast('success', 'Cập nhật dịch vụ thành công');
-          router.push(`/manager/landlord/${param.id}/service`);
-          setLoading(false);
-        })
-        .catch(() => {
-          Toast('error', 'Cập nhật dịch vụ không thành công');
-          setLoading(false);
-        });
-    } catch (error) {
-      //console.log(error);
-    }
+        Toast('success', 'Cập nhật dịch vụ thành công');
+        router.push(`/manager/landlord/${param.id}/service`);
+        setLoading(false);
+      })
+      .catch((error) => {
+        Toast('error', error.response.data.error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -82,19 +78,6 @@ const EditService = (props: Props) => {
               <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
                 <div className="shadow rounded-md overflow-hidden">
                   <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <div className="col-span-6">
-                      <label className="block text-sm font-bold text-gray-700" htmlFor="username">
-                        ID nhà <span className="text-[red]">*</span>
-                      </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="house"
-                        type="text"
-                        disabled
-                        {...register('idHouse')}
-                      />
-                    </div>
-
                     <div className="col-span-6">
                       <label className="block text-sm font-bold text-gray-700" htmlFor="username">
                         Tên dịch vụ <span className="text-[red]">*</span>
@@ -156,7 +139,7 @@ const EditService = (props: Props) => {
 
                   <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
                     <Link
-                      href={`/manager/landlord/${param._id}/service`}
+                      href={`/manager/landlord/${param.id}/service`}
                       className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

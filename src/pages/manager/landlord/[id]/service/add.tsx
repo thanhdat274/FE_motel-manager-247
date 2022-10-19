@@ -26,22 +26,21 @@ const AddServiceRoom = (props: Props) => {
     watch,
     formState: { errors },
   } = useForm<IFormInputs>();
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
+    const newData = { ...data, idHouse: id };
+    console.log(newData);
     setLoading(true);
-    try {
-      await addService(data)
-        .then((data: any) => {
-          Toast('success', 'Thêm dịch vụ thành công');
-          router.push(`/manager/landlord/${id}/service`);
-          setLoading(false);
-        })
-        .catch(() => {
-          Toast('error', 'Thêm dịch vụ không thành công');
-          setLoading(false);
-        });
-    } catch (error) {
-      //console.log(error);
-    }
+
+    await addService(newData)
+      .then((data: any) => {
+        Toast('success', 'Thêm dịch vụ thành công');
+        router.push(`/manager/landlord/${id}/service`);
+        setLoading(false);
+      })
+      .catch(() => {
+        Toast('error', 'Thêm dịch vụ không thành công');
+        setLoading(false);
+      });
   };
 
   return (
@@ -65,19 +64,6 @@ const AddServiceRoom = (props: Props) => {
               <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
                 <div className="shadow rounded-md overflow-hidden">
                   <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <div className="col-span-6">
-                      <label className="block text-sm font-bold text-gray-700" htmlFor="username">
-                        ID nhà <span className="text-[red]">*</span>
-                      </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="house"
-                        type="text"
-                        value={id}
-                        {...register('idHouse')}
-                      />
-                    </div>
-
                     <div className="col-span-6">
                       <label className="block text-sm font-bold text-gray-700" htmlFor="username">
                         Tên dịch vụ <span className="text-[red]">*</span>
