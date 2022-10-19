@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useRouter } from 'next/router';
 import { listRoom } from 'src/pages/api/room';
+import { RoomType } from 'src/types/Room';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -19,49 +20,48 @@ export const options = {
   },
 };
 
-export const data = {
-  labels: ['Phòng trống', 'Phòng đã thuê'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19],
-      backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-      borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-      borderWidth: 1,
-    },
-  ],
-};
-
 export function PieChart() {
-  const [dataRooms, setDataRooms] = useState([]);
+  var i = 0;
+  var y = 0;
+  const [dataRooms, setDataRooms] = useState<RoomType[]>([]);
   const router = useRouter();
   const { id } = router.query;
 
-  // const [fillter, setfillter] = useState('');
-  // const handleSearch = (event: any) => {
-  //   const value = event.target.value;
-  //   setfillter(value);
-  // };
-
   useEffect(() => {
     const getRoom = async () => {
-      try {
-        const { data } = await listRoom(id);
-        if (data.data) {
-          setDataRooms(data.data as any);
-        }
-      } catch (error) {}
+      const data = await listRoom(id);
+      if (data.data) {
+        setDataRooms(data.data.data as any);
+      }
     };
     getRoom();
   }, [id]);
-  console.log(dataRooms);
-  console.log(1);
+  const dataPie = {
+    labels: ['Phòng trống', 'Phòng đã thuê'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [2, dataRooms.length],
+        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+  // console.log(dataRooms);
+  console.log(dataRooms[i].status);
   
-  
+  // for (var i = 0; i <= dataRooms.length; i++) {
+  //   if(dataRooms[i].status == true){
+  //     console.log(i);
+  //   }
+  // }
+
+  // console.log(dataRooms[0].status);
 
   return (
     <div className="block xl:w-[400px] mx-auto">
-      <Pie options={options} data={data} />
+      <Pie options={options} data={dataPie} />
     </div>
   );
 }
