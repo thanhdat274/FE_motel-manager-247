@@ -21,14 +21,12 @@ const ListServiceRoom = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
-  console.log(id);
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
       try {
         const { data } = await ListService(id as string);
         setListServices(data.data);
-        console.log(data.data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -39,15 +37,12 @@ const ListServiceRoom = (props: Props) => {
   }, [id]);
 
   const remove = async (_id: any, id: any) => {
-    console.log('id dv', _id);
-    console.log('id nhà', id);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
       try {
         if (_id && id) {
           await removeService({ idService: _id, idHouse: id }).then(() => {
-            // chawsc k dc r
             Toast('success', 'Xóa dịch vụ thành công');
             setListServices(listServices.filter((item: any) => item._id !== _id));
             setLoading(false);

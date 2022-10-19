@@ -27,7 +27,6 @@ const AddServiceRoom = (props: Props) => {
     formState: { errors },
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    console.log(data);
     setLoading(true);
     try {
       await addService(data)

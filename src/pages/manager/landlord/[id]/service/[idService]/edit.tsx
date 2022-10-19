@@ -20,7 +20,6 @@ const EditService = (props: Props) => {
   const { setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
-  console.log(param);
 
   useEffect(() => {
     const getService = async () => {
