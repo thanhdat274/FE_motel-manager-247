@@ -168,6 +168,7 @@ const AddRoom = (props: Props) => {
                         id="house"
                         type="text"
                         value={house?._id}
+                        hidden
                         {...register('idHouse', { required: true })}
                       />
 
@@ -184,6 +185,7 @@ const AddRoom = (props: Props) => {
                         id="user"
                         type="text"
                         value={user?._id}
+                        
                         {...register('idAuth', { required: true })}
                       />
 
