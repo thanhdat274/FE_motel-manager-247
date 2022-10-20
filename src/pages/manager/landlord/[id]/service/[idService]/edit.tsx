@@ -16,15 +16,15 @@ interface IFormInputs {
   idHouse: string;
 }
 const EditService = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const router = useRouter();
   const param = router.query;
-
+  const a = cookies?.user;
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
       try {
-        const { data } = await readService(param.idService);
+        const { data } = await readService(param.idService, a as any);
         reset(data.data as any);
         setLoading(false);
       } catch (error) {
@@ -43,9 +43,10 @@ const EditService = (props: Props) => {
     formState: { errors },
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    const newData = { ...data, a };
     setLoading(true);
 
-    await updateService(data)
+    await updateService(newData)
       .then((data: any) => {
         Toast('success', 'Cập nhật dịch vụ thành công');
         router.push(`/manager/landlord/${param.id}/service`);

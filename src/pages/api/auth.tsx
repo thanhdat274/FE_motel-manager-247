@@ -1,15 +1,11 @@
 import instance from './instance';
 
-export const SignIn = (data:{}) => {
+export const SignIn = (data: {}) => {
   const url = `/signin`;
-  return instance.post(url, data, {
-    headers: {
-      "Content-Type": `multipart/form-data`
-  }
-  })
+  return instance.post(url, data);
 };
 
 export const UserSignup = (data: any) => {
-    const url = `/signup`;
-    return instance.post(url, data);
-  };
+  const url = `/signup`;
+  return instance.post(url, data);
+};

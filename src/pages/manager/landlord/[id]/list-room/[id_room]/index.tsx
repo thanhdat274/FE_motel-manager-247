@@ -16,20 +16,18 @@ type Props = {};
 const ManageRoom = () => {
   const [roomData, setRoomData] = useState({});
   const [peopleData, setPeopleData] = useState({});
-
+  const { cookies, setLoading } = useUserContext();
+  const a = cookies?.user;
   const router = useRouter();
-
-  const { setLoading } = useUserContext();
 
   const getRoom = async () => {
     setLoading(true);
 
     try {
-      const {data} = await  readRoom(`${param.id_room}`)
+      const { data } = await readRoom(`${param.id_room}`, a as any);
       if (data.data) {
         setRoomData(data.data);
         setLoading(false);
-        
       }
     } catch (error) {
       setLoading(false);
@@ -46,8 +44,8 @@ const ManageRoom = () => {
       const res = await axios.get(
         `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people`,
       );
-      if (res.data ) {
-        setPeopleData(res.data );
+      if (res.data) {
+        setPeopleData(res.data);
         setLoading(false);
       }
     } catch (error) {
@@ -55,8 +53,6 @@ const ManageRoom = () => {
       console.log(error);
     }
   };
-  
-
 
   const param = router.query;
   console.log(param);
@@ -64,12 +60,9 @@ const ManageRoom = () => {
   useEffect(() => {
     if (param.id) {
       getRoom();
-     
     }
-     getPeople();
+    getPeople();
   }, [param.id]);
-  
-
 
   const data = [
     {
@@ -80,7 +73,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={peopleData as IMember[]} data1 = {roomData}  />,
+      children: <TenantMember data={peopleData as IMember[]} data1={roomData} />,
     },
 
     {

@@ -13,10 +13,9 @@ const ListServiceRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
-  const { setLoading } = useUserContext();
-
+  const { cookies, setLoading } = useUserContext();
+  const a = cookies?.user;
   const [fillter, setfillter] = useState('');
-
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
@@ -25,7 +24,7 @@ const ListServiceRoom = (props: Props) => {
     const getService = async () => {
       setLoading(true);
       try {
-        const { data } = await ListService(id as string);
+        const { data } = await ListService(id as string, a as any);
         setListServices(data.data);
         setLoading(false);
       } catch (error) {
@@ -36,13 +35,13 @@ const ListServiceRoom = (props: Props) => {
     getService();
   }, [id]);
 
-  const remove = async (_id: any, id: any) => {
+  const remove = async (_id: any, id: any, a: any) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
       try {
-        if (_id && id) {
-          await removeService({ idService: _id, idHouse: id }).then(() => {
+        if (_id && id && a) {
+          await removeService({ idService: _id, idHouse: id, a: a }).then(() => {
             Toast('success', 'Xóa dịch vụ thành công');
             setListServices(listServices.filter((item: any) => item._id !== _id));
             setLoading(false);
@@ -173,7 +172,7 @@ const ListServiceRoom = (props: Props) => {
                                   </Link>
                                   <button
                                     className="text-red-500 hover:text-red-500 mx-[10px]"
-                                    onClick={() => remove(item._id, id)}
+                                    onClick={() => remove(item._id, id, a)}
                                   >
                                     <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                   </button>

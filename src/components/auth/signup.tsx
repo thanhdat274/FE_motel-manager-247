@@ -32,7 +32,7 @@ const Signup = (props: Props) => {
           setLoading(false);
         })
         .catch((error) => {
-          const msgError = error.response.data.error;
+          const msgError = error?.response.data.error;
           Toast('error', msgError);
           setLoading(false);
         });

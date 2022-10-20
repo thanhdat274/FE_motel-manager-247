@@ -16,10 +16,10 @@ interface IFormInputs {
   idHouse: string;
 }
 const AddServiceRoom = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
-
+  const a = cookies?.user;
   const {
     register,
     handleSubmit,
@@ -27,7 +27,7 @@ const AddServiceRoom = (props: Props) => {
     formState: { errors },
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
-    const newData = { ...data, idHouse: id };
+    const newData = { ...data, idHouse: id, a:a };
     console.log(newData);
     setLoading(true);
 

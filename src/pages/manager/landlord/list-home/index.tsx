@@ -10,10 +10,10 @@ import { useUserContext } from '@/context/UserContext';
 import { listHouse, removeHouses } from 'src/pages/api/house';
 
 const ListHome = () => {
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
+  const a = cookies?.user;
   useEffect(() => {
-    const a = JSON.parse(localStorage.getItem('user') as any);
     const getHouse = async () => {
       try {
         const { data } = await listHouse(a);
@@ -27,19 +27,19 @@ const ListHome = () => {
     getHouse();
   }, []);
 
-  const removeHouse = async (_id: number) => {
+  const removeHouse = async (_id: number, a: any) => {
     setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');
     if (confirm) {
       try {
-        await removeHouses(_id).then(() => {
+        await removeHouses({ _id: _id, a: a }).then(() => {
           Toast('success', 'Xóa nhà thành công');
           setHouse(house.filter((item: any) => item._id !== _id));
           setLoading(false);
         });
       } catch (error) {
-        Toast('success', 'Xóa nhà không thành công');
+        Toast('error', 'Xóa nhà không thành công');
         setLoading(false);
       }
     }
@@ -132,7 +132,7 @@ const ListHome = () => {
                               </a>
                             </Link>
                             <button
-                              onClick={() => removeHouse(item?._id)}
+                              onClick={() => removeHouse(item?._id, a)}
                               className="text-white base-1/3  bg-red-500 w-1/3"
                             >
                               <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">

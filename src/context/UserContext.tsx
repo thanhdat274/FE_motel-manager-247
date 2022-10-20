@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createContext } from 'react';
 import { Toast } from 'src/hooks/toast';
+import useCookies from 'react-cookie/cjs/useCookies';
 
 export interface UserState {
   loading: boolean;
@@ -15,6 +16,8 @@ export interface UserState {
   token: string;
   setToken: (loading: string) => void;
   logoutResetData: () => void;
+  cookies:any 
+  setCookie: any
 }
 
 const UserContext = createContext<UserState | null>(null);
@@ -29,11 +32,10 @@ export const UserProvider = ({ children }: any) => {
   const [dateOfBirth, setDateOfBirth] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
-
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  
   const logoutResetData = () => {
-    setUser(null);
-    setToken('');
-    localStorage.removeItem('user');
+    removeCookie('user');
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -54,6 +56,8 @@ export const UserProvider = ({ children }: any) => {
     token,
     setToken,
     logoutResetData,
+    cookies,
+    setCookie,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
