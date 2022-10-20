@@ -28,7 +28,7 @@ export const removeRoom = (data: any) => {
   });
 };
 export const readRoom = (id_room: string, a: any) => {
-  const url = `room/${id_room}`;
+  const url = `/room/${id_room}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,

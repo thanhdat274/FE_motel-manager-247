@@ -37,12 +37,10 @@ export const readService = (idService: any, a: any) => {
 };
 
 export const updateService = (data: any) => {
-  const a = JSON.parse(localStorage.getItem('user') as string);
-
   const url = `/service/update/${data._id}`;
   return instance.patch(url, data, {
     headers: {
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${data.a.token}`,
     },
   });
 };
