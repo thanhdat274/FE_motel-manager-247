@@ -16,7 +16,7 @@ export const addHouse = (data: any) => {
   const url = `/house/${a.user._id}`;
   return instance.post(url, data, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${a.token}`,
     },
   });
@@ -35,7 +35,7 @@ export const removeHouses = (_id: number) => {
 export const readHouse = (id_home: string) => {
   const a = JSON.parse(localStorage.getItem('user') as any);
 
-  const url = `house/detail/${id_home}`;
+  const url = `/house/detail/${id_home}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${a.token}`,
