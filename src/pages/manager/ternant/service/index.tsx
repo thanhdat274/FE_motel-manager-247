@@ -39,26 +39,26 @@ const InfoService = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                        Tên dịch vụ 
+                          Tên dịch vụ
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                         Giá dịch vụ 
+                          Giá dịch vụ
                         </th>
 
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                            Đơn vị 
+                          Đơn vị
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                         Trạng thái 
+                          Trạng thái
                         </th>
                       </tr>
                     </thead>

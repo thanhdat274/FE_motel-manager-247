@@ -2,43 +2,45 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { addService } from 'src/pages/api/service';
+
 type Props = {};
 interface IFormInputs {
   name: string;
   price: number;
   unit: string;
-  desc: string;
+  type: boolean;
+  idHouse: string;
 }
 const AddServiceRoom = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const router = useRouter();
   const { id } = router.query;
+  const a = cookies?.user;
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<IFormInputs>();
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
+    const newData = { ...data, idHouse: id, a:a };
+    console.log(newData);
     setLoading(true);
-    try {
-      await axios
-        .post('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service', data)
-        .then(() => {
-          Toast('success', 'Thêm dịch vụ thành công');
-          router.push(`/manager/landlord/${id}/service`);
-          setLoading(false);
-        })
-        .catch(() => {
-          Toast('error', 'Thêm dịch vụ không thành công');
-          setLoading(false);
-        });
-    } catch (error) {
-      //console.log(error);
-    }
+
+    await addService(newData)
+      .then((data: any) => {
+        Toast('success', 'Thêm dịch vụ thành công');
+        router.push(`/manager/landlord/${id}/service`);
+        setLoading(false);
+      })
+      .catch(() => {
+        Toast('error', 'Thêm dịch vụ không thành công');
+        setLoading(false);
+      });
   };
 
   return (
@@ -99,24 +101,25 @@ const AddServiceRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="unit"
                         type="text"
-                        placeholder="Nhập giá dịch vụ..."
+                        placeholder="Nhập đơn vị dịch vụ..."
                         {...register('unit', { required: true })}
                       />
-                      {errors.price && errors.price.type === 'required' && (
+                      {errors.unit && errors.unit.type === 'required' && (
                         <span className="text-rose-600">Không được bỏ trống</span>
                       )}
                     </div>
                     <div>
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                        Ghi chú <span className="text-[red]">*</span>
+                        Trạng thái thanh toán
                       </label>
-                      <div className="mt-1">
-                        <textarea
-                          rows={5}
-                          id="desc-product"
-                          className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        ></textarea>
-                      </div>
+                      <select
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        {...register('type', { required: false })}
+                        id="type"
+                      >
+                        <option value="true">Theo tháng</option>
+                        <option value="false">Không theo tháng</option>
+                      </select>
                     </div>
                   </div>
 
