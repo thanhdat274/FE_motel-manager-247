@@ -28,7 +28,7 @@ const Signin = (props: Props) => {
     await SignIn(data)
       .then((data) => {
         setLoading(false);
-        setCookie('user', JSON.stringify(data.data), { path: '/' });
+        setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
       })
@@ -75,7 +75,7 @@ const Signin = (props: Props) => {
                 <span className="text-rose-500 mt-3 block">Không được bỏ trống</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span className="text-rose-500 mt-3 block">Tối thiểu 6 ký tự!</span>
+                <span className="text-rose-500 mt-3 block">Tối thiểu 8 ký tự!</span>
               )}
             </div>
             <div className="flex items-center justify-end">
