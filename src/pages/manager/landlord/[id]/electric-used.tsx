@@ -5,18 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
 import { listRoom } from 'src/pages/api/room';
-// import { MonthPicker, Row, Col } from 'uiw';
+import { MonthPicker, Row, Col } from 'uiw';
 // import 'react-month-picker/css/'
 
 type Props = {};
 
 const LisElectric = (props: Props) => {
 
-  // const [formatDate, setFormatDate] = useState('2019/04');
-  // const onChange = (date, formatDate) => {
-  //   setFormatDate(formatDate);
-  //   console.log(formatDate);
-  // };
+  const [formatDate, setFormatDate] = useState('2019/04');
+  const onChange = (date, formatDate) => {
+    setFormatDate(formatDate);
+    console.log(formatDate);
+  };
 
   const { setLoading } = useUserContext();
   const router = useRouter();
@@ -74,7 +74,7 @@ const LisElectric = (props: Props) => {
                   >
                     Tháng/năm
                   </label>
-                  {/* <MonthPicker size="large" onChange={onChange} placeholder="Select month" /> */}
+                  <MonthPicker size="large" onChange={onChange} placeholder="Select month" />
                 </div>
               </div>
             </div>
