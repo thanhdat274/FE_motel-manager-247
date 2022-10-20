@@ -15,7 +15,7 @@ type FormValues = {
 };
 
 const Signin = (props: Props) => {
-  const { setLoading, setUser, setToken,setCookie } = useUserContext();
+  const { setLoading, setCookie } = useUserContext();
   const router = useRouter();
 
   const {
@@ -28,16 +28,12 @@ const Signin = (props: Props) => {
     await SignIn(data)
       .then((data) => {
         setLoading(false);
-        // setUser(data.data.user);
-        // setToken(data.data.token);
-        setCookie('user', JSON.stringify(data.data),{ path: '/' });
-        // localStorage.setItem('user', JSON.stringify(data.data) as string);
-        // localStorage.setItem('user', JSON.stringify(data.data.user) as string);
+        setCookie('user', JSON.stringify(data.data), { path: '/' });
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
       })
       .catch((error) => {
-        Toast('error', error.response.data.error);
+        Toast('error', error?.response?.data.message);
         setLoading(false);
       });
   };
