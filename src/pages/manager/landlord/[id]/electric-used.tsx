@@ -5,18 +5,46 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
 import { listRoom } from 'src/pages/api/room';
-import { MonthPicker, Row, Col } from 'uiw';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+// import { MonthPicker, Row, Col } from 'uiw';
 // import 'react-month-picker/css/'
+
 
 type Props = {};
 
-const LisElectric = (props: Props) => {
+type FormInputs = {
+  room: {
+    _id: string;
+    area: number;
+    idAuth: string;
+    idHouse: string;
+    listMember: object;
+    name: string;
+    price: number;
+    status: boolean;
+  }[];
+};
 
-  const [formatDate, setFormatDate] = useState('2019/04');
-  const onChange = (date, formatDate) => {
-    setFormatDate(formatDate);
-    console.log(formatDate);
-  };
+const LisElectric = (props: Props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+    getValues,
+    setFocus,
+    watch,
+  } = useForm<FormInputs>({
+    defaultValues: {
+      room: [{ _id: 'adsdsa', area: 33, idAuth: '221dsadsadas', listMember: {}, name: 'test', price: 23 }],
+    },
+  });
+  // const [formatDate, setFormatDate] = useState('2019/04');
+  // const onChange = (date, formatDate) => {
+  //   setFormatDate(formatDate);
+  //   console.log(formatDate);
+  // };
 
   const { setLoading } = useUserContext();
   const router = useRouter();
@@ -25,13 +53,18 @@ const LisElectric = (props: Props) => {
 
   const [countries, setCountries] = useState();
   const [rooms, setRooms] = useState([]);
+  // const watchElictricNew = watch('newElictric');
+  // const watchElictric = watch('elictric');
+  // const pTram = watchElictricNew/watchElictric;
+  // console.log(pTram);
 
   useEffect(() => {
     const getRoom = async () => {
       try {
         const { data } = await listRoom(id);
         if (data.data) {
-          setRooms(data.data as any);
+          // setRooms(data.data as any);
+          reset(data.data as any);
         }
       } catch (error) {
         console.log('error', error);
@@ -39,9 +72,18 @@ const LisElectric = (props: Props) => {
     };
     getRoom();
   }, [id]);
-  console.log(rooms);
+  // console.log(rooms[0]._id);
+  // const {fields : rooms} = useFieldArray({})
 
-  const submitHandleElectric = async (id: any) => {};
+  const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
+    console.log(data);
+
+    // const multipleValues = getValues('elictric');
+    // const multipleValues = 2;
+    // const multipleValues2 = getValues('newElictric');
+    // const useElictric = multipleValues2 / multipleValues;
+    // console.log(useElictric);
+  };
 
   return (
     <div>
@@ -74,7 +116,7 @@ const LisElectric = (props: Props) => {
                   >
                     Tháng/năm
                   </label>
-                  <MonthPicker size="large" onChange={onChange} placeholder="Select month" />
+                  {/* <MonthPicker size="large" onChange={onChange} placeholder="Select month" /> */}
                 </div>
               </div>
             </div>
@@ -83,8 +125,8 @@ const LisElectric = (props: Props) => {
           <nav className="my-4">
             <h3 className="text-xl">Lưu ý</h3>
             <span className="block">
-              - Bạn phải gán dịch vụ thuộc loại điện cho khách thuê trước thì phần chỉ số này mới được tính cho phòng đó
-              khi tính tiền.
+              - Bạn phải gán dịch vụ thuộc loại điện cho khách phương ngu thuê trước thì phần chỉ số này mới được tính
+              cho phòng đó khi tính tiền.
             </span>
             <span className="block">
               - Đối với lần đầu tiên sử dụng phần mềm bạn sẽ phải nhập chỉ số cũ và mới cho tháng sử dụng đầu tiên, các
@@ -97,109 +139,115 @@ const LisElectric = (props: Props) => {
             <h6 className="py-3 font-bold text-left uppercase align-middle bg-transparent border shadow-none text-xl border-0 tracking-none whitespace-nowrap text-slate-900">
               Thống kê số điện
             </h6>
+            {/* <h6>{pTram}</h6> */}
           </div>
           <div className="max-w-full mx-2 py-6 sm:px-6 lg:px-8">
             <div className="flex flex-col">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full ">
                   <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                    <table className="w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                    <div className="table w-full divide-gray-200">
+                      <div className="table-header-group bg-gray-100">
+                        <div className="table-row divide-y divide-x">
+                          <div className="border-b table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Nhà
-                          </th>
-
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Phòng
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Khách thuê
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Khách Thuê
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số điện cũ
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số điện mới
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Sử dụng
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
+                          </div>
+                          <div className="table-cell text-left px-9 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Lưu
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                          </div>
+                        </div>
+                      </div>
+                      <div className="table-row-group bg-gray-50 divide-gray-200">
                         {rooms?.map((room, index) => {
                           return (
-                            <tr key={index}>
-                              <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                                <div className="text-center">Nhà</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{room.name}</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">Nguyễn Đắc Phương</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">
-                                  <span className="font-bold w-full flex border-0 px-3 py-3 placeholder-blueGray-300 text-green-700 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
-                                    {room.elictric_number}
-                                  </span>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">
+                            <form
+                              key={index}
+                              action=""
+                              onSubmit={handleSubmit(onSubmit)}
+                              className="table-row divide-y divide-x"
+                            >
+                              <div className="table-cell whitespace">
+                                <div className="border-t text-center py-4 text-sm text-gray-500">
                                   <input
-                                    placeholder={room.update_elictric_number}
-                                    name="update_elictric_number"
-                                    className="font-bold w-full flex border-0 px-3 py-3 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                                    {...register(`room.${index}.idHouse`, {
+                                      required: true,
+                                    })}
+                                    // {...register('idHouse', { required: false })}
+                                    className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                                    type="text"
+                                  />
+                                  {/* <span>{room.idHouse}</span> */}
+                                </div>
+                              </div>
+                              <div className="table-cell whitespace">
+                                {/* <input {...register('name', { required: false })} className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150" type="text"  /> */}
+                                <span className="ml-2">{room._id}</span>
+                              </div>
+                              <div className="table-cell whitespace">
+                                <span className="ml-2 ">Nguyễn Đắc Phương</span>
+                              </div>
+                              <div className="table-cell whitespace">
+                                <div className="ml-2 text-center w-[90%]">
+                                  <input
+                                    // placeholder={`${newelicTric}`}
+                                    name="area"
+                                    value={4}
+                                    className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                     type="number"
+                                    disabled
                                   />
                                 </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{room.update_elictric_number - room.elictric_number}</div>
-                              </td>
-
-                              <td className="px-6 py-4 whitespace-nowrap text-center">
-                                <button
-                                  onClick={() => submitHandleElectric(room.id)}
-                                  className="border flex rounded px-3 py-1 items-center bg-sky-400"
-                                  type="button"
-                                >
-                                  <FontAwesomeIcon className="w-[16px] text-black" icon={faSave} />
-                                  <span className="ml-1">Lưu</span>
-                                </button>
-                              </td>
-                            </tr>
+                              </div>
+                              <div className="table-cell whitespace">
+                                <div className="ml-2 text-center w-[90%]">
+                                  <input
+                                    min={0}
+                                    defaultValue={0}
+                                    name="price"
+                                    className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                                    type="number"
+                                  />
+                                  {/* {errors.elictric && errors.elictric.type === 'required' && (
+                                    <span>Số điện mới không được nhỏ hơn số điện cũ!</span>
+                                  )} */}
+                                </div>
+                              </div>
+                              <div className="table-cell whitespace">
+                                <div className="text-right w-[90%]">
+                                  <span>{}</span>
+                                </div>
+                              </div>
+                              <div className="table-cell whitespace">
+                                <div className="w-[90%] m-auto">
+                                  <button
+                                    className="border flex rounded px-3 py-1 items-center bg-sky-400"
+                                    type="submit"
+                                  >
+                                    <FontAwesomeIcon className="w-[16px] text-black" icon={faSave} />
+                                    <span className="ml-1">Lưu</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
                           );
                         })}
-                      </tbody>
-                    </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
