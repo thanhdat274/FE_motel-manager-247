@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
-import useCookies from 'react-cookie/cjs/useCookies';
 
 type Props = {};
 
