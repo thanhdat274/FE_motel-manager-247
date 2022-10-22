@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { IMember } from '../ListMember';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,16 +9,19 @@ import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { style } from '@mui/system';
 import TenantContract from '../TenantContact';
+import { IMember, IMember2 } from '@/components/ListMember';
 
 const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false });
 
 type IProps = {
-  data: IMember[];
-  data1:any
+  data: IMember2;
+  data1:any;
 };
 
 
 const TenantMember = ({ data, data1 }: IProps) => {
+  console.log(data);
+  
   const [open, setOpen] = useState(false);
   const { setLoading } = useUserContext();
   const router = useRouter();
@@ -52,7 +54,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
     <div>
       <div>
         {' '}
-        {data.length < data1.max ? (
+        {data1.length < data.maxMember ? (
           <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
             Thêm thành viên
           </button>
@@ -146,9 +148,9 @@ const TenantMember = ({ data, data1 }: IProps) => {
         </Modal>
       </div>
       <div className="flex flex-row flex-wrap w-full gap-4">
-        {data.length > 0 ? (
-          data?.map((item: IMember) => (
-            <div key={item.full_name} className=" basis-full md:basis-[30%] ">
+        {data1.length > 0 ? (
+          data1?.map((item: IMember) => (
+            <div key={item.memberName} className=" basis-full md:basis-[30%] ">
               <ListMember {...item} />
             </div>
           ))
