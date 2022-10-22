@@ -43,3 +43,14 @@ export const updateRoom = (room: any) => {
     },
   });
 };
+
+//  api people
+
+export const addPeople = (id:any,data: any) => {
+  const url = `/room/${id}/member/add`;
+  return instance.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${data.a.token}`,
+    },
+  });
+};

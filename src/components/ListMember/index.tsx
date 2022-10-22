@@ -38,7 +38,6 @@ const ListMember = (props: IMember) => {
   const router = useRouter();
   const param = router.query;
 
-  console.log(param);
   const {
     register,
     handleSubmit,
