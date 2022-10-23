@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { useForm } from 'react-hook-form';
+import { removePeople } from 'src/pages/api/room';
 
 export type IMember = {
   status: boolean;
@@ -18,25 +19,29 @@ export type IMember = {
   phoneNumber: string;
 };
 export type IMember2 = {
-  _id:string;
+  _id: string;
   name: string;
   status: boolean;
   maxMember: number;
   price: number;
   area: number;
-  listMember: Object;
+  listMember:object;
 };
 
 const ListMember = (props: IMember) => {
   const { _id, memberName, cardNumber, phoneNumber } = props;
+  console.log(props);
+  
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
   const [peopleData, setPeopleData] = useState([]);
   const [open, setOpen] = useState(false);
+  const { cookies, setLoading, user } = useUserContext();
 
-  const { setLoading } = useUserContext();
+  const a = cookies?.user;
   const router = useRouter();
   const param = router.query;
+console.log(param.id_room);
 
   const {
     register,
@@ -48,24 +53,23 @@ const ListMember = (props: IMember) => {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
-  const removeRoom = async (id: string) => {
-    console.log('id phòng', id);
+  const removeRoom = async (props: IMember) => {
+    console.log('id phòng', props);
 
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
+      const newData = { ...props, a };
+
       try {
-        await axios
-          .delete(
-            `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
-          )
+        await removePeople(param.id_room,newData )
           .then(() => {
-            Toast('success', 'Xóa phòng thành công');
-            setPeopleData(peopleData.filter((item: any) => item.id !== id));
+            Toast('success', 'Xóa thành viên thành công');
+            setPeopleData(peopleData.filter((item: any) => item.id !== _id));
             setLoading(false);
           });
       } catch (error) {
-        Toast('error', 'Xóa phòng không thành công');
+        Toast('error', 'Xóa thành viên thành công');
         setLoading(false);
       }
     }
@@ -157,7 +161,7 @@ const ListMember = (props: IMember) => {
             <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
             <span
               onClick={() => {
-                removeRoom(_id);
+                removeRoom(props);
               }}
             >
               Xóa

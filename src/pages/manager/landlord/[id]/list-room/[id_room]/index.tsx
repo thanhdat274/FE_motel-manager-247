@@ -11,12 +11,8 @@ import { readRoom } from 'src/pages/api/room';
 
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
 
-interface IRoomData {
-  listMember: any;
-}
-
 const ManageRoom = () => {
-  const [roomData, setRoomData] = useState<IMember2>({}, {});
+  const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
   const a = cookies?.user;
   const router = useRouter();
@@ -55,7 +51,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={roomData} data1={roomData.listMember} />,
+      children: <TenantMember data={roomData } data1={roomData.listMember} />,
     },
 
     {

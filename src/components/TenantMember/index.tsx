@@ -22,10 +22,11 @@ type IProps = {
 
 const TenantMember = ({ data, data1 }: IProps) => {
   // console.log(data._id);
-  const { cookies, setLoading, user } = useUserContext();
 
   const [open, setOpen] = useState(false);
   const router = useRouter();
+    const { cookies, setLoading, user } = useUserContext();
+
   const a = cookies?.user;
 
   const param = router.query;
@@ -38,11 +39,14 @@ const TenantMember = ({ data, data1 }: IProps) => {
   } = useForm();
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (listMember:any) => {
     setLoading(true);
-    const newData = { ...data, a };
+    const newData = { ...{listMember}, a };
+
+       
+    
     try {
-      await addPeople(  param.id_room,newData)
+      await addPeople(  param.id_room,newData     )
         .then((data: any) => {
           setLoading(false);
           router.push(`/manager/landlord/${param.id}/list-room`);

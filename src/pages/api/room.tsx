@@ -54,3 +54,12 @@ export const addPeople = (id:any,data: any) => {
     },
   });
 };
+
+export const removePeople = (_id:any,data: any) => {
+  const url = `/room/${_id}/member/remove`;
+  return instance.post(url,data, {
+    headers: {
+      Authorization: `Bearer ${data.a.token}`,
+    },
+  });
+};
