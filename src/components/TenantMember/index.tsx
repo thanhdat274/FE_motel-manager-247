@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { IMember } from '../ListMember';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -10,20 +9,29 @@ import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { style } from '@mui/system';
 import TenantContract from '../TenantContact';
+import { IMember, IMember2 } from '@/components/ListMember';
+import { addPeople } from 'src/pages/api/room';
 
 const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false });
 
 type IProps = {
-  data: IMember[];
-  data1:any
+  data: IMember2;
+  data1:any;
 };
 
 
 const TenantMember = ({ data, data1 }: IProps) => {
+  // console.log(data._id);
+
   const [open, setOpen] = useState(false);
-  const { setLoading } = useUserContext();
   const router = useRouter();
+    const { cookies, setLoading, user } = useUserContext();
+
+  const a = cookies?.user;
+
   const param = router.query;
+  console.log(param.id_room);
+  
   const {
     register,
     handleSubmit,
@@ -31,12 +39,14 @@ const TenantMember = ({ data, data1 }: IProps) => {
   } = useForm();
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (listMember:any) => {
     setLoading(true);
+    const newData = { ...{listMember}, a };
 
+       
+    
     try {
-      await axios
-        .post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people`, data)
+      await addPeople(  param.id_room,newData     )
         .then((data: any) => {
           setLoading(false);
           router.push(`/manager/landlord/${param.id}/list-room`);
@@ -52,7 +62,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
     <div>
       <div>
         {' '}
-        {data.length < data1.max ? (
+        {data1.length < data.maxMember ? (
           <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
             Thêm thành viên
           </button>
@@ -82,7 +92,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   id="name"
                   type="text"
                   placeholder="Xin mời nhập tên thành viên"
-                  {...register('full_name', { required: true, minLength: 6 })}
+                  {...register('memberName', { required: true, minLength: 6 })}
                 />
                 {errors.full_name?.type === 'required' && (
                   <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
@@ -96,11 +106,11 @@ const TenantMember = ({ data, data1 }: IProps) => {
                 </label>
                 <select
                   className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  {...register('role', { required: true })}
-                  id="role"
+                  {...register('status', { required: true })}
+                  id="status"
                 >
-                  <option value="1">Chủ phòng</option>
-                  <option value="0">Thành viên</option>
+                  <option value="true">Chủ phòng</option>
+                  <option value="false">Thành viên</option>
                 </select>
               </div>
               <div className="mb-4 mt-4">
@@ -109,10 +119,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="cccd"
+                  id="cardNumber"
                   type="text"
                   placeholder="Xin mời nhập  CMT/CCCD"
-                  {...register('cccd', { required: true, minLength: 6 })}
+                  {...register('cardNumber', { required: true, minLength: 6 })}
                 />
                 {errors.cccd?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
                 {errors.cccd?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
@@ -123,10 +133,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="phone"
+                  id="phoneNumber"
                   type="text"
                   placeholder="Xin mời nhập  sô điện thoại"
-                  {...register('phone', { required: true, minLength: 6, maxLength: 11 })}
+                  {...register('phoneNumber', { required: true, minLength: 6, maxLength: 11 })}
                 />
                 {errors.phone?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
                 {errors.phone?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
@@ -146,9 +156,9 @@ const TenantMember = ({ data, data1 }: IProps) => {
         </Modal>
       </div>
       <div className="flex flex-row flex-wrap w-full gap-4">
-        {data.length > 0 ? (
-          data?.map((item: IMember) => (
-            <div key={item.full_name} className=" basis-full md:basis-[30%] ">
+        {data1.length > 0 ? (
+          data1?.map((item: IMember) => (
+            <div key={item.memberName} className=" basis-full md:basis-[30%] ">
               <ListMember {...item} />
             </div>
           ))

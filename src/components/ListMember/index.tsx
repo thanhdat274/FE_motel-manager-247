@@ -9,39 +9,40 @@ import axios from 'axios';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { useForm } from 'react-hook-form';
+import { removePeople } from 'src/pages/api/room';
 
 export type IMember = {
-  id: number;
-  full_name: string;
-  cccd: string;
-  role: string;
-  phone: string;
-  address: string;
+  status: boolean;
+  _id: string;
+  memberName: string;
+  cardNumber: string;
+  phoneNumber: string;
 };
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    width: '800px',
-    transform: 'translate(-50%, -50%)',
-  },
+export type IMember2 = {
+  _id: string;
+  name: string;
+  status: boolean;
+  maxMember: number;
+  price: number;
+  area: number;
+  listMember:object;
 };
 
 const ListMember = (props: IMember) => {
-  const { id, full_name, cccd, role, phone } = props;
+  const { _id, memberName, cardNumber, phoneNumber } = props;
+  console.log(props);
+  
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
   const [peopleData, setPeopleData] = useState([]);
   const [open, setOpen] = useState(false);
+  const { cookies, setLoading, user } = useUserContext();
 
-  const { setLoading } = useUserContext();
+  const a = cookies?.user;
   const router = useRouter();
   const param = router.query;
+console.log(param.id_room);
 
-  console.log(param);
   const {
     register,
     handleSubmit,
@@ -52,45 +53,43 @@ const ListMember = (props: IMember) => {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
-  const removeRoom = async (id: number) => {
-    console.log('id phòng', id);
-    
+  const removeRoom = async (props: IMember) => {
+    console.log('id phòng', props);
+
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
+      const newData = { ...props, a };
+
       try {
-        await axios
-          .delete(
-            `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
-          )
+        await removePeople(param.id_room,newData )
           .then(() => {
-            Toast('success', 'Xóa phòng thành công');
-            setPeopleData(peopleData.filter((item: any) => item.id !== id));
+            Toast('success', 'Xóa thành viên thành công');
+            setPeopleData(peopleData.filter((item: any) => item.id !== _id));
             setLoading(false);
           });
       } catch (error) {
-        Toast('error', 'Xóa phòng không thành công');
+        Toast('error', 'Xóa thành viên thành công');
         setLoading(false);
       }
     }
   };
-  useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const res = await axios.get(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
-        );
-        if (res.data) {
-          reset(res.data as any);
-          console.log('data', res.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRoom();
-  }, [param.id, param.id_room, id]);
-  
+  // useEffect(() => {
+  //   const getRoom = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
+  //       );
+  //       if (res.data) {
+  //         reset(res.data as any);
+  //         console.log('data', res.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getRoom();
+  // }, [param.id, param.id_room, id]);
 
   const onSubmit = async (data: any) => {
     console.log('data từ form', data);
@@ -98,7 +97,7 @@ const ListMember = (props: IMember) => {
     try {
       await axios
         .put(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
+          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + _id,
           data,
         )
         .then((data: any) => {
@@ -124,11 +123,11 @@ const ListMember = (props: IMember) => {
       <div className="card-member bg-white w-full border border-solid border-gray-600 p-4 flex flex-col rounded">
         <div className="name-member">
           <strong>Họ và tên:</strong>
-          {full_name}
+          {memberName}
         </div>
         <div className="flex flex-row justify-between">
           <div className="phone-number">
-            <strong>SĐT:</strong> {showData(phone, !hiddenPhone)}{' '}
+            <strong>SĐT:</strong> {showData(phoneNumber, !hiddenPhone)}{' '}
           </div>
           <FontAwesomeIcon
             className="w-[20px] text-[10px] pt-[2px]"
@@ -139,7 +138,7 @@ const ListMember = (props: IMember) => {
         </div>
         <div className="flex flex-row justify-between">
           <div className="cart-number">
-            <strong>CMT/CCCD:</strong> {showData(cccd, !hiddenCardNumber)}
+            <strong>CMT/CCCD:</strong> {showData(cardNumber, !hiddenCardNumber)}
           </div>
           <FontAwesomeIcon
             className="w-[20px] text-[10px] pt-[2px]"
@@ -148,7 +147,7 @@ const ListMember = (props: IMember) => {
             size={'lg'}
           />
         </div>
-        <div className="name-member">{role == '1' ? <div>Chủ Phòng</div> : <div>Khách thuê</div>}</div>
+        {/* <div className="name-member">{role == '1' ? <div>Chủ Phòng</div> : <div>Khách thuê</div>}</div> */}
 
         <div className="control-member flex flex-row gap-2">
           <div
@@ -162,7 +161,7 @@ const ListMember = (props: IMember) => {
             <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
             <span
               onClick={() => {
-                removeRoom(id);
+                removeRoom(props);
               }}
             >
               Xóa

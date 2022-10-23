@@ -19,7 +19,7 @@ type Props = {
 
 const TenantInformation = ({ data }: any) => {
   const { name, price, status, max, area } = data;
-  console.log(data);
+  // console.log(data);
   
   const router = useRouter();
   const param = router.query;

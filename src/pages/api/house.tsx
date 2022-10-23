@@ -14,7 +14,7 @@ export const addHouse = (data: any) => {
   const url = `/house/${data.a.user._id}`;
   return instance.post(url, data, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      // 'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${data.a.token}`,
     },
   });

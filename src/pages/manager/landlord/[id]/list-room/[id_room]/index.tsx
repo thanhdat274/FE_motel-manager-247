@@ -1,4 +1,4 @@
-import { IMember } from '@/components/ListMember';
+import { IMember, IMember2 } from '@/components/ListMember';
 import TabPanelComponent from '@/components/TabPanel';
 import TenantContract from '@/components/TenantContact';
 import TenantMember from '@/components/TenantMember';
@@ -11,11 +11,8 @@ import { readRoom } from 'src/pages/api/room';
 
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
 
-type Props = {};
-
 const ManageRoom = () => {
-  const [roomData, setRoomData] = useState({});
-  const [peopleData, setPeopleData] = useState({});
+  const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
   const a = cookies?.user;
   const router = useRouter();
@@ -31,37 +28,18 @@ const ManageRoom = () => {
       }
     } catch (error) {
       setLoading(false);
-      //console.log(error);
     }
   };
 
   // api people
 
-  const getPeople = async () => {
-    setLoading(true);
-
-    try {
-      const res = await axios.get(
-        `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people`,
-      );
-      if (res.data) {
-        setPeopleData(res.data);
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-  };
-
   const param = router.query;
-  console.log(param);
+  // console.log(param);
 
   useEffect(() => {
     if (param.id) {
       getRoom();
     }
-    getPeople();
   }, [param.id]);
 
   const data = [
@@ -73,7 +51,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={peopleData as IMember[]} data1={roomData} />,
+      children: <TenantMember data={roomData } data1={roomData.listMember} />,
     },
 
     {
