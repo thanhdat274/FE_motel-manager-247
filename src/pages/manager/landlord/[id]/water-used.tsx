@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
-import { listRoom } from 'src/pages/api/room';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { DatePicker, Space } from 'antd';
 import type { DatePickerProps } from 'antd';
 import 'antd/dist/antd.css';
-import { createAllBillForHouse, getListService } from 'src/pages/api/billService';
+import { createAllBillForHouse, getAllBillForHouse } from 'src/pages/api/billService';
+import { listRoom } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
-import toLowerCaseNonAccentVietnamese from 'src/util/CONVERTTEXT';
 import moment from 'moment';
 
 type FormInputs = {
@@ -26,94 +25,55 @@ type FormInputs = {
 };
 
 const ListWaterUsed = () => {
-  // const str = toLowerCaseNonAccentVietnamese('Việt Nam');
+  const today = new Date();
 
+  const [listRoomData, setListRoomData] = useState([]);
   const { cookies, setLoading } = useUserContext();
-  const [rooms, setRooms] = useState<any>([]);
-  const [bills, setBills] = useState<any>([]);
-  const [monthCheck, setMonth] = useState(0);
-  const [yearCheck, setYear] = useState(0);
-  const a = cookies?.user;
+  const [listBillData, setListBillData] = useState<any>([]);
+  const [monthCheck, setMonth] = useState(today.getMonth());
+  const [yearCheck, setYear] = useState(today.getFullYear());
+  const userData = cookies?.user;
+
   const router = useRouter();
-  const param = router.query;
   const { id } = router.query;
+
   const NameBuild = 'nuoc';
 
-  const today = new Date();
-  const monthNow = today.getMonth();
-  const yearNow = today.getFullYear();
+  const { register, handleSubmit, setValue } = useForm<FormInputs>();
 
-  console.log('monthCheck', monthCheck, yearCheck);
+  const getListBillData = async () => {
+    setLoading(true);
+    await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
+      .then((result) => {
+        setListBillData(result.data as any);
+        setLoading(false);
+        setValue('data', result.data.docs);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-    setValue,
-    watch,
-    unregister,
-  } = useForm<FormInputs>();
-
-  // const inputVal = useWatch({
-  //   control,
-  //   name: `data.${0}.inputValue`,
-  // });
-
-  // const outPutVal = useWatch({
-  //   control,
-  //   name: `data.${0}.outputValue`,
-  // });
-  // const allUseElictric = outPutVal - inputVal;
+  const getListRoom = async () => {
+    setLoading(true);
+    await listRoom(id, userData)
+      .then((result) => {
+        setListRoomData(result?.data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    const getRoom = async () => {
-      setLoading(true);
-      try {
-        const { data } = await listRoom(id, a as string);
-        if (data.data) {
-          setRooms(data.data as any);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log('error', error);
-        setLoading(false);
-      }
-    };
-    getRoom();
-  }, [a, id, reset, setLoading]);
-
-  useEffect(() => {
-    const getListBill = async () => {
-      if (monthCheck && yearCheck) {
-        setLoading(true);
-        try {
-          const { data } = await getListService(
-            id as string,
-            a as any,
-            NameBuild as string,
-            monthCheck as any,
-            yearCheck as any,
-          );
-          if (data) {
-            setBills(data as any);
-            reset(data as any);
-            setLoading(false);
-          }
-        } catch (error) {
-          console.log('error', error);
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-    getListBill();
-  }, [a, id, monthCheck, NameBuild, reset, setLoading, yearCheck]);
+    getListBillData();
+    getListRoom();
+  }, [userData, id, monthCheck, yearCheck]);
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setMonth(parseInt(dateString.slice(5, 7)));
+
     setYear(parseInt(dateString.slice(0, 4)));
   };
 
@@ -134,6 +94,17 @@ const ListWaterUsed = () => {
       Toast('error', 'Vui lòng chọn tháng năm!');
     }
   };
+
+  const datePickerShow = React.useMemo(() => {
+    return (
+      <DatePicker
+        style={{ width: '200px' }}
+        onChange={onChange}
+        defaultValue={moment(`${yearCheck}-${monthCheck}`, 'YYYY-MM')}
+        picker="month"
+      />
+    );
+  }, [monthCheck, yearCheck]);
 
   return (
     <div className="h-screen">
@@ -164,20 +135,14 @@ const ListWaterUsed = () => {
                   Tháng/năm
                 </label>
                 <div>
-                  <Space direction="vertical">
-                    <DatePicker
-                      style={{ width: '200px' }}
-                      onChange={onChange}
-                      defaultValue={moment(`${yearNow}-${monthNow}`, 'YYYY-MM')}
-                      picker="month"
-                    />
-                  </Space>
+                  <Space direction="vertical">{datePickerShow}</Space>
                 </div>
               </div>
             </div>
           </div>
           <hr className="mt-6 border-1 borderlueGray-300" />
           <nav className="my-4 mx-4 pb-4">
+            <h2 className="text-center">Số nước tháng - {monthCheck}</h2>
             <h3 className="text-xl">Lưu ý</h3>
             <span className="block">
               - Bạn phải gán dịch vụ thuộc loại nước cho khách thuê trước thì phần chỉ số này mới được tính cho phòng đó
@@ -226,14 +191,14 @@ const ListWaterUsed = () => {
                           </div>
                         </div>
                       </div>
-                      {yearCheck && monthCheck ? (
+                      {listBillData?.docs?.length > 1 && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
-                          {rooms &&
-                            rooms.map((item: any, index: any) => {
+                          {listBillData?.docs &&
+                            listBillData?.docs.map((item: any, index: any) => {
                               return (
-                                <div className="table-row divide-y divide-x" key={rooms._id}>
+                                <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
-                                    <p className="text-center">{item.name}</p>
+                                    <p className="text-center">{item._id}</p>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <p className="text-center">{NameBuild}</p>
@@ -243,7 +208,6 @@ const ListWaterUsed = () => {
                                       {...register(`data.${index}.idRoom`, {
                                         required: true,
                                       })}
-                                      defaultValue={item._id}
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       type="text"
                                     />
@@ -251,7 +215,6 @@ const ListWaterUsed = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
                                       type="number"
-                                      defaultValue={0}
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.inputValue`, {
                                         required: true,
@@ -262,7 +225,6 @@ const ListWaterUsed = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
                                       type="number"
-                                      defaultValue={0}
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
@@ -271,7 +233,7 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center">{} Khối</div>
+                                    <div className="text-center"> Khối</div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
@@ -280,12 +242,14 @@ const ListWaterUsed = () => {
                               );
                             })}
                         </div>
-                      ) : (
+                      )}
+
+                      {listBillData?.docs?.length == 0 && listRoomData && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
-                          {rooms &&
-                            rooms.map((item: any, index: any) => {
+                          {listRoomData &&
+                            listRoomData.map((item: any, index: any) => {
                               return (
-                                <div className="table-row divide-y divide-x" key={rooms._id}>
+                                <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
                                     <p className="text-center">{item.name}</p>
                                   </div>
@@ -325,7 +289,7 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center">{} Khối</div>
+                                    <div className="text-center"> Khối</div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
