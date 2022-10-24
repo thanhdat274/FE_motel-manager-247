@@ -4,9 +4,9 @@ export const createAllBillForHouse = (data: any) => {
   const url = `/bill/create-for-house`;
   return instance.post(url, data);
 };
-
-export const getAllBillForHouse = (type: string, month: number, year: number, idHouse: any) => {
-  const url = `/bill/${type}/${idHouse}/${month}/${year}`;
+export const getListElictric = (idHouse: any, typeBill: any, month: any, year: any) => {
+  const url = `/bill/get-list/${idHouse}/${typeBill}/${month}/${year}`;
+  // /bill/get-list/:idHouse/:type/:month/:year
   return instance.get(url);
 };
 

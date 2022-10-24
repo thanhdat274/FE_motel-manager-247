@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
@@ -8,10 +8,9 @@ import { SubmitHandler, useFieldArray, useForm, useWatch, Control } from 'react-
 import { DatePicker, Space } from 'antd';
 import type { DatePickerProps } from 'antd';
 import 'antd/dist/antd.css';
-import { createAllBillForHouse, getListElictric } from 'src/pages/api/billService';
+import { createAllBillForHouse, getListElictric, getListService } from 'src/pages/api/billService';
 import { Toast } from 'src/hooks/toast';
 type Props = {};
-
 type FormInputs = {
   name: string;
   idHouse: string;
@@ -34,6 +33,8 @@ const ListElictricUsed = (props: Props) => {
 
   const [monthCheck, setMonth] = useState(0);
   const [yearCheck, setYear] = useState(0);
+  const [bills, setBills] = useState<any>([]);
+
   const stt = fillter1 - fillter;
 
   const a = cookies?.user;
@@ -63,51 +64,16 @@ const ListElictricUsed = (props: Props) => {
     const value1 = event.target.value;
     setfillter1(value1);
   };
-
+  const inputRef = useRef(0);
+  const outputRef = useRef(0);
   // cái này để lấy tháng năm
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setMonth(parseInt(dateString.slice(5, 7)));
     setYear(parseInt(dateString.slice(0, 4)));
   };
-
-  // function monthWatched({ control }: { control: Control<FormInputs> }) {
-  //   const mpnth = useWatch({
-  //     control,
-  //     name: "month"
-  //   });
-
-  //   return mpnth; // only re-render at the custom hook level, when firstName changes
+  // const handkeInputChange = (event :any) => {
+  //   const InputObj = event.target.number
   // }
-
-  // useEffect(() => {
-  //   if (monthCheck && yearCheck) {
-  //     const getElictricDetail = async () => {
-  //       try {
-  //         const { data } = await getListElictric(id, NameBuild, monthCheck, yearCheck);
-  //         if (data.data) {
-  //           setElictric(data.data as any);
-  //           Toast('success', 'Lấy dữ liệu data thành công');
-  //         }
-  //       } catch (error) {}
-  //     };
-  //     getElictricDetail();
-  //   }
-  // }, [id]);
-  if (monthCheck && yearCheck) {
-    const getElictricDetail = async () => {
-      try {
-        const { data } = await getListElictric(id, NameBuild, monthCheck, yearCheck);
-        if (data.data) {
-          setElictric(data.data as any);
-          Toast('success', 'Lấy dữ liệu data thành công');
-        }
-      } catch (error) {
-        console.log(error);
-        
-      }
-    };
-    getElictricDetail();
-  }
 
   const {
     register,
@@ -115,8 +81,69 @@ const ListElictricUsed = (props: Props) => {
     formState: { errors },
     control,
     reset,
+    resetField,
+    setValue,
     watch,
-  } = useForm<FormInputs>();
+    unregister,
+  } = useForm<FormInputs>({});
+
+  // console.log(rooms.length);
+  for (let i = 0; i < rooms.length; i++) {
+    console.log(i);
+  }
+  const inputVal = useWatch({
+    control,
+    name: `data.${0}.inputValue`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+  });
+
+  const outPutVal = useWatch({
+    control,
+    name: `data.${0}.outputValue`, // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+  });
+  const allUseElictric = outPutVal - inputVal;
+  // const resetInputForm = () => {
+  //   resetField('input')
+  // }
+
+  useEffect(() => {
+    const getListBill = async () => {
+      if (monthCheck && yearCheck) {
+        setLoading(true);
+        try {
+          const { data } = await getListService(
+            id as string,
+            a as any,
+            NameBuild as string,
+            monthCheck as any,
+            yearCheck as any,
+          );
+          if (data) {
+            if (data.data.length == 0) {
+              console.log(rooms);
+              Toast('error', 'Tháng này chưa có số điện');
+              setBills(data as any);
+              setLoading(false);
+            } else {
+              reset(data as any);
+              setLoading(false);
+            }
+          }
+        } catch (error) {
+          console.log('error', error);
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+    getListBill();
+  }, [a, id, monthCheck, NameBuild, reset, setLoading, yearCheck]);
+
+  // const checkView = useWatch({
+  //   control,
+  //   name: 'data',
+  // });
+  // console.log(checkView);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {
@@ -235,7 +262,7 @@ const ListElictricUsed = (props: Props) => {
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {rooms.map((item: any, index: any) => {
                             return (
-                              <div className="table-row divide-y divide-x" key={rooms._id}>
+                              <div className="table-row divide-y divide-x" key={item._id}>
                                 <div className="table-cell border-t px-4 py-4 whitespace">
                                   <p className="text-center">{item.name}</p>
                                 </div>
@@ -248,6 +275,7 @@ const ListElictricUsed = (props: Props) => {
                                       required: true,
                                     })}
                                     defaultValue={item._id}
+                                    id="pdz"
                                     className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                     type="text"
                                   />
@@ -255,11 +283,14 @@ const ListElictricUsed = (props: Props) => {
                                 <div className="table-cell px-4 py-4 whitespace">
                                   <input
                                     type="number"
+                                    id="ddz"
                                     className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                     {...register(`data.${index}.inputValue`, {
                                       required: true,
                                       valueAsNumber: true,
                                     })}
+                                    valueDefault={bills.inputValue}
+                                    value={0}
                                   />
                                 </div>
                                 <div className="table-cell px-4 py-4 whitespace">
@@ -270,10 +301,12 @@ const ListElictricUsed = (props: Props) => {
                                       required: true,
                                       valueAsNumber: true,
                                     })}
+                                    valueDefault={bills.outputValue}
+                                    value={0}
                                   />
                                 </div>
                                 <div className="table-cell px-4 py-4 whitespace">
-                                  <div className="text-center"> Khối</div>
+                                  <div className="text-center">{allUseElictric} Khối</div>
                                 </div>
                                 <div className="table-cell px-4 py-4 whitespace">
                                   <div className="text-center"></div>
