@@ -35,7 +35,7 @@ const ListRoom = (props: Props) => {
       }
     };
     getRoom();
-  }, [id]);
+  }, [a, id]);
 
   const removeRooms = async (_id: number, a: any) => {
     setLoading(true);
@@ -81,7 +81,7 @@ const ListRoom = (props: Props) => {
                 </form>
               </div>
               <Link href={`/manager/landlord/${id}/list-room/add`}>
-                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
                 </a>
               </Link>
@@ -102,20 +102,11 @@ const ListRoom = (props: Props) => {
                           <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                           {item.name}
                         </h2>
-                        {/* <Link
-                            href="/manager/landlord/room-renter/add"
-                            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block"
-                          >
-                            <a className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block mb-[20px]">
-                              Thêm khách
-                            </a>
-                          </Link> */}
-
                         <p className="flex items-center gap-2 mb-[20px]">
                           <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                          {/* <span className="text-red-500">
+                          <span className="text-red-500">
                             {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                          </span> */}
+                          </span>
                         </p>
 
                         <div className="text-center flex gap-3">

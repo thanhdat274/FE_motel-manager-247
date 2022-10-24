@@ -20,19 +20,12 @@ type Props = {
 const TenantInformation = ({ data }: any) => {
   const { name, price, status, max, area } = data;
   // console.log(data);
-  
+
   const router = useRouter();
   const param = router.query;
 
   const { cookies, setLoading } = useUserContext();
   const a = cookies?.user;
-
-  useEffect(() => {
-    if (data) {
-      reset(data);
-    }
-  }, [data]);
-
   const {
     register,
     handleSubmit,
@@ -43,21 +36,25 @@ const TenantInformation = ({ data }: any) => {
       name: name,
       status: status,
       maxMember: max,
-      price:price,
-      area:area
-    
+      price: price,
+      area: area,
     },
   });
+  useEffect(() => {
+    if (data) {
+      reset(data);
+    }
+  }, [data, reset]);
+
   const onSubmit = async (data: any) => {
     const newData = { ...data, a };
     setLoading(true);
     try {
-      await updateRoom(newData)
-        .then(() => {
-          setLoading(false);
-          router.push(`/manager/landlord/${param.id}/list-room`);
-          Toast('success', 'Cập nhật phòng thành công');
-        });
+      await updateRoom(newData).then(() => {
+        setLoading(false);
+        router.push(`/manager/landlord/${param.id}/list-room`);
+        Toast('success', 'Cập nhật phòng thành công');
+      });
     } catch (error) {
       Toast('error', 'Cập nhật phòng không thành công');
       setLoading(false);

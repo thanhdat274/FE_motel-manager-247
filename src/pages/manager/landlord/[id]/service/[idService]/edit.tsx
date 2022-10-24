@@ -20,6 +20,13 @@ const EditService = (props: Props) => {
   const router = useRouter();
   const param = router.query;
   const a = cookies?.user;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<IFormInputs>();
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
@@ -33,17 +40,10 @@ const EditService = (props: Props) => {
       }
     };
     getService();
-  }, [param.idService]);
+  }, [a, param.idService, reset, setLoading]);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    const newData = { ...data, a };
+    const newData = { ...data, a: a };
     setLoading(true);
 
     await updateService(newData)

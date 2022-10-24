@@ -16,22 +16,21 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 
 type IProps = {
   data: IMember2;
-  data1:any;
+  data1: any;
 };
-
 
 const TenantMember = ({ data, data1 }: IProps) => {
   // console.log(data._id);
 
   const [open, setOpen] = useState(false);
   const router = useRouter();
-    const { cookies, setLoading, user } = useUserContext();
+  const { cookies, setLoading, user } = useUserContext();
 
   const a = cookies?.user;
 
   const param = router.query;
   console.log(param.id_room);
-  
+
   const {
     register,
     handleSubmit,
@@ -39,19 +38,16 @@ const TenantMember = ({ data, data1 }: IProps) => {
   } = useForm();
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const onSubmit = async (listMember:any) => {
+  const onSubmit = async (listMember: any) => {
     setLoading(true);
-    const newData = { ...{listMember}, a };
+    const newData = { ...{ listMember }, a };
 
-       
-    
     try {
-      await addPeople(  param.id_room,newData     )
-        .then((data: any) => {
-          setLoading(false);
-          router.push(`/manager/landlord/${param.id}/list-room`);
-          Toast('success', 'Thêm mới thành viên thành công');
-        });
+      await addPeople(param.id_room, newData).then((data: any) => {
+        setLoading(false);
+        router.push(`/manager/landlord/${param.id}/list-room`);
+        Toast('success', 'Thêm mới thành viên thành công');
+      });
     } catch (error) {
       setLoading(false);
       Toast('error', 'Thêm mới phòng thành viên thành công');
@@ -63,12 +59,12 @@ const TenantMember = ({ data, data1 }: IProps) => {
       <div>
         {' '}
         {data1.length < data.maxMember ? (
-          <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
+          <button onClick={onOpenModal} className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Thêm thành viên
           </button>
         ) : (
           <>
-            <button className='border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50' >Đủ người</button>
+            <button className="border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50">Đủ người</button>
           </>
         )}
         <Modal open={open} onClose={onCloseModal} center>
