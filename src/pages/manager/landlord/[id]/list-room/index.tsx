@@ -12,7 +12,7 @@ type Props = {};
 const ListRoom = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
-  console.log(rooms);
+  // console.log(rooms);
   const a = cookies?.user;
   const router = useRouter();
   const { id } = router.query;
@@ -102,6 +102,7 @@ const ListRoom = (props: Props) => {
                           <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                           {item.name}
                         </h2>
+                      
                         <p className="flex items-center gap-2 mb-[20px]">
                           <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
                           <span className="text-red-500">

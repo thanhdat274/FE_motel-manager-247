@@ -27,9 +27,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const { cookies, setLoading, user } = useUserContext();
 
   const a = cookies?.user;
-
   const param = router.query;
-  console.log(param.id_room);
 
   const {
     register,
@@ -59,7 +57,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
       <div>
         {' '}
         {data1.length < data.maxMember ? (
-          <button onClick={onOpenModal} className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button
+            onClick={onOpenModal}
+            className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
             Thêm thành viên
           </button>
         ) : (
