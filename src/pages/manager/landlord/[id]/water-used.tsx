@@ -10,7 +10,8 @@ import type { DatePickerProps } from 'antd';
 import 'antd/dist/antd.css';
 import { createAllBillForHouse, getListService } from 'src/pages/api/billService';
 import { Toast } from 'src/hooks/toast';
-type Props = {};
+import toLowerCaseNonAccentVietnamese from 'src/util/CONVERTTEXT';
+import moment from 'moment';
 
 type FormInputs = {
   name: string;
@@ -24,7 +25,9 @@ type FormInputs = {
   }[];
 };
 
-const ListWaterUsed = (props: Props) => {
+const ListWaterUsed = () => {
+  // const str = toLowerCaseNonAccentVietnamese('Việt Nam');
+
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState<any>([]);
   const [bills, setBills] = useState<any>([]);
@@ -34,7 +37,13 @@ const ListWaterUsed = (props: Props) => {
   const router = useRouter();
   const param = router.query;
   const { id } = router.query;
-  const NameBuild = 'water';
+  const NameBuild = 'nuoc';
+
+  const today = new Date();
+  const monthNow = today.getMonth();
+  const yearNow = today.getFullYear();
+
+  console.log('monthCheck', monthCheck, yearCheck);
 
   const {
     register,
@@ -156,7 +165,12 @@ const ListWaterUsed = (props: Props) => {
                 </label>
                 <div>
                   <Space direction="vertical">
-                    <DatePicker onChange={onChange} picker="month" />
+                    <DatePicker
+                      style={{ width: '200px' }}
+                      onChange={onChange}
+                      defaultValue={moment(`${yearNow}-${monthNow}`, 'YYYY-MM')}
+                      picker="month"
+                    />
                   </Space>
                 </div>
               </div>

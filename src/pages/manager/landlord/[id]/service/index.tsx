@@ -20,6 +20,7 @@ const ListServiceRoom = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
+
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
@@ -148,7 +149,7 @@ const ListServiceRoom = (props: Props) => {
                                 <div className="text-center">{index + 1}</div>
                               </td>
                               <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.name}</div>
+                                <div className="text-center">{item.label}</div>
                               </td>
 
                               <td className="px-6 py-4 whitespace">

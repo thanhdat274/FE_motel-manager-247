@@ -33,7 +33,7 @@ const Signin = (props: Props) => {
         router.push(`/`);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data.message);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
