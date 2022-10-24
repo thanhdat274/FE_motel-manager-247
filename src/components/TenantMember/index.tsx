@@ -30,7 +30,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const a = cookies?.user;
 
   const param = router.query;
-  console.log(param.id_room);
+  // console.log(param.id_room);
   
   const {
     register,

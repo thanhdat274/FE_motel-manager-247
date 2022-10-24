@@ -29,7 +29,7 @@ export type IMember2 = {
 };
 
 const ListMember = (props: IMember) => {
-  const { _id, memberName, cardNumber, phoneNumber } = props;
+  const { _id, memberName, cardNumber, phoneNumber,status } = props;
   console.log(props);
   
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
@@ -54,7 +54,6 @@ console.log(param.id_room);
   const onCloseModal = () => setOpen(false);
 
   const removeRoom = async (props: IMember) => {
-    console.log('id phòng', props);
 
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
@@ -74,42 +73,27 @@ console.log(param.id_room);
       }
     }
   };
-  // useEffect(() => {
-  //   const getRoom = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + id,
-  //       );
-  //       if (res.data) {
-  //         reset(res.data as any);
-  //         console.log('data', res.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getRoom();
-  // }, [param.id, param.id_room, id]);
 
-  const onSubmit = async (data: any) => {
-    console.log('data từ form', data);
-    setLoading(true);
-    try {
-      await axios
-        .put(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + _id,
-          data,
-        )
-        .then((data: any) => {
-          setLoading(false);
-          router.push(`/manager/landlord/${param.id}/list-room`);
-          Toast('success', 'Cập nhật thành viên thành công ');
-        });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Cập nhật thành viên không thành công');
-    }
-  };
+
+  // const onSubmit = async (data: any) => {
+  //   console.log('data từ form', data);
+  //   setLoading(true);
+  //   try {
+  //     await axios
+  //       .put(
+  //         `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + _id,
+  //         data,
+  //       )
+  //       .then((data: any) => {
+  //         setLoading(false);
+  //         router.push(`/manager/landlord/${param.id}/list-room`);
+  //         Toast('success', 'Cập nhật thành viên thành công ');
+  //       });
+  //   } catch (error) {
+  //     setLoading(false);
+  //     Toast('error', 'Cập nhật thành viên không thành công');
+  //   }
+  // };
 
   const showData = (data: string, status: boolean) => {
     if (data) {
@@ -147,16 +131,16 @@ console.log(param.id_room);
             size={'lg'}
           />
         </div>
-        {/* <div className="name-member">{role == '1' ? <div>Chủ Phòng</div> : <div>Khách thuê</div>}</div> */}
+        <div className="name-member">{status == true ? <div>Chủ Phòng</div> : <div>{null}</div>}</div>
 
         <div className="control-member flex flex-row gap-2">
-          <div
+          {/* <div
             onClick={onOpenModal}
             className="rounded edit-member flex flex-row gap-2 p-2 bg-indigo-600 text-white border border-solid border-indigo-600 base-1/2 cursor-pointer"
           >
             <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
             <span>Sửa</span>
-          </div>
+          </div> */}
           <div className="rounded edit-member flex flex-row gap-2 p-2 bg-red-600 hover:bg-red-400 text-white border border-solid border-red-600 hover:border-red-400 base-1/2 cursor-pointer">
             <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
             <span
@@ -169,7 +153,7 @@ console.log(param.id_room);
           </div>
         </div>
 
-        <Modal open={open} onClose={onCloseModal} center>
+        {/* <Modal open={open} onClose={onCloseModal} center>
           <h1 className="pt-2">
             -----------------------------------------------------------------------------------------------------------------------
           </h1>
@@ -250,7 +234,7 @@ console.log(param.id_room);
               </div>
             </form>
           </div>
-        </Modal>
+        </Modal> */}
       </div>
     </div>
   );
