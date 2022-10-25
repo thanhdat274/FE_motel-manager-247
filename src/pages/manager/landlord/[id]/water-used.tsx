@@ -93,6 +93,8 @@ const ListWaterUsed = () => {
     if (id) {
       await listRoom(id, userData)
         .then((result) => {
+          console.log('result?.data?.data', result?.data?.data);
+
           const newListRoomData = result?.data?.data.map((item: any) => {
             return {
               amount: 0,
@@ -105,6 +107,7 @@ const ListWaterUsed = () => {
               unit: serviceData?.unit,
               inputValue: 0,
               outputValue: 0,
+              nameRoom: item.name,
             };
           });
           setListRoomData(newListRoomData);
@@ -137,15 +140,7 @@ const ListWaterUsed = () => {
     reset();
   };
 
-  console.log('serviceData', serviceData);
-
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
-    console.log('tunnnnnnnnn', data.data);
-
-    const formatData = data.data.map((items: any) => {
-      return { ...items, inputValue: 0, outputValue: 0, idRoom: items._id };
-    });
-
     if (monthCheck && yearCheck) {
       const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
       setLoading(true);
@@ -237,9 +232,7 @@ const ListWaterUsed = () => {
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Phòng
                           </div>
-                          <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Tên dịch vụ
-                          </div>
+
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số nước cũ
                           </div>
@@ -266,11 +259,9 @@ const ListWaterUsed = () => {
                               return (
                                 <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
-                                    <p className="text-center">{item._id}</p>
+                                    <p className="text-center">{item.nameRoom}</p>
                                   </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <p className="text-center">{NameBuild}</p>
-                                  </div>
+
                                   <div className="hidden ml-2 text-center w-[90%]">
                                     <input
                                       {...register(`data.${index}.idRoom`, {
@@ -319,11 +310,9 @@ const ListWaterUsed = () => {
                               return (
                                 <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
-                                    <p className="text-center">{item.name}</p>
+                                    <p className="text-center">{item.nameRoom}</p>
                                   </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <p className="text-center">{NameBuild}</p>
-                                  </div>
+
                                   <div className="hidden ml-2 text-center w-[90%]">
                                     <input
                                       {...register(`data.${index}.idRoom`, {
