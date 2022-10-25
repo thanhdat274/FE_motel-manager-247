@@ -39,31 +39,39 @@ const ListWaterUsed = () => {
 
   const NameBuild = 'nuoc';
 
-  const { register, handleSubmit, setValue } = useForm<FormInputs>();
+  const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
 
   const getListBillData = async () => {
     setLoading(true);
-    await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
-      .then((result) => {
-        setListBillData(result.data as any);
-        setLoading(false);
-        setValue('data', result.data.docs);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+    if (id) {
+      await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
+        .then((result) => {
+          setListBillData(result.data.docs as any);
+          setLoading(false);
+          if (result.data.docs) {
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
   };
 
   const getListRoom = async () => {
     setLoading(true);
-    await listRoom(id, userData)
-      .then((result) => {
-        setListRoomData(result?.data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+    if (id) {
+      await listRoom(id, userData)
+        .then((result) => {
+          const newListRoomData = result?.data?.data.map((items: any) => {
+            return { ...items, inputValue: 0, outputValue: 0, idRoom: items._id };
+          });
+          setListRoomData(newListRoomData);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
   };
 
   useEffect(() => {
@@ -71,13 +79,27 @@ const ListWaterUsed = () => {
     getListRoom();
   }, [userData, id, monthCheck, yearCheck]);
 
+  useEffect(() => {
+    if (listBillData.length) {
+      setValue('data', listBillData);
+    } else {
+      setValue('data', listRoomData);
+    }
+  }, [listBillData]);
+
+  console.log('get', getValues('data'));
+
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setMonth(parseInt(dateString.slice(5, 7)));
 
     setYear(parseInt(dateString.slice(0, 4)));
+
+    reset();
   };
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
+    console.log('tunnnnnnnnn');
+
     if (monthCheck && yearCheck) {
       const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
       setLoading(true);
@@ -191,10 +213,10 @@ const ListWaterUsed = () => {
                           </div>
                         </div>
                       </div>
-                      {listBillData?.docs?.length > 1 && (
+                      {listBillData?.length > 1 && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
-                          {listBillData?.docs &&
-                            listBillData?.docs.map((item: any, index: any) => {
+                          {listBillData &&
+                            listBillData.map((item: any, index: any) => {
                               return (
                                 <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
@@ -244,7 +266,7 @@ const ListWaterUsed = () => {
                         </div>
                       )}
 
-                      {listBillData?.docs?.length == 0 && listRoomData && (
+                      {listBillData?.length == 0 && listRoomData && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {listRoomData &&
                             listRoomData.map((item: any, index: any) => {
@@ -261,7 +283,7 @@ const ListWaterUsed = () => {
                                       {...register(`data.${index}.idRoom`, {
                                         required: true,
                                       })}
-                                      defaultValue={item._id}
+                                      // defaultValue={item._id}
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       type="text"
                                     />
