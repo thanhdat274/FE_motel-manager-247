@@ -30,7 +30,7 @@ const Signin = (props: Props) => {
         setLoading(false);
         setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
-        router.push(`/`);
+        router.push(`/introduce`);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);

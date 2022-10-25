@@ -4,11 +4,8 @@ import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
-import { style } from '@mui/system';
-import TenantContract from '../TenantContact';
 import { IMember, IMember2 } from '@/components/ListMember';
 import { addPeople } from 'src/pages/api/room';
 
@@ -26,7 +23,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
 
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const param = router.query;
 
   const {
@@ -38,7 +35,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onCloseModal = () => setOpen(false);
   const onSubmit = async (listMember: any) => {
     setLoading(true);
-    const newData = { ...{ listMember }, a };
+    const newData = { ...{ listMember }, userData: userData };
 
     try {
       await addPeople(param.id_room, newData).then((data: any) => {

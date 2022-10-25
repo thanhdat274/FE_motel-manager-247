@@ -12,8 +12,7 @@ type Props = {};
 const ListRoom = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
-  // console.log(rooms);
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const router = useRouter();
   const { id } = router.query;
 
@@ -26,7 +25,7 @@ const ListRoom = (props: Props) => {
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const { data } = await listRoom(id, a as any);
+        const { data } = await listRoom(id, userData as any);
         if (data.data) {
           setRooms(data.data as any);
         }
@@ -35,14 +34,14 @@ const ListRoom = (props: Props) => {
       }
     };
     getRoom();
-  }, [a, id]);
+  }, [userData, id]);
 
-  const removeRooms = async (_id: number, a: any) => {
+  const removeRooms = async (_id: number, userData: any) => {
     setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       try {
-        await removeRoom({ _id: _id, a: a }).then(() => {
+        await removeRoom({ _id: _id, userData: userData }).then(() => {
           Toast('success', 'Xóa phòng thành công');
           setRooms(rooms.filter((item: any) => item._id !== _id));
           setLoading(false);
@@ -53,10 +52,6 @@ const ListRoom = (props: Props) => {
       }
     }
   };
-  // const findData = (dataA: any) => {
-  //   const data = dataA.filter((item: any) => item.houseId == id);
-  //   return data;
-  // };
   return (
     <div className="h-auto">
       <header className="bg-white shadow">
@@ -102,7 +97,7 @@ const ListRoom = (props: Props) => {
                           <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                           {item.name}
                         </h2>
-                      
+
                         <p className="flex items-center gap-2 mb-[20px]">
                           <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
                           <span className="text-red-500">
@@ -122,7 +117,7 @@ const ListRoom = (props: Props) => {
 
                           <button
                             onClick={() => {
-                              removeRooms(item._id, a);
+                              removeRooms(item._id, userData);
                             }}
                             className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                           >

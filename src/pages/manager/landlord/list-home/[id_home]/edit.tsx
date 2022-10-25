@@ -12,7 +12,7 @@ const EditHouse = (props: Props) => {
   const router = useRouter();
   const [house, setHouse] = useState([]);
   const { cookies, setLoading } = useUserContext();
-  const a = cookies?.user;
+  const userData = cookies?.user;
 
   const param = router.query;
   const {
@@ -26,7 +26,7 @@ const EditHouse = (props: Props) => {
   useEffect(() => {
     const getHome = async () => {
       try {
-        const res = await readHouse(`${param.id_home}`, a as any);
+        const res = await readHouse(`${param.id_home}`, userData as any);
         if (res.data) {
           reset(res.data as any);
           //console.log('data', res.data);
@@ -36,20 +36,19 @@ const EditHouse = (props: Props) => {
       }
     };
     getHome();
-  }, []);
+  }, [param.id_home, reset, userData]);
   const onSubmit = async (dataForm: any) => {
-    const newData = { ...dataForm, a };
+    const newData = { ...dataForm, userData: userData };
     setLoading(true);
-    //console.log('data', dataForm);
     try {
       await updateHouse(newData).then(() => {
         setLoading(false);
-        // Toast('success', 'Sửa nhà  thành công!');
+        Toast('success', 'Sửa nhà  thành công!');
         router.push('/manager/landlord/list-home');
       });
     } catch (error) {
       setLoading(false);
-      // Toast('error', 'Đã xảy ra lỗi!');
+      Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 

@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileExcel, faSave, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
-import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { DatePicker, Space } from 'antd';
 import type { DatePickerProps } from 'antd';
 import 'antd/dist/antd.css';
@@ -37,7 +37,6 @@ type ServiceI = {
 
 const ListWaterUsed = () => {
   const today = new Date();
-
   const [listRoomData, setListRoomData] = useState([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
@@ -45,84 +44,80 @@ const ListWaterUsed = () => {
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [serviceData, setServiceData] = useState<ServiceI>();
   const userData = cookies?.user;
-
   const router = useRouter();
   const { id } = router.query;
-
   const NameBuild = 'nuoc';
-
-  const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
-
-  const getServiceData = async () => {
-    setLoading(true);
-    if (id) {
-      await getInfoService(id, NameBuild)
-        .then((result) => {
-          setLoading(false);
-          setServiceData(result.data.data);
-        })
-        .catch((err) => {
-          console.log('err', err);
-          setLoading(false);
-        });
-    }
-  };
+  const { register, handleSubmit, setValue, reset } = useForm<FormInputs>();
 
   useEffect(() => {
-    getServiceData();
-  }, [id]);
-
-  const getListBillData = async () => {
-    setLoading(true);
-    if (id) {
-      await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
-        .then((result) => {
-          setListBillData(result.data.docs as any);
-          setLoading(false);
-          if (result.data.docs) {
-          }
-        })
-        .catch((err) => {
-          setLoading(false);
-        });
-    }
-  };
-
-  const getListRoom = async () => {
-    setLoading(true);
-    if (id) {
-      await listRoom(id, userData)
-        .then((result) => {
-          console.log('result?.data?.data', result?.data?.data);
-
-          const newListRoomData = result?.data?.data.map((item: any) => {
-            return {
-              amount: 0,
-              idHouse: item.idHouse,
-              idRoom: item._id,
-              month: monthCheck,
-              year: yearCheck,
-              name: NameBuild,
-              price: serviceData?.price,
-              unit: serviceData?.unit,
-              inputValue: 0,
-              outputValue: 0,
-              nameRoom: item.name,
-            };
+    const getServiceData = async () => {
+      setLoading(true);
+      if (id) {
+        await getInfoService(id, NameBuild)
+          .then((result) => {
+            setLoading(false);
+            setServiceData(result.data.data);
+          })
+          .catch((err) => {
+            console.log('err', err);
+            setLoading(false);
           });
-          setListRoomData(newListRoomData);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-        });
-    }
-  };
+      }
+    };
+    getServiceData();
+  }, [id, setLoading]);
 
   useEffect(() => {
+    const getListBillData = async () => {
+      setLoading(true);
+      if (id) {
+        await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
+          .then((result) => {
+            setListBillData(result.data.docs as any);
+            setLoading(false);
+            if (result.data.docs) {
+            }
+          })
+          .catch((err) => {
+            setLoading(false);
+          });
+      }
+    };
     getListBillData();
+  }, [id, monthCheck, setLoading, yearCheck]);
+
+  useEffect(() => {
+    const getListRoom = async () => {
+      setLoading(true);
+      if (id) {
+        await listRoom(id, userData)
+          .then((result) => {
+            // console.log('result?.data?.data', result?.data?.data);
+            const newListRoomData = result?.data?.data.map((item: any) => {
+              return {
+                amount: 0,
+                idHouse: item.idHouse,
+                idRoom: item._id,
+                month: monthCheck,
+                year: yearCheck,
+                name: NameBuild,
+                price: serviceData?.price,
+                unit: serviceData?.unit,
+                inputValue: 0,
+                outputValue: 0,
+                nameRoom: item.name,
+              };
+            });
+            setListRoomData(newListRoomData);
+            setLoading(false);
+          })
+          .catch((err) => {
+            setLoading(false);
+          });
+      }
+    };
     getListRoom();
-  }, [userData, id, monthCheck, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -130,15 +125,7 @@ const ListWaterUsed = () => {
     } else {
       setValue('data', listRoomData);
     }
-  }, [listBillData]);
-
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    setMonth(parseInt(dateString.slice(5, 7)));
-
-    setYear(parseInt(dateString.slice(0, 4)));
-
-    reset();
-  };
+  }, [listBillData, listRoomData, setValue]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {
@@ -159,6 +146,11 @@ const ListWaterUsed = () => {
   };
 
   const datePickerShow = React.useMemo(() => {
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+      setMonth(parseInt(dateString.slice(5, 7)));
+      setYear(parseInt(dateString.slice(0, 4)));
+      reset();
+    };
     return (
       <DatePicker
         style={{ width: '200px' }}
@@ -167,7 +159,7 @@ const ListWaterUsed = () => {
         picker="month"
       />
     );
-  }, [monthCheck, yearCheck]);
+  }, [monthCheck, reset, yearCheck]);
 
   return (
     <div className="h-screen">
@@ -200,7 +192,7 @@ const ListWaterUsed = () => {
           </div>
           <hr className="mt-6 border-1 borderlueGray-300" />
           <nav className="my-4 mx-4 pb-4">
-            <h2 className="text-center">Số nước tháng - {monthCheck}</h2>
+            <h2 className="text-center">Số nước tháng: {monthCheck}</h2>
             <h3 className="text-xl">Lưu ý</h3>
             <span className="block">
               - Bạn phải gán dịch vụ thuộc loại nước cho khách thuê trước thì phần chỉ số này mới được tính cho phòng đó
@@ -227,7 +219,6 @@ const ListWaterUsed = () => {
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Phòng
                           </div>
-
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số nước cũ
                           </div>
@@ -256,7 +247,6 @@ const ListWaterUsed = () => {
                                   <div className="table-cell border-t px-4 py-4 whitespace">
                                     <p className="text-center">{item.nameRoom}</p>
                                   </div>
-
                                   <div className="hidden ml-2 text-center w-[90%]">
                                     <input
                                       {...register(`data.${index}.idRoom`, {
@@ -307,13 +297,11 @@ const ListWaterUsed = () => {
                                   <div className="table-cell border-t px-4 py-4 whitespace">
                                     <p className="text-center">{item.nameRoom}</p>
                                   </div>
-
                                   <div className="hidden ml-2 text-center w-[90%]">
                                     <input
                                       {...register(`data.${index}.idRoom`, {
                                         required: true,
                                       })}
-                                      // defaultValue={item._id}
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 text-red-900 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       type="text"
                                     />

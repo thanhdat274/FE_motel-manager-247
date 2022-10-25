@@ -19,13 +19,10 @@ type Props = {
 
 const TenantInformation = ({ data }: any) => {
   const { name, price, status, max, area } = data;
-  // console.log(data);
-
   const router = useRouter();
   const param = router.query;
-
   const { cookies, setLoading } = useUserContext();
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const {
     register,
     handleSubmit,
@@ -47,7 +44,7 @@ const TenantInformation = ({ data }: any) => {
   }, [data, reset]);
 
   const onSubmit = async (data: any) => {
-    const newData = { ...data, a };
+    const newData = { ...data, userData: userData };
     setLoading(true);
     try {
       await updateRoom(newData).then(() => {

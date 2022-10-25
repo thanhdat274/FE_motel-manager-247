@@ -2,8 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
 import { ListService, removeService } from 'src/pages/api/service';
@@ -14,7 +13,7 @@ const ListServiceRoom = (props: Props) => {
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
   const { cookies, setLoading } = useUserContext();
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const [fillter, setfillter] = useState('');
   const handleSearch = (event: any) => {
     const value = event.target.value;
@@ -25,7 +24,7 @@ const ListServiceRoom = (props: Props) => {
     const getService = async () => {
       setLoading(true);
       try {
-        const { data } = await ListService(id as string, a as any);
+        const { data } = await ListService(id as string, userData as any);
         setListServices(data.data);
         setLoading(false);
       } catch (error) {
@@ -34,15 +33,15 @@ const ListServiceRoom = (props: Props) => {
       }
     };
     getService();
-  }, [id]);
+  }, [id, setLoading, userData]);
 
-  const remove = async (_id: any, id: any, a: any) => {
+  const remove = async (_id: any, id: any, userData: any) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
       try {
-        if (_id && id && a) {
-          await removeService({ idService: _id, idHouse: id, a: a }).then(() => {
+        if (_id && id && userData) {
+          await removeService({ idService: _id, idHouse: id, userData: userData }).then(() => {
             Toast('success', 'Xóa dịch vụ thành công');
             setListServices(listServices.filter((item: any) => item._id !== _id));
             setLoading(false);
@@ -173,7 +172,7 @@ const ListServiceRoom = (props: Props) => {
                                   </Link>
                                   <button
                                     className="text-red-500 hover:text-red-500 mx-[10px]"
-                                    onClick={() => remove(item._id, id, a)}
+                                    onClick={() => remove(item._id, id, userData)}
                                   >
                                     <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                   </button>
