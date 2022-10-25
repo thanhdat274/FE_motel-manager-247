@@ -45,12 +45,6 @@ const Receipt = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Nhà
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Phòng
                         </th>
 
@@ -64,19 +58,20 @@ const Receipt = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số tiền
+                          Số tiền phải trả
+                        </th>
+
+                        <th
+                          scope="col"
+                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Tiền dịch vụ
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Đã trả
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Còn lại
+                          Tổng tiền
                         </th>
                         <th
                           scope="col"
@@ -104,9 +99,7 @@ const Receipt = (props: Props) => {
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">1000vnd</div>
                         </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">1000vnd</div>
-                        </td>
+
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">
                             <button onClick={onOpenModal}>
@@ -125,9 +118,6 @@ const Receipt = (props: Props) => {
 
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">Đã bảo trống 10 năm rồi làm gì có khách nào :))</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">1000vnd</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">1000vnd</div>
