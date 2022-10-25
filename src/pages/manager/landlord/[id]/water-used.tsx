@@ -11,6 +11,7 @@ import { createAllBillForHouse, getAllBillForHouse } from 'src/pages/api/billSer
 import { listRoom } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 import moment from 'moment';
+import { getInfoService } from 'src/pages/api/service';
 
 type FormInputs = {
   name: string;
@@ -24,6 +25,16 @@ type FormInputs = {
   }[];
 };
 
+type ServiceI = {
+  idHouse: string;
+  label: string;
+  name: string;
+  price: number;
+  type: boolean;
+  unit: string;
+  _id: string;
+};
+
 const ListWaterUsed = () => {
   const today = new Date();
 
@@ -32,6 +43,7 @@ const ListWaterUsed = () => {
   const [listBillData, setListBillData] = useState<any>([]);
   const [monthCheck, setMonth] = useState(today.getMonth());
   const [yearCheck, setYear] = useState(today.getFullYear());
+  const [serviceData, setServiceData] = useState<ServiceI>();
   const userData = cookies?.user;
 
   const router = useRouter();
@@ -40,6 +52,25 @@ const ListWaterUsed = () => {
   const NameBuild = 'nuoc';
 
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
+
+  const getServiceData = async () => {
+    setLoading(true);
+    if (id) {
+      await getInfoService(id, NameBuild)
+        .then((result) => {
+          setLoading(false);
+          setServiceData(result.data.data);
+        })
+        .catch((err) => {
+          console.log('err', err);
+          setLoading(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getServiceData();
+  }, [id]);
 
   const getListBillData = async () => {
     setLoading(true);
@@ -62,8 +93,19 @@ const ListWaterUsed = () => {
     if (id) {
       await listRoom(id, userData)
         .then((result) => {
-          const newListRoomData = result?.data?.data.map((items: any) => {
-            return { ...items, inputValue: 0, outputValue: 0, idRoom: items._id };
+          const newListRoomData = result?.data?.data.map((item: any) => {
+            return {
+              amount: 0,
+              idHouse: item.idHouse,
+              idRoom: item._id,
+              month: monthCheck,
+              year: yearCheck,
+              name: NameBuild,
+              price: serviceData?.price,
+              unit: serviceData?.unit,
+              inputValue: 0,
+              outputValue: 0,
+            };
           });
           setListRoomData(newListRoomData);
           setLoading(false);
@@ -87,8 +129,6 @@ const ListWaterUsed = () => {
     }
   }, [listBillData]);
 
-  console.log('get', getValues('data'));
-
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setMonth(parseInt(dateString.slice(5, 7)));
 
@@ -97,8 +137,14 @@ const ListWaterUsed = () => {
     reset();
   };
 
+  console.log('serviceData', serviceData);
+
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
-    console.log('tunnnnnnnnn');
+    console.log('tunnnnnnnnn', data.data);
+
+    const formatData = data.data.map((items: any) => {
+      return { ...items, inputValue: 0, outputValue: 0, idRoom: items._id };
+    });
 
     if (monthCheck && yearCheck) {
       const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };

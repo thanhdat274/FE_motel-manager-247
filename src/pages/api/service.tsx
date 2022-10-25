@@ -10,6 +10,11 @@ export const ListService = (id: string, a: any) => {
   });
 };
 
+export const getInfoService = (idHouse: any, name: string) => {
+  const url = `/service/get-service/${idHouse}/${name}`;
+  return instance.get(url);
+};
+
 export const removeService = (data: any) => {
   const url = `/service/remove/${data.idHouse}/${data.idService}`;
   return instance.delete(url, {
