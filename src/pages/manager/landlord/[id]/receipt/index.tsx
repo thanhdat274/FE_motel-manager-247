@@ -52,7 +52,7 @@ const Receipt = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Tên khách thuê
+                          Người đại diện
                         </th>
                         <th
                           scope="col"
