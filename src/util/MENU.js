@@ -1,4 +1,4 @@
-import { faBox, faCoins, faHospital, faPlug, faShower, faFileContract } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faCoins, faHospital, faPlug, faShower, faFileContract ,faReceipt} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MENU_LANDLORD = [
@@ -23,4 +23,5 @@ export const MENU_LANDLORD = [
   // },
   { url: '', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   { url: 'contract-form', title: 'Mẫu hợp  đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faFileContract} /> },
+  { url: 'receipt', title: 'Hóa đơn', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faReceipt} /> },
 ];

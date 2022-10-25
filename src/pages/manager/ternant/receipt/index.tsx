@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import styles from './style.module.css';
 type Props = {};
 
 const InfoReceipt = (props: Props) => {
