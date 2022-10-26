@@ -33,17 +33,19 @@ const HeaderPreview = (props: Props) => {
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-      await axios.get('http://localhost:8800/api/room/' + data.code_room).then((data: any) => {
-        setLoading(false);
-        localStorage.setItem('code_room', JSON.stringify(data.data));
-        router.push(`/manager/ternant`);
-        Toast('success', 'Đăng nhập thành công');
-      });
-    } catch (error) {
-      setLoading(false);
-
-      Toast('error', 'Lỗi');
-    }
+      await axios
+        .get('http://localhost:8800/api/room/' + data.code_room)
+        .then((data: any) => {
+          setLoading(false);
+          localStorage.setItem('code_room', JSON.stringify(data.data));
+          router.push(`/manager/ternant`);
+          Toast('success', 'Đăng nhập thành công');
+        })
+        .catch((error) => {
+          setLoading(false);
+          Toast('error', error?.response?.data.error);
+        });
+    } catch (error) {}
   };
 
   return (
@@ -94,7 +96,7 @@ const HeaderPreview = (props: Props) => {
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <h1 className="pt-2">
+                        <h1 className="pt-2 text-white">
                           -----------------------------------------------------------------------------------------------------------------------
                         </h1>
                         <hr />
