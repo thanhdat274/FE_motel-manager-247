@@ -16,22 +16,21 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 
 type IProps = {
   data: IMember2;
-  data1:any;
+  data1: any;
 };
-
 
 const TenantMember = ({ data, data1 }: IProps) => {
   // console.log(data._id);
 
   const [open, setOpen] = useState(false);
   const router = useRouter();
-    const { cookies, setLoading, user } = useUserContext();
+  const { cookies, setLoading, user } = useUserContext();
 
   const a = cookies?.user;
 
   const param = router.query;
   // console.log(param.id_room);
-  
+
   const {
     register,
     handleSubmit,
@@ -39,19 +38,16 @@ const TenantMember = ({ data, data1 }: IProps) => {
   } = useForm();
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const onSubmit = async (listMember:any) => {
+  const onSubmit = async (listMember: any) => {
     setLoading(true);
-    const newData = { ...{listMember}, a };
+    const newData = { ...{ listMember }, a };
 
-       
-    
     try {
-      await addPeople(  param.id_room,newData     )
-        .then((data: any) => {
-          setLoading(false);
-          router.push(`/manager/landlord/${param.id}/list-room`);
-          Toast('success', 'Thêm mới thành viên thành công');
-        });
+      await addPeople(param.id_room, newData).then((data: any) => {
+        setLoading(false);
+        router.push(`/manager/landlord/${param.id}/list-room`);
+        Toast('success', 'Thêm mới thành viên thành công');
+      });
     } catch (error) {
       setLoading(false);
       Toast('error', 'Thêm mới phòng thành viên thành công');
@@ -68,12 +64,12 @@ const TenantMember = ({ data, data1 }: IProps) => {
           </button>
         ) : (
           <>
-            <button className='border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50' >Đủ người</button>
+            <button className="border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50">Đủ người</button>
           </>
         )}
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full">
-            <h1 className="pt-2">
+            <h1 className="pt-2 text-white">
               -----------------------------------------------------------------------------------------------------------------------
             </h1>
             <hr />
