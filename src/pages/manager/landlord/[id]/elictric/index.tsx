@@ -26,12 +26,6 @@ type FormInputs = {
   }[];
 };
 
-// type inPutTypes = {
-//   useElictric : number;
-//   inputVs : number;
-//   outputVs : number
-// }
-// const dataInput = [];
 
 type ServiceI = {
   idHouse: string;
@@ -111,7 +105,7 @@ const ListWaterUsed = () => {
   // }
 
   const useElictric = outputVs - inputVs;
-  // console.log(useElictric, 'số điện thay đổi');
+  console.log(useElictric, 'số điện thay đổi');
 
 
   useEffect(() => {
@@ -120,7 +114,6 @@ const ListWaterUsed = () => {
       if (id) {
         await listRoom(id, userData)
           .then((result) => {
-            // console.log('result?.data?.data', result?.data?.data);
             const newListRoomData = result?.data?.data.map((item: any) => {
               return {
                 amount: 0,
@@ -323,7 +316,7 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> Khối</div>
+                                    <div className="text-center"> {useElictric} Khối</div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
