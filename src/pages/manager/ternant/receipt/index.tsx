@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import styles from './style.module.css';
 type Props = {};
 
 const InfoReceipt = (props: Props) => {
@@ -20,18 +19,18 @@ const InfoReceipt = (props: Props) => {
                 </h2>
               </div>
               <div className="mt-5 flex lg:mt-0 lg:ml-4">
-               <input type="date" className='border'/>
+                <input type="date" className="border" />
               </div>
               <div className="mt-5 flex lg:mt-0 lg:ml-4">
-              <form>
-                <input
-                  type="text"
-                  name="keyword"
-                  className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Tìm kiếm..."
-                />
-              </form>
-            </div>
+                <form>
+                  <input
+                    type="text"
+                    name="keyword"
+                    className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Tìm kiếm..."
+                  />
+                </form>
+              </div>
             </div>
           </div>
         </header>

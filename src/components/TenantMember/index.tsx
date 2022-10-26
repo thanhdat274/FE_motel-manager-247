@@ -23,8 +23,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
 
+
   const userData = cookies?.user;
   const param = router.query;
+
 
   const {
     register,
@@ -35,7 +37,9 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onCloseModal = () => setOpen(false);
   const onSubmit = async (listMember: any) => {
     setLoading(true);
+
     const newData = { ...{ listMember }, userData: userData };
+
 
     try {
       await addPeople(param.id_room, newData).then((data: any) => {
@@ -67,7 +71,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
         )}
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full">
-            <h1 className="pt-2">
+            <h1 className="pt-2 text-white">
               -----------------------------------------------------------------------------------------------------------------------
             </h1>
             <hr />
