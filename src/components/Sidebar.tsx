@@ -10,12 +10,9 @@ import { faBox, faCoins, faHospital, faPlug, faShower } from '@fortawesome/free-
 type Props = {};
 
 const SideBar = (props: Props) => {
-  const [lis, setLis] = useState(false);
-  const [mns, setMns] = useState(true);
   const [collapseShow, setCollapseShow] = React.useState('hidden');
   const router = useRouter();
   const { id } = router.query;
-  //console.log('id', id);
   return (
     <>
       <div
@@ -39,8 +36,7 @@ const SideBar = (props: Props) => {
           {/* Brand */}
           <Link href="/">
             <a
-              href="#pablo"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+              className="md:block text-left md:pb-2 text-black hover:text-black mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
             >
               Quản Lý Phòng Trọ 24/7
             </a>
@@ -63,8 +59,7 @@ const SideBar = (props: Props) => {
                 <div className="w-6/12">
                   <Link href="/">
                     <a
-                      href="#pablo"
-                      className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold py-4 px-0"
+                      className="md:block text-left md:pb-2 text-black hover:text-black mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold py-4 px-0"
                     >
                       QLPT 24/7
                     </a>
@@ -85,7 +80,7 @@ const SideBar = (props: Props) => {
             <ul className="md:flex-col md:min-w-full flex flex-col 2xs:h-screen md:h-screen sm:h-screen s:h-screen xs:h-screen list-none">
               <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                 <Link href={'/'}>
-                  <a className="h-[45px] text-xs py-3 font-bold block flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md">
+                  <a className="h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md">
                     <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
                     <span className={`font-bold text-black`}>Trở lại trang chủ</span>
                   </a>
@@ -94,7 +89,7 @@ const SideBar = (props: Props) => {
 
               <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
                 <Link href={'/manager/landlord/list-home'}>
-                  <a className="h-[45px] text-xs py-3 font-bold block flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md">
+                  <a className="h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md">
                     <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
                     <span className={`font-bold text-black`}>Trở lại danh sách nhà</span>
                   </a>
@@ -109,9 +104,8 @@ const SideBar = (props: Props) => {
                   >
                     <Link href={`/manager/landlord/${id}/${menu.url}`}>
                       <a
-                        href="#pablo"
                         className={
-                          'h-[45px] text-xs py-3 font-bold block flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md' +
+                          'h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md' +
                           (router.pathname.indexOf(menu.url) !== -1
                             ? 'text-lightBlue-500 hover:text-lightBlue-600'
                             : 'text-blueGray-700 hover:text-blueGray-500')

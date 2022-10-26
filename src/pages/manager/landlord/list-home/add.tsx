@@ -1,9 +1,7 @@
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { supabase } from 'src/apis/supabase';
 import { Toast } from 'src/hooks/toast';
 import { addHouse } from 'src/pages/api/house';
 type Props = {};
@@ -18,24 +16,24 @@ const AddHome = (props: Props) => {
   const [houses, setHouse] = useState([]);
   const router = useRouter();
   const { cookies, setLoading } = useUserContext();
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>();
   const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
-    const newData = { ...dataForm, a };
+    const newData = { ...dataForm, userData: userData };
     setLoading(true);
     try {
       await addHouse(newData).then(() => {
         setLoading(false);
-        // Toast('success', 'Thêm nhà  thành công!');
+        Toast('success', 'Thêm nhà  thành công!');
         router.push('/manager/landlord/list-home');
       });
     } catch (error) {
       setLoading(false);
-      // Toast('error', 'Đã xảy ra lỗi!');
+      Toast('error', 'Đã xảy ra lỗi!');
     }
   };
 

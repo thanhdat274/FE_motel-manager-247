@@ -25,23 +25,23 @@ export type IMember2 = {
   maxMember: number;
   price: number;
   area: number;
-  listMember:object;
+  listMember: object;
 };
 
 const ListMember = (props: IMember) => {
-  const { _id, memberName, cardNumber, phoneNumber,status } = props;
+  const { _id, memberName, cardNumber, phoneNumber, status } = props;
   console.log(props);
-  
+
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
   const [peopleData, setPeopleData] = useState([]);
   const [open, setOpen] = useState(false);
   const { cookies, setLoading, user } = useUserContext();
 
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
-console.log(param.id_room);
+  console.log(param.id_room);
 
   const {
     register,
@@ -54,26 +54,23 @@ console.log(param.id_room);
   const onCloseModal = () => setOpen(false);
 
   const removeRoom = async (props: IMember) => {
-
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
-      const newData = { ...props, a };
+      const newData = { ...props, userData: userData };
 
       try {
-        await removePeople(param.id_room,newData )
-          .then(() => {
-            Toast('success', 'Xóa thành viên thành công');
-            setPeopleData(peopleData.filter((item: any) => item.id !== _id));
-            setLoading(false);
-          });
+        await removePeople(param.id_room, newData).then(() => {
+          Toast('success', 'Xóa thành viên thành công');
+          setPeopleData(peopleData.filter((item: any) => item.id !== _id));
+          setLoading(false);
+        });
       } catch (error) {
         Toast('error', 'Xóa thành viên thành công');
         setLoading(false);
       }
     }
   };
-
 
   // const onSubmit = async (data: any) => {
   //   console.log('data từ form', data);

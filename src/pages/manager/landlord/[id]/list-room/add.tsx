@@ -25,7 +25,7 @@ const AddRoom = (props: Props) => {
   const { cookies, setLoading, user } = useUserContext();
   const [showMsg, setShowMsg] = useState(false);
   const [house, setHouse] = useState<FromValues>();
-  const a = cookies?.user;
+  const userData = cookies?.user;
 
   const {
     register,
@@ -37,7 +37,7 @@ const AddRoom = (props: Props) => {
   useEffect(() => {
     const getHome = async () => {
       try {
-        const { data } = await readHouse(`${id}`, a as any);
+        const { data } = await readHouse(`${id}`, userData as any);
 
         setHouse(data as any);
       } catch (error) {
@@ -45,11 +45,11 @@ const AddRoom = (props: Props) => {
       }
     };
     getHome();
-  }, [id]);
+  }, [id, userData]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
     setLoading(true);
-    const newData = { ...data, a };
+    const newData = { ...data, userData: userData };
     try {
       await addRoom(newData).then((data: any) => {
         setLoading(false);
@@ -184,7 +184,7 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="user"
                         type="text"
-                        value={a?.user._id}
+                        value={userData?.user._id}
                         {...register('idAuth', { required: true })}
                       />
 

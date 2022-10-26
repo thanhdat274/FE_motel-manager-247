@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listHouse = (a: any) => {
-  const url = `/house/${a.user._id}`;
+export const listHouse = (userData: any) => {
+  const url = `/house/${userData.user._id}`;
   return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${userData.token}`,
     },
   });
 };
 
 export const addHouse = (data: any) => {
-  const url = `/house/${data.a.user._id}`;
+  const url = `/house/${data.userData.user._id}`;
   return instance.post(url, data, {
     headers: {
       // 'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${data.a.token}`,
+      Authorization: `Bearer ${data.userData.token}`,
     },
   });
 };
@@ -24,15 +24,15 @@ export const removeHouses = (data: any) => {
   const url = `/house/${data._id}`;
   return instance.delete(url, {
     headers: {
-      Authorization: `Bearer ${data.a.token}`,
+      Authorization: `Bearer ${data.userData.token}`,
     },
   });
 };
-export const readHouse = (id_home: string, a: any) => {
+export const readHouse = (id_home: string, userData: any) => {
   const url = `/house/detail/${id_home}`;
   return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${a.token}`,
+      Authorization: `Bearer ${userData.token}`,
     },
   });
 };
@@ -40,7 +40,7 @@ export const updateHouse = (house: any) => {
   const url = `/house/${house._id}`;
   return instance.put(url, house, {
     headers: {
-      Authorization: `Bearer ${house.a.token}`,
+      Authorization: `Bearer ${house.userData.token}`,
     },
   });
 };
