@@ -1,8 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabase } from 'src/apis/supabase';
-import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -12,11 +9,11 @@ import { listHouse, removeHouses } from 'src/pages/api/house';
 const ListHome = () => {
   const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
-  const a = cookies?.user;
+  const userData = cookies?.user;
   useEffect(() => {
     const getHouse = async () => {
       try {
-        const { data } = await listHouse(a);
+        const { data } = await listHouse(userData as any);
         if (data.data) {
           setHouse(data.data as any);
         }
@@ -25,15 +22,15 @@ const ListHome = () => {
       }
     };
     getHouse();
-  }, []);
+  }, [userData]);
 
-  const removeHouse = async (_id: number, a: any) => {
+  const removeHouse = async (_id: number, userData: any) => {
     setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');
     if (confirm) {
       try {
-        await removeHouses({ _id: _id, a: a }).then(() => {
+        await removeHouses({ _id: _id, userData: userData }).then(() => {
           Toast('success', 'Xóa nhà thành công');
           setHouse(house.filter((item: any) => item._id !== _id));
           setLoading(false);
@@ -132,7 +129,7 @@ const ListHome = () => {
                               </a>
                             </Link>
                             <button
-                              onClick={() => removeHouse(item?._id, a)}
+                              onClick={() => removeHouse(item?._id, userData)}
                               className="text-white base-1/3  bg-red-500 w-1/3"
                             >
                               <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">

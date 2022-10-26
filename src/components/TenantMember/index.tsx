@@ -4,11 +4,8 @@ import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
-import { style } from '@mui/system';
-import TenantContract from '../TenantContact';
 import { IMember, IMember2 } from '@/components/ListMember';
 import { addPeople } from 'src/pages/api/room';
 
@@ -26,10 +23,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
 
-  const a = cookies?.user;
 
+  const userData = cookies?.user;
   const param = router.query;
-  // console.log(param.id_room);
+
 
   const {
     register,
@@ -40,7 +37,9 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onCloseModal = () => setOpen(false);
   const onSubmit = async (listMember: any) => {
     setLoading(true);
-    const newData = { ...{ listMember }, a };
+
+    const newData = { ...{ listMember }, userData: userData };
+
 
     try {
       await addPeople(param.id_room, newData).then((data: any) => {
@@ -59,7 +58,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
       <div>
         {' '}
         {data1.length < data.maxMember ? (
-          <button onClick={onOpenModal} className="p-3 border mb-3 bg-cyan-400 text-white hover:bg-cyan-500">
+          <button
+            onClick={onOpenModal}
+            className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
             Thêm thành viên
           </button>
         ) : (

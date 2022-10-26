@@ -14,33 +14,26 @@ const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr
 const ManageRoom = () => {
   const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
-  const a = cookies?.user;
+  const userData = cookies?.user;
   const router = useRouter();
-
-  const getRoom = async () => {
-    setLoading(true);
-
-    try {
-      const { data } = await readRoom(`${param.id_room}`, a as any);
-      if (data.data) {
-        setRoomData(data.data);
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
-  // api people
-
   const param = router.query;
-  // console.log(param);
-
   useEffect(() => {
     if (param.id) {
+      const getRoom = async () => {
+        setLoading(true);
+        try {
+          const { data } = await readRoom(`${param.id_room}`, userData as any);
+          if (data.data) {
+            setRoomData(data.data);
+            setLoading(false);
+          }
+        } catch (error) {
+          setLoading(false);
+        }
+      };
       getRoom();
     }
-  }, [param.id]);
+  }, [param.id, param.id_room, setLoading, userData]);
 
   const data = [
     {
@@ -51,9 +44,8 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={roomData } data1={roomData.listMember} />,
+      children: <TenantMember data={roomData} data1={roomData.listMember} />,
     },
-
     {
       label: 'Hợp đồng',
       value: 2,
