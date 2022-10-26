@@ -45,7 +45,7 @@ type ServiceI = {
 
 const ListWaterUsed = () => {
   const today = new Date();
-  const [listRoomData, setListRoomData] = useState([]);
+  const [listRoomData, setListRoomData] = useState<any>([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
   const [monthCheck, setMonth] = useState(today.getMonth());
@@ -111,7 +111,8 @@ const ListWaterUsed = () => {
   // }
 
   const useElictric = outputVs - inputVs;
-  console.log(useElictric, 'số điện thay đổi');
+  // console.log(useElictric, 'số điện thay đổi');
+
 
   useEffect(() => {
     const getListRoom = async () => {
@@ -156,6 +157,7 @@ const ListWaterUsed = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
+
     for (var i = 0; i < listRoomData.length; i++) {
       if (newData.data[i].inputValue <= newData.data[i].outputValue) {
         if (monthCheck && yearCheck) {
