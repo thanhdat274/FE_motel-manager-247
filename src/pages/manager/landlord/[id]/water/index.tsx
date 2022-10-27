@@ -129,17 +129,22 @@ const ListWaterUsed = () => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {
-      const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
-      setLoading(true);
-      await createAllBillForHouse(newData)
-        .then((data: any) => {
-          setLoading(false);
-          Toast('success', 'Thêm số diện các phòng thành công');
-        })
-        .catch((error) => {
-          Toast('error', 'Thêm số diện các phòng không thành công');
-          setLoading(false);
-        });
+      const confirm = window.confirm(
+        'Vui lòng kiểm tra lại số nước mới của các phòng trong tháng này đã nhập đúng chưa. Nếu chưa đúng vui lòng bấm vào cancel và sửa lại trước khi lưu. Nếu đúng rồi mời bạn bấm ok để lưu số nước tháng này.',
+      );
+      if (confirm) {
+        const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
+        setLoading(true);
+        await createAllBillForHouse(newData)
+          .then((data: any) => {
+            setLoading(false);
+            Toast('success', 'Thêm số nước các phòng thành công');
+          })
+          .catch((error) => {
+            Toast('error', 'Thêm số nước các phòng không thành công');
+            setLoading(false);
+          });
+      }
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
     }
@@ -238,7 +243,7 @@ const ListWaterUsed = () => {
                           </div>
                         </div>
                       </div>
-                      {listBillData?.length > 1 && (
+                      {listBillData?.length >= 1 && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {listBillData &&
                             listBillData.map((item: any, index: any) => {

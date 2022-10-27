@@ -16,8 +16,8 @@ export interface UserState {
   token: string;
   setToken: (loading: string) => void;
   logoutResetData: () => void;
-  cookies:any 
-  setCookie: any
+  cookies: any;
+  setCookie: any;
 }
 
 const UserContext = createContext<UserState | null>(null);
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  
+
   const logoutResetData = () => {
     removeCookie('user');
     setLoading(true);
@@ -60,7 +60,11 @@ export const UserProvider = ({ children }: any) => {
     setCookie,
   };
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <div>
+      <UserContext.Provider value={value}>{children}</UserContext.Provider>
+    </div>
+  );
 };
 
 export default UserProvider;

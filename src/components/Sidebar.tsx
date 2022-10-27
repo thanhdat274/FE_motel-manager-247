@@ -1,11 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { ReactCalculator } from 'simple-react-calculator';
+import React from 'react';
 import { faBars, faHouse, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MENU_LANDLORD } from 'src/util/MENU';
-import { faBox, faCoins, faHospital, faPlug, faShower } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {};
 

@@ -1,21 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from 'react-modal';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { ReactCalculator } from 'simple-react-calculator';
 import { faBars, faHouse, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MENU_TENANTS } from 'src/util/MENUTENANT';
 
 type Props = {};
 
 const SideBarTenants = (props: Props) => {
-  const [lis, setLis] = useState(false);
-  const [mns, setMns] = useState(true);
   const [collapseShow, setCollapseShow] = React.useState('hidden');
   const router = useRouter();
-  const { id } = router.query;
-  //console.log('id', id);
   return (
     <>
       <div
