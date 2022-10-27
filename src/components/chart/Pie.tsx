@@ -3,8 +3,8 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useRouter } from 'next/router';
 import { listRoom } from 'src/pages/api/room';
-import { RoomType } from 'src/types/Room';
-
+import { useUserContext } from '@/context/UserContext';
+import { useParams } from 'react-router-dom';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const options = {
@@ -23,19 +23,30 @@ export const options = {
 export function PieChart() {
   var i = 0;
   var y = 0;
-  const [dataRooms, setDataRooms] = useState<RoomType[]>([]);
+  const { cookies, setLoading } = useUserContext();
+  const [dataRooms, setDataRooms] = useState<any>([]);
   const router = useRouter();
+  const userData = cookies?.user;
   const { id } = router.query;
 
   useEffect(() => {
     const getRoom = async () => {
-      const data = await listRoom(id);
-      if (data.data) {
-        setDataRooms(data.data.data as any);
+      try {
+        const { data } = await listRoom(id, userData as any);
+        if (data.data) {
+          setDataRooms(data.data as any);
+        }
+      } catch (error) {
+        console.log('error', error);
       }
     };
     getRoom();
   }, [id]);
+
+  for (var i = 0; i < dataRooms.length; i++) {
+    console.log(dataRooms[i].status);
+  }
+
   const dataPie = {
     labels: ['Phòng trống', 'Phòng đã thuê'],
     datasets: [
@@ -48,16 +59,6 @@ export function PieChart() {
       },
     ],
   };
-  // console.log(dataRooms);
-  console.log(dataRooms[i].status);
-  
-  // for (var i = 0; i <= dataRooms.length; i++) {
-  //   if(dataRooms[i].status == true){
-  //     console.log(i);
-  //   }
-  // }
-
-  // console.log(dataRooms[0].status);
 
   return (
     <div className="block xl:w-[400px] mx-auto">
