@@ -1,64 +1,148 @@
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
-type Props = {};
+import { updateRoom } from 'src/pages/api/room';
 
-const TenantContract = (props: Props) => {
+export type IContractData = {
+  name: string;
+  startTime: string;
+  endTime: string;
+  additional: any;
+  timeContract: string;
+};
+
+type Props = {
+  dataContract: IContractData;
+};
+
+const TenantContract = ({ dataContract }: Props) => {
+  console.log('dataContract', dataContract);
+
   const router = useRouter();
-  const [house, setHouse] = useState([]);
-  const [houses, setHouses] = useState([]);
 
-  const { setLoading } = useUserContext();
+  const { setLoading, cookies } = useUserContext();
   const param = router.query;
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
+  const [contractData, setContractData] = useState<IContractData>();
+
+  const userData = cookies?.user;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  useEffect(() => {
+    if (dataContract) {
+      setContractData(dataContract);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (contractData) {
+      setValue('name', contractData.name);
+      setValue('startTime', contractData.startTime);
+      setValue('endTime', contractData.endTime);
+      setValue('additional', contractData.additional.join('\n'));
+      setValue('timeContract', contractData.timeContract);
+    }
+  }, [contractData]);
+
+  const onSubmit = async (data: any) => {
+    const newAdditional = data.additional.split('\n');
+
+    const newValue = {
+      contract: {
+        name: data.name,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        additional: newAdditional,
+        timeContract: data.timeContract,
+      },
+    };
+    setLoading(true);
+    await updateRoom(param?.id_room, userData?.token, newValue)
+      .then((result) => {
+        console.log('data', result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log('err', err);
+        setLoading(false);
+      });
+  };
+
   return (
     <div>
       <div className="border p-5 ">
         <p className="mb-5">Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng</p>
-        <form action="">
-          <div className="md:grid grid-cols-2 gap-4">
-            <div className="mb-2">
-              <div className="md:grid grid-cols-3 mb-2">
-                <p className="">Số hợp đồng</p>
-                <input type="number " className="p-2 w-full md:col-span-2" />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="mb-4">
+              <div className="md:grid grid-cols-4 mb-4">
+                <p className="">Người đại diện</p>
+                <input
+                  type="string"
+                  placeholder="Nguyễn Văn A"
+                  className="p-2 w-full md:col-span-3"
+                  {...register('name', { required: true, maxLength: 80 })}
+                />
               </div>
-              <div className="md:grid grid-cols-3 ">
+              <div className="md:grid grid-cols-4 ">
                 <p className="">Thời gian HĐ</p>
-                <input type="number" className="p-2 w-full  md:col-span-2" />
+                <input
+                  type="string"
+                  placeholder="3 tháng"
+                  className="p-2 w-full  md:col-span-3"
+                  {...register('timeContract', { required: true, maxLength: 80 })}
+                />
               </div>
             </div>
             <div className="">
-              <div className="md:grid grid-cols-3 mb-2">
-                <p className="">Ngày hợp đồng</p>
-                <input type="date" className="p-2 w-full  md:col-span-2" />
+              <div className="md:grid grid-cols-4 mb-4">
+                <p className="">Ngày bắt đầu HĐ</p>
+                <input
+                  type="date"
+                  className="p-2 w-full  md:col-span-3"
+                  {...register('startTime', { required: true, maxLength: 80 })}
+                />
               </div>
-              <div className="md:grid grid-cols-3 mb-2">
+              <div className="md:grid grid-cols-4 mb-4">
                 <p className="">Ngày kết thúc HĐ</p>
-                <input type="date" className="p-2 w-full  md:col-span-2" />
+
+                <input
+                  type="date"
+                  className="p-2 w-full  md:col-span-3"
+                  {...register('endTime', { required: true, maxLength: 80 })}
+                />
               </div>
             </div>
           </div>
-          <div className='md:grid grid-cols-6 mb-2'>
+          <div className="md:grid grid-cols-8 mb-4">
             <p className="">Quy định bổ sung</p>
-            <textarea name="" id="" className="p-2 w-full md:col-span-5 "></textarea>
+            <textarea
+              id=""
+              className="p-2 w-full md:col-span-7 "
+              {...register('additional', { required: true, maxLength: 80 })}
+            />
           </div>
           <button
             type="submit"
-            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
           >
             Lưu
           </button>
         </form>
         <button
           onClick={handlePrint}
-          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
         >
           In hợp đồng
         </button>

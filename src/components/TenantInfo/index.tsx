@@ -44,18 +44,20 @@ const TenantInformation = ({ data }: any) => {
   }, [data, reset]);
 
   const onSubmit = async (data: any) => {
-    const newData = { ...data, userData: userData };
+    const newData = { ...data };
     setLoading(true);
-    try {
-      await updateRoom(newData).then(() => {
+    await updateRoom(param?.id_room, userData?.token, newData)
+      .then((result) => {
+        console.log('result', result);
+
         setLoading(false);
         router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', 'Cập nhật phòng thành công');
+        Toast('success', 'dasds');
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.error);
+        setLoading(false);
       });
-    } catch (error) {
-      Toast('error', 'Cập nhật phòng không thành công');
-      setLoading(false);
-    }
   };
 
   return (

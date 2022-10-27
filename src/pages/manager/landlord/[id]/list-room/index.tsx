@@ -33,7 +33,10 @@ const ListRoom = (props: Props) => {
         console.log('error', error);
       }
     };
-    getRoom();
+
+    if (id) {
+      getRoom();
+    }
   }, [userData, id]);
 
   const removeRooms = async (_id: number, userData: any) => {

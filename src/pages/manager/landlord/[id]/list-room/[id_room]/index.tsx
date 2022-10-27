@@ -49,7 +49,7 @@ const ManageRoom = () => {
     {
       label: 'Hợp đồng',
       value: 2,
-      children: <TenantContract />,
+      children: <TenantContract dataContract={roomData.contract} />,
     },
   ];
 
