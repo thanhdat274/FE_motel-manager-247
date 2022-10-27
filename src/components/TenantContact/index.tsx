@@ -5,14 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 type Props = {};
-export type IMember = {
-  id: number;
-  full_name: string;
-  cccd: string;
-  role: string;
-  phone: string;
-  address: string;
-};
+
 const TenantContract = (props: Props) => {
   const router = useRouter();
   const [house, setHouse] = useState([]);
@@ -24,42 +17,54 @@ const TenantContract = (props: Props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  // //console.log(param);
 
-  useEffect(() => {
-    const getHome = async () => {
-      try {
-        const res = await axios.get(
-          `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`,
-        );
-        if (res.data) {
-          setHouse(res.data as any);
-          //console.log('data', res.data);
-        }
-      } catch (error) {
-        //console.log(error);
-      }
-    };
-    getHome();
-  }, []);
-  useEffect(() => {
-    const getHouse = async () => {
-      try {
-        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id}`);
-        if (res.data) {
-          setHouses(res.data as any);
-          //console.log('data', res.data);
-        }
-      } catch (error) {
-        //console.log(error);
-      }
-    };
-    getHouse();
-  }, []);
   return (
     <div>
-      <button onClick={handlePrint}>Dowload hợp đồng</button>
-      <div className="">
+      <div className="border p-5 ">
+        <p className="mb-5">Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng</p>
+        <form action="">
+          <div className="md:grid grid-cols-2 gap-4">
+            <div className="mb-2">
+              <div className="md:grid grid-cols-3 mb-2">
+                <p className="">Số hợp đồng</p>
+                <input type="number " className="p-2 w-full md:col-span-2" />
+              </div>
+              <div className="md:grid grid-cols-3 ">
+                <p className="">Thời gian HĐ</p>
+                <input type="number" className="p-2 w-full  md:col-span-2" />
+              </div>
+            </div>
+            <div className="">
+              <div className="md:grid grid-cols-3 mb-2">
+                <p className="">Ngày hợp đồng</p>
+                <input type="date" className="p-2 w-full  md:col-span-2" />
+              </div>
+              <div className="md:grid grid-cols-3 mb-2">
+                <p className="">Ngày kết thúc HĐ</p>
+                <input type="date" className="p-2 w-full  md:col-span-2" />
+              </div>
+            </div>
+          </div>
+          <div className='md:grid grid-cols-6 mb-2'>
+            <p className="">Quy định bổ sung</p>
+            <textarea name="" id="" className="p-2 w-full md:col-span-5 "></textarea>
+          </div>
+          <button
+            type="submit"
+            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            Lưu
+          </button>
+        </form>
+        <button
+          onClick={handlePrint}
+          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          In hợp đồng
+        </button>
+      </div>
+
+      <div className=" hidden">
         <div ref={componentRef} className="w-10/12 m-auto  ">
           <div className="text-center">
             <h1 className="font-bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h1>

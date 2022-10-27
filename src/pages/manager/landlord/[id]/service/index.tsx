@@ -2,20 +2,19 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
+import { ListService, removeService } from 'src/pages/api/service';
 type Props = {};
 
 const ListServiceRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
-  const { setLoading } = useUserContext();
-
+  const { cookies, setLoading } = useUserContext();
+  const userData = cookies?.user;
   const [fillter, setfillter] = useState('');
-
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
@@ -24,37 +23,34 @@ const ListServiceRoom = (props: Props) => {
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
-      await axios
-        .get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service')
-        .then((data: any) => {
-          setListServices(data.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
+      try {
+        const { data } = await ListService(id as string, userData as any);
+        setListServices(data.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     };
     getService();
-  }, []);
-  const remove = async (id: any) => {
-    const confirm = window.confirm('Bạn có muốn xóa không?');
+  }, [id, setLoading, userData]);
 
+  const remove = async (_id: any, id: any, userData: any) => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
-      await axios
-        .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
-        .then(() => {
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-
-          Toast('error', 'Xóa dịch vụ không thành công');
-        })
-        .finally(() => {
-          setListServices(listServices.filter((item: any) => item.id !== id));
-          Toast('success', 'Xóa dịch vụ thành công');
-        });
+      try {
+        if (_id && id && userData) {
+          await removeService({ idService: _id, idHouse: id, userData: userData }).then(() => {
+            Toast('success', 'Xóa dịch vụ thành công');
+            setListServices(listServices.filter((item: any) => item._id !== _id));
+            setLoading(false);
+          });
+        }
+      } catch (error) {
+        Toast('error', 'Xóa dịch vụ không thành công');
+        setLoading(false);
+      }
     }
   };
 
@@ -127,6 +123,12 @@ const ListServiceRoom = (props: Props) => {
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          trạng thái sử dụng
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         ></th>
                       </tr>
                     </thead>
@@ -146,7 +148,7 @@ const ListServiceRoom = (props: Props) => {
                                 <div className="text-center">{index + 1}</div>
                               </td>
                               <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.name}</div>
+                                <div className="text-center">{item.label}</div>
                               </td>
 
                               <td className="px-6 py-4 whitespace">
@@ -155,20 +157,22 @@ const ListServiceRoom = (props: Props) => {
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.unit}</div>
                               </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.type ? 'Theo tháng' : 'không theo tháng'}</div>
+                              </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-center flex">
-                                  <Link
-                                    href={`/manager/landlord/${id}/service/${item.id}/edit`}
-                                    className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                  >
-                                    <FontAwesomeIcon
-                                      className="w-[20px] cursor-pointer"
-                                      icon={faPenToSquare}
-                                    ></FontAwesomeIcon>
+                                  <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>
+                                    <a className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                      <FontAwesomeIcon
+                                        className="w-[20px] cursor-pointer"
+                                        icon={faPenToSquare}
+                                      ></FontAwesomeIcon>
+                                    </a>
                                   </Link>
                                   <button
-                                    className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                    onClick={() => remove(item?.id)}
+                                    className="text-red-500 hover:text-red-500 mx-[10px]"
+                                    onClick={() => remove(item._id, id, userData)}
                                   >
                                     <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
                                   </button>

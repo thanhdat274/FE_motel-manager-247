@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import useCookies from 'react-cookie/cjs/useCookies';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { SignIn } from 'src/pages/api/auth';
@@ -13,10 +14,10 @@ type FormValues = {
   password: string;
 };
 
-
 const Signin = (props: Props) => {
-  const { setLoading, setUser, setToken } = useUserContext();
+  const { setLoading, setCookie } = useUserContext();
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -27,15 +28,12 @@ const Signin = (props: Props) => {
     await SignIn(data)
       .then((data) => {
         setLoading(false);
-        setUser(data.data.user);
-        setToken(data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data) as string);
-        // localStorage.setItem('user', JSON.stringify(data.data.user) as string);
+        setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
-        router.push(`/`);
+        router.push(`/introduce`);
       })
       .catch((error) => {
-        Toast('error', error.response.data.error);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
@@ -77,7 +75,7 @@ const Signin = (props: Props) => {
                 <span className="text-rose-500 mt-3 block">Không được bỏ trống</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span className="text-rose-500 mt-3 block">Tối thiểu 6 ký tự!</span>
+                <span className="text-rose-500 mt-3 block">Tối thiểu 8 ký tự!</span>
               )}
             </div>
             <div className="flex items-center justify-end">

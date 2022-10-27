@@ -30,9 +30,10 @@ const Signup = (props: Props) => {
         .then(() => {
           Toast('success', 'Bạn đã đăng ký thành công');
           setLoading(false);
+          router.push("/auth/signin");
         })
         .catch((error) => {
-          const msgError = error.response.data.error;
+          const msgError = error?.response.data.error;
           Toast('error', msgError);
           setLoading(false);
         });

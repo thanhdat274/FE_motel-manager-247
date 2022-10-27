@@ -21,11 +21,10 @@ const HeaderPreview = (props: Props) => {
   const param = router.query;
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  const { setLoading } = useUserContext();
   const toggleNav = () => {
     setToggle(!toggle);
   };
-  const { user, logoutResetData } = useUserContext();
+  const { cookies, logoutResetData, setLoading } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -34,17 +33,21 @@ const HeaderPreview = (props: Props) => {
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-      await axios.get('http://localhost:8800/api/room/' + data.code_room).then((data: any) => {
-        setLoading(false);
-        localStorage.setItem('code_room', JSON.stringify(data.data));
-        router.push(`/manager/ternant`);
-        Toast('success', 'Đăng nhập thành công');
-      });
-    } catch (error) {
-      setLoading(false);
 
-      Toast('error', 'Lỗi');
-    }
+      await axios
+        .get('http://localhost:8800/api/room/' + data.code_room)
+        .then((data: any) => {
+          setLoading(false);
+          localStorage.setItem('code_room', JSON.stringify(data.data));
+          router.push(`/manager/ternant`);
+          Toast('success', 'Đăng nhập thành công');
+        })
+        .catch((error) => {
+          setLoading(false);
+          Toast('error', error?.response?.data.error);
+        });
+    } catch (error) {}
+
   };
 
   return (
@@ -79,39 +82,34 @@ const HeaderPreview = (props: Props) => {
               <div></div>
             </div>
             <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
-              {!user ? (
-                <div className={`${styles['dropdown']} dropdown inline-block relative`}>
-                  <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                    <span className="mr-1">Đăng nhập/Đăng kí</span>
-                    <FontAwesomeIcon className="w-[12px]" icon={faCaretDown} />
-                  </button>
-                  <ul
-                    className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
-                  >
-                    <li>
-                      <Link href={'/auth/signin'}>
-                        <a className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">
-                          Đăng nhập
-                        </a>
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link href={'/auth/signup'}>
-                        <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap">
-                          Đăng kí
-                        </a>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              ) : (
+              {cookies && cookies?.user ? (
                 <div className="flex flex-col sm:grid-cols-1 sm:grid md:flex md:flex-row gap-2">
                   <Link href={`/manager/landlord/list-home`}>
                     <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
                       Quản lý nhà trọ
                     </a>
                   </Link>
+
+                  <div className={`${styles['dropdown']} dropdown inline-block relative`}>
+                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                      <span className="mr-1">Xin chào: {cookies?.user?.user.name}</span>
+                    </button>
+                    <ul
+                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2  rounded-md`}
+                    >
+                      <li>
+                        <button
+                          onClick={() => logoutResetData()}
+                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 inline-block whitespace-no-wrap"
+                        >
+                          Đăng xuất
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:grid-cols-1 sm:grid md:flex md:flex-row gap-2">
                   <button
                     onClick={onOpenModal}
                     className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]"
@@ -121,7 +119,7 @@ const HeaderPreview = (props: Props) => {
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <h1 className="pt-2">
+                        <h1 className="pt-2 text-white">
                           -----------------------------------------------------------------------------------------------------------------------
                         </h1>
                         <hr />
@@ -142,9 +140,7 @@ const HeaderPreview = (props: Props) => {
                               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                               id="name"
                               type="text"
-
                               placeholder="Xin mời nhập mã"
-
                               {...register('code_room', { required: true })}
                             />
                             {errors.code_room?.type === 'required' && (
@@ -164,21 +160,28 @@ const HeaderPreview = (props: Props) => {
                       </div>
                     </Modal>
                   </div>
-
                   <div className={`${styles['dropdown']} dropdown inline-block relative`}>
                     <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      <span className="mr-1">Xin chào: {user?.name}</span>
+                      <span className="mr-1">Đăng nhập/Đăng kí</span>
+                      <FontAwesomeIcon className="w-[12px]" icon={faCaretDown} />
                     </button>
                     <ul
-                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2  rounded-md`}
+                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
                     >
                       <li>
-                        <button
-                          onClick={() => logoutResetData()}
-                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 inline-block whitespace-no-wrap"
-                        >
-                          Đăng xuất
-                        </button>
+                        <Link href={'/auth/signin'}>
+                          <a className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">
+                            Đăng nhập
+                          </a>
+                        </Link>
+                      </li>
+
+                      <li>
+                        <Link href={'/auth/signup'}>
+                          <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap">
+                            Đăng kí
+                          </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>

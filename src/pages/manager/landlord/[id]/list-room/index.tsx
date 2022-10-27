@@ -10,13 +10,12 @@ import { listRoom, removeRoom } from 'src/pages/api/room';
 type Props = {};
 
 const ListRoom = (props: Props) => {
-  const { setLoading, user } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
-  console.log(rooms);
-  
+  const userData = cookies?.user;
   const router = useRouter();
-  const {id} = router.query;
-  
+  const { id } = router.query;
+
   const [fillter, setfillter] = useState('');
   const handleSearch = (event: any) => {
     const value = event.target.value;
@@ -26,24 +25,23 @@ const ListRoom = (props: Props) => {
   useEffect(() => {
     const getRoom = async () => {
       try {
-        const { data } = await listRoom(id);
+        const { data } = await listRoom(id, userData as any);
         if (data.data) {
           setRooms(data.data as any);
-
         }
       } catch (error) {
         console.log('error', error);
       }
     };
     getRoom();
-  }, [id]);
+  }, [userData, id]);
 
-  const removeRooms = async (_id: number) => {    
+  const removeRooms = async (_id: number, userData: any) => {
     setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       try {
-        await removeRoom(_id).then(() => {
+        await removeRoom({ _id: _id, userData: userData }).then(() => {
           Toast('success', 'Xóa phòng thành công');
           setRooms(rooms.filter((item: any) => item._id !== _id));
           setLoading(false);
@@ -54,10 +52,6 @@ const ListRoom = (props: Props) => {
       }
     }
   };
-  // const findData = (dataA: any) => {
-  //   const data = dataA.filter((item: any) => item.houseId == id);
-  //   return data;
-  // };
   return (
     <div className="h-auto">
       <header className="bg-white shadow">
@@ -82,7 +76,7 @@ const ListRoom = (props: Props) => {
                 </form>
               </div>
               <Link href={`/manager/landlord/${id}/list-room/add`}>
-                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
                 </a>
               </Link>
@@ -103,20 +97,12 @@ const ListRoom = (props: Props) => {
                           <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                           {item.name}
                         </h2>
-                        {/* <Link
-                            href="/manager/landlord/room-renter/add"
-                            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block"
-                          >
-                            <a className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-block mb-[20px]">
-                              Thêm khách
-                            </a>
-                          </Link> */}
 
                         <p className="flex items-center gap-2 mb-[20px]">
                           <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                          {/* <span className="text-red-500">
+                          <span className="text-red-500">
                             {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                          </span> */}
+                          </span>
                         </p>
 
                         <div className="text-center flex gap-3">
@@ -131,7 +117,7 @@ const ListRoom = (props: Props) => {
 
                           <button
                             onClick={() => {
-                              removeRooms(item._id);
+                              removeRooms(item._id, userData);
                             }}
                             className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                           >

@@ -1,10 +1,17 @@
 import Signin from '@/components/auth/signin';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 type Props = {};
 
 const signin = (props: Props) => {
-  return <Signin />;
+  return (
+    <div>
+      <CookiesProvider>
+        <Signin />
+      </CookiesProvider>
+    </div>
+  );
 };
 
 export default signin;
