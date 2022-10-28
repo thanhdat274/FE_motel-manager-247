@@ -26,8 +26,6 @@ const ContractAdd = (props: Props) => {
   const param = router.query;
   const { setLoading } = useUserContext();
 
-  //console.log(param);
-
   const {
     register,
     handleSubmit,
@@ -46,7 +44,6 @@ const ContractAdd = (props: Props) => {
   //   const contract1 = watch('content');
   const onSubmit = async (data: any) => {
     setLoading(true);
-    console.log(data);
     try {
       await addContract(data).then((data: any) => {
         router.push(`/manager/landlord/${param.id}/contract-form`);
@@ -64,7 +61,7 @@ const ContractAdd = (props: Props) => {
           Thêm
         </button>
         <div>
-          <h2 className='font-bold'>Tiêu đề</h2>
+          <h2 className="font-bold">Tiêu đề</h2>
           <input
             className="border p-2 w-[600px] mb-2"
             type="text"

@@ -30,7 +30,6 @@ const ListRoom = (props: Props) => {
           setRooms(data.data as any);
         }
       } catch (error) {
-        console.log('error', error);
       }
     };
 

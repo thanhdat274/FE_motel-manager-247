@@ -56,8 +56,6 @@ const ManageRoom = () => {
     }
   }, [param.id, param.id_room, setLoading, userData]);
 
-  console.log('roomData', roomData);
-
   const data = [
     {
       label: 'Thông tin phòng trọ',

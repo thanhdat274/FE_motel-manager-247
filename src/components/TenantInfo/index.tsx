@@ -48,8 +48,6 @@ const TenantInformation = ({ data }: any) => {
     setLoading(true);
     await updateRoom(param?.id_room, userData?.token, newData)
       .then((result) => {
-        console.log('result', result);
-
         setLoading(false);
         router.push(`/manager/landlord/${param.id}/list-room`);
         Toast('success', 'dasds');

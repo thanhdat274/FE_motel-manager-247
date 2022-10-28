@@ -28,7 +28,6 @@ const ListServiceRoom = (props: Props) => {
         setListServices(data.data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
       }
     };

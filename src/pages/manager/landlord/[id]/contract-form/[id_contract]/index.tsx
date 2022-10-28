@@ -25,8 +25,6 @@ const ContracEdit = (props: Props) => {
   const param = router.query;
   const { setLoading } = useUserContext();
 
-  //console.log(param);
-
   const {
     register,
     handleSubmit,
@@ -52,18 +50,14 @@ const ContracEdit = (props: Props) => {
         if (res.data) {
           reset(res.data as any);
           setLoading(false);
-          //console.log('data', res.data);
         }
-      } catch (error) {
-        //console.log(error);
-      }
+      } catch (error) {}
     };
     getRoom();
   }, [param.id_room]);
   const contract1 = watch('contract');
   const onSubmit = async (data: any) => {
     setLoading(true);
-    //console.log(data);
     try {
       await axios
         .put(`https://6332ba04a54a0e83d2570a0f.mockapi.io/api/contract-form/` + `${param.id_contract}`, data)

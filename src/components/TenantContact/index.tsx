@@ -120,11 +120,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     setLoading(true);
     await updateRoom(param?.id_room, userData?.token, newValue)
       .then((result) => {
-        console.log('data', result);
         setLoading(false);
       })
       .catch((err) => {
-        console.log('err', err);
         setLoading(false);
       });
   };
@@ -504,7 +502,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
             {getValues('additional')
               ? getValues('additional')
                   .split('\n')
-                  .map((item: any) => <p>{item}</p>)
+                  .map((item: any) => <p key={item}>{item}</p>)
               : '…………………'}
             <p>
               <strong className="font-bold text-base"> Điều V: Điều khoản chung</strong>

@@ -40,7 +40,6 @@ const ContractForm = (props: Props) => {
       <div className="">
         <Slide>
           {contract1?.map((item: any, index: React.Key | null | undefined) => {
-            //console.log(item);
             return (
               <>
                 <div className="m-5  ">
