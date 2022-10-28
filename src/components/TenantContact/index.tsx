@@ -58,18 +58,12 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   useEffect(() => {
     if (dataContract) {
       setContractData(dataContract);
-    } else {
-      console.log('dsadas');
     }
   }, []);
-
-  console.log('gett', getValues('timeCT'));
 
   useEffect(() => {
     if (contractData) {
       const { infoTenant, infoLandlord } = contractData;
-
-      console.log('infoTenant?.dateRange', infoTenant);
 
       setValue('addressCT', contractData.addressCT);
       setValue('timeCT', contractData.timeCT);
