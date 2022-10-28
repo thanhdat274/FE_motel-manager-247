@@ -6,19 +6,33 @@ import { useReactToPrint } from 'react-to-print';
 import { updateRoom } from 'src/pages/api/room';
 
 export type IContractData = {
-  name: string;
+  addressCT: string;
+  timeCT: string;
   startTime: string;
   endTime: string;
   additional: any;
+  fine: number;
   timeContract: string;
+  infoTenant: Info;
+  infoLandlord: Info;
+};
+
+type Info = {
+  name: String;
+  cardNumber: String;
+  dateRange: String;
+  phoneNumber: String;
+  issuedBy: String;
 };
 
 type Props = {
   dataContract: IContractData;
+  leadMember: any;
+  dataLanlord: any;
 };
 
-const TenantContract = ({ dataContract }: Props) => {
-  console.log('dataContract', dataContract);
+const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
+  console.log('infoLanlord', dataLanlord);
 
   const router = useRouter();
 
@@ -42,29 +56,62 @@ const TenantContract = ({ dataContract }: Props) => {
   useEffect(() => {
     if (dataContract) {
       setContractData(dataContract);
+    } else {
+      console.log('dsadas');
     }
   }, []);
 
   useEffect(() => {
     if (contractData) {
-      setValue('name', contractData.name);
+      const { infoTenant, infoLandlord } = contractData;
+      setValue('addressCT', contractData.addressCT);
+      setValue('timeCT', contractData.timeCT);
       setValue('startTime', contractData.startTime);
       setValue('endTime', contractData.endTime);
       setValue('additional', contractData.additional.join('\n'));
       setValue('timeContract', contractData.timeContract);
+      setValue('fine', contractData.fine);
+
+      //tenant
+      setValue('TNname', infoTenant?.name ? infoTenant?.name : leadMember?.memberName);
+      setValue('TNcardNumber', infoTenant?.cardNumber ? infoTenant?.cardNumber : leadMember?.cardNumber);
+      setValue('TNphoneNumber', infoTenant?.phoneNumber ? infoTenant?.phoneNumber : leadMember?.phoneNumber);
+      setValue('TNdateRange', infoTenant?.dateRange);
+      setValue('TNIssuedBy', infoTenant?.issuedBy);
+
+      //lanlord
+      setValue('LLname', infoLandlord?.name ? infoLandlord?.name : dataLanlord?.name);
+      setValue('LLcardNumber', infoLandlord?.cardNumber ? infoLandlord?.cardNumber : dataLanlord?.cardNumber);
+      setValue('LLphoneNumber', infoLandlord?.phoneNumber ? infoLandlord?.phoneNumber : dataLanlord?.phoneNumber);
+      setValue('LLdateRange', infoLandlord?.dateRange ? infoLandlord?.dateRange : dataLanlord?.dateRange);
+      setValue('LLIssuedBy', infoLandlord?.issuedBy ? infoLandlord?.issuedBy : dataLanlord?.issuedBy);
     }
-  }, [contractData]);
+  }, [contractData, leadMember]);
 
   const onSubmit = async (data: any) => {
     const newAdditional = data.additional.split('\n');
 
     const newValue = {
       contract: {
-        name: data.name,
         startTime: data.startTime,
         endTime: data.endTime,
         additional: newAdditional,
         timeContract: data.timeContract,
+        fine: data.fine,
+        infoTenant: {
+          name: data.TNname,
+          cardNumber: data.TNcardNumber,
+          phoneNumber: data.TNphoneNumber,
+          issuedBy: data.TNIssuedBy,
+          dateRange: data.TNdateRange,
+        },
+        infoLandlord: {
+          name: data.LLname,
+          cardNumber: data.LLcardNumber,
+          phoneNumber: data.LLphoneNumber,
+          issuedBy: data.LLIssuedBy,
+          dateRange: data.LLdateRange,
+        },
       },
     };
     setLoading(true);
@@ -85,45 +132,169 @@ const TenantContract = ({ dataContract }: Props) => {
         <p className="mb-5">Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Nơi kí hợp đồng</p>
+              <input
+                type="string"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('addressCT', { maxLength: 80 })}
+              />
+            </div>
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Thời gian kí HĐ</p>
+              <input
+                type="date"
+                className="p-2 max-h-10 w-full  md:col-span-3"
+                {...register('timeCT', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
+            <div className="md:grid grid-cols-4 ">
+              <p className="">Thời gian HĐ</p>
+              <input
+                type="string"
+                placeholder="3 tháng"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('timeContract', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Ngày bắt đầu HĐ</p>
+              <input
+                type="date"
+                className="p-2 max-h-10 w-full  md:col-span-3"
+                {...register('startTime', { required: true, maxLength: 80 })}
+              />
+            </div>
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Ngày kết thúc HĐ</p>
+
+              <input
+                type="date"
+                className="p-2 max-h-10 w-full  md:col-span-3"
+                {...register('endTime', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 ">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Họ và tên chủ trọ</p>
+              <input
+                type="string"
+                placeholder="Nguyễn Văn A"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('LLname', { required: true, maxLength: 80 })}
+              />
+            </div>
+
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Số CMND/CCCD</p>
+              <input
+                type="string"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('LLcardNumber', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Ngày cấp</p>
+              <input
+                type="date"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('LLdateRange', { required: true, maxLength: 80 })}
+              />
+            </div>
+
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Nơi cấp </p>
+              <input
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('LLIssuedBy', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 md:pb-10 pb-8">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Số điện thoại liên lạc</p>
+              <input
+                type="string"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('LLphoneNumber', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Người đại diện</p>
+              <input
+                type="string"
+                placeholder="Nguyễn Văn A"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('TNname', { required: true, maxLength: 80 })}
+              />
+            </div>
+
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Số CMND/CCCD</p>
+              <input
+                type="string"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('TNcardNumber', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Ngày cấp</p>
+              <input
+                type="date"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('TNdateRange', { required: true, maxLength: 80 })}
+              />
+            </div>
+
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Nơi cấp </p>
+              <input
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('TNIssuedBy', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
+            <div className="md:grid grid-cols-4 mb-4">
+              <p className="">Số điện thoại liên lạc</p>
+              <input
+                type="string"
+                className="p-2 max-h-10 w-full md:col-span-3"
+                {...register('TNphoneNumber', { required: true, maxLength: 80 })}
+              />
+            </div>
+          </div>
+          <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
             <div className="mb-4">
               <div className="md:grid grid-cols-4 mb-4">
-                <p className="">Người đại diện</p>
+                <p className="">Tiền phạt</p>
                 <input
                   type="string"
-                  placeholder="Nguyễn Văn A"
-                  className="p-2 w-full md:col-span-3"
-                  {...register('name', { required: true, maxLength: 80 })}
-                />
-              </div>
-              <div className="md:grid grid-cols-4 ">
-                <p className="">Thời gian HĐ</p>
-                <input
-                  type="string"
-                  placeholder="3 tháng"
-                  className="p-2 w-full  md:col-span-3"
-                  {...register('timeContract', { required: true, maxLength: 80 })}
+                  className="p-2 max-h-10 w-full  md:col-span-3"
+                  {...register('fine', { required: true, maxLength: 80 })}
                 />
               </div>
             </div>
-            <div className="">
-              <div className="md:grid grid-cols-4 mb-4">
-                <p className="">Ngày bắt đầu HĐ</p>
-                <input
-                  type="date"
-                  className="p-2 w-full  md:col-span-3"
-                  {...register('startTime', { required: true, maxLength: 80 })}
-                />
-              </div>
-              <div className="md:grid grid-cols-4 mb-4">
-                <p className="">Ngày kết thúc HĐ</p>
-
-                <input
-                  type="date"
-                  className="p-2 w-full  md:col-span-3"
-                  {...register('endTime', { required: true, maxLength: 80 })}
-                />
-              </div>
-            </div>
+            <div className=""></div>
           </div>
           <div className="md:grid grid-cols-8 mb-4">
             <p className="">Quy định bổ sung</p>
@@ -174,7 +345,7 @@ const TenantContract = ({ dataContract }: Props) => {
           <div className="pt-5  ">
             <h1 className="font-bold text-sm  leading-5">BÊN CHO THUÊ: </h1>
             <p className="text-xs  leading-5">
-              <strong>Ông/bà: </strong> Năm Sinh:
+              <strong>Ông/bà:{cookies.user.user.name} </strong> Năm Sinh:
             </p>
             <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
             <p className="text-xs  leading-5">Địa chỉ: </p>
@@ -184,7 +355,7 @@ const TenantContract = ({ dataContract }: Props) => {
           <div>
             <h1 className="font-bold text-sm  leading-5">BÊN THUÊ: </h1>
             <p className="text-xs  leading-5">
-              <strong>Ông/bà:</strong> Năm Sinh:
+              <strong>Ông/bà: {contractData?.infoTenant?.name}</strong> Năm Sinh:
             </p>
             <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
             <p className="text-xs  leading-5">Địa chỉ: </p>
