@@ -18,7 +18,6 @@ const ListHome = () => {
           setHouse(data.data as any);
         }
       } catch (error) {
-        console.log('error', error);
       }
     };
     getHouse();

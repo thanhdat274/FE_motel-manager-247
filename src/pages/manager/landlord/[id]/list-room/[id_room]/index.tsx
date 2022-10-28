@@ -1,12 +1,12 @@
-import { IMember, IMember2 } from '@/components/ListMember';
 import TabPanelComponent from '@/components/TabPanel';
 import TenantContract from '@/components/TenantContact';
 import TenantMember from '@/components/TenantMember';
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { Toast } from 'src/hooks/toast';
+import { getInfoUser } from 'src/pages/api/auth';
 import { readRoom } from 'src/pages/api/room';
 
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
@@ -14,9 +14,30 @@ const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr
 const ManageRoom = () => {
   const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
+  const [infoLandlord, setInfoLandlord] = useState();
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
+
+  const getInfoLandlord = async () => {
+    setLoading(true);
+    await getInfoUser(userData.user._id, userData.token)
+      .then((result) => {
+        setInfoLandlord(result.data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        Toast('error', err);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (userData) {
+      getInfoLandlord();
+    }
+  }, []);
+
   useEffect(() => {
     if (param.id) {
       const getRoom = async () => {
@@ -49,7 +70,19 @@ const ManageRoom = () => {
     {
       label: 'Hợp đồng',
       value: 2,
-      children: <TenantContract />,
+      children: (
+        <TenantContract
+          dataContract={roomData.contract}
+          leadMember={
+            roomData?.listMember?.length > 0
+              ? roomData?.listMember.find((element: any) => element.status == true)
+              : null
+          }
+          roomArea={roomData.area}
+          roomPrice={roomData.price}
+          dataLandlord={infoLandlord}
+        />
+      ),
     },
   ];
 

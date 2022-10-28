@@ -27,7 +27,7 @@ const EditService = (props: Props) => {
     reset,
     formState: { errors },
   } = useForm<IFormInputs>();
-  
+
   useEffect(() => {
     const getService = async () => {
       setLoading(true);
@@ -36,7 +36,6 @@ const EditService = (props: Props) => {
         reset(data.data as any);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
       }
     };
