@@ -238,7 +238,7 @@ const ListWaterUsed = () => {
                           </div>
                         </div>
                       </div>
-                      {listBillData?.length > 1 && (
+                      {listBillData?.length >= 1 && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {listBillData &&
                             listBillData.map((item: any, index: any) => {
