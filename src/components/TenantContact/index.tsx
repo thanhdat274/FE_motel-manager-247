@@ -1,4 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
+import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,12 +29,12 @@ type Info = {
 type Props = {
   dataContract: IContractData;
   leadMember: any;
-  dataLanlord: any;
+  dataLandlord: any;
+  roomArea: number;
+  roomPrice: number;
 };
 
-const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
-  console.log('infoLanlord', dataLanlord);
-
+const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea }: Props) => {
   const router = useRouter();
 
   const { setLoading, cookies } = useUserContext();
@@ -51,6 +52,7 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm();
 
   useEffect(() => {
@@ -61,9 +63,14 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
     }
   }, []);
 
+  console.log('gett', getValues('timeCT'));
+
   useEffect(() => {
     if (contractData) {
       const { infoTenant, infoLandlord } = contractData;
+
+      console.log('infoTenant?.dateRange', infoTenant);
+
       setValue('addressCT', contractData.addressCT);
       setValue('timeCT', contractData.timeCT);
       setValue('startTime', contractData.startTime);
@@ -80,11 +87,11 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
       setValue('TNIssuedBy', infoTenant?.issuedBy);
 
       //lanlord
-      setValue('LLname', infoLandlord?.name ? infoLandlord?.name : dataLanlord?.name);
-      setValue('LLcardNumber', infoLandlord?.cardNumber ? infoLandlord?.cardNumber : dataLanlord?.cardNumber);
-      setValue('LLphoneNumber', infoLandlord?.phoneNumber ? infoLandlord?.phoneNumber : dataLanlord?.phoneNumber);
-      setValue('LLdateRange', infoLandlord?.dateRange ? infoLandlord?.dateRange : dataLanlord?.dateRange);
-      setValue('LLIssuedBy', infoLandlord?.issuedBy ? infoLandlord?.issuedBy : dataLanlord?.issuedBy);
+      setValue('LLname', infoLandlord?.name ? infoLandlord?.name : dataLandlord?.name);
+      setValue('LLcardNumber', infoLandlord?.cardNumber ? infoLandlord?.cardNumber : dataLandlord?.cardNumber);
+      setValue('LLphoneNumber', infoLandlord?.phoneNumber ? infoLandlord?.phoneNumber : dataLandlord?.phoneNumber);
+      setValue('LLdateRange', infoLandlord?.dateRange ? infoLandlord?.dateRange : dataLandlord?.dateRange);
+      setValue('LLIssuedBy', infoLandlord?.issuedBy ? infoLandlord?.issuedBy : dataLandlord?.issuedBy);
     }
   }, [contractData, leadMember]);
 
@@ -98,6 +105,8 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
         additional: newAdditional,
         timeContract: data.timeContract,
         fine: data.fine,
+        timeCT: data.timeCT,
+        addressCT: data.addressCT,
         infoTenant: {
           name: data.TNname,
           cardNumber: data.TNcardNumber,
@@ -298,11 +307,7 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
           </div>
           <div className="md:grid grid-cols-8 mb-4">
             <p className="">Quy định bổ sung</p>
-            <textarea
-              id=""
-              className="p-2 w-full md:col-span-7 "
-              {...register('additional', { required: true, maxLength: 80 })}
-            />
+            <textarea id="" className="p-2 w-full md:col-span-7 " {...register('additional', { maxLength: 80 })} />
           </div>
           <button
             type="submit"
@@ -337,7 +342,12 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
           </div>
           <div>
             <p className="text-xs  pt-5  leading-5">
-              Hôm nay, ngày …… tháng …… năm ………., tại địa chỉ ……………………………...............................................{' '}
+              Hôm nay, ngày {getValues('timeCT') ? getValues('timeCT').slice(8, 10) : '……'} tháng
+              {getValues('timeCT') ? getValues('timeCT').slice(5, 7) : '……'} năm{' '}
+              {getValues('timeCT') ? getValues('timeCT').slice(0, 4) : '……'}., tại địa chỉ :
+              {getValues('addressCT')
+                ? getValues('addressCT')
+                : '……………………………...............................................'}
               <br />
               Chúng tôi gồm có:
             </p>
@@ -345,19 +355,29 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
           <div className="pt-5  ">
             <h1 className="font-bold text-sm  leading-5">BÊN CHO THUÊ: </h1>
             <p className="text-xs  leading-5">
-              <strong>Ông/bà:{cookies.user.user.name} </strong> Năm Sinh:
+              <strong>Ông/bà: {getValues('LLname') ? getValues('LLname') : '………………'} </strong> Năm Sinh:
             </p>
-            <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
+            <p className="text-xs  leading-5">
+              CMND số: {getValues('LLcardNumber') ? getValues('LLcardNumber') : '………………'}, Ngày cấp:{' '}
+              {getValues('LLdateRange') ? moment(getValues('LLdateRange')).format('DD/MM/YYYY') : '………………'}. Nơi cấp:{' '}
+              {getValues('LLIssuedBy') ? getValues('LLIssuedBy') : '………………'}
+            </p>
             <p className="text-xs  leading-5">Địa chỉ: </p>
-            <p className="text-xs  leading-5">Điện thoại: </p>
+            <p className="text-xs  leading-5">
+              Điện thoại: {getValues('LLphoneNumber') ? getValues('LLphoneNumber') : '………………'}
+            </p>
             <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên a)</p>
           </div>
           <div>
             <h1 className="font-bold text-sm  leading-5">BÊN THUÊ: </h1>
             <p className="text-xs  leading-5">
-              <strong>Ông/bà: {contractData?.infoTenant?.name}</strong> Năm Sinh:
+              <strong>Ông/bà: {getValues('TNname') ? getValues('TNname') : '………………'}</strong> Năm Sinh:
             </p>
-            <p className="text-xs  leading-5">CMND số: , Ngày cấp: ……....…………. Nơi cấp: ………………..……</p>
+            <p className="text-xs  leading-5">
+              CMND số: {getValues('TNcardNumber') ? getValues('TNcardNumber') : '………………'}, Ngày cấp:{' '}
+              {getValues('TNdateRange') ? moment(getValues('TNdateRange')).format('DD/MM/YYYY') : '………………'}. Nơi cấp:
+              {getValues('TNIssuedBy') ? getValues('TNIssuedBy') : '………………'}
+            </p>
             <p className="text-xs  leading-5">Địa chỉ: </p>
             <p className="text-xs  leading-5">Điện thoại: </p>
             <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên B)</p>
@@ -377,7 +397,7 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
           <div className="text-xs  leading-5">
             <h2 className="font-bold text-sm  leading-5">1. Phòng trọ cho thuê</h2>
             <p>Phòng trọ cho thuê có các đặc điểm như sau:</p>
-            <p>Phòng số: . Tổng diện tích sử dụng: 29 m2</p>
+            <p>Phòng số: . Tổng diện tích sử dụng: {roomArea} m2</p>
             <p>Địa chỉ: </p>
             <p>
               Bên A đảm bảo rằng phòng trọ nói trên thuộc quyền quản lý và sử dụng hợp pháp của mình, toàn bộ phòng trọ
@@ -394,7 +414,14 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
               Điều II: Thời hạn cho thuê, giá cho thuê và điều kiện thanh toán
             </h1>
             <p className="font-bold text-sm  leading-5">1. Thời hạn cho thuê:</p>
-            <p>Từ ngày 5 tháng 9 năm 2022 đến hết ngày 4 tháng 3 năm 2023</p>
+            <p>
+              Từ ngày {getValues('startTime') ? getValues('startTime').slice(8, 10) : '……'} tháng Từ ngày{' '}
+              {getValues('startTime') ? getValues('startTime').slice(5, 7) : '……'} năm Từ ngày{' '}
+              {getValues('startTime') ? getValues('startTime').slice(0, 4) : '……'} đến hết ngày Từ ngày{' '}
+              {getValues('endTime') ? getValues('endTime').slice(8, 10) : '……'} tháng{' '}
+              {getValues('endTime') ? getValues('endTime').slice(5, 7) : '……'} năm{' '}
+              {getValues('endTime') ? getValues('endTime').slice(0, 4) : '……'}
+            </p>
             <p className="font-bold text-sm  leading-5">2. Giá cho thuê: đồng/01/tháng.</p>
             <p className="font-bold text-sm  leading-5">3. Điều kiện thanh toán:</p>
             <p>- Đồng tiền thanh toán: tiền VNĐ</p>
@@ -477,9 +504,14 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
             <p>- Bàn giao lại phòng trọ cho Bên A khi hết hạn hợp đồng thuê phòng trọ.</p>
             <p>
               - Khi Bên B đơn phương chấm dứt thực hiện Hợp đồng không đúng quy định của pháp luật hoặc không đúng thỏa
-              thuận trong Hợp đồng này, Bên B phải có nghĩa vụ nộp phạt vi phạm cho Bên A số tiền là ………………….. đồng
-              (………………….. đồng Việt Nam).
+              thuận trong Hợp đồng này, Bên B phải có nghĩa vụ nộp phạt vi phạm cho Bên A số tiền là{' '}
+              {roomPrice ? roomPrice : '…………………'} đồng ({roomPrice ? roomPrice : '…………………'} đồng Việt Nam).
             </p>
+            {getValues('additional')
+              ? getValues('additional')
+                  .split('\n')
+                  .map((item: any) => <p>{item}</p>)
+              : '…………………'}
             <p>
               <strong className="font-bold text-base"> Điều V: Điều khoản chung</strong>
             </p>
@@ -494,11 +526,18 @@ const TenantContract = ({ dataContract, leadMember, dataLanlord }: Props) => {
               tranh chấp sẽ được giải quyết bằng con đường Tòa án theo quy định của hệ thống pháp luật Việt Nam.
             </p>
           </div>
-          <div className="text-xs mt-7 mb-[100px] font-bold ">
+          <div className="text-xs mt-16 mb-[100px] font-bold ">
             <p className="text-right pr-[100px]"> Ngày.... Tháng.... Năm </p>
             <div className="grid grid-cols-2 text-center pt-5">
-              <p> BÊN A</p>
-              <p className="">BÊN B</p>
+              <div className="grid grid-cols-1">
+                <p> BÊN A</p>
+                <p className="pt-14">{getValues('LLname')}</p>
+              </div>
+
+              <div>
+                <p className="">BÊN B</p>
+                <p className="pt-14">{getValues('TNname')}</p>
+              </div>
             </div>
           </div>
         </div>

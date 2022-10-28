@@ -14,7 +14,7 @@ const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr
 const ManageRoom = () => {
   const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
-  const [infoLanlord, setInfoLanlord] = useState();
+  const [infoLandlord, setInfoLandlord] = useState();
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
@@ -23,7 +23,7 @@ const ManageRoom = () => {
     setLoading(true);
     await getInfoUser(userData.user._id, userData.token)
       .then((result) => {
-        setInfoLanlord(result.data.data);
+        setInfoLandlord(result.data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -56,6 +56,8 @@ const ManageRoom = () => {
     }
   }, [param.id, param.id_room, setLoading, userData]);
 
+  console.log('roomData', roomData);
+
   const data = [
     {
       label: 'Thông tin phòng trọ',
@@ -78,7 +80,9 @@ const ManageRoom = () => {
               ? roomData?.listMember.find((element: any) => element.status == true)
               : null
           }
-          dataLanlord={infoLanlord}
+          roomArea={roomData.area}
+          roomPrice={roomData.price}
+          dataLandlord={infoLandlord}
         />
       ),
     },
