@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import useCookies from 'react-cookie/cjs/useCookies';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { SignIn } from 'src/pages/api/auth';
@@ -30,7 +29,7 @@ const Signin = (props: Props) => {
         setLoading(false);
         setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
-        router.push(`/introduce`);
+        router.push(`/`);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);

@@ -18,7 +18,7 @@ export const MENU_LANDLORD = [
   },
   { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
   {
-    url: 'electric-used',
+    url: 'elictric',
     title: 'Số điện',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },

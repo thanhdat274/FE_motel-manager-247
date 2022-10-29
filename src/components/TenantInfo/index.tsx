@@ -50,7 +50,7 @@ const TenantInformation = ({ data }: any) => {
       .then((result) => {
         setLoading(false);
         router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', 'dasds');
+        Toast('success', 'Cập nhật phòng thành công');
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.error);

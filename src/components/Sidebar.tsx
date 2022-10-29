@@ -1,11 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { ReactCalculator } from 'simple-react-calculator';
+import React from 'react';
 import { faBars, faHouse, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MENU_LANDLORD } from 'src/util/MENU';
-import { faBox, faCoins, faHospital, faPlug, faShower } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {};
 
@@ -105,7 +103,7 @@ const SideBar = (props: Props) => {
                     <Link href={`/manager/landlord/${id}/${menu.url}`}>
                       <a
                         className={
-                          'h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md' +
+                          'h-[45px] text-xs py-3 font-bold block flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 focus:bg-blue-500 focus:rounded-lg focus:text-white hover:text-white shadow-md' +
                           (router.pathname.indexOf(menu.url) !== -1
                             ? 'text-lightBlue-500 hover:text-lightBlue-600'
                             : 'text-blueGray-700 hover:text-blueGray-500')
