@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { type } from 'os';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';

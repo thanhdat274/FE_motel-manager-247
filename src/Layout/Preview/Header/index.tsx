@@ -86,18 +86,21 @@ const HeaderPreview = (props: Props) => {
                   </Link>
 
                   <div className={`${styles['dropdown']} inline-block relative`}>
-                    <div className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
+                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
                       Xin chào: {cookies?.user?.user.name}
-                    </div>
+                    </button>
                     <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
-                      <div>
-                        <button
-                          type='button'
-                          onClick={() => logoutResetData()}
-                          className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block"
-                        >
-                          Đăng xuất
-                        </button>
+                      <Link href={'/auth/accountInformation'}>
+                        <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          Thông tin tài khoản
+                        </a>
+                      </Link>
+
+                      <div
+                        onClick={() => logoutResetData()}
+                        className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block cursor-pointer"
+                      >
+                        Đăng xuất
                       </div>
                     </div>
                   </div>
