@@ -60,8 +60,8 @@ const Receipt = (props: Props) => {
       await CreateBill(newData)
         .then((data: any) => {
           console.log('hóa đơn', data);
-
           setLoading(false);
+          Toast('success', 'Tạo hóa đơn thành công!');
         })
         .catch((error: any) => {
           setLoading(false);
@@ -85,8 +85,6 @@ const Receipt = (props: Props) => {
       />
     );
   }, [monthCheck, reset, yearCheck]);
-  console.log('month', monthCheck);
-  console.log('year', yearCheck);
 
   return (
     <div className="h-screen">
