@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { ReactCalculator } from 'simple-react-calculator';
 import FooterPreview from './Footer';
 import HeaderPreview from './Header';
 import { CircleSpinnerOverlay } from 'react-spinner-overlay';
@@ -13,11 +12,13 @@ const LayoutIntro = ({ children }: Props) => {
   const { loading } = useUserContext();
 
   return (
-    <div className=" m-auto bg-white w-full min-h-screen ">
+    <div className="m-auto bg-white w-full min-h-screen">
       {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
 
-      <HeaderPreview />
-      <div className="chil ">{children}</div>
+      <div>
+        <HeaderPreview />
+      </div>
+      <div>{children}</div>
       <FooterPreview />
     </div>
   );
