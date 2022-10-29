@@ -33,7 +33,6 @@ const HeaderPreview = (props: Props) => {
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
-
       await axios
         .get('http://localhost:8800/api/room/' + data.code_room)
         .then((data: any) => {
@@ -47,69 +46,70 @@ const HeaderPreview = (props: Props) => {
           Toast('error', error?.response?.data.error);
         });
     } catch (error) {}
-
   };
 
   return (
     <div className="shadow lg:shadow-none">
-      <div className=" ">
-        <div className="flex lg:hidden justify-between items-center pl-4 pr-4">
-          <div className="w-[100px] h-[100px] relative">
-            <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority />
-          </div>
-          <div className="flex items-center" onClick={() => toggleNav()}>
-            <FontAwesomeIcon className="text-2xl" icon={faBars} />
-            <span className="ml-2">Danh mục</span>
-          </div>
+      <div className="flex lg:hidden justify-between items-center px-4">
+        <div className="w-[100px] h-[100px] relative">
+          <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority />
+        </div>
+        <div className="flex items-center" onClick={() => toggleNav()}>
+          <FontAwesomeIcon className="text-2xl" icon={faBars} />
+          <span className="ml-2">Danh mục</span>
         </div>
       </div>
+
       <header
         className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${
           toggle ? 'right-0' : 'right-[-100%]'
         }`}
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
-          <div className="flex flex-col lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center h-fit  px-[15px] lg:px-0 py-[20px] lg:py-0">
+          <div className="flex flex-col lg:flex lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center px-[15px] lg:p-0 py-[20px]">
             <Link href={'/'}>
               <a className="hidden lg:block w-[100px] h-[100px] relative">
                 <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority></Image>
               </a>
             </Link>
             <div>
-              <h1 className="lg:text-xl xl:text-2xl font-bold">PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h1>
-              <h2>Đơn giản - Dễ sử dụng - Chính xác</h2>
-
-              <div></div>
+              <h2 className="lg:text-xl xl:text-2xl font-bold">PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h2>
+              <p>Đơn giản - Dễ sử dụng - Chính xác</p>
             </div>
-            <div className="flex flex-col sm:grid-cols-2 sm:grid md:flex md:flex-row gap-2">
-              {cookies && cookies?.user ? (
-                <div className="flex flex-col sm:grid-cols-1 sm:grid md:flex md:flex-row gap-2">
+            {cookies?.user && (
+              <div className="flex flex-col md:flex md:flex-row gap-2">
+                <div className="flex flex-col md:flex md:flex-row gap-2">
                   <Link href={`/manager/landlord/list-home`}>
-                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
+                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
                       Quản lý nhà trọ
                     </a>
                   </Link>
 
-                  <div className={`${styles['dropdown']} dropdown inline-block relative`}>
-                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      <span className="mr-1">Xin chào: {cookies?.user?.user.name}</span>
+                  <div className={`${styles['dropdown']} inline-block relative`}>
+                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
+                      Xin chào: {cookies?.user?.user.name}
                     </button>
-                    <ul
-                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2  rounded-md`}
-                    >
-                      <li>
-                        <button
-                          onClick={() => logoutResetData()}
-                          className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 inline-block whitespace-no-wrap"
-                        >
-                          Đăng xuất
-                        </button>
-                      </li>
-                    </ul>
+                    <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
+                      <Link href={'/auth/accountInformation'}>
+                        <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          Thông tin tài khoản
+                        </a>
+                      </Link>
+
+                      <div
+                        onClick={() => logoutResetData()}
+                        className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block cursor-pointer"
+                      >
+                        Đăng xuất
+                      </div>
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <div className="flex flex-col sm:grid-cols-1 sm:grid md:flex md:flex-row gap-2">
+              </div>
+            )}{' '}
+            {!cookies?.user && (
+              <div className="flex flex-col md:flex md:flex-row gap-2">
+                <div className="flex flex-col md:flex md:flex-row gap-2">
                   <button
                     onClick={onOpenModal}
                     className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]"
@@ -119,9 +119,9 @@ const HeaderPreview = (props: Props) => {
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <h1 className="pt-2 text-white">
+                        <p className="pt-2 text-white">
                           -----------------------------------------------------------------------------------------------------------------------
-                        </h1>
+                        </p>
                         <hr />
                         <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
                           <div className="">
@@ -160,46 +160,45 @@ const HeaderPreview = (props: Props) => {
                       </div>
                     </Modal>
                   </div>
-                  <div className={`${styles['dropdown']} dropdown inline-block relative`}>
+                  <div className={`${styles['dropdown']} inline-block relative`}>
                     <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      <span className="mr-1">Đăng nhập/Đăng kí</span>
-                      <FontAwesomeIcon className="w-[12px]" icon={faCaretDown} />
+                      Đăng nhập/Đăng ki
+                      <FontAwesomeIcon className="w-[12px] ml-2" icon={faCaretDown} />
                     </button>
-                    <ul
-                      className={`${styles['dropdown-menu']} dropdown-menu absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
+                    <div
+                      className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
                     >
-                      <li>
+                      <div>
                         <Link href={'/auth/signin'}>
-                          <a className="rounded-t rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">
+                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
                             Đăng nhập
                           </a>
                         </Link>
-                      </li>
+                      </div>
 
-                      <li>
+                      <div>
                         <Link href={'/auth/signup'}>
-                          <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block whitespace-no-wrap">
+                          <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block">
                             Đăng kí
                           </a>
                         </Link>
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
-        {/* <Navbar key="navbar" /> */}
         <button className="block lg:hidden absolute top-2 right-5 text-white text-2xl" onClick={() => toggleNav()}>
           <FontAwesomeIcon icon={faXmark} />
         </button>
       </header>
       {toggle && (
-        <div
+        <button
           className="lg:before:bg-inherit before:bg-[#0000003b] before:w-full before:h-full before:absolute before:inset-0"
           onClick={() => toggleNav()}
-        ></div>
+        ></button>
       )}
     </div>
   );

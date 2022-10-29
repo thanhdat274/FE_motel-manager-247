@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import instance from './instance';
 
 export const listRoom = (id: any, userData: any) => {
@@ -27,6 +26,7 @@ export const removeRoom = (data: any) => {
     },
   });
 };
+
 export const readRoom = (id_room: string, userData: any) => {
   const url = `/room/${id_room}`;
   return instance.get(url, {
@@ -35,11 +35,11 @@ export const readRoom = (id_room: string, userData: any) => {
     },
   });
 };
-export const updateRoom = (room: any) => {
-  const url = `/room/update/${room._id}`;
+export const updateRoom = (idRoom: any, token: any, room: any) => {
+  const url = `/room/update/${idRoom}`;
   return instance.put(url, room, {
     headers: {
-      Authorization: `Bearer ${room.userData.token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 };

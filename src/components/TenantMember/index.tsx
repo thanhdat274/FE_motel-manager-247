@@ -17,16 +17,12 @@ type IProps = {
 };
 
 const TenantMember = ({ data, data1 }: IProps) => {
-  // console.log(data._id);
-
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
 
-
   const userData = cookies?.user;
   const param = router.query;
-
 
   const {
     register,
@@ -40,7 +36,6 @@ const TenantMember = ({ data, data1 }: IProps) => {
 
     const newData = { ...{ listMember }, userData: userData };
 
-
     try {
       await addPeople(param.id_room, newData).then((data: any) => {
         setLoading(false);
@@ -49,7 +44,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
       });
     } catch (error) {
       setLoading(false);
-      Toast('error', 'Thêm mới phòng thành viên thành công');
+      Toast('error', 'Thêm mới thành viên không thành công');
     }
   };
 

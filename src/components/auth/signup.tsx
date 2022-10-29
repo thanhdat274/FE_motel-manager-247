@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { type } from 'os';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
@@ -23,14 +22,13 @@ const Signup = (props: Props) => {
     handleSubmit,
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    console.log(data);
     setLoading(true);
     if (data.password === data.repassword) {
       await UserSignup(data)
         .then(() => {
           Toast('success', 'Bạn đã đăng ký thành công');
           setLoading(false);
-          router.push("/auth/signin");
+          router.push('/auth/signin');
         })
         .catch((error) => {
           const msgError = error?.response.data.error;
