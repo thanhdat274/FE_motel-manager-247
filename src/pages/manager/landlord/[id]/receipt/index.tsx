@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
+import { listBill } from 'src/pages/api/bill';
+import { useUserContext } from '@/context/UserContext';
 type Props = {};
 
 const Receipt = (props: Props) => {
   const [open, setOpen] = useState(false);
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+  const { cookies, setLoading } = useUserContext();
+  const userData = cookies?.user;
+  const [bill, setBill] = useState()
+  // console.log(bill);
+  
+  
+
+      const getBill = async () =>{
+        const data = await listBill( userData as any)
+        setBill(data.data)
+      }
+      getBill()
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -87,7 +101,7 @@ const Receipt = (props: Props) => {
                           <div className="text-center">Nhà bỏ Hoang 10 năm có ma đấy nhé :)) </div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">Phòng bỏ trống 10 năm :))</div>
+                          <div className="text-center">Phòng bỏ trống 10 năm</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
