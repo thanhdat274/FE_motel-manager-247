@@ -29,7 +29,6 @@ const AddServiceRoom = (props: Props) => {
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
     const newData = { ...data, idHouse: id, userData: userData };
-    console.log(newData);
     setLoading(true);
 
     await addService(newData)

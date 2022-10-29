@@ -28,11 +28,12 @@ const ListServiceRoom = (props: Props) => {
         setListServices(data.data);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
       }
     };
-    getService();
+    if (id) {
+      getService();
+    }
   }, [id, setLoading, userData]);
 
   const remove = async (_id: any, id: any, userData: any) => {

@@ -30,7 +30,6 @@ export type IMember2 = {
 
 const ListMember = (props: IMember) => {
   const { _id, memberName, cardNumber, phoneNumber, status } = props;
-  console.log(props);
 
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
@@ -41,7 +40,6 @@ const ListMember = (props: IMember) => {
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
-  console.log(param.id_room);
 
   const {
     register,
@@ -71,26 +69,6 @@ const ListMember = (props: IMember) => {
       }
     }
   };
-
-  // const onSubmit = async (data: any) => {
-  //   console.log('data từ form', data);
-  //   setLoading(true);
-  //   try {
-  //     await axios
-  //       .put(
-  //         `https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/${param.id_room}/people/` + _id,
-  //         data,
-  //       )
-  //       .then((data: any) => {
-  //         setLoading(false);
-  //         router.push(`/manager/landlord/${param.id}/list-room`);
-  //         Toast('success', 'Cập nhật thành viên thành công ');
-  //       });
-  //   } catch (error) {
-  //     setLoading(false);
-  //     Toast('error', 'Cập nhật thành viên không thành công');
-  //   }
-  // };
 
   const showData = (data: string, status: boolean) => {
     if (data) {

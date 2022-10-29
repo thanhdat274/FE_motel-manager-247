@@ -39,9 +39,7 @@ const AddRoom = (props: Props) => {
       try {
         const { data } = await readHouse(`${id}`, userData as any);
         setHouse(data as any);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     getHome();
   }, [id, userData]);
