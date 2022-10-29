@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import instance from './instance';
 
 export const listRoom = (id: any, userData: any) => {
@@ -27,6 +26,7 @@ export const removeRoom = (data: any) => {
     },
   });
 };
+
 export const readRoom = (id_room: string, userData: any) => {
   const url = `/room/${id_room}`;
   return instance.get(url, {

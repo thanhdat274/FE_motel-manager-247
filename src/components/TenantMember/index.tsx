@@ -44,7 +44,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
       });
     } catch (error) {
       setLoading(false);
-      Toast('error', 'Thêm mới phòng thành viên thành công');
+      Toast('error', 'Thêm mới thành viên không thành công');
     }
   };
 

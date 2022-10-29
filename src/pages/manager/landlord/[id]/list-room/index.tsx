@@ -91,7 +91,7 @@ const ListRoom = (props: Props) => {
           <div className="flex flex-col">
             <div className="sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-mparamle inline-block min-w-full ">
-                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 drop-shadow-xl ">
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 drop-shadow-xl">
                   {rooms?.map((item: any, index: React.Key | null | undefined) => {
                     return (
                       <div className="w-full border-2 p-[20px] bg-white rounded-[5px]" key={index}>

@@ -10,6 +10,22 @@ export const UserSignup = (data: any) => {
   return instance.post(url, data);
 };
 
+export const UserInfo = (userData: any) => {
+  const url = `/user/${userData.user._id}`;
+  return instance.get(url, {
+    headers: {
+      Authorization: `Bearer ${userData.token}`,
+    },
+  });
+};
+export const UpdateUserInfo = (newData: any) => {
+  const url = `/user/${newData.userData.user._id}`;
+  return instance.put(url, newData, {
+    headers: {
+      Authorization: `Bearer ${newData.userData.token}`,
+    },
+  });
+};
 export const getInfoUser = (idUser: string, token: string) => {
   const url = `/user/${idUser}`;
   return instance.get(url, {

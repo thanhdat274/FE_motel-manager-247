@@ -17,28 +17,33 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   const switchLayout = () => {
-    
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
-        <LayoutListHome>
-          <Component {...pageProps} />
-        </LayoutListHome>
+        <div>
+          <LayoutListHome>
+            <Component {...pageProps} />
+          </LayoutListHome>
+        </div>
       );
     }
-    
+
     if (router.pathname.search('/manager/landlord') >= 0) {
       return (
-        <LayoutLandlords>
-          <Component {...pageProps} />
-        </LayoutLandlords>
+        <div>
+          <LayoutLandlords>
+            <Component {...pageProps} />
+          </LayoutLandlords>
+        </div>
       );
     }
 
     if (router.pathname.search('/manager/ternant') >= 0) {
       return (
-        <LayoutTenants>
-          <Component {...pageProps} />
-        </LayoutTenants>
+        <div>
+          <LayoutTenants>
+            <Component {...pageProps} />
+          </LayoutTenants>
+        </div>
       );
     } else {
       return (
@@ -50,14 +55,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       );
     }
   };
-  
 
   return (
-    
-    <UserProvider>
-      {switchLayout()}
-      <ToastContainer />
-    </UserProvider>
+    <div>
+      <UserProvider>
+        {switchLayout()}
+        <ToastContainer />
+      </UserProvider>
+    </div>
   );
 }
 
