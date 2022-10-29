@@ -21,7 +21,6 @@ const EditHouse = (props: Props) => {
     formState: { errors },
     reset,
   } = useForm();
-  console.log('param', param);
 
   useEffect(() => {
     const getHome = async () => {
@@ -29,11 +28,8 @@ const EditHouse = (props: Props) => {
         const res = await readHouse(`${param.id_home}`, userData as any);
         if (res.data) {
           reset(res.data as any);
-          //console.log('data', res.data);
         }
-      } catch (error) {
-        //console.log(error);
-      }
+      } catch (error) {}
     };
     getHome();
   }, [param.id_home, reset, userData]);

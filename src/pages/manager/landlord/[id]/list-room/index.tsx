@@ -30,10 +30,12 @@ const ListRoom = (props: Props) => {
           setRooms(data.data as any);
         }
       } catch (error) {
-        console.log('error', error);
       }
     };
-    getRoom();
+
+    if (id) {
+      getRoom();
+    }
   }, [userData, id]);
 
   const removeRooms = async (_id: number, userData: any) => {

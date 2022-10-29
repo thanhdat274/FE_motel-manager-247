@@ -62,7 +62,6 @@ const ListWaterUsed = () => {
           setServiceData(result.data.data);
         })
         .catch((err) => {
-          console.log('err', err);
           setLoading(false);
         });
     }
@@ -93,8 +92,6 @@ const ListWaterUsed = () => {
     if (id) {
       await listRoom(id, userData)
         .then((result) => {
-          console.log('result?.data?.data', result?.data?.data);
-
           const newListRoomData = result?.data?.data.map((item: any) => {
             return {
               amount: 0,
@@ -247,7 +244,7 @@ const ListWaterUsed = () => {
                           </div>
                         </div>
                       </div>
-                      {listBillData?.length > 1 && (
+                      {listBillData?.length >= 1 && (
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {listBillData &&
                             listBillData.map((item: any, index: any) => {

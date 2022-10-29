@@ -23,14 +23,13 @@ const Signup = (props: Props) => {
     handleSubmit,
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    console.log(data);
     setLoading(true);
     if (data.password === data.repassword) {
       await UserSignup(data)
         .then(() => {
           Toast('success', 'Bạn đã đăng ký thành công');
           setLoading(false);
-          router.push("/auth/signin");
+          router.push('/auth/signin');
         })
         .catch((error) => {
           const msgError = error?.response.data.error;
