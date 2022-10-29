@@ -47,7 +47,6 @@ const HeaderPreview = (props: Props) => {
           Toast('error', error?.response?.data.error);
         });
     } catch (error) {}
-
   };
 
   return (
