@@ -10,6 +10,7 @@ import LayoutListHome from 'src/Layout/ListHome';
 import UserProvider from '@/context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRouter from './PrivateRouter';
 
 config.autoAddCss = false;
 
@@ -58,10 +59,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div>
-      <UserProvider>
-        {switchLayout()}
-        <ToastContainer />
-      </UserProvider>
+      <PrivateRouter>
+        <UserProvider>
+          {switchLayout()}
+          <ToastContainer />
+        </UserProvider>
+      </PrivateRouter>
     </div>
   );
 }
