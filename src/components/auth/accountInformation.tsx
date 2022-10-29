@@ -7,7 +7,6 @@ import type { DatePickerProps } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import { Toast } from 'src/hooks/toast';
-import { data } from '../chart/Bar';
 
 type Props = {};
 
@@ -36,8 +35,6 @@ const AccountInformation = (props: Props) => {
     reset,
     formState: { errors },
   } = useForm<FormInputs>();
-  console.log("đã chọn", dateRange);
-
   useEffect(() => {
     const getUsers = async () => {
       setLoading(true);

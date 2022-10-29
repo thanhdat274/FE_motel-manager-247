@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import instance from './instance';
 
 export const listHouse = (userData: any) => {
@@ -14,7 +13,6 @@ export const addHouse = (data: any) => {
   const url = `/house/${data.userData.user._id}`;
   return instance.post(url, data, {
     headers: {
-      // 'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${data.userData.token}`,
     },
   });

@@ -26,3 +26,11 @@ export const UpdateUserInfo = (newData: any) => {
     },
   });
 };
+export const getInfoUser = (idUser: string, token: string) => {
+  const url = `/user/${idUser}`;
+  return instance.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
