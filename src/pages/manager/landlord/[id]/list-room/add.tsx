@@ -23,8 +23,6 @@ type FromValues = {
 
 const AddRoom = (props: Props) => {
   const { cookies, setLoading, user } = useUserContext();
-  const [showMsg, setShowMsg] = useState(false);
-  const [house, setHouse] = useState<FromValues>();
   const userData = cookies?.user;
 
   const {
@@ -34,30 +32,21 @@ const AddRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
-  useEffect(() => {
-    const getHome = async () => {
-      try {
-        const { data } = await readHouse(`${id}`, userData as any);
-        setHouse(data as any);
-      } catch (error) {}
-    };
-    getHome();
-  }, [id, userData]);
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
     setLoading(true);
-    const newData = { ...data, userData: userData };
-    try {
-      await addRoom(newData).then((data: any) => {
-        setLoading(false);
-        setShowMsg(true);
-        router.push(`/manager/landlord/${id}/list-room`);
+    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData.user._id };
+
+    await addRoom(newData)
+      .then((data: any) => {
         Toast('success', 'Thêm mới phòng thành công');
+        router.push(`/manager/landlord/${id}/list-room`);
+        setLoading(false);
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
       });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Thêm mới phòng không thành công');
-    }
   };
 
   return (
@@ -67,7 +56,7 @@ const AddRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                {/* {(house.name)} */}
+                Thêm mới phòng
               </h2>
             </div>
           </div>
@@ -153,38 +142,6 @@ const AddRoom = (props: Props) => {
                         type="number"
                         {...register('area', { required: true })}
                       />
-                      {errors.area && errors.area.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
-                      )}
-                    </div>
-                    <div className="col-span-6">
-                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                        Nhà <span className="text-[red]">*</span>
-                      </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="house"
-                        type="text"
-                        value={house?._id}
-                        {...register('idHouse', { required: true })}
-                      />
-
-                      {errors.area && errors.area.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
-                      )}
-                    </div>
-                    <div className="col-span-6">
-                      <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                        Tài khoản<span className="text-[red]">*</span>
-                      </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="user"
-                        type="text"
-                        value={userData?.user._id}
-                        {...register('idAuth', { required: true })}
-                      />
-
                       {errors.area && errors.area.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}

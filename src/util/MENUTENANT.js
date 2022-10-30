@@ -22,5 +22,5 @@ export const MENU_TENANTS = [
   //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
   // },
   { url: 'receipt', title: 'Hóa đơn', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  { url: '', title: 'Hợp đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
+  { url: '/', title: 'Hợp đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
 ];

@@ -21,17 +21,17 @@ const ListServiceRoom = (props: Props) => {
   };
 
   useEffect(() => {
-    const getService = async () => {
-      setLoading(true);
-      try {
-        const { data } = await ListService(id as string, userData as any);
-        setListServices(data.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
     if (id) {
+      const getService = async () => {
+        setLoading(true);
+        try {
+          const { data } = await ListService(id as string, userData as any);
+          setListServices(data.data);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+        }
+      };
       getService();
     }
   }, [id, setLoading, userData]);

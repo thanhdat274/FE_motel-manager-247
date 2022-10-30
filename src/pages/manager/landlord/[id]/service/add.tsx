@@ -37,8 +37,8 @@ const AddServiceRoom = (props: Props) => {
         router.push(`/manager/landlord/${id}/service`);
         setLoading(false);
       })
-      .catch(() => {
-        Toast('error', 'Thêm dịch vụ không thành công');
+      .catch((error) => {
+        Toast('error', error?.response?.data?.error);
         setLoading(false);
       });
   };
