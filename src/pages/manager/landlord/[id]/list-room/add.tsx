@@ -35,17 +35,18 @@ const AddRoom = (props: Props) => {
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
     setLoading(true);
-    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData.user._id  };
-    try {
-      await addRoom(newData).then((data: any) => {
-        setLoading(false);
-        router.push(`/manager/landlord/${id}/list-room`);
+    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData.user._id };
+
+    await addRoom(newData)
+      .then((data: any) => {
         Toast('success', 'Thêm mới phòng thành công');
+        router.push(`/manager/landlord/${id}/list-room`);
+        setLoading(false);
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
       });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Thêm mới phòng không thành công');
-    }
   };
 
   return (
@@ -55,7 +56,7 @@ const AddRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-              Thêm mới phòng
+                Thêm mới phòng
               </h2>
             </div>
           </div>

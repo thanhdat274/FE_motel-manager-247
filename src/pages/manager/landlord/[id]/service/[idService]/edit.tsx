@@ -53,7 +53,7 @@ const EditService = (props: Props) => {
         setLoading(false);
       })
       .catch((error) => {
-        Toast('error', error.response.data.error);
+        Toast('error', error?.response?.data?.error);
         setLoading(false);
       });
   };

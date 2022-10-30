@@ -36,16 +36,16 @@ const EditHouse = (props: Props) => {
   const onSubmit = async (dataForm: any) => {
     const newData = { ...dataForm, userData: userData };
     setLoading(true);
-    try {
-      await updateHouse(newData).then(() => {
+    await updateHouse(newData)
+      .then(() => {
         setLoading(false);
         Toast('success', 'Sửa nhà  thành công!');
         router.push('/manager/landlord/list-home');
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
       });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Đã xảy ra lỗi!');
-    }
   };
 
   return (

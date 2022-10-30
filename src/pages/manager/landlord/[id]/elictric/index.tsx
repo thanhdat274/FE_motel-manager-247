@@ -54,9 +54,9 @@ const ListWaterUsed = () => {
   const { register, handleSubmit, setValue, reset } = useForm<FormInputs>();
 
   useEffect(() => {
-    const getServiceData = async () => {
-      setLoading(true);
-      if (id) {
+    if (id) {
+      const getServiceData = async () => {
+        setLoading(true);
         await getInfoService(id, NameBuild)
           .then((result) => {
             setLoading(false);
@@ -65,15 +65,15 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      }
-    };
-    getServiceData();
+      };
+      getServiceData();
+    }
   }, [id, setLoading]);
 
   useEffect(() => {
-    const getListBillData = async () => {
-      setLoading(true);
-      if (id) {
+    if (id) {
+      const getListBillData = async () => {
+        setLoading(true);
         await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
           .then((result) => {
             setListBillData(result.data.docs as any);
@@ -84,22 +84,17 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      }
-    };
-    getListBillData();
+      };
+      getListBillData();
+    }
   }, [id, monthCheck, setLoading, yearCheck]);
-
-  // for (var i = 0; i < listRoomData.length; i++) {
-  //   dataInput[i] = {}
-  //   const useElictric = outputVs - inputVs;
-  // }
 
   const useElictric = outputVs - inputVs;
 
   useEffect(() => {
-    const getListRoom = async () => {
-      setLoading(true);
-      if (id) {
+    if (id) {
+      const getListRoom = async () => {
+        setLoading(true);
         await listRoom(id, userData)
           .then((result) => {
             const newListRoomData = result?.data?.data.map((item: any) => {
@@ -123,9 +118,9 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      }
-    };
-    getListRoom();
+      };
+      getListRoom();
+    }
   }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
 
   useEffect(() => {
