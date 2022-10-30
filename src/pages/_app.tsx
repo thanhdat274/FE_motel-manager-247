@@ -10,6 +10,7 @@ import LayoutListHome from 'src/Layout/ListHome';
 import UserProvider from '@/context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRouter from './PrivateRouter';
 
 config.autoAddCss = false;
 
@@ -20,9 +21,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
         <div>
-          <LayoutListHome>
-            <Component {...pageProps} />
-          </LayoutListHome>
+          <PrivateRouter>
+            <LayoutListHome>
+              <Component {...pageProps} />
+            </LayoutListHome>
+          </PrivateRouter>
         </div>
       );
     }
@@ -30,9 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/landlord') >= 0) {
       return (
         <div>
-          <LayoutLandlords>
-            <Component {...pageProps} />
-          </LayoutLandlords>
+          <PrivateRouter>
+            <LayoutLandlords>
+              <Component {...pageProps} />
+            </LayoutLandlords>
+          </PrivateRouter>
         </div>
       );
     }
@@ -40,9 +45,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/ternant') >= 0) {
       return (
         <div>
-          <LayoutTenants>
-            <Component {...pageProps} />
-          </LayoutTenants>
+          <PrivateRouter>
+            <LayoutTenants>
+              <Component {...pageProps} />
+            </LayoutTenants>
+          </PrivateRouter>
         </div>
       );
     } else {

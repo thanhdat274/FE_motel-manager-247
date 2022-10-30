@@ -43,7 +43,6 @@ export const UserProvider = ({ children }: any) => {
     router.push(`/`);
     Toast('success', 'Đăng xuất thành công!');
   };
-
   const value: UserState = {
     loading,
     setLoading,
