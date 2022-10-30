@@ -13,7 +13,6 @@ type FormInput = {
 };
 
 const AddHome = (props: Props) => {
-  const [houses, setHouse] = useState([]);
   const router = useRouter();
   const { cookies, setLoading } = useUserContext();
   const userData = cookies?.user;
@@ -25,16 +24,17 @@ const AddHome = (props: Props) => {
   const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
     const newData = { ...dataForm, userData: userData };
     setLoading(true);
-    try {
-      await addHouse(newData).then(() => {
+
+    await addHouse(newData)
+      .then(() => {
         setLoading(false);
         Toast('success', 'Thêm nhà  thành công!');
         router.push('/manager/landlord/list-home');
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
       });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Đã xảy ra lỗi!');
-    }
   };
 
   return (

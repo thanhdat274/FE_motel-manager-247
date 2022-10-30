@@ -37,13 +37,17 @@ type ServiceI = {
 
 const ListWaterUsed = () => {
   const today = new Date();
-  const [listRoomData, setListRoomData] = useState([]);
+  const [listRoomData, setListRoomData] = useState<any>([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
   
   const [monthCheck, setMonth] = useState(today.getMonth()+1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [serviceData, setServiceData] = useState<ServiceI>();
+
+  const [inputVs, setInputVs] = useState(0);
+  const [outputVs, setOutputVs] = useState(0);
+
   const userData = cookies?.user;
   const router = useRouter();
   const { id } = router.query;
@@ -85,6 +89,8 @@ const ListWaterUsed = () => {
     };
     getListBillData();
   }, [id, monthCheck, setLoading, yearCheck]);
+
+  const useWater = outputVs - inputVs;
 
   useEffect(() => {
     const getListRoom = async () => {
@@ -133,16 +139,22 @@ const ListWaterUsed = () => {
       );
       if (confirm) {
         const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
-        setLoading(true);
-        await createAllBillForHouse(newData)
-          .then((data: any) => {
-            setLoading(false);
-            Toast('success', 'Thêm số nước các phòng thành công');
-          })
-          .catch((error) => {
-            Toast('error', 'Thêm số nước các phòng không thành công');
-            setLoading(false);
-          });
+        for (var i = 0; i < listRoomData.length; i++) {
+          if (newData?.data[i]?.inputValue <= newData?.data[i]?.outputValue) {
+            setLoading(true);
+            await createAllBillForHouse(newData)
+              .then((data: any) => {
+                setLoading(false);
+                Toast('success', 'Thêm số nước các phòng thành công');
+              })
+              .catch((error) => {
+                Toast('error', 'Thêm số nước các phòng không thành công');
+                setLoading(false);
+              });
+          } else {
+            Toast('error', ` Số điện ${listRoomData[i].nameRoom} mới phải lớn hơn hoặc bằng số điện cũ`);
+          }
+        }
       }
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
@@ -197,7 +209,7 @@ const ListWaterUsed = () => {
           <hr className="mt-6 border-1 borderlueGray-300" />
           <nav className="my-4 mx-4 pb-4">
             <h2 className="text-center">Số nước tháng: {monthCheck}</h2>
-            <h3 className="text-xl">Lưu ý</h3>
+            <h3 className="text-xl">Lưu ý:</h3>
             <span className="block">
               - Bạn phải gán dịch vụ thuộc loại nước cho khách thuê trước thì phần chỉ số này mới được tính cho phòng đó
               khi tính tiền.
@@ -263,10 +275,15 @@ const ListWaterUsed = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
                                       type="number"
+                                      id="inputValue"
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
-                                      {...register(`data.${index}.inputValue`, {
+                                      {...register(`data.${index}.inputValue` as const, {
                                         required: true,
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setInputVs(parseInt(e.target.value));
+                                        },
+                                        validate: {},
                                       })}
                                     />
                                   </div>
@@ -277,6 +294,9 @@ const ListWaterUsed = () => {
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setOutputVs(parseInt(e.target.value));
+                                        },
                                       })}
                                     />
                                   </div>
