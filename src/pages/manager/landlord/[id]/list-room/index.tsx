@@ -21,7 +21,7 @@ const ListRoom = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
-
+  
   useEffect(() => {
     if (id) {
       const getRoom = async () => {

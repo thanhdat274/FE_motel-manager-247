@@ -40,7 +40,8 @@ const ListWaterUsed = () => {
   const [listRoomData, setListRoomData] = useState<any>([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
-  const [monthCheck, setMonth] = useState(today.getMonth() + 1);
+  
+  const [monthCheck, setMonth] = useState(today.getMonth()+1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [serviceData, setServiceData] = useState<ServiceI>();
 
