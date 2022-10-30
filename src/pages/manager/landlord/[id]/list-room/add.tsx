@@ -157,7 +157,7 @@ const AddRoom = (props: Props) => {
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-6 ">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Nhà <span className="text-[red]">*</span>
                       </label>
@@ -173,7 +173,7 @@ const AddRoom = (props: Props) => {
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-6 ">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Tài khoản<span className="text-[red]">*</span>
                       </label>

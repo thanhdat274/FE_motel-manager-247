@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { faEye, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-responsive-modal';
@@ -10,9 +10,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import moment from 'moment';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
-import { CreateBill, listBill } from 'src/pages/api/bill';
-import { listRoom } from 'src/pages/api/room';
-import { useRouter } from 'next/router';
+import { listBill, readBill } from 'src/pages/api/bill';
+import AddBill from './addBill';
+import { getAllBillForHouse } from 'src/pages/api/billService';
 type Props = {};
 type FormInputs = {
   idRoom: string;
@@ -23,28 +23,39 @@ type FormInputs = {
 
 const Receipt = (props: Props) => {
   const today = new Date();
-  const [rooms, setRooms] = useState([]);
-  const [open, setOpen] = useState(false);
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
   const { setLoading, cookies } = useUserContext();
-
   const userData = cookies?.user;
+
+  const [open, setOpen] = useState(false);
+  const [readBills, setReadBills] = useState<any>();
+  console.log(readBills && readBills.invoiceService);
+  const onOpenModal = async (_id: any) => {
+    setOpen(true);
+    const { data } = await readBill(_id, userData as any);
+    setReadBills(data);
+  };
+
+  const initialValue = 0;
+  const sumWithInitial =
+    readBills &&
+    readBills?.invoiceService.reduce(
+      (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+      initialValue,
+    );
+
+  const onCloseModal = () => setOpen(false);
 
   const [open1, setOpen1] = useState(false);
   const onOpenModal1 = () => setOpen1(true);
   const onCloseModal1 = () => setOpen1(false);
-  const [monthCheck, setMonth] = useState(today.getMonth());
-  const [yearCheck, setYear] = useState(today.getFullYear());
+
   const [monthCheckk, setMonthh] = useState(today.getMonth());
   const [yearCheckk, setYearr] = useState(today.getFullYear());
 
-  const router = useRouter();
-  const { id } = router.query;
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
 
-  const [bill, setBill] = useState();
-  console.log(bill);
+  const [bill, setBill] = useState<any>();
+
   const onSubmitForm: SubmitHandler<FormInputs> = async (dataa: any) => {
     if (monthCheckk && yearCheckk) {
       const newData = { ...dataa, month: monthCheckk, year: yearCheckk, userData: userData };
@@ -55,55 +66,7 @@ const Receipt = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    const getRoom = async () => {
-      try {
-        const { data } = await listRoom(id, userData as any);
-
-        if (data.data) {
-          setRooms(data.data as any);
-        }
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    getRoom();
-  }, [userData, id]);
-  const onSubmit: SubmitHandler<FormInputs> = async (data: any) => {
-    if (monthCheck && yearCheck) {
-      const newData = { ...data, month: monthCheck, year: yearCheck, userData: userData };
-      console.log(newData.idRoom);
-
-      setLoading(true);
-      await CreateBill(newData)
-        .then((data: any) => {
-          console.log('hóa đơn', data);
-
-          setLoading(false);
-        })
-        .catch((error: any) => {
-          setLoading(false);
-        });
-    } else {
-      Toast('error', 'Vui lòng chọn tháng năm!');
-    }
-  };
   const datePickerShow = React.useMemo(() => {
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-      setMonth(parseInt(dateString.slice(5, 7)));
-      setYear(parseInt(dateString.slice(0, 4)));
-      reset();
-    };
-    return (
-      <DatePicker
-        style={{ width: '200px' }}
-        onChange={onChange}
-        defaultValue={moment(`${yearCheck}-${monthCheck}`, 'YYYY-MM')}
-        picker="month"
-      />
-    );
-  }, [monthCheck, reset, yearCheck]);
-  const datePickerSho = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
       setMonthh(parseInt(dateString.slice(5, 7)));
       setYearr(parseInt(dateString.slice(0, 4)));
@@ -118,10 +81,6 @@ const Receipt = (props: Props) => {
       />
     );
   }, [monthCheckk, reset, yearCheckk]);
-  console.log('month', monthCheck);
-  console.log('year', yearCheck);
-  console.log('month', monthCheckk);
-  console.log('year', yearCheckk);
 
   return (
     <div className="h-screen">
@@ -135,16 +94,14 @@ const Receipt = (props: Props) => {
             </div>
             <div>
               <form className="flex mr-5" onSubmit={handleSubmit(onSubmitForm)}>
-                <div className="flex items-center mt-5">
+                <div className="mt-5">
+                  <Space direction="vertical">{datePickerShow} </Space>
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold mr-2 py-1 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit"
+                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-3 py-1 ml-2 text-center mr-2 mb-2"
                   >
                     Tìm Kiếm
                   </button>
-                </div>
-                <div className="mt-5">
-                  <Space direction="vertical">{datePickerSho}</Space>
                 </div>
               </form>
             </div>
@@ -187,21 +144,9 @@ const Receipt = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Người đại diện
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
                           Tiền nhà
                         </th>
 
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Tiền dịch vụ
-                        </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -219,29 +164,36 @@ const Receipt = (props: Props) => {
                     <>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {bill?.map((item: any, index: number) => {
+                          const initialValue = 0;
+                          const sumWithInitial = item?.invoiceService.reduce(
+                            (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+                            initialValue,
+                          );
+
+                          const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 'Tiền nhà');
+
                           return (
                             <>
                               <tr key={index}>
                                 <td className="px-9 py-4 whitespace text-sm text-gray-500">
                                   <div className="text-center">{item.roomName} </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">Nguyễn Đắc Trọng</div>
-                                </td>
 
                                 <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">{item.invoiceService._id}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">1000vnd</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">1000vnd</div>
+                                  <div className="text-center">
+                                    {priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </div>
                                 </td>
 
                                 <td className="px-6 py-4 whitespace">
                                   <div className="text-center">
-                                    <button onClick={onOpenModal}>
+                                    {sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </div>
+                                </td>
+
+                                <td className="px-6 py-4 whitespace">
+                                  <div className="text-center">
+                                    <button onClick={() => onOpenModal(item?._id)}>
                                       <FontAwesomeIcon className="w-[16px] text-black" icon={faEye} />
                                     </button>
                                   </div>
@@ -276,15 +228,14 @@ const Receipt = (props: Props) => {
             <div className="modal-body" id="contentPDF">
               <div className="h-[27px]">
                 <span>
-                  <strong>Nhà Tầng 1</strong>
+                  <strong>{readBills && readBills.houseName}</strong>
                 </span>
                 <span className="float-right" />
               </div>
               <div className="h-[27px]">
                 <span>
-                  <strong>Địa chỉ: Hà Nội </strong>
+                  <strong>Địa chỉ: {readBills && readBills.address} </strong>
                 </span>
-                <span className="float-right">24/10/2022</span>
               </div>
               <div>
                 <h4 className="text-center">
@@ -293,56 +244,42 @@ const Receipt = (props: Props) => {
               </div>
               <div>
                 <p className="text-center">
-                  <strong>Tháng 10/2022 - Kỳ 30</strong>
+                  <strong>
+                    Tháng {readBills && readBills.month}/{readBills && readBills.year}{' '}
+                  </strong>
                 </p>
               </div>
-              <div>
-                <p className="text-center">(Từ ngày 01/10/2022 đến 31/10/2022)</p>
-              </div>
+
               <div>
                 <p>
-                  Họ tên: <strong>Nguyễn Văn Duy </strong>
-                </p>
-              </div>
-              <div>
-                <p>
-                  <strong>Phòng: 1</strong>
+                  <strong>{readBills && readBills.roomName}</strong>
                 </p>
               </div>
               <div className="border-b-2 border-t-2 border-black">
                 <table cellSpacing={0} cellPadding={0} width="100%">
                   <tbody>
-                    <tr>
-                      <td className="w-[2%]">1)</td>
-                      <td className="w-[70%]">Tiền nhà (từ ngày 01/10/2022 đến ngày 31/10/2022)</td>
-                      <td className="w-[25%] text-right">3,000,000</td>
-                    </tr>
-                    <tr>
-                      <td className="w-[2%]">2)</td>
-                      <td className="w-[70%]">Điện(CS cũ:22.0, CS mới:33.0, SD:11.0)</td>
-                      <td className="w-[25%] text-right">33,000</td>
-                    </tr>
-                    <tr>
-                      <td className="w-[2%]">3)</td>
-                      <td className="w-[70%]">Nước(CS cũ:100.0, CS mới:200.0, SD:100.0)</td>
-                      <td className="w-[25%] text-right">2,000,000</td>
-                    </tr>
-                    <tr>
-                      <td className="w-[2%]">4)</td>
-                      <td className="w-[70%]">Gửi xe máy</td>
-                      <td className="w-[25%] text-right">80,000</td>
-                    </tr>
-                    <tr>
-                      <td className="w-[2%]">5)</td>
-                      <td className="w-[70%]">Rác</td>
-                      <td className="w-[25%] text-right">50,000</td>
-                    </tr>
+                    {readBills &&
+                      readBills.invoiceService.map((name: any, index: number) => {
+                        return (
+                          <>
+                            <tr>
+                              <td className="w-[2%]">{index + 1})</td>
+                              <td className="w-[70%]">{name.serviceName} </td>
+                              <td className="w-[25%] text-right">
+                                {name.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
               <div className="border-b-2 border-black">
                 <strong>TỔNG CỘNG</strong>
-                <strong className="float-right">5,163,000</strong>
+                <strong className="float-right">
+                  {sumWithInitial && sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                </strong>
               </div>
               <div>
                 <span className="left-[45%] relative float-left">
@@ -369,33 +306,7 @@ const Receipt = (props: Props) => {
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
             </div>{' '}
-            {/* <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
-              <div className="mt-5">
-                <Space direction="vertical">{datePickerShow}</Space>
-              </div>
-              <div className="mt-5">
-                <select
-                  className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  {...register('idRoom', { required: true })}
-                >
-                  {rooms?.map((room: any, index: number) => {
-                    return (
-                      <option value={room._id} key={index}>
-                        {room.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div className="flex items-center mt-5">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
-                >
-                  Tính tiền
-                </button>
-              </div>
-            </form> */}
+            <AddBill></AddBill>
           </div>
         </Modal>
       </div>
