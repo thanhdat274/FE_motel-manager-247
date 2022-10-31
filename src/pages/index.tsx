@@ -112,7 +112,7 @@ const Introduce = (props: Props) => {
             <h2 className="text-xl font-bold">ĐƠN GIÁ</h2>
             <div>
               <div className="Lg:h-[431px] sm:h-[330px] h-[120px] relative text-center">
-                <Image src="/images/banggia.PNG" alt="logo" layout="fill" priority />
+                <Image src="/images/banggia.png" alt="logo" layout="fill" priority />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-rose-500">
