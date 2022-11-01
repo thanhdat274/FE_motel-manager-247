@@ -40,8 +40,8 @@ const ListWaterUsed = () => {
   const [listRoomData, setListRoomData] = useState<any>([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
-  
-  const [monthCheck, setMonth] = useState(today.getMonth()+1);
+
+  const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [serviceData, setServiceData] = useState<ServiceI>();
 
@@ -52,7 +52,7 @@ const ListWaterUsed = () => {
   const router = useRouter();
   const { id } = router.query;
   const NameBuild = 'nuoc';
-  const { register, handleSubmit, setValue, reset } = useForm<FormInputs>();
+  const { register, handleSubmit, setValue, reset, getValues } = useForm<FormInputs>();
 
   useEffect(() => {
     const getServiceData = async () => {
@@ -301,7 +301,10 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> Khối</div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      Khối
+                                    </div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
@@ -353,7 +356,10 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> Khối</div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      Khối
+                                    </div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>

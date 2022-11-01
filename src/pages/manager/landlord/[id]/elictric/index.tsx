@@ -51,7 +51,7 @@ const ListWaterUsed = () => {
   const router = useRouter();
   const { id } = router.query;
   const NameBuild = 'dien';
-  const { register, handleSubmit, setValue, reset } = useForm<FormInputs>();
+  const { register, handleSubmit, setValue, reset, getValues } = useForm<FormInputs>();
 
   useEffect(() => {
     if (id) {
@@ -88,8 +88,6 @@ const ListWaterUsed = () => {
       getListBillData();
     }
   }, [id, monthCheck, setLoading, yearCheck]);
-
-  const useElictric = outputVs - inputVs;
 
   useEffect(() => {
     if (id) {
@@ -302,7 +300,10 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> {useElictric} KWH</div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}
+                                      KWH
+                                    </div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
