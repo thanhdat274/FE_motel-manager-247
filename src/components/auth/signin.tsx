@@ -78,7 +78,7 @@ const Signin = (props: Props) => {
               )}
             </div>
             <div className="flex items-center justify-end">
-              <Link href={`/forgetPass`}>
+              <Link href={`/auth/forget-password`}>
                 <a className="text-sm text-blue-600 hover:underline">Quên mật khẩu?</a>
               </Link>
             </div>
