@@ -1,10 +1,10 @@
 import instance from './instance';
 
 export const listRoom = (id: any, userData: any) => {
-  const url = `/list-room/${userData.user._id}/${id}`;
+  const url = `/list-room/${userData?.user._id}/${id}`;
   return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${userData.token}`,
+      Authorization: `Bearer ${userData?.token}`,
     },
   });
 };
