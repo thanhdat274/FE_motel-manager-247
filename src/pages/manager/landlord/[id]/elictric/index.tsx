@@ -51,12 +51,19 @@ const ListWaterUsed = () => {
   const router = useRouter();
   const { id } = router.query;
   const NameBuild = 'dien';
-  const { register, handleSubmit, setValue, reset, getValues } = useForm<FormInputs>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+    getValues,
+  } = useForm<FormInputs>();
 
   useEffect(() => {
-    if (id) {
-      const getServiceData = async () => {
-        setLoading(true);
+    const getServiceData = async () => {
+      setLoading(true);
+      if (id) {
         await getInfoService(id, NameBuild)
           .then((result) => {
             setLoading(false);
@@ -65,15 +72,15 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      };
-      getServiceData();
-    }
+      }
+    };
+    getServiceData();
   }, [id, setLoading]);
 
   useEffect(() => {
-    if (id) {
-      const getListBillData = async () => {
-        setLoading(true);
+    const getListBillData = async () => {
+      setLoading(true);
+      if (id) {
         await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
           .then((result) => {
             setListBillData(result.data.docs as any);
@@ -84,9 +91,9 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      };
-      getListBillData();
-    }
+      }
+    };
+    getListBillData();
   }, [id, monthCheck, setLoading, yearCheck]);
 
   useEffect(() => {
@@ -136,22 +143,16 @@ const ListWaterUsed = () => {
       );
       if (confirm) {
         const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
-        for (var i = 0; i < listRoomData.length; i++) {
-          if (newData?.data[i]?.inputValue <= newData?.data[i]?.outputValue) {
-            setLoading(true);
-            await createAllBillForHouse(newData)
-              .then((data: any) => {
-                setLoading(false);
-                Toast('success', 'Thêm số điện các phòng thành công');
-              })
-              .catch((error) => {
-                Toast('error', 'Thêm số điện các phòng không thành công');
-                setLoading(false);
-              });
-          } else {
-            Toast('error', ` Số điện ${listRoomData[i].nameRoom} mới phải lớn hơn hoặc bằng số điện cũ`);
-          }
-        }
+        setLoading(true);
+        await createAllBillForHouse(newData)
+          .then((data: any) => {
+            setLoading(false);
+            Toast('success', 'Thêm số nước các phòng thành công');
+          })
+          .catch((error) => {
+            Toast('error', 'Thêm số nước các phòng không thành công');
+            setLoading(false);
+          });
       }
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
@@ -277,13 +278,18 @@ const ListWaterUsed = () => {
                                       {...register(`data.${index}.inputValue` as const, {
                                         required: true,
                                         valueAsNumber: true,
+                                        minLength: 0,
                                         onChange(e) {
                                           setInputVs(parseInt(e.target.value));
                                         },
                                         validate: {},
                                       })}
                                     />
-                                    {/* {errors.data?.findIndex.inputValue} */}
+                                    {getValues(`data.${index}.inputValue`) < 0 && (
+                                      <div className="text-rose-600">
+                                        <p role="alert">Số nước mới phải lớn hơn 0</p>
+                                      </div>
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
@@ -293,11 +299,22 @@ const ListWaterUsed = () => {
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
                                         valueAsNumber: true,
+                                        min: getValues(`data.${index}.inputValue`),
                                         onChange(e) {
                                           setOutputVs(parseInt(e.target.value));
                                         },
                                       })}
                                     />
+                                    {getValues(`data.${index}.outputValue`) < 0 && (
+                                      <p className="text-rose-600" role="alert">
+                                        Số nước cũ phải lớn hơn 0
+                                      </p>
+                                    )}
+                                    {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
+                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>
+                                    ) : (
+                                      ''
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
@@ -355,7 +372,10 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> Khối</div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      Khối
+                                    </div>
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center"></div>
