@@ -314,9 +314,6 @@ const ListWaterUsed = () => {
                                       KWH
                                     </div>
                                   </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"></div>
-                                  </div>
                                 </div>
                               );
                             })}
