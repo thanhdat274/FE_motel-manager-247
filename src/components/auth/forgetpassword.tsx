@@ -46,7 +46,7 @@ const Forgetpassword = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập họ và tên"
+                placeholder="Nhập email đã đăng kí"
                 {...register('email', { required: true })}
               />
               {errors.email?.type === 'required' && <span className="text-rose-600">Không được bỏ trống</span>}
