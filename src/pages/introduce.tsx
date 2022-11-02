@@ -123,7 +123,7 @@ const Introduce = (props: Props) => {
 
               <div>
                 <div className=" lg:h-[431px]  sm:h-[330px]  h-[120px] relative text-center  ">
-                  <Image src="/images/banggia.PNG" alt="logo" layout="fill" priority />
+                  <Image src="/images/banggia.png" alt="logo" layout="fill" priority />
                 </div>
                 <div>
                   <h2 className=" text-xl font-bold text-rose-500">
@@ -294,7 +294,6 @@ const Introduce = (props: Props) => {
                   <span>Phần mềm thật đơn giản, ít thao tác, tôi đã sử dụng phần mềm cho 3 khu nhà trọ của mình</span>
                 </p>
                 <p className="pt-5">Chị Hiền - Khu nhà trọ Phú Hòa, Bình Dương: 24 phòng</p>
-                
               </div>
             </div>
           </div>

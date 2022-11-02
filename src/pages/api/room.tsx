@@ -1,10 +1,10 @@
 import instance from './instance';
 
 export const listRoom = (id: any, userData: any) => {
-  const url = `/list-room/${userData.user._id}/${id}`;
+  const url = `/list-room/${userData?.user._id}/${id}`;
   return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${userData.token}`,
+      Authorization: `Bearer ${userData?.token}`,
     },
   });
 };
@@ -27,8 +27,15 @@ export const removeRoom = (data: any) => {
   });
 };
 
+export const getRoomBySubName = (subName: string) => {
+  const url = `/room/get-data/${subName}`;
+  return instance.get(url);
+};
+
 export const readRoom = (id_room: string, userData: any) => {
   const url = `/room/${id_room}`;
+  console.log('dasdasdasd');
+
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${userData.token}`,

@@ -35,11 +35,12 @@ type ServiceI = {
   _id: string;
 };
 
-const ListWaterUsed = () => {
+const LisElectric = () => {
   const today = new Date();
   const [listRoomData, setListRoomData] = useState<any>([]);
   const { cookies, setLoading } = useUserContext();
   const [listBillData, setListBillData] = useState<any>([]);
+
   const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [serviceData, setServiceData] = useState<ServiceI>();
@@ -51,12 +52,20 @@ const ListWaterUsed = () => {
   const router = useRouter();
   const { id } = router.query;
   const NameBuild = 'dien';
-  const { register, handleSubmit, setValue, reset } = useForm<FormInputs>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm<FormInputs>();
 
   useEffect(() => {
-    if (id) {
-      const getServiceData = async () => {
-        setLoading(true);
+    const getServiceData = async () => {
+      setLoading(true);
+      if (id) {
         await getInfoService(id, NameBuild)
           .then((result) => {
             setLoading(false);
@@ -65,15 +74,15 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      };
-      getServiceData();
-    }
+      }
+    };
+    getServiceData();
   }, [id, setLoading]);
 
   useEffect(() => {
-    if (id) {
-      const getListBillData = async () => {
-        setLoading(true);
+    const getListBillData = async () => {
+      setLoading(true);
+      if (id) {
         await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
           .then((result) => {
             setListBillData(result.data.docs as any);
@@ -84,17 +93,17 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      };
-      getListBillData();
-    }
+      }
+    };
+    getListBillData();
   }, [id, monthCheck, setLoading, yearCheck]);
 
-  const useElictric = outputVs - inputVs;
+  const useWater = outputVs - inputVs;
 
   useEffect(() => {
-    if (id) {
-      const getListRoom = async () => {
-        setLoading(true);
+    const getListRoom = async () => {
+      setLoading(true);
+      if (id) {
         await listRoom(id, userData)
           .then((result) => {
             const newListRoomData = result?.data?.data.map((item: any) => {
@@ -118,9 +127,9 @@ const ListWaterUsed = () => {
           .catch((err) => {
             setLoading(false);
           });
-      };
-      getListRoom();
-    }
+      }
+    };
+    getListRoom();
   }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
 
   useEffect(() => {
@@ -132,28 +141,24 @@ const ListWaterUsed = () => {
   }, [listBillData, listRoomData, setValue]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
+    console.log('data', data);
+
     if (monthCheck && yearCheck) {
       const confirm = window.confirm(
         'Vui lòng kiểm tra lại số điện mới của các phòng trong tháng này đã nhập đúng chưa. Nếu chưa đúng vui lòng bấm vào cancel và sửa lại trước khi lưu. Nếu đúng rồi mời bạn bấm ok để lưu số điện tháng này.',
       );
       if (confirm) {
         const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
-        for (var i = 0; i < listRoomData.length; i++) {
-          if (newData?.data[i]?.inputValue <= newData?.data[i]?.outputValue) {
-            setLoading(true);
-            await createAllBillForHouse(newData)
-              .then((data: any) => {
-                setLoading(false);
-                Toast('success', 'Thêm số điện các phòng thành công');
-              })
-              .catch((error) => {
-                Toast('error', 'Thêm số điện các phòng không thành công');
-                setLoading(false);
-              });
-          } else {
-            Toast('error', ` Số điện ${listRoomData[i].nameRoom} mới phải lớn hơn hoặc bằng số điện cũ`);
-          }
-        }
+        setLoading(true);
+        await createAllBillForHouse(newData)
+          .then((data: any) => {
+            setLoading(false);
+            Toast('success', 'Thêm số điện các phòng thành công');
+          })
+          .catch((error) => {
+            Toast('error', 'Thêm số điện các phòng không thành công');
+            setLoading(false);
+          });
       }
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
@@ -227,7 +232,7 @@ const ListWaterUsed = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full">
                 <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form onSubmit={handleSubmit(onSubmit)} className="">
                     <div className="table min-w-full divide-y divide-gray-200">
                       <div className="bg-gray-50 table-header-group">
                         <div className="table-row divide-y divide-x">
@@ -242,14 +247,6 @@ const ListWaterUsed = () => {
                           </div>
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số điện sử dụng
-                          </div>
-                          <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <button
-                              type="submit"
-                              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                              Lưu
-                            </button>
                           </div>
                         </div>
                       </div>
@@ -274,38 +271,55 @@ const ListWaterUsed = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
                                       type="number"
+                                      defaultValue={0}
                                       id="inputValue"
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
-                                      {...register(`data.${index}.inputValue` as const, {
+                                      {...register(`data.${index}.inputValue`, {
                                         required: true,
+                                        min: 0,
                                         valueAsNumber: true,
+                                        minLength: 0,
                                         onChange(e) {
                                           setInputVs(parseInt(e.target.value));
                                         },
-                                        validate: {},
                                       })}
                                     />
-                                    {/* {errors.data?.findIndex.inputValue} */}
+                                    {getValues(`data.${index}.inputValue`) < 0 && (
+                                      <div className="text-rose-600">
+                                        <p role="alert">Số điện mới phải lớn hơn 0</p>
+                                      </div>
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
+                                      defaultValue={0}
                                       type="number"
-                                      id="inputValue"
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
+                                        min: getValues(`data.${index}.inputValue`),
                                         valueAsNumber: true,
                                         onChange(e) {
                                           setOutputVs(parseInt(e.target.value));
                                         },
                                       })}
                                     />
+                                    {getValues(`data.${index}.outputValue`) < 0 && (
+                                      <p className="text-rose-600" role="alert">
+                                        Số điện cũ phải lớn hơn 0
+                                      </p>
+                                    )}
+                                    {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
+                                      <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>
+                                    ) : (
+                                      ''
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> {useElictric} KWH</div>
-                                  </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"></div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      KWH
+                                    </div>
                                   </div>
                                 </div>
                               );
@@ -335,12 +349,20 @@ const ListWaterUsed = () => {
                                     <input
                                       type="number"
                                       defaultValue={0}
+                                      id="inputValue"
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.inputValue`, {
                                         required: true,
+                                        min: 0,
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setInputVs(parseInt(e.target.value));
+                                        },
                                       })}
                                     />
+                                    {getValues(`data.${index}.inputValue`) < 0 && (
+                                      <p role="alert">Số điện mới phải lớn hơn 0</p>
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
@@ -349,21 +371,41 @@ const ListWaterUsed = () => {
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
+                                        min: getValues(`data.${index}.inputValue`),
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setOutputVs(parseInt(e.target.value));
+                                        },
                                       })}
                                     />
+                                    {getValues(`data.${index}.outputValue`) < 0 && (
+                                      <p role="alert">Số điện cũ phải lớn hơn 0</p>
+                                    )}
+                                    {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
+                                      <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>
+                                    ) : (
+                                      ''
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"> Khối</div>
-                                  </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"></div>
+                                    <div className="text-center">
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      KWH
+                                    </div>
                                   </div>
                                 </div>
                               );
                             })}
                         </div>
                       )}
+                    </div>
+                    <div className="w-full flex items-center min-h-[80px] justify-end bg-white border">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 mr-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Lưu
+                      </button>
                     </div>
                   </form>
                 </div>
@@ -376,4 +418,4 @@ const ListWaterUsed = () => {
   );
 };
 
-export default ListWaterUsed;
+export default LisElectric;

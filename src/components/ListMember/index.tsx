@@ -67,6 +67,8 @@ const ListMember = (props: IMember) => {
         Toast('error', 'Xóa thành viên thành công');
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   };
 
