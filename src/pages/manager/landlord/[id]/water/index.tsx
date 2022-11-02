@@ -284,7 +284,9 @@ const ListWaterUsed = () => {
                                       })}
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
-                                      <p role="alert">Số nước mới phải lớn hơn 0</p>
+                                      <p className="text-rose-600" role="alert">
+                                        Số nước cũ phải lớn hơn 0
+                                      </p>
                                     )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
@@ -302,7 +304,9 @@ const ListWaterUsed = () => {
                                       })}
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
-                                      <p role="alert">Số nước cũ phải lớn hơn 0</p>
+                                      <p className="text-rose-600" role="alert">
+                                        Số nước cũ phải lớn hơn 0
+                                      </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
                                       <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>
@@ -341,7 +345,7 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                  <input
+                                    <input
                                       type="number"
                                       defaultValue={0}
                                       id="inputValue"
@@ -356,7 +360,9 @@ const ListWaterUsed = () => {
                                       })}
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
-                                      <p role="alert">Số nước mới phải lớn hơn 0</p>
+                                      <p className="text-rose-600" role="alert">
+                                        Số nước cũ phải lớn hơn 0
+                                      </p>
                                     )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
@@ -374,7 +380,9 @@ const ListWaterUsed = () => {
                                       })}
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
-                                      <p role="alert">Số nước cũ phải lớn hơn 0</p>
+                                      <p className="text-rose-600" role="alert">
+                                        Số nước cũ phải lớn hơn 0
+                                      </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
                                       <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>

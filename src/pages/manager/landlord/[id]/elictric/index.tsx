@@ -278,13 +278,16 @@ const LisElectric = () => {
                                         required: true,
                                         min: 0,
                                         valueAsNumber: true,
+                                        minLength: 0,
                                         onChange(e) {
                                           setInputVs(parseInt(e.target.value));
                                         },
                                       })}
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
-                                      <p role="alert">Số điện mới phải lớn hơn 0</p>
+                                      <div className="text-rose-600">
+                                        <p role="alert">Số điện mới phải lớn hơn 0</p>
+                                      </div>
                                     )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
@@ -302,7 +305,9 @@ const LisElectric = () => {
                                       })}
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
-                                      <p role="alert">Số điện cũ phải lớn hơn 0</p>
+                                      <p className="text-rose-600" role="alert">
+                                        Số điện cũ phải lớn hơn 0
+                                      </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
                                       <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>
