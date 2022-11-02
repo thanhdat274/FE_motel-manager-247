@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-responsive-modal/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark, faCaretDown } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
+import { getRoomBySubName } from 'src/pages/api/room';
 
 type Props = {};
 
@@ -32,20 +33,18 @@ const HeaderPreview = (props: Props) => {
   } = useForm();
   const onSubmit = async (data: any) => {
     setLoading(true);
-    try {
-      await axios
-        .get('http://localhost:8800/api/room/' + data.code_room)
-        .then((data: any) => {
-          setLoading(false);
-          localStorage.setItem('code_room', JSON.stringify(data.data));
-          router.push(`/manager/ternant`);
-          Toast('success', 'Đăng nhập thành công');
-        })
-        .catch((error) => {
-          setLoading(false);
-          Toast('error', error?.response?.data.error);
-        });
-    } catch (error) {}
+
+    await getRoomBySubName(data.code_room)
+      .then((result) => {
+        setLoading(false);
+        localStorage.setItem('code_room', JSON.stringify(result.data.data));
+        router.push(`/manager/ternant`);
+        Toast('success', 'Đăng nhập thành công');
+      })
+      .catch((err) => {
+        setLoading(false);
+        Toast('error', err?.response?.data.error);
+      });
   };
 
   return (
