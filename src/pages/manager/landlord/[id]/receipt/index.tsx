@@ -49,7 +49,7 @@ const Receipt = (props: Props) => {
   const onOpenModal1 = () => setOpen1(true);
   const onCloseModal1 = () => setOpen1(false);
 
-  const [monthCheckk, setMonthh] = useState(today.getMonth());
+  const [monthCheckk, setMonthh] = useState(today.getMonth() + 1);
   const [yearCheckk, setYearr] = useState(today.getFullYear());
 
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();

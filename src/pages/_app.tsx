@@ -2,7 +2,6 @@ import '../assets/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { config } from '@fortawesome/fontawesome-svg-core';
-import { SessionProvider } from 'next-auth/react';
 import LayoutLandlords from 'src/Layout/Manager/Landlords';
 import LayoutTenants from 'src/Layout/Manager/Tenants';
 import LayoutIntro from 'src/Layout/Preview';
@@ -11,6 +10,7 @@ import UserProvider from '@/context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRouter from './PrivateRouter';
+import { CookiesProvider } from 'react-cookie';
 
 config.autoAddCss = false;
 
@@ -45,11 +45,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/ternant') >= 0) {
       return (
         <div>
-          <PrivateRouter>
-            <LayoutTenants>
-              <Component {...pageProps} />
-            </LayoutTenants>
-          </PrivateRouter>
+          <LayoutTenants>
+            <Component {...pageProps} />
+          </LayoutTenants>
         </div>
       );
     } else {
@@ -65,10 +63,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div>
-      <UserProvider>
-        {switchLayout()}
-        <ToastContainer />
-      </UserProvider>
+      <CookiesProvider>
+        <UserProvider>
+          {switchLayout()}
+          <ToastContainer />
+        </UserProvider>
+      </CookiesProvider>
     </div>
   );
 }

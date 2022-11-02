@@ -149,7 +149,6 @@ const ListWaterUsed = () => {
       );
       if (confirm) {
         const newData = { ...data, month: monthCheck, year: yearCheck, idHouse: id, name: NameBuild };
-
         setLoading(true);
         await createAllBillForHouse(newData)
           .then((data: any) => {
@@ -342,15 +341,23 @@ const ListWaterUsed = () => {
                                     />
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
-                                    <input
+                                  <input
                                       type="number"
                                       defaultValue={0}
+                                      id="inputValue"
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.inputValue`, {
                                         required: true,
+                                        min: 0,
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setInputVs(parseInt(e.target.value));
+                                        },
                                       })}
                                     />
+                                    {getValues(`data.${index}.inputValue`) < 0 && (
+                                      <p role="alert">Số nước mới phải lớn hơn 0</p>
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <input
@@ -359,9 +366,21 @@ const ListWaterUsed = () => {
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
+                                        min: getValues(`data.${index}.inputValue`),
                                         valueAsNumber: true,
+                                        onChange(e) {
+                                          setOutputVs(parseInt(e.target.value));
+                                        },
                                       })}
                                     />
+                                    {getValues(`data.${index}.outputValue`) < 0 && (
+                                      <p role="alert">Số nước cũ phải lớn hơn 0</p>
+                                    )}
+                                    {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
+                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>
+                                    ) : (
+                                      ''
+                                    )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
@@ -369,16 +388,13 @@ const ListWaterUsed = () => {
                                       Khối
                                     </div>
                                   </div>
-                                  <div className="table-cell px-4 py-4 whitespace">
-                                    <div className="text-center"></div>
-                                  </div>
                                 </div>
                               );
                             })}
                         </div>
                       )}
                     </div>
-                    <div className="w-full flex items-center min-h-[80px] justify-end">
+                    <div className="w-full flex items-center min-h-[80px] justify-end bg-white border">
                       <button
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 mr-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

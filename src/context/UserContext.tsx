@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: any) => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const logoutResetData = () => {
-    removeCookie('user');
+    removeCookie('user', { path: '/', maxAge: 30 * 24 * 60 * 60 });
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

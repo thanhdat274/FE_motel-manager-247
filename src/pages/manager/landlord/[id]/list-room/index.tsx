@@ -114,7 +114,7 @@ const ListRoom = (props: Props) => {
                             <p className="flex items-center gap-2 mb-[20px]">
                               <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
                               <span className="text-red-500">
-                                {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                               </span>
                             </p>
 
