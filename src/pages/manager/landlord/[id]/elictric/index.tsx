@@ -242,14 +242,6 @@ const ListWaterUsed = () => {
                           <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Số điện sử dụng
                           </div>
-                          <div className="table-cell px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <button
-                              type="submit"
-                              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                              Lưu
-                            </button>
-                          </div>
                         </div>
                       </div>
                       {listBillData?.length >= 1 && (
@@ -385,6 +377,14 @@ const ListWaterUsed = () => {
                             })}
                         </div>
                       )}
+                    </div>
+                    <div className="w-full flex items-center min-h-[80px] justify-end">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 mr-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        Lưu
+                      </button>
                     </div>
                   </form>
                 </div>
