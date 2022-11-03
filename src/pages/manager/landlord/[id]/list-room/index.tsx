@@ -12,6 +12,7 @@ type Props = {};
 const ListRoom = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
+
   const userData = cookies?.user;
   const router = useRouter();
   const { id } = router.query;
@@ -21,7 +22,7 @@ const ListRoom = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
-  
+
   useEffect(() => {
     if (id) {
       const getRoom = async () => {
@@ -105,39 +106,77 @@ const ListRoom = (props: Props) => {
                       })
                       .map((item: any, index: React.Key | null | undefined) => {
                         return (
-                          <div className="w-full border-2 p-[20px] bg-white rounded-[5px]" key={index}>
-                            <h2 className="text-xl flex items-center gap-2 mb-[20px]">
-                              <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
-                              {item.name}
-                            </h2>
+                          <>
+                            {item?.status == true ? (
+                              <div className="w-full border-2 p-[20px] border-y-yellow-400 border-x-yellow-400 bg-white rounded-[5px]" key={index}>
+                                <h2 className="text-xl flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
+                                  {item.name}
+                                </h2>
 
-                            <p className="flex items-center gap-2 mb-[20px]">
-                              <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                              <span className="text-red-500">
-                                {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                              </span>
-                            </p>
+                                <p className="flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                                  <span className="text-red-500">
+                                    {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </span>
+                                </p>
 
-                            <div className="text-center flex gap-3">
-                              <Link
-                                href={`/manager/landlord/${id}/list-room/${item._id}/`}
-                                className="text-amber-500 hover:text-amber-600"
-                              >
-                                <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
-                                  <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
-                                </a>
-                              </Link>
+                                <div className="text-center flex gap-3">
+                                  <Link
+                                    href={`/manager/landlord/${id}/list-room/${item._id}/`}
+                                    className="text-amber-500 hover:text-amber-600"
+                                  >
+                                    <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
+                                      <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
+                                    </a>
+                                  </Link>
 
-                              <button
-                                onClick={() => {
-                                  removeRooms(item._id, userData);
-                                }}
-                                className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
-                              >
-                                <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
-                              </button>
-                            </div>
-                          </div>
+                                  <button
+                                    onClick={() => {
+                                      removeRooms(item._id, userData);
+                                    }}
+                                    className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
+                                  >
+                                    <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="w-full border-2 p-[20px]  bg-white rounded-[5px]" key={index}>
+                                <h2 className="text-xl flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
+                                  {item.name}
+                                </h2>
+
+                                <p className="flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                                  <span className="text-red-500">
+                                    {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </span>
+                                </p>
+
+                                <div className="text-center flex gap-3">
+                                  <Link
+                                    href={`/manager/landlord/${id}/list-room/${item._id}/`}
+                                    className="text-amber-500 hover:text-amber-600"
+                                  >
+                                    <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
+                                      <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
+                                    </a>
+                                  </Link>
+
+                                  <button
+                                    onClick={() => {
+                                      removeRooms(item._id, userData);
+                                    }}
+                                    className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
+                                  >
+                                    <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </>
                         );
                       })}
                 </div>

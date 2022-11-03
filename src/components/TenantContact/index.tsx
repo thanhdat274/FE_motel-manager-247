@@ -35,6 +35,8 @@ type Props = {
 };
 
 const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea }: Props) => {
+  console.log(roomPrice);
+  
   const router = useRouter();
 
   const { setLoading, cookies } = useUserContext();

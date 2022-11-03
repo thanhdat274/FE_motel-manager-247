@@ -25,7 +25,7 @@ const AddBill = (props: Props) => {
     const [rooms, setRooms] = useState([]);   
     const { setLoading, cookies } = useUserContext();
     const userData = cookies?.user; 
-    const [monthCheck, setMonth] = useState(today.getMonth());
+    const [monthCheck, setMonth] = useState(today.getMonth() + 1);
     const [yearCheck, setYear] = useState(today.getFullYear());
    
   
