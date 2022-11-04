@@ -9,6 +9,7 @@ import { listHouse, removeHouses } from 'src/pages/api/house';
 const ListHome = () => {
   const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
+  
   const userData = cookies?.user;
   useEffect(() => {
     const getHouse = async () => {
@@ -80,7 +81,7 @@ const ListHome = () => {
             </div>
           </div>
           <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid lg:grid-cols-4 lg:gap-2 drop-shadow-2xl m-3">
-            {house &&
+            {house.length > 0 ? (
               house
                 .filter((val: any) => {
                   if (fillter == '') {
@@ -143,9 +144,12 @@ const ListHome = () => {
                       </div>
                     </>
                   );
-                })}
+                })
+                ): <div>
+                  <p className="text-blue-600/100 " >Không có dữ liệu</p></div>}
           </div>
         </div>
+
       </div>
     );
   };
