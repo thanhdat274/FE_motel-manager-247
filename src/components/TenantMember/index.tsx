@@ -20,6 +20,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
+  console.log(data1);
 
   const userData = cookies?.user;
   const param = router.query;
@@ -104,14 +105,25 @@ const TenantMember = ({ data, data1 }: IProps) => {
                 <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                   Trạng thái phòng
                 </label>
-                <select
-                  className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  {...register('status', { required: true })}
-                  id="status"
-                >
-                  <option value="true">Chủ phòng</option>
-                  <option value="false">Thành viên</option>
-                </select>
+
+                {data1?.length < 1 ? (
+                  <select
+                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...register('status', { required: true })}
+                    id="status"
+                  >
+                    {' '}
+                    <option value="true">Chủ phòng</option>
+                  </select>
+                ) : (
+                  <select
+                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...register('status', { required: true })}
+                    id="status"
+                  >
+                    <option value="false">Thành viên</option>
+                  </select>
+                )}
               </div>
               <div className="mb-4 mt-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

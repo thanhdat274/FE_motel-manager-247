@@ -9,6 +9,7 @@ import { listHouse, removeHouses } from 'src/pages/api/house';
 const ListHome = () => {
   const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
+  
   const userData = cookies?.user;
   useEffect(() => {
     const getHouse = async () => {

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faMoneyBill, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faMoneyBill, faPenToSquare, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { listRoom, removeRoom } from 'src/pages/api/room';
 type Props = {};
 
 const ListRoom = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
+  console.log(rooms);
 
   const userData = cookies?.user;
   const router = useRouter();
@@ -90,12 +90,13 @@ const ListRoom = (props: Props) => {
         </div>
       </header>
       <main>
+        
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-mparamle inline-block min-w-full ">
                 <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 drop-shadow-xl">
-                  {rooms &&
+                  {rooms.length > 0 ? (
                     rooms
                       .filter((val: any) => {
                         if (fillter == '') {
@@ -108,18 +109,38 @@ const ListRoom = (props: Props) => {
                         return (
                           <>
                             {item?.status == true ? (
-                              <div className="w-full border-2 p-[20px] border-y-yellow-400 border-x-yellow-400 bg-white rounded-[5px]" key={index}>
+                              <div
+                                className="w-full border-2 p-[20px] border-y-yellow-400 border-x-yellow-400 bg-white rounded-[5px]"
+                                key={index}
+                              >
                                 <h2 className="text-xl flex items-center gap-2 mb-[20px]">
                                   <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                                   {item.name}
                                 </h2>
 
-                            <p className="flex items-center gap-2 mb-[20px]">
-                              <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                              <span className="text-red-500">
-                                {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-                              </span>
-                            </p>
+                                <p className="flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                                  <span className="text-red-500">
+                                    {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                  </span>
+                                </p>
+
+                                <p className="flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                                  <span className="">
+                                    {item.listMember.map((item1: any, index: number) => {
+                                      return (
+                                        <div key={index}>
+                                          {item1.status == true ? <div>{item1.memberName}</div> : <div>{null}</div>}
+                                        </div>
+                                      );
+                                    })}
+                                  </span>
+                                </p>
+                                <p className="flex items-center gap-2 mb-[20px]">
+                                  <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                                  <span className="">{item.listMember.length}</span>
+                                </p>
 
                                 <div className="text-center flex gap-3">
                                   <Link
@@ -154,8 +175,11 @@ const ListRoom = (props: Props) => {
                                     {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                   </span>
                                 </p>
+                                 <div className='pt-2 pb-5'>
+                                 <h2>Phòng chưa sẵn sàng</h2>
 
-                                <div className="text-center flex gap-3">
+                                 </div>
+                                <div className=" flex gap-3  ">
                                   <Link
                                     href={`/manager/landlord/${id}/list-room/${item._id}/`}
                                     className="text-amber-500 hover:text-amber-600"
@@ -178,11 +202,21 @@ const ListRoom = (props: Props) => {
                             )}
                           </>
                         );
-                      })}
+                      })
+                  ) : (
+                    <div>
+                      {' '}
+                      <p className="text-blue-600/100 ">Không có dữ liệu</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div>
+     
+
         </div>
       </main>
     </div>
