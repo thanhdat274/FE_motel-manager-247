@@ -90,7 +90,6 @@ const ListRoom = (props: Props) => {
         </div>
       </header>
       <main>
-        
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="sm:-mx-6 lg:-mx-8">
@@ -163,7 +162,10 @@ const ListRoom = (props: Props) => {
                                 </div>
                               </div>
                             ) : (
-                              <div className="w-full border-2 p-[20px]  bg-white rounded-[5px]" key={index}>
+                              <div
+                                className="w-full border-2 p-[20px] border-y-red-400 border-x-red-400 bg-white rounded-[5px]"
+                                key={index}
+                              >
                                 <h2 className="text-xl flex items-center gap-2 mb-[20px]">
                                   <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
                                   {item.name}
@@ -175,10 +177,9 @@ const ListRoom = (props: Props) => {
                                     {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                   </span>
                                 </p>
-                                 <div className='pt-2 pb-5'>
-                                 <h2>Phòng chưa sẵn sàng</h2>
-
-                                 </div>
+                                <div className="pt-2 pb-5">
+                                  <h2>Phòng chưa sẵn sàng</h2>
+                                </div>
                                 <div className=" flex gap-3  ">
                                   <Link
                                     href={`/manager/landlord/${id}/list-room/${item._id}/`}
@@ -214,10 +215,7 @@ const ListRoom = (props: Props) => {
             </div>
           </div>
         </div>
-        <div>
-     
-
-        </div>
+        <div></div>
       </main>
     </div>
   );
