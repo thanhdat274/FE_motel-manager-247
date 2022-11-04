@@ -53,7 +53,7 @@ const HomeManagerPage = () => {
                 <h5 className="mb-0">1</h5>
               </div>
             </div>
-            <div className="max-w-full ">
+            <div className="max-w-full">
               <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                 <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
               </div>

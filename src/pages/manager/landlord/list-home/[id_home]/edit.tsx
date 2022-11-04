@@ -4,13 +4,15 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { readHouse, updateHouse } from 'src/pages/api/house';
 
 type Props = {};
 
 const EditHouse = (props: Props) => {
   const router = useRouter();
   const [house, setHouse] = useState([]);
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
+  const userData = cookies?.user;
 
   const param = router.query;
   const {
@@ -19,37 +21,31 @@ const EditHouse = (props: Props) => {
     formState: { errors },
     reset,
   } = useForm();
-  //console.log('param', param);
 
   useEffect(() => {
     const getHome = async () => {
       try {
-        const res = await axios.get(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/` + `${param.id_home}`);
+        const res = await readHouse(`${param.id_home}`, userData as any);
         if (res.data) {
           reset(res.data as any);
-          //console.log('data', res.data);
         }
-      } catch (error) {
-        //console.log(error);
-      }
+      } catch (error) {}
     };
     getHome();
-  }, [param.id_home]);
+  }, [param.id_home, reset, userData]);
   const onSubmit = async (dataForm: any) => {
+    const newData = { ...dataForm, userData: userData };
     setLoading(true);
-    //console.log('data', dataForm);
-    try {
-      await axios
-        .put('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + `${param.id_home}`, dataForm)
-        .then(() => {
-          setLoading(false);
-
-          router.push('/manager/landlord/list-home');
-          Toast('success', 'Sửa nhà  thành công!');
-        });
-    } catch (error) {
-      Toast('error', 'Đã xảy ra lỗi!');
-    }
+    await updateHouse(newData)
+      .then(() => {
+        setLoading(false);
+        Toast('success', 'Sửa nhà  thành công!');
+        router.push('/manager/landlord/list-home');
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
+      });
   };
 
   return (

@@ -1,10 +1,14 @@
 import Signin from '@/components/auth/signin';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type Props = {};
 
 const signin = (props: Props) => {
-  return <Signin />;
+  return (
+    <div>
+      <Signin />
+    </div>
+  );
 };
 
 export default signin;

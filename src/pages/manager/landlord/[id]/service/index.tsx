@@ -2,52 +2,56 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
+import { ListService, removeService } from 'src/pages/api/service';
 type Props = {};
 
 const ListServiceRoom = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const [listServices, setListServices] = useState([]);
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
+  const userData = cookies?.user;
+  const [fillter, setfillter] = useState('');
+  const handleSearch = (event: any) => {
+    const value = event.target.value;
+    setfillter(value);
+  };
 
   useEffect(() => {
-    const getService = async () => {
-      setLoading(true);
-      await axios
-        .get('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service')
-        .then((data: any) => {
+    if (id) {
+      const getService = async () => {
+        setLoading(true);
+        try {
+          const { data } = await ListService(id as string, userData as any);
           setListServices(data.data);
           setLoading(false);
-        })
-        .catch(() => {
+        } catch (error) {
           setLoading(false);
-        });
-    };
-    getService();
-  }, []);
-  const remove = async (id: any) => {
-    const confirm = window.confirm('Bạn có muốn xóa không?');
+        }
+      };
+      getService();
+    }
+  }, [id, setLoading, userData]);
 
+  const remove = async (_id: any, id: any, userData: any) => {
+    const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
-      await axios
-        .delete('https://6332ba04a54a0e83d2570a0f.mockapi.io/api/service/' + id)
-        .then(() => {
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-
-          Toast('error', 'Xóa dịch vụ không thành công');
-        })
-        .finally(() => {
-          setListServices(listServices.filter((item: any) => item.id !== id));
-          Toast('success', 'Xóa dịch vụ thành công');
-        });
+      try {
+        if (_id && id && userData) {
+          await removeService({ idService: _id, idHouse: id, userData: userData }).then(() => {
+            Toast('success', 'Xóa dịch vụ thành công');
+            setListServices(listServices.filter((item: any) => item._id !== _id));
+            setLoading(false);
+          });
+        }
+      } catch (error) {
+        Toast('error', 'Xóa dịch vụ không thành công');
+        setLoading(false);
+      }
     }
   };
 
@@ -62,6 +66,18 @@ const ListServiceRoom = (props: Props) => {
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
+              <div className="mr-[20px]">
+                <form>
+                  <input
+                    type="text"
+                    name="keyword"
+                    className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Tìm kiếm..."
+                    onChange={handleSearch}
+                    value={fillter}
+                  />
+                </form>
+              </div>
               <Link href={`/manager/landlord/${id}/service/add`}>
                 <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
@@ -108,48 +124,63 @@ const ListServiceRoom = (props: Props) => {
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          trạng thái sử dụng
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         ></th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {listServices &&
-                        listServices.map((item: any, index) => (
-                          <tr key={index}>
-                            <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                              <div className="text-center">{index + 1}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.name}</div>
-                            </td>
+                        listServices
+                          .filter((val: any) => {
+                            if (fillter == '') {
+                              return val;
+                            } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                              return val;
+                            }
+                          })
+                          .map((item: any, index) => (
+                            <tr key={index}>
+                              <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                <div className="text-center">{index + 1}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.label}</div>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.price}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace">
-                              <div className="text-center">{item.unit}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-center flex">
-                                <Link
-                                  href={`/manager/landlord/${id}/service/${item.id}/edit`}
-                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                >
-                                  <FontAwesomeIcon
-                                    className="w-[20px] cursor-pointer"
-                                    icon={faPenToSquare}
-                                  ></FontAwesomeIcon>
-                                </Link>
-                                <button
-                                  className="text-amber-500 hover:text-amber-600 mx-[10px]"
-                                  onClick={() => remove(item?.id)}
-                                >
-                                  <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
-                                </button>
-                               
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.unit}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{item.type ? 'Theo tháng' : 'không theo tháng'}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-center flex">
+                                  <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>
+                                    <a className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                      <FontAwesomeIcon
+                                        className="w-[20px] cursor-pointer"
+                                        icon={faPenToSquare}
+                                      ></FontAwesomeIcon>
+                                    </a>
+                                  </Link>
+                                  <button
+                                    className="text-red-500 hover:text-red-500 mx-[10px]"
+                                    onClick={() => remove(item._id, id, userData)}
+                                  >
+                                    <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                     </tbody>
                   </table>
                 </div>

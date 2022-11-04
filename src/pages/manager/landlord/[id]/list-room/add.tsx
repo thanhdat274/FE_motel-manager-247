@@ -2,25 +2,29 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Toast } from 'src/hooks/toast';
+import { readHouse } from 'src/pages/api/house';
+import { addRoom } from 'src/pages/api/room';
 type Props = {};
 
 type FromValues = {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   area: number;
-  max: number;
-  status: boolean;
-  houseId: string;
+  maxMember: number;
+  status: string;
+  idHouse: string;
+  idAuth: string;
 };
 
 const AddRoom = (props: Props) => {
-  const { setLoading } = useUserContext();
-  const [showMsg, setShowMsg] = useState(false);
+  const { cookies, setLoading, user } = useUserContext();
+  const userData = cookies?.user;
+
   const {
     register,
     handleSubmit,
@@ -28,22 +32,21 @@ const AddRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
-  //console.log('id nhà', id);
 
-  const onSubmit: SubmitHandler<FromValues> = async (data) => {
-    //console.log('data từ form', data);
+  const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
     setLoading(true);
-    try {
-      await axios.post(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${id}/room`, data).then((data: any) => {
-        setLoading(false);
-        setShowMsg(true);
-        router.push(`/manager/landlord/${id}/list-room`);
+    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData.user._id };
+
+    await addRoom(newData)
+      .then((data: any) => {
         Toast('success', 'Thêm mới phòng thành công');
+        router.push(`/manager/landlord/${id}/list-room`);
+        setLoading(false);
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.massage);
+        setLoading(false);
       });
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Thêm mới phòng không thành công');
-    }
   };
 
   return (
@@ -53,7 +56,7 @@ const AddRoom = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                thêm mới phòng
+                Thêm mới phòng
               </h2>
             </div>
           </div>
@@ -120,11 +123,11 @@ const AddRoom = (props: Props) => {
                       </label>
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="max"
+                        id="maxMember"
                         type="number"
-                        {...register('max', { required: true })}
+                        {...register('maxMember', { required: true })}
                       />
-                      {errors.max && errors.max.type === 'required' && (
+                      {errors.maxMember && errors.maxMember.type === 'required' && (
                         <span className="text-[red] mt-1 block">Không dược để trống!</span>
                       )}
                     </div>

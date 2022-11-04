@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { updateRoom } from 'src/pages/api/room';
 
 type IForm = {
   name: string;
@@ -20,15 +21,8 @@ const TenantInformation = ({ data }: any) => {
   const { name, price, status, max, area } = data;
   const router = useRouter();
   const param = router.query;
-
-  const { setLoading } = useUserContext();
-
-  useEffect(() => {
-    if (data) {
-      reset(data);
-    }
-  }, [data]);
-
+  const { cookies, setLoading } = useUserContext();
+  const userData = cookies?.user;
   const {
     register,
     handleSubmit,
@@ -37,25 +31,31 @@ const TenantInformation = ({ data }: any) => {
   } = useForm({
     defaultValues: {
       name: name,
-      price: price,
       status: status,
-      max: max,
+      maxMember: max,
+      price: price,
       area: area,
     },
   });
-  const onSubmit = async (data: any) => {
-    setLoading(true);
-    try {
-      await axios
-        .put(`https://633505ceea0de5318a0bacba.mockapi.io/api/house/${param.id}/room/` + `${param.id_room}`, data)
-        .then(() => {
-          setLoading(false);
-          router.push(`/manager/landlord/${param.id}/list-room`);
-          Toast('success', 'Cập nhật phòng thành công');
-        });
-    } catch (error) {
-      Toast('error', 'Cập nhật phòng không thành công');
+  useEffect(() => {
+    if (data) {
+      reset(data);
     }
+  }, [data, reset]);
+
+  const onSubmit = async (data: any) => {
+    const newData = { ...data };
+    setLoading(true);
+    await updateRoom(param?.id_room, userData?.token, newData)
+      .then((result) => {
+        setLoading(false);
+        router.push(`/manager/landlord/${param.id}/list-room`);
+        Toast('success', 'Cập nhật phòng thành công');
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -120,9 +120,9 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="max"
                     type="number"
-                    {...register('max', { required: true })}
+                    {...register('maxMember', { required: true })}
                   />
-                  {errors.max && errors.max.type === 'required' && (
+                  {errors.maxMember && errors.maxMember.type === 'required' && (
                     <span className="text-[red] mt-1 block">Không dược để trống!</span>
                   )}
                 </div>

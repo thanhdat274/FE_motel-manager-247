@@ -14,8 +14,9 @@ type FormValues = {
 };
 
 const Signin = (props: Props) => {
-  const { setLoading, setUser, setToken } = useUserContext();
+  const { setLoading, setCookie } = useUserContext();
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -26,21 +27,13 @@ const Signin = (props: Props) => {
     await SignIn(data)
       .then((data) => {
         setLoading(false);
-        setUser(data.data.user);
-        setToken(data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.token) as string);
+        setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
-        // console.log(data.data.user);
-        // console.log(data.data.token);
       })
       .catch((error) => {
-        // console.log(error.response.data.error);
-        const message = error.response.data.error;
-        if (message === 'Email and password not match') {
-          Toast('error', 'Email hoặc mật khẩu sai');
-          setLoading(false);
-        }
+        Toast('error', error?.response?.data?.message);
+        setLoading(false);
       });
   };
 
@@ -81,11 +74,11 @@ const Signin = (props: Props) => {
                 <span className="text-rose-500 mt-3 block">Không được bỏ trống</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span className="text-rose-500 mt-3 block">Tối thiểu 6 ký tự!</span>
+                <span className="text-rose-500 mt-3 block">Tối thiểu 8 ký tự!</span>
               )}
             </div>
             <div className="flex items-center justify-end">
-              <Link href={`/forgetPass`}>
+              <Link href={`/auth/forget-password`}>
                 <a className="text-sm text-blue-600 hover:underline">Quên mật khẩu?</a>
               </Link>
             </div>

@@ -1,65 +1,51 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { supabase } from 'src/apis/supabase';
-import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faLocationDot, faBars, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
+import { listHouse, removeHouses } from 'src/pages/api/house';
+
 const ListHome = () => {
-  const { setLoading } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [changeData, setChangeData] = useState(0);
-
-  // const getHouse = async () => {
-  //   try {
-  //     const res = await supabase.from('houses').select('*');
-  //     if (res.data) {
-  //       setHouse(res.data as any);
-  //       //console.log('data', res.data);
-  //     }
-  //     if (res.error) {
-  //       setErrorMessage(res.error as any);
-  //     }
-  //   } catch (error) {}
-  // };
-
+  const userData = cookies?.user;
   useEffect(() => {
-    //console.log('run');
     const getHouse = async () => {
       try {
-        const res = await axios.get('https://633505ceea0de5318a0bacba.mockapi.io/api/house');
-        if (res.data) {
-          setHouse(res.data as any);
-          //console.log('data', res.data);
+        const { data } = await listHouse(userData as any);
+        if (data.data) {
+          setHouse(data.data as any);
         }
       } catch (error) {
-        //console.log('error', error);
       }
     };
     getHouse();
-  }, []);
+  }, [userData]);
 
-  const removeHouse = async (id: number) => {
-    //console.log(id);
+  const removeHouse = async (_id: number, userData: any) => {
     setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');
     if (confirm) {
       try {
-        await axios.delete('https://633505ceea0de5318a0bacba.mockapi.io/api/house/' + id).then(() => {
+        await removeHouses({ _id: _id, userData: userData }).then(() => {
           Toast('success', 'Xóa nhà thành công');
-          setHouse(house.filter((item: any) => item.id !== id));
+          setHouse(house.filter((item: any) => item._id !== _id));
           setLoading(false);
         });
       } catch (error) {
-        Toast('success', 'Xóa nhà không thành công');
+        Toast('error', 'Xóa nhà không thành công');
         setLoading(false);
       }
     }
+  };
+
+  const [fillter, setfillter] = useState('');
+
+  const handleSearch = (event: any) => {
+    const value = event.target.value;
+    setfillter(value);
   };
 
   const renderList = () => {
@@ -70,7 +56,19 @@ const ListHome = () => {
             <div className="">
               <h2 className="pt-2 text-xl font-bold ">Danh sách nhà </h2>
             </div>
-            <div className="">
+            <div className="flex items-center justify-end">
+              <div className="mr-[20px]">
+                <form>
+                  <input
+                    type="text"
+                    name="keyword"
+                    className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Tìm kiếm..."
+                    onChange={handleSearch}
+                    value={fillter}
+                  />
+                </form>
+              </div>
               <Link href="/manager/landlord/list-home/add" className=" border-2  px-2 py-2  hover:bg-red-600 rounded">
                 <a
                   className="border float-right  p-2 bg-gradient-to-r from-cyan-500 to-blue-800 font-bold 
@@ -83,61 +81,69 @@ const ListHome = () => {
           </div>
           <div className="sm:grid sm:grid-cols-2 sm:gap-4 lg:grid lg:grid-cols-4 lg:gap-2 drop-shadow-2xl m-3">
             {house &&
-              house.map((item: any, index: React.Key | null | undefined) => {
-                return (
-                  <>
-                    <div className="border pt-3 bg-white rounded pr-2" key={index}>
-                      <div className=" text-2xl rounded-md  font-bold pl-3 flex items-center">
-                        <span className="pr-3">
-                          <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
-                        </span>
-                        <span>{item?.name}</span>
-                      </div>
-                      <div className="m-4  rounded-md text-left text-sm flex ">
-                        <span className="pr-3">
-                          <FontAwesomeIcon className="w-[10px]  pt-1 text-indigo-700" icon={faLocationDot} />
-                        </span>
-                        <span>{item?.address}</span>
-                      </div>
-                      <div>
-                        <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
-                          <Link href={`${item?.id}`}>
-                            <a className="text-white base-1/3 bg-sky-500 w-1/3">
-                              <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+              house
+                .filter((val: any) => {
+                  if (fillter == '') {
+                    return val;
+                  } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                    return val;
+                  }
+                })
+                .map((item: any, index: React.Key | null | undefined) => {
+                  return (
+                    <>
+                      <div className="border pt-3 bg-white rounded pr-2" key={index}>
+                        <div className=" text-2xl rounded-md  font-bold pl-3 flex items-center">
+                          <span className="pr-3">
+                            <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
+                          </span>
+                          <span>{item?.name}</span>
+                        </div>
+                        <div className="m-4  rounded-md text-left text-sm flex ">
+                          <span className="pr-3">
+                            <FontAwesomeIcon className="w-[10px]  pt-1 text-indigo-700" icon={faLocationDot} />
+                          </span>
+                          <span>{item?.address}</span>
+                        </div>
+                        <div>
+                          <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
+                            <Link href={`${item?._id}`}>
+                              <a className="text-white base-1/3 bg-sky-500 w-1/3">
+                                <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+                                  <span className="pr-2">
+                                    <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />
+                                  </span>
+                                  <span>Quản lý</span>
+                                </div>
+                              </a>
+                            </Link>
+                            <Link href={`/manager/landlord/list-home/${item?._id}/edit`}>
+                              <a className="text-white base-1/3 2 bg-yellow-400 w-1/3 ">
+                                <div className="bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
+                                  <span className="pr-2">
+                                    <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} />
+                                  </span>
+                                  <span>Chỉnh sửa</span>
+                                </div>
+                              </a>
+                            </Link>
+                            <button
+                              onClick={() => removeHouse(item?._id, userData)}
+                              className="text-white base-1/3  bg-red-500 w-1/3"
+                            >
+                              <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                 <span className="pr-2">
-                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />
+                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faTrash} />
                                 </span>
-                                <span>Quản lý</span>
+                                <span>Xóa</span>
                               </div>
-                            </a>
-                          </Link>
-                          <Link href={`/manager/landlord/list-home/${item?.id}/edit`}>
-                            <a className="text-white base-1/3 2 bg-yellow-400 w-1/3 ">
-                              <div className="bg-yellow-400 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
-                                <span className="pr-2">
-                                  <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} />
-                                </span>
-                                <span>Chỉnh sửa</span>
-                              </div>
-                            </a>
-                          </Link>
-                          <button
-                            onClick={() => removeHouse(item?.id)}
-                            className="text-white base-1/3  bg-red-500 w-1/3"
-                          >
-                            <div className="mt-[2px] bg-red-500 flex rounded-md  pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
-                              <span className="pr-2">
-                                <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faTrash} />
-                              </span>
-                              <span>Xóa</span>
-                            </div>
-                          </button>
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                );
-              })}
+                    </>
+                  );
+                })}
           </div>
         </div>
       </div>

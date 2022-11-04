@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { type } from 'os';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
@@ -11,6 +10,7 @@ interface IFormInputs {
   email: string;
   name: string;
   password: string;
+  repassword: string;
 }
 
 const Signup = (props: Props) => {
@@ -22,20 +22,23 @@ const Signup = (props: Props) => {
     handleSubmit,
   } = useForm<IFormInputs>();
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    console.log(data);
     setLoading(true);
-
-    await UserSignup(data)
-      .then(() => {
-        Toast('success', 'Bạn đã đăng ký thành công , mời bạn đăng nhập!');
-        router.push('/auth/signin');
-        setLoading(false);
-      })
-      .catch((error) => {
-        const msgError = error.response.data.error;
-        Toast('error', msgError);
-        setLoading(false);
-      });
+    if (data.password === data.repassword) {
+      await UserSignup(data)
+        .then(() => {
+          Toast('success', 'Bạn đã đăng ký thành công');
+          setLoading(false);
+          router.push('/auth/signin');
+        })
+        .catch((error) => {
+          const msgError = error?.response.data.error;
+          Toast('error', msgError);
+          setLoading(false);
+        });
+    } else {
+      Toast('error', 'Sai mật khẩu');
+      setLoading(false);
+    }
   };
   return (
     <div className="min-h-[700px] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -83,6 +86,26 @@ const Signup = (props: Props) => {
                 <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
               )}
               {errors.password?.type === 'maxLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+              )}
+            </div>
+            <div className="mt-4">
+              <label className="block">
+                Nhập lại mật khẩu <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                placeholder="Nhập lại mật khẩu"
+                {...register('repassword', { required: true, minLength: 8, maxLength: 20 })}
+              />
+              {errors.repassword?.type === 'required' && (
+                <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>
+              )}
+              {errors.repassword?.type === 'minLength' && (
+                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+              )}
+              {errors.repassword?.type === 'maxLength' && (
                 <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
               )}
             </div>
