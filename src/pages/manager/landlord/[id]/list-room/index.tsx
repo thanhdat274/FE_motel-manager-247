@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { listRoom, removeRoom } from 'src/pages/api/room';
 type Props = {};
 
@@ -21,7 +20,7 @@ const ListRoom = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
-  
+
   useEffect(() => {
     if (id) {
       const getRoom = async () => {
@@ -66,7 +65,7 @@ const ListRoom = (props: Props) => {
                 Quản lý phòng
               </h2>
             </div>
-            <div className="mt-5 flex lg:mt-0 lg:ml-4">
+            <div className="mt-5 flex flex-col gap-4 md:flex-row md:gap-0 lg:mt-0 lg:ml-4">
               <div className="mr-[20px]">
                 <form>
                   <input
@@ -80,7 +79,7 @@ const ListRoom = (props: Props) => {
                 </form>
               </div>
               <Link href={`/manager/landlord/${id}/list-room/add`}>
-                <a className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="inline-flex items-center px-4 py-2 min-w-fit w-fit border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Thêm mới
                 </a>
               </Link>

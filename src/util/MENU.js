@@ -6,10 +6,17 @@ import {
   faShower,
   faFileContract,
   faReceipt,
+  faPalette,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MENU_LANDLORD = [
+  {
+    url: '/',
+    gap: true,
+    title: 'Bảng điều khiển',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
+  },
   {
     url: 'list-room',
     gap: true,
@@ -23,13 +30,6 @@ export const MENU_LANDLORD = [
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },
   { url: 'water', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-  // {
-  //   url: '',
-  //   title: 'Tính tiền',
-  //   gap: true,
-  //   icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCalculator} />,
-  // },
-  { url: '/', title: 'Phiếu chi', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
-  // { url: 'contract-form', title: 'Mẫu hợp  đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faFileContract} /> },
+  { url: 'forfeit', title: 'Tiền phạt', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   { url: 'receipt', title: 'Hóa đơn', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faReceipt} /> },
 ];
