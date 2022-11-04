@@ -44,6 +44,7 @@ export const readRoom = (id_room: string, userData: any) => {
 };
 export const updateRoom = (idRoom: any, token: any, room: any) => {
   const url = `/room/update/${idRoom}`;
+  
   return instance.put(url, room, {
     headers: {
       Authorization: `Bearer ${token}`,

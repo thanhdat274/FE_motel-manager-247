@@ -20,6 +20,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
+  console.log(data1);
 
   const userData = cookies?.user;
   const param = router.query;
@@ -51,19 +52,26 @@ const TenantMember = ({ data, data1 }: IProps) => {
   return (
     <div>
       <div>
-        {' '}
-        {data1.length < data.maxMember ? (
-          <button
-            onClick={onOpenModal}
-            className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Thêm thành viên
-          </button>
+        {data?.status == true ? (
+          <div>
+            {' '}
+            {data1.length < data.maxMember ? (
+              <button
+                onClick={onOpenModal}
+                className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Thêm thành viên
+              </button>
+            ) : (
+              <>
+                <button className="border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50">Đủ người</button>
+              </>
+            )}
+          </div>
         ) : (
-          <>
-            <button className="border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50">Đủ người</button>
-          </>
+          <div>Phòng chưa sẵn sàng</div>
         )}
+
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full">
             <h1 className="pt-2 text-white">
@@ -97,14 +105,25 @@ const TenantMember = ({ data, data1 }: IProps) => {
                 <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                   Trạng thái phòng
                 </label>
-                <select
-                  className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  {...register('status', { required: true })}
-                  id="status"
-                >
-                  <option value="true">Chủ phòng</option>
-                  <option value="false">Thành viên</option>
-                </select>
+
+                {data1?.length < 1 ? (
+                  <select
+                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...register('status', { required: true })}
+                    id="status"
+                  >
+                    {' '}
+                    <option value="true">Chủ phòng</option>
+                  </select>
+                ) : (
+                  <select
+                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    {...register('status', { required: true })}
+                    id="status"
+                  >
+                    <option value="false">Thành viên</option>
+                  </select>
+                )}
               </div>
               <div className="mb-4 mt-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -148,17 +167,21 @@ const TenantMember = ({ data, data1 }: IProps) => {
           </div>
         </Modal>
       </div>
-      <div className="flex flex-row flex-wrap w-full gap-4">
-        {data1.length > 0 ? (
-          data1?.map((item: IMember) => (
-            <div key={item.memberName} className=" basis-full md:basis-[30%] ">
-              <ListMember {...item} />
-            </div>
-          ))
-        ) : (
-          <div>Chưa có thành viên nào</div>
-        )}
-      </div>
+      {data.status == true ? (
+        <div className="flex flex-row flex-wrap w-full gap-4">
+          {data1.length > 0 ? (
+            data1?.map((item: IMember) => (
+              <div key={item.memberName} className=" basis-full md:basis-[30%] ">
+                <ListMember {...item} />
+              </div>
+            ))
+          ) : (
+            <div>Chưa có thành viên nào</div>
+          )}
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
