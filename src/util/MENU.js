@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MENU_LANDLORD = [
   {
-    url: '/',
+    url: '',
     gap: true,
     title: 'Bảng điều khiển',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
