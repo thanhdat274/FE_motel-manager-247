@@ -18,13 +18,13 @@ export const options = {
 
 export function PieChart(dataRoomStatus: any) {
   const dataPie = {
-    labels: ['Đang sử dụng', 'Phòng trống', 'Phòng chưa đưa vào sử dụng'],
+    labels: ['Phòng trống', 'Đang sử dụng', 'Phòng chưa đưa vào sử dụng'],
     datasets: [
       {
         label: '# of Votes',
         data: [
-          dataRoomStatus.dataRoomStatus.roomReadyUsing,
           dataRoomStatus.dataRoomStatus.roomReadyEmpty,
+          dataRoomStatus.dataRoomStatus.roomReadyUsing,
           dataRoomStatus.dataRoomStatus.roomNotReady,
         ],
         backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 255, 30, 0.2)', 'rgba(0, 81, 255, 0.2)'],
