@@ -55,6 +55,7 @@ const Receipt = (props: Props) => {
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
 
   const [bill, setBill] = useState<any>();
+  console.log(bill);
 
   const onSubmitForm: SubmitHandler<FormInputs> = async (dataa: any) => {
     if (monthCheckk && yearCheckk) {
@@ -105,12 +106,7 @@ const Receipt = (props: Props) => {
                 </div>
               </form>
             </div>
-            <div className="">
-              {' '}
-              <button onClick={onOpenModal1}>
-                <FontAwesomeIcon className="w-[16px] text-black" icon={faKeyboard} />
-              </button>
-            </div>
+
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
               <form>
                 <input
@@ -161,9 +157,10 @@ const Receipt = (props: Props) => {
                         </th>
                       </tr>
                     </thead>
-                    <>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {bill?.map((item: any, index: number) => {
+
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {bill &&
+                        bill?.map((item: any, index: number) => {
                           const initialValue = 0;
                           const sumWithInitial = item?.invoiceService.reduce(
                             (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
@@ -178,7 +175,6 @@ const Receipt = (props: Props) => {
                                 <td className="px-9 py-4 whitespace text-sm text-gray-500">
                                   <div className="text-center">{item.roomName} </div>
                                 </td>
-
                                 <td className="px-6 py-4 whitespace">
                                   <div className="text-center">
                                     {priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
@@ -202,14 +198,21 @@ const Receipt = (props: Props) => {
                             </>
                           );
                         })}
-                      </tbody>
-                    </>
+                    </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {!bill && (
+          <div className="text-center">
+            <p className="text-red-500">Chưa có hóa đơn tháng này!</p>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">
+              Tính hóa đơn
+            </button>
+          </div>
+        )}
       </main>
       <div className="">
         <Modal open={open} onClose={onCloseModal} center>
