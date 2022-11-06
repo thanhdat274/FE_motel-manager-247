@@ -17,8 +17,8 @@ export const readBill = (id:any, newData: any) => {
     },
   });
 };
-export const CreateBill = (newData: any) => {
-  const url = `/bill/${newData.idRoom}`;
+export const CreateBillHouseAll = (newData: any) => {
+  const url = `/bill-house-all/${newData.idHouse}`;
   return instance.post(url, newData, {
     headers: {
       Authorization: `Bearer ${newData.userData.token}`,
