@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faEye, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-responsive-modal';
@@ -55,17 +55,29 @@ const Receipt = (props: Props) => {
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
 
   const [bill, setBill] = useState<any>();
-  console.log(bill);
+  // console.log(bill);
 
-  const onSubmitForm: SubmitHandler<FormInputs> = async (dataa: any) => {
-    if (monthCheckk && yearCheckk) {
-      const newData = { ...dataa, month: monthCheckk, year: yearCheckk, userData: userData };
-      const { data } = await listBill(newData);
-      setBill(data.data);
-    } else {
-      Toast('error', 'Vui lòng chọn tháng năm!');
-    }
-  };
+  // const onSubmitForm: SubmitHandler<FormInputs> = async (dataa: any) => {
+  //   if (monthCheckk && yearCheckk) {
+  //     const newData = { ...dataa, month: monthCheckk, year: yearCheckk, userData: userData };
+  //     const { data } = await listBill(newData);
+  //     setBill(data.data);
+  //   } else {
+  //     Toast('error', 'Vui lòng chọn tháng năm!');
+  //   }
+  // };
+
+  useEffect(() => {
+    const getBill = async () => {
+      if (monthCheckk && yearCheckk) {
+        const { data } = await listBill(userData, yearCheckk, monthCheckk);
+        setBill(data.data);
+      } else {
+        Toast('error', 'Vui lòng chọn tháng năm!');
+      }
+    };
+    getBill();
+  }, [monthCheckk, yearCheckk]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -94,17 +106,9 @@ const Receipt = (props: Props) => {
               </h2>
             </div>
             <div>
-              <form className="flex mr-5" onSubmit={handleSubmit(onSubmitForm)}>
-                <div className="mt-5">
-                  <Space direction="vertical">{datePickerShow} </Space>
-                  <button
-                    type="submit"
-                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-3 py-1 ml-2 text-center mr-2 mb-2"
-                  >
-                    Tìm Kiếm
-                  </button>
-                </div>
-              </form>
+              <div className="mt-5">
+                <Space direction="vertical">{datePickerShow} </Space>
+              </div>
             </div>
 
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -126,41 +130,41 @@ const Receipt = (props: Props) => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full ">
                 <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Phòng
-                        </th>
+                  {bill ? (
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Phòng
+                          </th>
 
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Tiền nhà
-                        </th>
+                          <th
+                            scope="col"
+                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Tiền nhà
+                          </th>
 
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Tổng tiền
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Chi tiết
-                        </th>
-                      </tr>
-                    </thead>
+                          <th
+                            scope="col"
+                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Tổng tiền
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Chi tiết
+                          </th>
+                        </tr>
+                      </thead>
 
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {bill &&
-                        bill?.map((item: any, index: number) => {
+                      <>
+                        {bill?.map((item: any, index: number) => {
                           const initialValue = 0;
                           const sumWithInitial = item?.invoiceService.reduce(
                             (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
@@ -171,48 +175,53 @@ const Receipt = (props: Props) => {
 
                           return (
                             <>
-                              <tr key={index}>
-                                <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                                  <div className="text-center">{item.roomName} </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">
-                                    {priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                  </div>
-                                </td>
+                              <tbody className="bg-white divide-y divide-gray-200">
+                                <tr key={index}>
+                                  <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                    <div className="text-center">{item.roomName} </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace">
+                                    <div className="text-center">
+                                      {priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                    </div>
+                                  </td>
 
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">
-                                    {sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                  </div>
-                                </td>
+                                  <td className="px-6 py-4 whitespace">
+                                    <div className="text-center">
+                                      {sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                    </div>
+                                  </td>
 
-                                <td className="px-6 py-4 whitespace">
-                                  <div className="text-center">
-                                    <button onClick={() => onOpenModal(item?._id)}>
-                                      <FontAwesomeIcon className="w-[16px] text-black" icon={faEye} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
+                                  <td className="px-6 py-4 whitespace">
+                                    <div className="text-center">
+                                      <button onClick={() => onOpenModal(item?._id)}>
+                                        <FontAwesomeIcon className="w-[16px] text-black" icon={faEye} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
                             </>
                           );
                         })}
-                    </tbody>
-                  </table>
+                      </>
+                    </table>
+                  ) : (
+                    <div className="text-center p-2">
+                      <p className="text-red-500">Chưa có hóa đơn tháng này!</p>
+                      <button
+                        onClick={onOpenModal1}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
+                      >
+                        Tính hóa đơn
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {!bill && (
-          <div className="text-center">
-            <p className="text-red-500">Chưa có hóa đơn tháng này!</p>
-            <button onClick={onOpenModal1} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full ">
-              Tính hóa đơn
-            </button>
-          </div>
-        )}
       </main>
       <div className="">
         <Modal open={open} onClose={onCloseModal} center>
