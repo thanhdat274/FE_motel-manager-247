@@ -1,11 +1,12 @@
+import { LogarithmicScale } from 'chart.js';
 import { useEffect } from 'react';
 import instance from './instance';
 
-export const listBill = ( newData: any) => {
-  const url = `/bill/list/${newData.userData.user._id}`;
-  return instance.post(url,newData, {
+export const listBill = ( userData:any,  year: number ,month: number) => {  
+  const url = `/bill-all/list/${userData.user._id}/${year}/${month}`;
+  return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${newData.userData.token}`,
+      Authorization: `Bearer ${userData.token}`,
     },
   });
 };
