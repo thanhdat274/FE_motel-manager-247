@@ -113,7 +113,7 @@ const HeaderPreview = (props: Props) => {
                     onClick={onOpenModal}
                     className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]"
                   >
-                    Quản lý phòng trọ
+                    Kiểm tra thông tin phòng thuê
                   </button>
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
