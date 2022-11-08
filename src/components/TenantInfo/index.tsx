@@ -33,6 +33,8 @@ const TenantInformation = ({ data }: any) => {
   } = useForm<IForm>({});
   useEffect(() => {
     if (data) {
+      console.log(data?.contract?.imageContract);
+      
       reset(data);
     }
   }, [data, reset]);
