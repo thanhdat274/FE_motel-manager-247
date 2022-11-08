@@ -48,7 +48,7 @@ const LoginCode = ({ data }: Props) => {
                 {...register('codeRoom', {
                   required: true,
                   minLength: 4,
-                  pattern: /^[a-zA-Z0-9&@.$%\-,():;`]+$/,
+                  pattern: /^[a-zA-Z0-9&@.$%\-_,():;`]+$/,
                 })}
               />
               <div className="mt-2 text-red-500">
