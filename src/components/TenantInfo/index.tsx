@@ -11,15 +11,16 @@ type IForm = {
   name: string;
   price: number;
   status: boolean;
-  max: number;
-  email:string;
+  maxMember: number;
+  emailOfAuth:string;
+  area:number
 };
 type Props = {
   data: IForm | any;
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, max, area,emailOfAuth } = data;
+  const { name, price, status, maxMember, area,emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -29,16 +30,7 @@ const TenantInformation = ({ data }: any) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: name,
-      status: status,
-      maxMember: max,
-      price: price,
-      area: area,
-      emailOfAuth:emailOfAuth,
-    },
-  });
+  } = useForm<IForm>({});
   useEffect(() => {
     if (data) {
       reset(data);
