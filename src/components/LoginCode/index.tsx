@@ -23,9 +23,7 @@ const LoginCode = ({ data }: Props) => {
   const param = router.query;
   const idRoom = param.id_room;
 
-  useEffect(() => {
-    reset(data);
-  }, [data, reset]);
+ 
 
   const onSubmit = async (data: any) => {
     try {
