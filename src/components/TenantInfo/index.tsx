@@ -19,7 +19,7 @@ type Props = {
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, max, area,email } = data;
+  const { name, price, status, max, area,emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -36,7 +36,7 @@ const TenantInformation = ({ data }: any) => {
       maxMember: max,
       price: price,
       area: area,
-      email:email,
+      emailOfAuth:emailOfAuth,
     },
   });
   useEffect(() => {
@@ -119,9 +119,9 @@ const TenantInformation = ({ data }: any) => {
                   </label>
                   <input
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="email"
-                    type="email"
-                    {...register('email', { required: true, min: 1000 })}
+                    id="emailOfAuth"
+                    type="emailOfAuth"
+                    {...register('emailOfAuth', { required: true, min: 1000 })}
                   />
                   {errors.price && errors.price.type === 'required' && (
                     <span className="text-[red] mt-1 block">Không dược để trống!</span>
