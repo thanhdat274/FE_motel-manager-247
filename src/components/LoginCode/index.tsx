@@ -24,15 +24,17 @@ const LoginCode = ({ data }: Props) => {
   const idRoom = param.id_room;
 
   const onSubmit = async (data: any) => {
+    setLoading(true)
     try {
       const newData = { ...data, idRoom, userData };
       await loginCode(newData);
       Toast('success', 'Cập nhật mã đăng nhập thành công');
-    } catch (error) {
-      Toast('error', 'Mã đăng nhập đã tồn tại');
+      setLoading(false)
+    } catch (error:any) {      
+      Toast('error', error?.response?.data.error);
+      setLoading(false)
     }
   };
-  // loginCode
   return (
     <div>
       <div>
@@ -42,19 +44,22 @@ const LoginCode = ({ data }: Props) => {
             <div className="mb-6 w-[30%]">
               <input
                 type="text"
-                id="email"
+                defaultValue={data.subName}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={`Mã đăng nhập của bạn là : ${data.subName}`}
+                placeholder="Mã đăng nhập"
                 {...register('codeRoom', {
                   required: true,
                   minLength: 4,
                   pattern: /^[a-zA-Z0-9&@.$%\-_,():;`]+$/,
                 })}
               />
+              
               <div className="mt-2 text-red-500">
                 {errors.codeRoom?.type === 'required' && <span>Bạn ko được bỏ qua trường này</span>}
                 {errors.codeRoom?.type === 'minLength' && <span>Tối thiểu 4 ký tự</span>}
+                {errors.codeRoom?.type === 'pattern' && <span>Không chứa dấu cách và chữ có dấu</span>}
               </div>
+              <p>VD: abc_12345</p>
             </div>
 
             <div className="ml-5">
