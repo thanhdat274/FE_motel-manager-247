@@ -10,6 +10,7 @@ import { readService, updateService } from 'src/pages/api/service';
 type Props = {};
 interface IFormInputs {
   name: string;
+  label:string;
   price: number;
   unit: string;
   type: boolean;
@@ -33,6 +34,8 @@ const EditService = (props: Props) => {
       setLoading(true);
       try {
         const { data } = await readService(param.idService, userData as any);
+        console.log(data);
+        
         reset(data.data as any);
         setLoading(false);
       } catch (error) {
@@ -88,7 +91,7 @@ const EditService = (props: Props) => {
                         id="name"
                         type="text"
                         placeholder="Nhập tên dịch vụ..."
-                        {...register('name', { required: true })}
+                        {...register('label', { required: true })}
                       />
                       {errors.name?.type === 'required' && <span className="text-rose-600">Không được bỏ trống</span>}
                     </div>

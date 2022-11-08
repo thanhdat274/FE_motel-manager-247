@@ -12,13 +12,14 @@ type IForm = {
   price: number;
   status: boolean;
   max: number;
+  email:string;
 };
 type Props = {
   data: IForm | any;
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, max, area } = data;
+  const { name, price, status, max, area,emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -35,6 +36,7 @@ const TenantInformation = ({ data }: any) => {
       maxMember: max,
       price: price,
       area: area,
+      emailOfAuth:emailOfAuth,
     },
   });
   useEffect(() => {
@@ -106,6 +108,20 @@ const TenantInformation = ({ data }: any) => {
                     id="price"
                     type="number"
                     {...register('price', { required: true, min: 1000 })}
+                  />
+                  {errors.price && errors.price.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+                    Email người đại diện <span className="text-[red]">*</span>
+                  </label>
+                  <input
+                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="emailOfAuth"
+                    type="emailOfAuth"
+                    {...register('emailOfAuth', { required: true, min: 1000 })}
                   />
                   {errors.price && errors.price.type === 'required' && (
                     <span className="text-[red] mt-1 block">Không dược để trống!</span>

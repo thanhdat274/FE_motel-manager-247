@@ -20,8 +20,6 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
-  console.log(data1);
-
   const userData = cookies?.user;
   const param = router.query;
 
