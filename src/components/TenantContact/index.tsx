@@ -5,6 +5,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 import { updateRoom } from 'src/pages/api/room';
+import storage from '@/util/firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { Toast } from 'src/hooks/toast';
+import { Image } from 'antd';
+import 'antd/dist/antd.css';
 
 export type IContractData = {
   addressCT: string;
@@ -16,6 +21,7 @@ export type IContractData = {
   timeContract: string;
   infoTenant: Info;
   infoLandlord: Info;
+  imageContract: string;
 };
 
 type Info = {
@@ -36,7 +42,7 @@ type Props = {
 
 const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea }: Props) => {
   console.log(roomPrice);
-  
+
   const router = useRouter();
 
   const { setLoading, cookies } = useUserContext();
@@ -47,6 +53,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   });
 
   const [contractData, setContractData] = useState<IContractData>();
+  const [file, setFile] = useState<any>();
 
   const userData = cookies?.user;
   const {
@@ -66,6 +73,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   useEffect(() => {
     if (contractData) {
       const { infoTenant, infoLandlord } = contractData;
+      console.log('data', contractData.imageContract);
 
       setValue('addressCT', contractData.addressCT);
       setValue('timeCT', contractData.timeCT);
@@ -91,46 +99,102 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     }
   }, [contractData, leadMember]);
 
+  const handleChange = (event: any) => {
+    setFile(event.target.files[0] as any);
+  };
+
   const onSubmit = async (data: any) => {
     const newAdditional = data.additional.split('\n');
-
-    const newValue = {
-      contract: {
-        startTime: data.startTime,
-        endTime: data.endTime,
-        additional: newAdditional,
-        timeContract: data.timeContract,
-        fine: data.fine,
-        timeCT: data.timeCT,
-        addressCT: data.addressCT,
-        infoTenant: {
-          name: data.TNname,
-          cardNumber: data.TNcardNumber,
-          phoneNumber: data.TNphoneNumber,
-          issuedBy: data.TNIssuedBy,
-          dateRange: data.TNdateRange,
+    if (!file) {
+      Toast('error', 'Chưa thêm hợp đồng');
+    } else {
+      const storageRef = ref(storage, `/files/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          setLoading(true);
         },
-        infoLandlord: {
-          name: data.LLname,
-          cardNumber: data.LLcardNumber,
-          phoneNumber: data.LLphoneNumber,
-          issuedBy: data.LLIssuedBy,
-          dateRange: data.LLdateRange,
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            // console.log(url);
+            Toast('success', 'Thêm hợp đồng thành công');
+            setLoading(false);
+            setFile('');
+            const newValue = {
+              contract: {
+                startTime: data.startTime,
+                endTime: data.endTime,
+                additional: newAdditional,
+                timeContract: data.timeContract,
+                fine: data.fine,
+                timeCT: data.timeCT,
+                addressCT: data.addressCT,
+                imageContract: url,
+                infoTenant: {
+                  name: data.TNname,
+                  cardNumber: data.TNcardNumber,
+                  phoneNumber: data.TNphoneNumber,
+                  issuedBy: data.TNIssuedBy,
+                  dateRange: data.TNdateRange,
+                },
+                infoLandlord: {
+                  name: data.LLname,
+                  cardNumber: data.LLcardNumber,
+                  phoneNumber: data.LLphoneNumber,
+                  issuedBy: data.LLIssuedBy,
+                  dateRange: data.LLdateRange,
+                },
+              },
+            };
+            setLoading(true);
+            updateRoom(param?.id_room, userData?.token, newValue)
+              .then((result) => {
+                setLoading(false);
+              })
+              .catch((err) => {
+                setLoading(false);
+              });
+          });
         },
-      },
-    };
-    setLoading(true);
-    await updateRoom(param?.id_room, userData?.token, newValue)
-      .then((result) => {
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+      );
+    }
   };
 
   return (
     <div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng</label>
+        {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} />}
+        <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
+          <div className="space-y-1 text-center">
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+            >
+              <path
+                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="text-sm text-gray-600">
+              <label className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                <span className="text-center">Upload a file</span>
+                <input type="file" accept="Image" id="imageFile" className="sr-only" onChange={handleChange} />
+              </label>
+            </div>
+            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+          </div>
+        </div>
+      </div>
+
       <div className="border p-5 ">
         <p className="mb-5">Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng</p>
         <form onSubmit={handleSubmit(onSubmit)}>
