@@ -41,10 +41,7 @@ type Props = {
 };
 
 const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea }: Props) => {
-  console.log(roomPrice);
-
   const router = useRouter();
-
   const { setLoading, cookies } = useUserContext();
   const param = router.query;
   const componentRef = useRef(null);
@@ -68,12 +65,11 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     if (dataContract) {
       setContractData(dataContract);
     }
-  }, []);
+  }, [dataContract]);
 
   useEffect(() => {
     if (contractData) {
       const { infoTenant, infoLandlord } = contractData;
-      console.log('data', contractData.imageContract);
 
       setValue('addressCT', contractData.addressCT);
       setValue('timeCT', contractData.timeCT);
@@ -120,7 +116,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           // download url
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             // console.log(url);
-            Toast('success', 'Thêm hợp đồng thành công');
+            Toast('success', 'Thêm ảnh hợp đồng thành công');
             setLoading(false);
             setFile('');
             const newValue = {
@@ -147,12 +143,13 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   issuedBy: data.LLIssuedBy,
                   dateRange: data.LLdateRange,
                 },
-              },
+              }, idRoom: param?.id_room, token: userData?.token
             };
             setLoading(true);
-            updateRoom(param?.id_room, userData?.token, newValue)
+            updateRoom(newValue)
               .then((result) => {
                 setLoading(false);
+                Toast('success', 'Thêm hợp đồng thành công');
               })
               .catch((err) => {
                 setLoading(false);
@@ -184,10 +181,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 strokeLinejoin="round"
               />
             </svg>
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 py-3">
               <label className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                <span className="text-center">Upload a file</span>
-                <input type="file" accept="Image" id="imageFile" className="sr-only" onChange={handleChange} />
+                <input type="file" accept="Image" id="imageFile" onChange={handleChange} />
               </label>
             </div>
             <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
@@ -567,8 +563,8 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
             </p>
             {getValues('additional')
               ? getValues('additional')
-                  .split('\n')
-                  .map((item: any) => <p key={item}>{item}</p>)
+                .split('\n')
+                .map((item: any) => <p key={item}>{item}</p>)
               : '…………………'}
             <p>
               <strong className="font-bold text-base"> Điều V: Điều khoản chung</strong>

@@ -38,9 +38,9 @@ const TenantInformation = ({ data }: any) => {
   }, [data, reset]);
 
   const onSubmit = async (data: any) => {
-    const newData = { ...data };
+    const newData = { ...data, idRoom: param?.id_room, token: userData?.token};
     setLoading(true);
-    await updateRoom(param?.id_room, userData?.token, newData)
+    await updateRoom(newData)
       .then((result) => {
         setLoading(false);
         router.push(`/manager/landlord/${param.id}/list-room`);

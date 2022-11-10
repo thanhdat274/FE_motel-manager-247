@@ -40,11 +40,11 @@ export const readRoom = (id_room: string, userData: any) => {
     },
   });
 };
-export const updateRoom = (idRoom: any, token: any, room: any) => {
-  const url = `/room/update/${idRoom}`;
-  return instance.put(url, room, {
+export const updateRoom = (newData: any) => {
+  const url = `/room/update/${newData.idRoom}`;
+  return instance.put(url, newData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${newData.token}`,
     },
   });
 };
