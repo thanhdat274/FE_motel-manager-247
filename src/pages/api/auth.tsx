@@ -34,11 +34,19 @@ export const getInfoUser = (idUser: string, token: string) => {
     },
   });
 };
-export const fogetPassword = (data:any) => {
+export const fogetPassword = (data: any) => {
   const url = '/forgot-password';
-  return instance.post(url,data);
+  return instance.post(url, data);
 };
-export const resetPassword = (data:any) => {
+export const resetPassword = (data: any) => {
   const url = '/reset_password';
-  return instance.post(url,data);
+  return instance.post(url, data);
+};
+export const comfimEmail = (data: any) => {
+  const url = '/reset_password';
+  return instance.post(url, data);
+};
+export const confirmation = (email: string | string[] | undefined, token: string | string[] | undefined) => {
+  const url = `/confirmation/${email}/${token}`;
+  return instance.get(url);
 };

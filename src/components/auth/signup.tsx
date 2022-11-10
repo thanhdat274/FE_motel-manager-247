@@ -25,13 +25,12 @@ const Signup = (props: Props) => {
     setLoading(true);
     if (data.password === data.repassword) {
       await UserSignup(data)
-        .then(() => {
-          Toast('success', 'Bạn đã đăng ký thành công');
+        .then((data) => {
           setLoading(false);
-          router.push('/auth/signin');
+          alert(data.data?.message)
         })
         .catch((error) => {
-          const msgError = error?.response.data.error;
+          const msgError = error?.response?.data?.message
           Toast('error', msgError);
           setLoading(false);
         });
