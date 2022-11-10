@@ -9,8 +9,9 @@ import LayoutListHome from 'src/Layout/ListHome';
 import UserProvider from '@/context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import PrivateRouter from './PrivateRouter';
+
 import { CookiesProvider } from 'react-cookie';
+import { CheckUser, PrivateRouter } from './PrivateRouter';
 
 config.autoAddCss = false;
 
@@ -53,9 +54,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       return (
         <div className="bg-gray-200">
-          <LayoutIntro>
-            <Component {...pageProps} />
-          </LayoutIntro>
+          <CheckUser>
+            <LayoutIntro>
+              <Component {...pageProps} />
+            </LayoutIntro>
+          </CheckUser>
         </div>
       );
     }
