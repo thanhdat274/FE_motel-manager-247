@@ -1,38 +1,49 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { getAllBillForHouse } from 'src/pages/api/billService';
+import { getDetailBillServiceByMonthYear } from 'src/pages/api/statistical';
+import type { DatePickerProps } from 'antd';
+import { DatePicker, Space } from 'antd';
+import moment from 'moment';
+import 'antd/dist/antd.css';
 
 type Props = {};
 
-const listElectricity = (props: Props) => {
-  var NameBuild = 'dien';
-  if (typeof window !== 'undefined') {
-    const [listBillData, setListBillData] = useState<any>([]);
-    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
-    console.log(codeRooms._id);
-    console.log(NameBuild);
+const ListElectricity = (props: Props) => {
+  const today = new Date();
 
+  const [monthCheck, setMonth] = useState(today.getMonth() + 1);
+  const [yearCheck, setYear] = useState(today.getFullYear());
+  const [listBillData, setListBillData] = useState<any>([]);
+
+  var NameBuild = 'dien';
+
+  const YearStatistical = new Date().getFullYear();
+  const datePickerShow = React.useMemo(() => {
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+      setMonth(parseInt(dateString.slice(5, 7)));
+      setYear(parseInt(dateString.slice(0, 4)));
+    };
+    return (
+      <DatePicker
+        style={{ width: '200px' }}
+        onChange={onChange}
+        defaultValue={moment(`${yearCheck}-${monthCheck}`, 'YYYY-MM')}
+        picker="month"
+      />
+    );
+  }, [monthCheck, yearCheck]);
+
+
+  if (typeof window !== 'undefined') {
+    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
     useEffect(() => {
       const getListBillData = async () => {
-        // const {data} = await getAllBillForHouse(NameBuild, monthCheck, yearCheck, id)
+        const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, NameBuild, monthCheck, yearCheck)
+        setListBillData(data.data)
       };
       getListBillData();
-    }, []);
+    }, [codeRooms._id, monthCheck, yearCheck]);
   }
-
-  // const codeRooms = JSON.parse(localStorage.getItem('code_room') as string)
-  // console.log(codeRooms);
-
-  // const [rooms, setRooms] = useState();
-  // var codeRooms = 'admin123';
-  // useEffect(() => {
-  //   const getRoom = async () => {
-  //     const { data } = await getRoomBySubName(codeRooms);
-  //     setRooms(data.data);
-  //   };
-  //   getRoom();
-  // }, []);
-  // console.log(demo);
+  
 
   return (
     <div className="h-screen">
@@ -58,9 +69,15 @@ const listElectricity = (props: Props) => {
         </div>
       </header>
       <main>
+        <div className="block p-2">
+          <h3>Chọn tháng năm</h3>
+          <Space direction="vertical">{datePickerShow}</Space>
+        </div>
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className='p-4'>
+              </div>
               <div className="py-2 align-middle inline-block min-w-full ">
                 <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                   <table className="min-w-full divide-y divide-gray-200">
@@ -96,17 +113,17 @@ const listElectricity = (props: Props) => {
                     <tbody className="bg-white divide-y divide-gray-200">
                       <tr>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">Tháng 9</div>
+                          <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">100 Kwh</div>
+                          <div className="text-center">{listBillData.inputValue} Kwh</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">150 Kwh</div>
+                          <div className="text-center">{listBillData.outputValue} Kwh</div>
                         </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">50 Kwh</div>
+                        <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
+                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} Kwh</div>
                         </td>
                       </tr>
                     </tbody>
@@ -121,4 +138,4 @@ const listElectricity = (props: Props) => {
   );
 };
 
-export default listElectricity;
+export default ListElectricity;

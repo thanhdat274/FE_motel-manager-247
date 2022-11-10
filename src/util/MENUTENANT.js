@@ -1,7 +1,13 @@
-import { faBox, faCoins, faHospital, faPlug, faShower } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faCoins, faHospital, faPalette, faPlug, faShower } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const MENU_TENANTS = [
+  {
+    url: '',
+    gap: true,
+    title: 'Bảng điều khiển',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
+  },
   {
     url: 'room',
     gap: true,
