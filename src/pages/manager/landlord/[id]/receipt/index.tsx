@@ -77,7 +77,7 @@ const Receipt = (props: Props) => {
       }
     };
     getBill();
-  }, [monthCheckk, yearCheckk]);
+  }, [monthCheckk, userData, yearCheckk]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -106,20 +106,7 @@ const Receipt = (props: Props) => {
               </h2>
             </div>
             <div>
-              <div className="mt-5">
-                <Space direction="vertical">{datePickerShow} </Space>
-              </div>
-            </div>
-
-            <div className="mt-5 flex lg:mt-0 lg:ml-4">
-              <form>
-                <input
-                  type="text"
-                  name="keyword"
-                  className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Tìm kiếm..."
-                />
-              </form>
+              <Space direction="vertical">{datePickerShow} </Space>
             </div>
           </div>
         </div>
