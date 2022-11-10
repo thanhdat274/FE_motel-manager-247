@@ -12,15 +12,15 @@ type IForm = {
   price: number;
   status: boolean;
   maxMember: number;
-  emailOfAuth:string;
-  area:number
+  emailOfAuth: string;
+  area: number
 };
 type Props = {
   data: IForm | any;
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, maxMember, area,emailOfAuth } = data;
+  const { name, price, status, maxMember, area, emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -33,8 +33,6 @@ const TenantInformation = ({ data }: any) => {
   } = useForm<IForm>({});
   useEffect(() => {
     if (data) {
-      console.log(data?.contract?.imageContract);
-      
       reset(data);
     }
   }, [data, reset]);
