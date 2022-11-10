@@ -72,7 +72,7 @@ const HeaderPreview = (props: Props) => {
               </a>
             </Link>
             <div>
-              <h2 className="lg:text-xl xl:text-2xl font-bold">PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h2>
+              <h2 className="lg:text-xl xl:text-2xl font-bold">QUẢN LÝ NHÀ TRỌ 24/7</h2>
               <p>Đơn giản - Dễ sử dụng - Chính xác</p>
             </div>
             {cookies?.user && (
