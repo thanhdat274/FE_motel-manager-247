@@ -25,3 +25,11 @@ export const CreateBillHouseAll = (newData: any) => {
     },
   });
 };
+export const CreateBillRooms = (newDataRooms: any) => {
+  const url = `/bill-room`;
+  return instance.post(url, newDataRooms, {
+    headers: {
+      Authorization: `Bearer ${newDataRooms.userData.token}`,
+    },
+  });
+};

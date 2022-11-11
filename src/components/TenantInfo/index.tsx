@@ -12,15 +12,15 @@ type IForm = {
   price: number;
   status: boolean;
   maxMember: number;
-  emailOfAuth:string;
-  area:number
+  emailOfAuth: string;
+  area: number
 };
 type Props = {
   data: IForm | any;
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, maxMember, area,emailOfAuth } = data;
+  const { name, price, status, maxMember, area, emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -38,9 +38,9 @@ const TenantInformation = ({ data }: any) => {
   }, [data, reset]);
 
   const onSubmit = async (data: any) => {
-    const newData = { ...data };
+    const newData = { ...data, idRoom: param?.id_room, token: userData?.token};
     setLoading(true);
-    await updateRoom(param?.id_room, userData?.token, newData)
+    await updateRoom(newData)
       .then((result) => {
         setLoading(false);
         router.push(`/manager/landlord/${param.id}/list-room`);
