@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
+import { faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserSignup } from 'src/pages/api/auth';
 type Props = {};
 interface IFormInputs {
@@ -15,6 +17,7 @@ interface IFormInputs {
 
 const Signup = (props: Props) => {
   const { setLoading } = useUserContext();
+  const [message, setMessage] = useState('');
   const router = useRouter();
   const {
     register,
@@ -25,13 +28,12 @@ const Signup = (props: Props) => {
     setLoading(true);
     if (data.password === data.repassword) {
       await UserSignup(data)
-        .then(() => {
-          Toast('success', 'Bạn đã đăng ký thành công');
+        .then((data) => {
           setLoading(false);
-          router.push('/auth/signin');
+          setMessage(data.data?.message)
         })
         .catch((error) => {
-          const msgError = error?.response.data.error;
+          const msgError = error?.response?.data?.message
           Toast('error', msgError);
           setLoading(false);
         });
@@ -42,7 +44,7 @@ const Signup = (props: Props) => {
   };
   return (
     <div className="min-h-[700px] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      {!message && <div className="max-w-md w-full space-y-8">
         <div className="rounded bg-white max-w-md overflow-hidden shadow-xl p-5 space-y-8">
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 uppercase">đăng ký</h2>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -125,7 +127,16 @@ const Signup = (props: Props) => {
             </Link>
           </div>
         </div>
-      </div>
+      </div>}
+      {message && <div className="max-w-2xl w-full space-y-8">
+        <div className='w-full flex justify-center flex-col'>
+          <FontAwesomeIcon icon={faEnvelopeCircleCheck} className="text-green-500 h-20" />
+          <h2 className='text-[25px] mt-10 text-green-500 text-center'>{message}</h2>
+          <Link href="https://mail.google.com">
+            <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center block mt-10">Đi tới email</a>
+          </Link>
+        </div>
+      </div>}
     </div>
   );
 };
