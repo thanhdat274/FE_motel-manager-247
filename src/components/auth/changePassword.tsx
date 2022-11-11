@@ -29,7 +29,6 @@ const ChangePassword = (props: Props) => {
     const newdata = { ...data, email: userData?.user?.email };
     await changePassword(newdata)
       .then((data: any) => {
-        console.log('data', data);
         setLoading(false);
         Toast('success', data?.data?.message + ' chuyển trang sau 2s!');
         setTimeout(() => {
@@ -38,7 +37,6 @@ const ChangePassword = (props: Props) => {
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);
-        console.log();
         setLoading(false);
       });
   };
