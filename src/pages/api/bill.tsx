@@ -1,5 +1,4 @@
-import { LogarithmicScale } from 'chart.js';
-import { useEffect } from 'react';
+
 import instance from './instance';
 
 export const listBill = ( userData:any,  year: number ,month: number) => {  
