@@ -14,7 +14,7 @@ interface IFormInputs {
 }
 
 const Signup = (props: Props) => {
-  const { setLoading } = useUserContext();
+  const { setLoading, setMessage } = useUserContext();
   const router = useRouter();
   const {
     register,
@@ -27,7 +27,8 @@ const Signup = (props: Props) => {
       await UserSignup(data)
         .then((data) => {
           setLoading(false);
-          alert(data.data?.message)
+          router.push('/auth/message-verify-email')
+          setMessage(data.data?.message)
         })
         .catch((error) => {
           const msgError = error?.response?.data?.message
