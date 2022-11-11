@@ -51,6 +51,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const [contractData, setContractData] = useState<IContractData>();
   const [file, setFile] = useState<any>();
+  const [imgPreview, setImgPreview] = useState<any>();
 
   const userData = cookies?.user;
   const {
@@ -97,76 +98,114 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const handleChange = (event: any) => {
     setFile(event.target.files[0] as any);
+    setImgPreview(URL.createObjectURL(event.target.files[0]))
   };
 
   const onSubmit = async (data: any) => {
     const newAdditional = data.additional.split('\n');
-    if (!file) {
-      Toast('error', 'Chưa thêm hợp đồng');
-    } else {
-      const storageRef = ref(storage, `/files/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          setLoading(true);
-        },
-        (err) => console.log(err),
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            // console.log(url);
-            Toast('success', 'Thêm ảnh hợp đồng thành công');
-            setLoading(false);
-            setFile('');
-            const newValue = {
-              contract: {
-                startTime: data.startTime,
-                endTime: data.endTime,
-                additional: newAdditional,
-                timeContract: data.timeContract,
-                fine: data.fine,
-                timeCT: data.timeCT,
-                addressCT: data.addressCT,
-                imageContract: url,
-                infoTenant: {
-                  name: data.TNname,
-                  cardNumber: data.TNcardNumber,
-                  phoneNumber: data.TNphoneNumber,
-                  issuedBy: data.TNIssuedBy,
-                  dateRange: data.TNdateRange,
-                },
-                infoLandlord: {
-                  name: data.LLname,
-                  cardNumber: data.LLcardNumber,
-                  phoneNumber: data.LLphoneNumber,
-                  issuedBy: data.LLIssuedBy,
-                  dateRange: data.LLdateRange,
-                },
-              }, idRoom: param?.id_room, token: userData?.token
-            };
+    if (contractData?.addressCT) {
+      if (!file) {
+        Toast('error', 'Chưa thêm ảnh hợp đồng');
+      } else {
+        const storageRef = ref(storage, `/files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
             setLoading(true);
-            updateRoom(newValue)
-              .then((result) => {
-                setLoading(false);
-                Toast('success', 'Thêm hợp đồng thành công');
-              })
-              .catch((err) => {
-                setLoading(false);
-              });
-          });
-        },
-      );
+          },
+          (err) => console.log(err),
+          () => {
+            // download url
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              setLoading(false);
+              Toast('success', 'Thêm ảnh hợp đồng thành công');
+              const newValue = {
+                contract: {
+                  startTime: data.startTime,
+                  endTime: data.endTime,
+                  additional: newAdditional,
+                  timeContract: data.timeContract,
+                  fine: data.fine,
+                  timeCT: data.timeCT,
+                  addressCT: data.addressCT,
+                  imageContract: url,
+                  infoTenant: {
+                    name: data.TNname,
+                    cardNumber: data.TNcardNumber,
+                    phoneNumber: data.TNphoneNumber,
+                    issuedBy: data.TNIssuedBy,
+                    dateRange: data.TNdateRange,
+                  },
+                  infoLandlord: {
+                    name: data.LLname,
+                    cardNumber: data.LLcardNumber,
+                    phoneNumber: data.LLphoneNumber,
+                    issuedBy: data.LLIssuedBy,
+                    dateRange: data.LLdateRange,
+                  },
+                }, idRoom: param?.id_room, token: userData?.token
+              };
+              setLoading(true);
+              updateRoom(newValue)
+                .then((result) => {
+                  setLoading(false);
+                  Toast('success', 'Cập nhật hợp đồng thành công');
+                })
+                .catch((err) => {
+                  setLoading(false);
+                });
+            });
+          },
+        );
+      }
+    } else {
+      const newValue = {
+        contract: {
+          startTime: data.startTime,
+          endTime: data.endTime,
+          additional: newAdditional,
+          timeContract: data.timeContract,
+          fine: data.fine,
+          timeCT: data.timeCT,
+          addressCT: data.addressCT,
+          imageContract: "",
+          infoTenant: {
+            name: data.TNname,
+            cardNumber: data.TNcardNumber,
+            phoneNumber: data.TNphoneNumber,
+            issuedBy: data.TNIssuedBy,
+            dateRange: data.TNdateRange,
+          },
+          infoLandlord: {
+            name: data.LLname,
+            cardNumber: data.LLcardNumber,
+            phoneNumber: data.LLphoneNumber,
+            issuedBy: data.LLIssuedBy,
+            dateRange: data.LLdateRange,
+          },
+        }, idRoom: param?.id_room, token: userData?.token
+      };
+      setLoading(true);
+      await updateRoom(newValue)
+        .then((result) => {
+          setLoading(false);
+          Toast('success', 'Thêm hợp đồng thành công');
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
     }
   };
 
   return (
     <div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng</label>
+        <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
         {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} />}
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
-          <div className="space-y-1 text-center">
+          {imgPreview && <Image style={{ width: '200px' }} src={imgPreview} />}
+          {!imgPreview && <div className="space-y-1 text-center">
             <svg
               className="mx-auto h-12 w-12 text-gray-400"
               stroke="currentColor"
@@ -187,7 +226,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               </label>
             </div>
             <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-          </div>
+          </div>}
         </div>
       </div>
 

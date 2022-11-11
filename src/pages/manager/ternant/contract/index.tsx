@@ -25,7 +25,11 @@ const ContractTernant = (props: Props) => {
         </div>
       </header>
       <main className='text-center mt-10'>
-        <Image style={{ width: '500px' }} src={codeRoom?.contract?.imageContract} />
+        {codeRoom?.contract?.imageContract ? (<Image style={{ width: '500px' }} src={codeRoom?.contract?.imageContract} />) : (
+          <div>
+            <h2 className='uppercase text-2xl'>Không có ảnh hợp đồng</h2>
+          </div>
+       )}
       </main>
     </div>
   );
