@@ -28,7 +28,7 @@ export const listBooking = (userData:any, id:any ) => {
 
   export const deleteBooking = (id:any, userData:any) => {  
   
-    const url = `/booking/remove-booking`;
+    const url = `/booking/remove-booking/${id}`;
     return instance.delete(url,{
       headers: {
         Authorization: `Bearer ${userData.token}`,
