@@ -202,10 +202,19 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     <div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
-        {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} />}
+        {imgPreview ? (
+          <div>
+            <h2>Ảnh hợp đồng xem trước</h2>
+            <Image style={{ width: '200px' }} src={imgPreview} />
+          </div>
+        ) : (
+          <div>
+            {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} />}
+          </div>
+        )
+        }
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
-          {imgPreview && <Image style={{ width: '200px' }} src={imgPreview} />}
-          {!imgPreview && <div className="space-y-1 text-center">
+          <div className="space-y-1 text-center">
             <svg
               className="mx-auto h-12 w-12 text-gray-400"
               stroke="currentColor"
@@ -226,7 +235,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               </label>
             </div>
             <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-          </div>}
+          </div>
         </div>
       </div>
 
