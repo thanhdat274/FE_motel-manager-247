@@ -98,7 +98,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const handleChange = (event: any) => {
     setFile(event.target.files[0] as any);
-    setImgPreview(URL.createObjectURL(event.target.files[0]))
+    setImgPreview(URL.createObjectURL(event.target.files[0] as any))
   };
 
   const onSubmit = async (data: any) => {
@@ -205,12 +205,12 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
         {imgPreview &&
           <div>
             <h2>Ảnh hợp đồng xem trước</h2>
-            <Image style={{ width: '200px' }} src={imgPreview} alt=''/>
+            <Image style={{ width: '200px' }} src={imgPreview} alt='' />
           </div>
         }
         {!imgPreview &&
           <div>
-            {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt=''/>}
+            {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt='' />}
           </div>
         }
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
