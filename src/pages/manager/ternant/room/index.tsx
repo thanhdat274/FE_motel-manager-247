@@ -4,10 +4,12 @@ type Props = {};
 
 const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
-  useEffect(() => {
-    const { data } = JSON.parse(localStorage.getItem('code_room') as string);
-    setCodeRoom(data as any);
-  }, []);
+  if (typeof window !== 'undefined') {
+    useEffect(() => {
+      const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
+      setCodeRoom(codeRooms);
+    }, []);
+  }
   return (
     <div className="h-auto">
       <div className="bg-white shadow">
@@ -68,10 +70,10 @@ const InfoRoom = (props: Props) => {
                         <div className="text-center">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.name}</div>
+                        <div className="text-center">{codeRoom?.price}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">20 m2</div>
+                        <div className="text-center">{codeRoom?.area} m<sup>2</sup></div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
                         <div className="text-center">{codeRoom?.maxMember}</div>
@@ -145,12 +147,11 @@ const InfoRoom = (props: Props) => {
                       </th>
                     </tr>
                   </thead>
-
                   <tbody className="bg-white divide-y divide-gray-200">
                     {codeRoom?.listMember?.map((item: any, index: number) => (
                       <tr key={index}>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">{item.memberName}</div>
+                          <div className="text-center font-bold">{item.memberName}</div>
                         </td>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
                           <div className="text-center">{item.cardNumber}</div>
