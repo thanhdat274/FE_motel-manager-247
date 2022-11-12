@@ -113,7 +113,7 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="emailOfAuth"
                     type="emailOfAuth"
-                    {...register('emailOfAuth', { required: true, min: 1000 })}
+                    {...register('emailOfAuth', {  min: 1000 })}
                   />
                   {errors.price && errors.price.type === 'required' && (
                     <span className="text-[red] mt-1 block">Không dược để trống!</span>

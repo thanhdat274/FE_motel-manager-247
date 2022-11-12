@@ -25,27 +25,28 @@ const Booking = (props: Props) => {
   var today = new Date();
 
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  console.log(date);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<any>();
   const [listBookings, setListBookings] = useState<any>({});
-  console.log(listBookings);
 
   useEffect(() => {
-    const getListBooking = async () => {
-      const { data } = await listBooking(userData, id);
-      setListBookings(data.data);
-    };
-    getListBooking();
-  }, []);
+    if (id) {
+      const getListBooking = async () => {
+        const { data } = await listBooking(userData, id);
+        setListBookings(data.data);
+      };
+      getListBooking();
+    }
+
+  }, [id]);
 
 
   const onHandleRemove = async (id: any) => {
-    // console.log(id);
     const confirm = window.confirm("Bạn có chắc chắn muốn xóa không?")
     if (confirm) {
       await deleteBooking(id, userData)
@@ -60,13 +61,17 @@ const Booking = (props: Props) => {
     }
 
   };
+
+
   useEffect(() => {
-    const getListRoom = async () => {
-      const { data } = await listRoom(id, userData);
-      setListRooms(data.data);
-    };
-    getListRoom();
-  }, []);
+    if (id) {
+      const getListRoom = async () => {
+        const { data } = await listRoom(id, userData);
+        setListRooms(data.data);
+      }
+      getListRoom();
+    }
+  }, [id]);
 
 
   const onSubmit = async (data1: any) => {
@@ -106,7 +111,7 @@ const Booking = (props: Props) => {
       </header>
       <div>
 
-        <div>
+        
           <div className="flex flex-col border bg-white mt-3">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -141,9 +146,44 @@ const Booking = (props: Props) => {
                           return (
                             <>
                               {item.expectTime == date ? (
-
-
                                 <tr className=" border-yellow-500 border-2">
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.fullName}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.email}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.phoneNumber}
+                                  </td>
+
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.bookMoney}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.expectTime}
+                                  </td>
+                                  <td className="flex pt-2">
+
+                                    <div>
+
+                                      <button
+                                        type="submit"
+                                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                        onClick={() => onHandleRemove(item._id)}
+                                      >
+                                        Xóa
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+
+
+                              ) : (
+
+
+                                <tr className="border-b">
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                     {item.fullName}
@@ -179,62 +219,25 @@ const Booking = (props: Props) => {
                                   </td>
                                 </tr>
 
-                                
-                          ) : (
 
-                        
-                          <tr className="border-b">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.fullName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.phoneNumber}
-                            </td>
+                              )}
+                            </>
 
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.bookMoney}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.expectTime}
-                            </td>
-                            <td className="flex pt-2">
-                              <div>
-                                {/* --------------------- */}
-                                <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
-                              </div>
-                              <div>
-
-                                <button
-                                  type="submit"
-                                  className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                  onClick={() => onHandleRemove(item._id)}
-                                >
-                                  Xóa
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-
-                               
-                            )}
-                        </>
-
-                      );
-                      })
+                          );
+                        })
                       ) : (
-                      <div className='text-red-500 p-5'>Không có dữ liệu</div>
-                    )}
+                        // <div className='text-red-500 p-5'>Không có dữ liệu</div>
+                        <tr>
+                          <td  className='text-red-500 p-5'>Không có dữ liệu</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        
 
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full">

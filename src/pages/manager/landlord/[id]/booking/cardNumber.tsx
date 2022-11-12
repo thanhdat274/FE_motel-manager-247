@@ -6,13 +6,14 @@ import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import CardNumber from './cardNumber';
 type Props = {
-  item1: any,
-  item2: any
+    itemm1: any,
+    itemm2: any
 
 };
-const AddBooking = (props: Props) => {
+const CardNumber = (props: Props) => {
+    console.log('itemmmm', props.itemm1, props.itemm2);
+    
   const { cookies, setLoading } = useUserContext();
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);
@@ -46,7 +47,7 @@ const AddBooking = (props: Props) => {
             {' '}
             <input
               type="text"
-              value={props.item1}
+              value={props.itemm1}
               {...register('idBooking', { required: true })}
             />
           </div>
@@ -54,12 +55,21 @@ const AddBooking = (props: Props) => {
             {' '}
             <input
               type="text"
-              value={props.item2}
+              value={props.itemm2}
               {...register('idRoom', { required: true })}
             />
           </div>
+          
 
         </div>
+        <div>
+            {' '}
+            <input
+              type="number"
+              {...register('cardNumber', { required: true })}
+            />
+            <h1>hello</h1>
+          </div>
         <div>
           <button
             type="submit"
@@ -70,23 +80,9 @@ const AddBooking = (props: Props) => {
         </div>
       </form>
 
-      <div>
-        <Modal open={open} onClose={onCloseModal} center>
-
-
-          <div className="w-full">
-            <h1 className="pt-2 text-white">
-              -----------------------------------------------------------------------------------------------------------------------
-            </h1>
-            <h2>Mời bạn nhập thông tin</h2>
-
-          </div>
-          <CardNumber itemm1={props.item1} itemm2={props.item2} ></CardNumber>
-        </Modal>
-
-      </div>
+      
     </div>
   );
 };
 
-export default AddBooking;
+export default CardNumber;
