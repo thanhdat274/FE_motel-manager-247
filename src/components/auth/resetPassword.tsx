@@ -13,7 +13,6 @@ type FormInputs = {
 const Resetpassword = (props: Props) => {
   const router = useRouter();
   const param = router.query;
-  console.log(param.token);
 
   const { setLoading } = useUserContext();
   const {
@@ -25,11 +24,9 @@ const Resetpassword = (props: Props) => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setLoading(true);
-    console.log(data);
     const newdata = { ...data, token: param.token };
     await resetPassword(newdata)
       .then((data: any) => {
-        console.log('data', data);
         setLoading(false);
         Toast('success', 'Thay đổi mật khẩu thành công, chuyển trang sau 2s!');
         setTimeout(() => {
@@ -38,7 +35,6 @@ const Resetpassword = (props: Props) => {
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);
-        console.log();
         setLoading(false);
       });
   };
