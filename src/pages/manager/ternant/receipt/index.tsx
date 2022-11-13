@@ -2,13 +2,11 @@ import { DatePicker, DatePickerProps, Space } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-responsive-modal';
-// import 'react-responsive-modal/styles.css';
 import 'antd/dist/antd.css';
 import { getBillIdRoom } from 'src/pages/api/bill';
 type Props = {};
 
 const InfoReceipt = (props: Props) => {
-
   const [bills, setBills] = useState<any>([]);
   const today = new Date();
   const [monthCheckk, setMonthh] = useState(today.getMonth() + 1);
@@ -27,17 +25,16 @@ const InfoReceipt = (props: Props) => {
       />
     );
   }, [monthCheckk, yearCheckk]);
-  if (typeof window !== 'undefined') {
-    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
-    console.log(codeRooms._id);
-    useEffect(() => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
       const getBillidRoom = async () => {
         const { data } = await getBillIdRoom(codeRooms._id as string, yearCheckk, monthCheckk)
         setBills(data.data)
       }
       getBillidRoom();
-    }, [yearCheckk, monthCheckk])
-  }
+    }
+  }, [yearCheckk, monthCheckk])
   for (var i = 0; i < bills.length; i++) {
     const initialValue = 0;
     var totalPrice =
@@ -47,9 +44,6 @@ const InfoReceipt = (props: Props) => {
         initialValue,
       );
   }
-
-
-
 
   return (
     <div className="h-screen">
