@@ -41,6 +41,8 @@ const Receipt = (props: Props) => {
       (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
       initialValue,
     );
+  console.log(readBills);
+  
 
   const onCloseModal = () => setOpen(false);
 
