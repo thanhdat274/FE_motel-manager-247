@@ -32,18 +32,17 @@ const ListElectricity = (props: Props) => {
     );
   }, [monthCheck, yearCheck]);
 
-
-  if (typeof window !== 'undefined') {
-    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
-    useEffect(() => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
       const getListBillData = async () => {
         const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, NameBuild, monthCheck, yearCheck)
         setListBillData(data.data)
       };
       getListBillData();
-    }, [codeRooms._id, monthCheck, yearCheck]);
-  }
-  
+    }
+  }, [monthCheck, yearCheck]);
+
 
   return (
     <div className="h-screen">
