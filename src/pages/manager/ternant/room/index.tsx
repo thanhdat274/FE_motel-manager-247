@@ -67,19 +67,20 @@ const InfoRoom = (props: Props) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     <tr>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.name}</div>
+                        <div className="text-center font-bold">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.price}</div>
+                        <div className="text-center font-bold">
+                          {codeRoom?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.area} m<sup>2</sup></div>
+                        <div className="text-center font-bold">{codeRoom?.area} m<sup>2</sup></div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.maxMember}</div>
+                        <div className="text-center font-bold">{codeRoom?.maxMember}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.listMember?.length}</div>
+                        <div className="text-center font-bold">{codeRoom?.listMember?.length}</div>
                       </td>
                     </tr>
                   </tbody>
