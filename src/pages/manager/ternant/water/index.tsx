@@ -41,6 +41,42 @@ const ListWater = (props: Props) => {
       getListBillData();
     }
   }, [monthCheck, yearCheck]);
+const ListWater = (props: Props) => {
+  const today = new Date();
+
+  const [monthCheck, setMonth] = useState(today.getMonth() + 1);
+  const [yearCheck, setYear] = useState(today.getFullYear());
+  const [listBillData, setListBillData] = useState<any>([]);
+
+  var NameBuild = 'nuoc';
+
+  const YearStatistical = new Date().getFullYear();
+  const datePickerShow = React.useMemo(() => {
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+      setMonth(parseInt(dateString.slice(5, 7)));
+      setYear(parseInt(dateString.slice(0, 4)));
+    };
+    return (
+      <DatePicker
+        style={{ width: '200px' }}
+        onChange={onChange}
+        defaultValue={moment(`${yearCheck}-${monthCheck}`, 'YYYY-MM')}
+        picker="month"
+      />
+    );
+  }, [monthCheck, yearCheck]);
+
+
+  if (typeof window !== 'undefined') {
+    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
+    useEffect(() => {
+      const getListBillData = async () => {
+        const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, NameBuild, monthCheck, yearCheck)
+        setListBillData(data.data)
+      };
+      getListBillData();
+    }, [codeRooms._id, monthCheck, yearCheck]);
+  }
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
