@@ -4,12 +4,12 @@ type Props = {};
 
 const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
-  if (typeof window !== 'undefined') {
-    useEffect(() => {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
       const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
       setCodeRoom(codeRooms);
-    }, []);
-  }
+    }
+  }, []);
   return (
     <div className="h-auto">
       <div className="bg-white shadow">

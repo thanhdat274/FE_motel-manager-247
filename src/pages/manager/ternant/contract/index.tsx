@@ -6,7 +6,6 @@ type Props = {};
 
 const ContractTernant = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
-  console.log(codeRoom);
   useEffect(() => {
     const codeRoom = JSON.parse(localStorage.getItem('code_room') as string);
     setCodeRoom(codeRoom as any);
@@ -29,7 +28,7 @@ const ContractTernant = (props: Props) => {
           <div>
             <h2 className='uppercase text-2xl'>Không có ảnh hợp đồng</h2>
           </div>
-       )}
+        )}
       </main>
     </div>
   );
