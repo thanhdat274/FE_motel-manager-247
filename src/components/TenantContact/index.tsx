@@ -51,7 +51,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const [contractData, setContractData] = useState<IContractData>();
   const [file, setFile] = useState<any>();
-  const [imgPreview, setImgPreview] = useState('');
+  const [imgPreview, setImgPreview] = useState<any>();
 
   const userData = cookies?.user;
   const {
@@ -98,7 +98,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const handleChange = (event: any) => {
     setFile(event.target.files[0] as any);
-    setImgPreview(URL.createObjectURL(event.target.files[0] as any))
+    setImgPreview(URL.createObjectURL(event.target.files[0]))
   };
 
   const onSubmit = async (data: any) => {
@@ -202,17 +202,13 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     <div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
-        <div className='block'>
-          {!imgPreview &&
-            <div>
-              {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt='' />}
-              {!contractData?.imageContract && <div></div>}
-            </div>
-          }
-          {imgPreview &&
+
+        <div className='flex items-end gap-6'>
+        {contractData?.imageContract && <Image style={{ width: '200px', height: '250px' }} src={contractData?.imageContract} alt=''/>}
+        {imgPreview &&
             <div>
               <h2>Ảnh hợp đồng xem trước</h2>
-              <Image style={{ width: '200px' }} src={imgPreview} alt='' />
+              <Image style={{ width: '200px', height: '250px' }} src={imgPreview} alt='' />
             </div>
           }
         </div>
