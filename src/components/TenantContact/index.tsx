@@ -51,7 +51,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const [contractData, setContractData] = useState<IContractData>();
   const [file, setFile] = useState<any>();
-  const [imgPreview, setImgPreview] = useState('');
+  const [imgPreview, setImgPreview] = useState<any>();
 
   const userData = cookies?.user;
   const {
@@ -187,7 +187,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
         }, idRoom: param?.id_room, token: userData?.token
       };
       setLoading(true);
-      await updateRoom(newValue)
+      updateRoom(newValue)
         .then((result) => {
           setLoading(false);
           Toast('success', 'Thêm hợp đồng thành công');
