@@ -211,6 +211,12 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <Image style={{ width: '200px', height: '250px' }} src={imgPreview} alt='' />
             </div>
           }
+        {!imgPreview &&
+            <div>
+              {/* <h2>Ảnh hợp đồng xem trước</h2>
+              <Image style={{ width: '200px', height: '250px' }} src={imgPreview} alt='' /> */}
+            </div>
+          }
         </div>
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
           <div className="space-y-1 text-center">
