@@ -39,18 +39,16 @@ const ListServiceRoom = (props: Props) => {
   const remove = async (_id: any, id: any, userData: any) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
-      setLoading(true);
-      try {
-        if (_id && id && userData) {
-          await removeService({ idService: _id, idHouse: id, userData: userData }).then(() => {
-            Toast('success', 'Xóa dịch vụ thành công');
-            setListServices(listServices.filter((item: any) => item._id !== _id));
-            setLoading(false);
-          });
-        }
-      } catch (error) {
-        Toast('error', 'Xóa dịch vụ không thành công');
-        setLoading(false);
+      if (_id && id && userData) {
+        setLoading(true);
+        await removeService({ idService: _id, idHouse: id, userData: userData }).then(() => {
+          Toast('success', 'Xóa dịch vụ thành công');
+          setListServices(listServices.filter((item: any) => item._id !== _id));
+          setLoading(false);
+        }).catch((error) => {
+          Toast('error', error?.response?.data?.message);
+          setLoading(false);
+        });
       }
     }
   };

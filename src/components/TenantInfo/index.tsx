@@ -43,11 +43,11 @@ const TenantInformation = ({ data }: any) => {
     await updateRoom(newData)
       .then((result) => {
         setLoading(false);
-        router.push(`/manager/landlord/${param.id}/list-room`);
         Toast('success', 'Cập nhật phòng thành công');
+        router.push(`/manager/landlord/${param.id}/list-room`);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.error);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
