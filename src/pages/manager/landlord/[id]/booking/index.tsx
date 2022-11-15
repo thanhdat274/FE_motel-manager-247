@@ -41,21 +41,23 @@ const Booking = (props: Props) => {
       setListBookings(data.data);
     };
     getListBooking();
-  }, []);
+  }, [id, userData]);
 
 
   const onHandleRemove = async (id: any) => {
     // console.log(id);
     const confirm = window.confirm("Bạn có chắc chắn muốn xóa không?")
     if (confirm) {
+      setLoading(true)
       await deleteBooking(id, userData)
         .then((result: any) => {
           setListBookings(listBookings.filter((item: { _id: any; }) => item._id !== id))
-
+          setLoading(false)
           Toast('success', 'Xóa thành công');
         })
         .catch((err) => {
-          Toast('error', err.response.data.error);
+          setLoading(false)
+          Toast('error', err?.response?.data?.massage);
         });
     }
 
@@ -66,7 +68,7 @@ const Booking = (props: Props) => {
       setListRooms(data.data);
     };
     getListRoom();
-  }, []);
+  }, [id, userData]);
 
 
   const onSubmit = async (data1: any) => {
@@ -79,7 +81,7 @@ const Booking = (props: Props) => {
       Toast('success', 'Đặt tiền cọc thành công');
 
     } catch (error: any) {
-      Toast('error', error.response.data.error);
+      Toast('error', error?.response?.data?.massage);
     }
   };
 
@@ -179,55 +181,55 @@ const Booking = (props: Props) => {
                                   </td>
                                 </tr>
 
-                                
-                          ) : (
 
-                        
-                          <tr className="border-b">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.fullName}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.email}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.phoneNumber}
-                            </td>
+                              ) : (
 
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.bookMoney}
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {item.expectTime}
-                            </td>
-                            <td className="flex pt-2">
-                              <div>
-                                {/* --------------------- */}
-                                <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
-                              </div>
-                              <div>
 
-                                <button
-                                  type="submit"
-                                  className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                  onClick={() => onHandleRemove(item._id)}
-                                >
-                                  Xóa
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
+                                <tr className="border-b">
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.fullName}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.email}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.phoneNumber}
+                                  </td>
 
-                               
-                            )}
-                        </>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.bookMoney}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.expectTime}
+                                  </td>
+                                  <td className="flex pt-2">
+                                    <div>
+                                      {/* --------------------- */}
+                                      <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
+                                    </div>
+                                    <div>
 
-                      );
-                      })
+                                      <button
+                                        type="submit"
+                                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                        onClick={() => onHandleRemove(item._id)}
+                                      >
+                                        Xóa
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+
+
+                              )}
+                            </>
+
+                          );
+                        })
                       ) : (
-                      <div className='text-red-500 p-5'>Không có dữ liệu</div>
-                    )}
+                        <div className='text-red-500 p-5'>Không có dữ liệu</div>
+                      )}
                     </tbody>
                   </table>
                 </div>
