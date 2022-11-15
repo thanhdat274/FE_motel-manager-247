@@ -28,7 +28,6 @@ const Receipt = (props: Props) => {
 
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
-  console.log(readBills && readBills.invoiceService);
   const onOpenModal = async (_id: any) => {
     setOpen(true);
     const { data } = await readBill(_id, userData as any);
@@ -42,6 +41,8 @@ const Receipt = (props: Props) => {
       (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
       initialValue,
     );
+  console.log(readBills);
+  
 
   const onCloseModal = () => setOpen(false);
 
