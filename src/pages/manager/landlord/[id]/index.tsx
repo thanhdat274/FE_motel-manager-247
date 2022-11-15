@@ -85,6 +85,8 @@ const HomeManagerPage = () => {
     }
   }, [id, checkYear, checkNameDien]);
 
+  var totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
+
   return (
     <div className="w-full gap-4 flex flex-col ">
       <header className="bg-white shadow border rounded-md">
@@ -98,72 +100,129 @@ const HomeManagerPage = () => {
           </div>
         </div>
       </header>
+      {totalRooms != 0 && (
+        <div className="w-full flex">
+          <div className="grid grid-rows-2 p-2 grid-cols-2 flex-[50%]  xl:flex-nowrap flex-wrap lg:gap-3 sm:gap-2 md:gap-2 gap-y-2 md:gap-y-2 justify-between">
+            <div className="flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Tổng số phòng</p>
+                  <h5 className="mb-0">{totalRooms} phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                </div>
+              </div>
+            </div>
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa</p>
+                  <h5 className="mb-0">{roomStatisticals.roomNotReady} phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
+                </div>
+              </div>
+            </div>
 
-      <div className="w-full flex">
-        <div className="grid grid-rows-2 p-2 grid-cols-2 flex-[50%]  xl:flex-nowrap flex-wrap lg:gap-3 sm:gap-2 md:gap-2 gap-y-2 md:gap-y-2 justify-between">
-          <div className="flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
-            <div className="max-w-full">
-              <div>
-                <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Tổng số phòng</p>
-                <h5 className="mb-0">
-                  {roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing}{' '}
-                  phòng
-                </h5>
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+              <div className="max-w-full ">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
+                  <h5 className="mb-0">{roomStatisticals.roomReadyUsing} phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                </div>
               </div>
             </div>
-            <div className="max-w-full ">
-              <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
-                <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
+                  <h5 className="mb-0">{roomStatisticals.numberMemberInHouse} người</h5>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
-            <div className="max-w-full">
-              <div>
-                <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa</p>
-                <h5 className="mb-0">{roomStatisticals.roomNotReady} phòng</h5>
-              </div>
-            </div>
-            <div className="max-w-full ">
-              <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
-                <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faPerson} />
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
-            <div className="max-w-full ">
-              <div>
-                <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
-                <h5 className="mb-0">{roomStatisticals.roomReadyUsing} phòng</h5>
-              </div>
-            </div>
-            <div className="max-w-full">
-              <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
-                <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
-              </div>
+          <div className="flex-[50%] md:max-w-[50%] p-2">
+            <div className="w-full lg:w-[100%]  bg-white shadow border rounded-md p-2">
+              <PieChart dataRoomStatus={roomStatisticals} />
             </div>
           </div>
-          <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
-            <div className="max-w-full">
-              <div>
-                <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
-                <h5 className="mb-0">{roomStatisticals.numberMemberInHouse} người</h5>
+        </div>
+      )}
+      {totalRooms == 0 && (
+        <div className="w-full">
+          <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 md:gap-0 gap-y-2 md:gap-y-2 justify-between">
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Tổng số</p>
+                  <h5 className="mb-0">0 phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                </div>
               </div>
             </div>
-            <div className="max-w-full ">
-              <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
-                <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faPerson} />
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
+                  <h5 className="mb-0">0 người</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faPerson} />
+                </div>
+              </div>
+            </div>
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
+                  <h5 className="mb-0">0 phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                </div>
+              </div>
+            </div>
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
+                  <h5 className="mb-0">0 phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex-[50%] md:max-w-[50%] p-2">
-          <div className="w-full lg:w-[100%]  bg-white shadow border rounded-md p-2">
-            <PieChart dataRoomStatus={roomStatisticals} />
-          </div>
-        </div>
-      </div>
+      )}
+
       {yearShow}
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
