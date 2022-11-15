@@ -9,7 +9,7 @@ export const listBill = ( userData:any,  year: number ,month: number) => {
     },
   });
 };
-export const readBill = (id:any, newData: any) => {
+export const readBill = (id: any, newData: any) => {
   const url = `/bill/detail/${id}`;
   return instance.get(url, {
     headers: {
@@ -32,4 +32,8 @@ export const CreateBillRooms = (newDataRooms: any) => {
       Authorization: `Bearer ${newDataRooms?.userData?.token}`,
     },
   });
+};
+export const getBillIdRoom = (idRoom: string, year: number, month: number) => {
+  const url = `/bill-room/${idRoom}/${year}/${month}`;
+  return instance.get(url);
 };
