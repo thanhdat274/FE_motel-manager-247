@@ -7,6 +7,7 @@ import {
   faFileContract,
   faReceipt,
   faPalette,
+  faMoneyBill,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -22,6 +23,12 @@ export const MENU_LANDLORD = [
     gap: true,
     title: 'Phòng',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faHospital} />,
+  },
+  {
+    url: 'booking',
+    gap: true,
+    title: 'Cọc phòng',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faMoneyBill} />,
   },
   { url: 'service', title: 'Dịch vụ', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBox} /> },
   {
