@@ -21,8 +21,8 @@ const Forgetpassword = (props: Props) => {
     setLoading(true);
     await fogetPassword(data)
       .then((data: any) => {
-        setLoading(false);
         Toast('success', 'Vui lòng check Email của bạn !');
+        setLoading(false);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);

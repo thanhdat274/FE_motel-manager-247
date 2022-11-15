@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Toast } from 'src/hooks/toast';
-import { readHouse } from 'src/pages/api/house';
 import { addRoom } from 'src/pages/api/room';
 type Props = {};
 
@@ -35,13 +34,13 @@ const AddRoom = (props: Props) => {
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
     setLoading(true);
-    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData.user._id };
+    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData?.user?._id };
 
     await addRoom(newData)
       .then((data: any) => {
+        setLoading(false);
         Toast('success', 'Thêm mới phòng thành công');
         router.push(`/manager/landlord/${id}/list-room`);
-        setLoading(false);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.massage);

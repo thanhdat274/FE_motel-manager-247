@@ -24,11 +24,11 @@ const Resetpassword = (props: Props) => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setLoading(true);
-    const newdata = { ...data, token: param.token };
-    await resetPassword(newdata)
+    const newData = { ...data, token: param?.token };
+    await resetPassword(newData)
       .then((data: any) => {
-        setLoading(false);
         Toast('success', 'Thay đổi mật khẩu thành công, chuyển trang sau 2s!');
+        setLoading(false);
         setTimeout(() => {
           router.push('/auth/signin');
         }, 2000);
