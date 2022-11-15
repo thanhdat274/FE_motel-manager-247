@@ -42,19 +42,18 @@ const ListRoom = (props: Props) => {
   }, [userData, id, setLoading]);
 
   const removeRooms = async (_id: number, userData: any) => {
-    setLoading(true);
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
-      try {
-        await removeRoom({ _id: _id, userData: userData }).then(() => {
-          Toast('success', 'Xóa phòng thành công');
-          setRooms(rooms.filter((item: any) => item._id !== _id));
-          setLoading(false);
-        });
-      } catch (error) {
-        Toast('error', 'Xóa phòng không thành công');
+      setLoading(true);
+
+      await removeRoom({ _id: _id, userData: userData }).then(() => {
+        Toast('success', 'Xóa phòng thành công');
+        setRooms(rooms.filter((item: any) => item._id !== _id));
         setLoading(false);
-      }
+      }).catch((error) => {
+        Toast('error', error?.response?.data?.message);
+        setLoading(false);
+      });
     }
   };
   return (

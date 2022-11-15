@@ -24,7 +24,6 @@ const AddHome = (props: Props) => {
   const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
     const newData = { ...dataForm, userData: userData };
     setLoading(true);
-
     await addHouse(newData)
       .then(() => {
         setLoading(false);

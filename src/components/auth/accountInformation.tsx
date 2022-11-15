@@ -41,7 +41,6 @@ const AccountInformation = (props: Props) => {
       try {
         const { data } = await UserInfo(userData as any);
         reset(data.data);
-        console.log(data.data.dateRange);
         if (data.data.dateRange != undefined) {
           setDay(data.data.dateRange.slice(8, 10));
           setMonth(data.data.dateRange.slice(5, 7));
@@ -62,11 +61,11 @@ const AccountInformation = (props: Props) => {
       setLoading(true);
       await UpdateUserInfo(newData)
         .then((newData: any) => {
-          setLoading(false);
           Toast('success', 'Cập nhật tài khoản thành công');
+          setLoading(false);
         })
         .catch((error) => {
-          Toast('error', 'Cập nhật tài khoản không thành công');
+          Toast('error', error?.response?.data?.message);
           setLoading(false);
         });
     } else {

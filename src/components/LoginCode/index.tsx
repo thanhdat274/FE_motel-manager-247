@@ -21,17 +21,17 @@ const LoginCode = ({ data }: Props) => {
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
-  const idRoom = param.id_room;
+  const idRoom = param?.id_room;
 
   const onSubmit = async (data: any) => {
     setLoading(true)
     try {
-      const newData = { ...data, idRoom, userData };
+      const newData = { ...data, idRoom: idRoom, userData: userData };
       await loginCode(newData);
       Toast('success', 'Cập nhật mã đăng nhập thành công');
       setLoading(false)
-    } catch (error:any) {      
-      Toast('error', error?.response?.data.error);
+    } catch (error: any) {
+      Toast('error', error?.response?.data?.message);
       setLoading(false)
     }
   };
@@ -53,7 +53,7 @@ const LoginCode = ({ data }: Props) => {
                   pattern: /^[a-zA-Z0-9&@.$%\-_,():;`]+$/,
                 })}
               />
-              
+
               <div className="mt-2 text-red-500">
                 {errors.codeRoom?.type === 'required' && <span>Bạn ko được bỏ qua trường này</span>}
                 {errors.codeRoom?.type === 'minLength' && <span>Tối thiểu 4 ký tự</span>}

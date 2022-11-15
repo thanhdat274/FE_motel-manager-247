@@ -14,7 +14,7 @@ export const getListService = (id: string, userData: any, nameBill: string, mont
   const url = `/bill/get-list/${id}/${nameBill}/${monthCheck}/${yearCheck}`;
   return instance.get(url, {
     headers: {
-      Authorization: `Bearer ${userData.token}`,
+      Authorization: `Bearer ${userData?.token}`,
     },
   });
 };

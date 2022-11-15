@@ -29,8 +29,6 @@ export const CheckUser = (props: PrivateRouterProps) => {
           return props.children;
         })
         .catch((error) => {
-          console.log(error?.response?.data);
-          
           Toast('error', error?.response?.data?.message + 'và đăng xuất sau 2s');
           setTimeout(() => {
             logoutResetData();

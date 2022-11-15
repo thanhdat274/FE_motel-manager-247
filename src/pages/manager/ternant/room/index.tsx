@@ -1,13 +1,16 @@
+import { useUserContext } from '@/context/UserContext';
 import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
 const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+  
   useEffect(() => {
-    const { data } = JSON.parse(localStorage.getItem('code_room') as string);
+    const  data  = cookies?.code_room;
     setCodeRoom(data as any);
-  }, []);
+  }, [cookies?.code_room]);
   return (
     <div className="h-auto">
       <div className="bg-white shadow">
@@ -68,10 +71,10 @@ const InfoRoom = (props: Props) => {
                         <div className="text-center">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.name}</div>
+                        <div className="text-center">{codeRoom?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">20 m2</div>
+                        <div className="text-center">{codeRoom?.area} m2</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
                         <div className="text-center">{codeRoom?.maxMember}</div>
