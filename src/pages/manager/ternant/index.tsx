@@ -1,8 +1,8 @@
 import BarChart from '@/components/chart/Bar';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { getBillServiceByYear, getDetailBillServiceByMonthYear } from 'src/pages/api/statistical';
 import BarDien from '@/components/chart/barDien';
+import { useUserContext } from '@/context/UserContext';
 
 const Ternant = () => {
   const [roomStatisticals, setRoomStatisticals] = useState<any>([]);
@@ -10,8 +10,14 @@ const Ternant = () => {
   const [totalElictic, setTotalElictric] = useState<any>([]);
   const [totalElicticDetail, setTotalElictricDetail] = useState<any>([]);
   const [checkYear, setCheckYear] = useState(new Date().getFullYear());
-  const router = useRouter();
-  const { id } = router.query;
+
+  const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+  useEffect(() => {
+    const data = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
+
   const yearStatistical = new Date().getFullYear();
   var years = Array.from(new Array(20), (val, index) => yearStatistical - index);
   const checkNameNuoc = 'nuoc';
@@ -43,53 +49,46 @@ const Ternant = () => {
     );
   }, [years]);
 
-  if (typeof window !== 'undefined') {
-    const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
-    useEffect(() => {
-      if (checkYear) {
-        const getTotalWater = async () => {
-          try {
-            const { data } = await getBillServiceByYear(codeRooms._id, checkNameNuoc, checkYear)
-            if (data.data) {
-              setTotalWater(data.data as any);
-            }
-          } catch (error) {
-            console.log('error', error);
+  useEffect(() => {
+    if (checkYear && codeRoom?._id) {
+      const getTotalWater = async () => {
+        try {
+          const { data } = await getBillServiceByYear(codeRoom?._id, checkNameNuoc, checkYear)
+          if (data.data) {
+            setTotalWater(data.data as any);
           }
-        };
-        getTotalWater();
+        } catch (error) {
+          console.log('error', error);
+        }
+      };
+      getTotalWater();
 
-        const getTotalElictric = async () => {
-          try {
-            const { data } = await getBillServiceByYear(codeRooms._id, checkNameDien, checkYear)
-            if (data.data) {
-              setTotalElictric(data.data as any);
-            }
-          } catch (error) {
-            console.log('error', error);
+      const getTotalElictric = async () => {
+        try {
+          const { data } = await getBillServiceByYear(codeRoom?._id, checkNameDien, checkYear)
+          if (data.data) {
+            setTotalElictric(data.data as any);
           }
-        };
-        getTotalElictric();
+        } catch (error) {
+          console.log('error', error);
+        }
+      };
+      getTotalElictric();
 
-        const getTotalElictricDetail = async () => {
-          try {
-            const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, checkNameDien, 7, checkYear)
-            if (data.data) {
-              setTotalElictricDetail(data.data as any);
-            }
-          } catch (error) {
-            console.log('error', error);
+      const getTotalElictricDetail = async () => {
+        try {
+          const { data } = await getDetailBillServiceByMonthYear(codeRoom?._id, checkNameDien, 7, checkYear)
+          if (data.data) {
+            setTotalElictricDetail(data.data as any);
           }
-        };
-        getTotalElictricDetail();
+        } catch (error) {
+          console.log('error', error);
+        }
+      };
+      getTotalElictricDetail();
 
-      }
-    }, [codeRooms._id, checkYear, checkNameDien]);
-  }
-
-
-
-  var totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
+    }
+  }, [codeRoom?._id, checkYear, checkNameDien]);
 
   return (
     <div className="w-full gap-4 flex flex-col ">

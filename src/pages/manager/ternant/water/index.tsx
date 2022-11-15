@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { getDetailBillServiceByMonthYear } from 'src/pages/api/statistical';
 import 'antd/dist/antd.css';
+import { useUserContext } from '@/context/UserContext';
 
 type Props = {};
 
@@ -12,6 +13,13 @@ const ListWater = (props: Props) => {
   const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [listBillData, setListBillData] = useState<any>([]);
+  const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+
+  useEffect(() => {
+    const data = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
 
   var NameBuild = 'nuoc';
 
@@ -32,15 +40,14 @@ const ListWater = (props: Props) => {
   }, [monthCheck, yearCheck]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
+    if (codeRoom?._id) {
       const getListBillData = async () => {
-        const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, NameBuild, monthCheck, yearCheck)
+        const { data } = await getDetailBillServiceByMonthYear(codeRoom?._id, NameBuild, monthCheck, yearCheck)
         setListBillData(data.data)
       };
       getListBillData();
     }
-  }, [monthCheck, yearCheck]);
+  }, [codeRoom?._id,monthCheck, yearCheck]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -107,7 +114,7 @@ const ListWater = (props: Props) => {
                     <tbody className="bg-white divide-y divide-gray-200">
                       <tr>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">Tháng {monthCheck}</div>
+                          <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">{listBillData.inputValue} khối</div>
@@ -116,7 +123,7 @@ const ListWater = (props: Props) => {
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">{listBillData.outputValue} khối</div>
                         </td>
-                        <td className="px-6 py-4 whitespace">
+                        <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
                           <div className="text-center">{listBillData.outputValue - listBillData.inputValue} khối</div>
                         </td>
                       </tr>

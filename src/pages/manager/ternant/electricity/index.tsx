@@ -4,6 +4,7 @@ import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
+import { useUserContext } from '@/context/UserContext';
 
 type Props = {};
 
@@ -13,6 +14,14 @@ const ListElectricity = (props: Props) => {
   const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [listBillData, setListBillData] = useState<any>([]);
+  const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+
+  useEffect(() => {
+    const data = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
+
 
   var NameBuild = 'dien';
 
@@ -33,15 +42,14 @@ const ListElectricity = (props: Props) => {
   }, [monthCheck, yearCheck]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const codeRooms = JSON.parse(localStorage.getItem('code_room') as string);
+    if (codeRoom?._id) {
       const getListBillData = async () => {
-        const { data } = await getDetailBillServiceByMonthYear(codeRooms._id, NameBuild, monthCheck, yearCheck)
+        const { data } = await getDetailBillServiceByMonthYear(codeRoom?._id, NameBuild, monthCheck, yearCheck)
         setListBillData(data.data)
       };
       getListBillData();
     }
-  }, [monthCheck, yearCheck]);
+  }, [codeRoom?._id,monthCheck, yearCheck]);
 
 
   return (
