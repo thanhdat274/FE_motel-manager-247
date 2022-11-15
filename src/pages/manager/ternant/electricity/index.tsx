@@ -49,7 +49,7 @@ const ListElectricity = (props: Props) => {
       };
       getListBillData();
     }
-  }, [codeRoom?._id,monthCheck, yearCheck]);
+  }, [codeRoom?._id,monthCheck, yearCheck, NameBuild]);
 
 
   return (
