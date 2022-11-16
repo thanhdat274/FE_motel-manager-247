@@ -3,12 +3,13 @@ import TabPanelComponent from '@/components/TabPanel';
 import TenantContract from '@/components/TenantContact';
 import TenantMember from '@/components/TenantMember';
 import { useUserContext } from '@/context/UserContext';
+import { message } from 'antd';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Toast } from 'src/hooks/toast';
 import { getInfoUser } from 'src/pages/api/auth';
-import { readRoom } from 'src/pages/api/room';
+import { addPeople, readRoom } from 'src/pages/api/room';
 
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
 
@@ -19,6 +20,9 @@ const ManageRoom = () => {
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
+
+
+ 
 
   const getInfoLandlord = async () => {
     setLoading(true);
@@ -67,7 +71,7 @@ const ManageRoom = () => {
     {
       label: 'Thành viên',
       value: 1,
-      children: <TenantMember data={roomData} data1={roomData.listMember} />,
+      children: <TenantMember data={roomData} data1={roomData.listMember}  />,
     },
     {
       label: 'Hợp đồng',
@@ -88,8 +92,8 @@ const ManageRoom = () => {
     },
     {
       label: 'Mã đăng nhập',
-      value:3,
-      children: <LoginCode data={roomData }  />,
+      value: 3,
+      children: <LoginCode data={roomData} />,
     },
   ];
 

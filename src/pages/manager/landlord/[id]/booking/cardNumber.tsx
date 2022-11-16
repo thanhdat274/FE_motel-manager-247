@@ -6,18 +6,19 @@ import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import CardNumber from './cardNumber';
 import { message } from 'antd';
 type Props = {
-  item1: any,
-  item2: any
+  itemm1: any,
+  itemm2: any
 
 };
-const AddBooking = (props: Props) => {
+const CardNumber = (props: Props) => {
+  console.log('itemmmm', props.itemm1, props.itemm2);
+
   const { cookies, setLoading } = useUserContext();
-  const [open, setOpen] = useState(false);
-  const onCloseModal = () => setOpen(false);
-  const onOpenModal = () => setOpen(true);
+  // const [open, setOpen] = useState(false);
+  // const onCloseModal = () => setOpen(false);
+  // const onOpenModal = () => setOpen(true);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
@@ -29,17 +30,16 @@ const AddBooking = (props: Props) => {
   } = useForm<any>();
 
   const onCreateRoom = async (data: any) => {
-    setLoading(true)
     const newData = { ...data, userData: userData };
     await createBookingRoom(newData)
       .then((result: any) => {
-        setLoading(false)
         Toast('success', 'Thêm người vào phòng thành công');
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((err) => {
-        setLoading(false)
-        Toast('error', err?.response?.data?.massage);
+         Toast('error',  err.response.data.message);
+        // setOpen(true)
+       
       });
   };
   return (
@@ -50,7 +50,7 @@ const AddBooking = (props: Props) => {
             {' '}
             <input
               type="text"
-              value={props.item1}
+              value={props.itemm1}
               {...register('idBooking', { required: true })}
             />
           </div>
@@ -58,39 +58,35 @@ const AddBooking = (props: Props) => {
             {' '}
             <input
               type="text"
-              value={props.item2}
+              value={props.itemm2}
               {...register('idRoom', { required: true })}
             />
           </div>
+        </div>
+        <div>
+          {' '}
 
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="inline-full-name"
+            type="text"
+            {...register('cardNumber', { required: true, minLength: 3 })}
+
+          />
         </div>
         <div>
           <button
             type="submit"
-            className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
+            className=" mt-5 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
           >
             Nhận phòng
           </button>
         </div>
       </form>
 
-      <div>
-        <Modal open={open} onClose={onCloseModal} center>
 
-
-          <div className="w-full mb-3">
-            <h1 className="pt-2 text-white">
-              ---------------------------------------------------------------------------------------
-            </h1>
-            <h2>Mời bạn nhập số CMT/CCCD</h2>
-
-          </div>
-          <CardNumber itemm1={props.item1} itemm2={props.item2} ></CardNumber>
-        </Modal>
-
-      </div>
     </div>
   );
 };
 
-export default AddBooking;
+export default CardNumber;

@@ -14,9 +14,10 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 type IProps = {
   data: IMember2;
   data1: any;
+  
 };
 
-const TenantMember = ({ data, data1 }: IProps) => {
+const TenantMember = ({ data, data1  }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
@@ -36,11 +37,12 @@ const TenantMember = ({ data, data1 }: IProps) => {
     const newData = { ...{ listMember }, userData: userData };
 
     try {
-      await addPeople(param.id_room, newData).then((data: any) => {
+      const {data} = await addPeople(param.id_room, newData)
         setLoading(false);
-        router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', 'Thêm mới thành viên thành công');
-      });
+        setOpen(false);
+        router.push(`/manager/landlord/${param.id}/list-room`); 
+        Toast('success', data.message);
+      
     } catch (error) {
       setLoading(false);
       Toast('error', 'Thêm mới thành viên không thành công');
@@ -93,10 +95,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   placeholder="Xin mời nhập tên thành viên"
                   {...register('memberName', { required: true, minLength: 6 })}
                 />
-                {errors.full_name?.type === 'required' && (
+                {errors.memberName?.type === 'required' && (
                   <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
                 )}
-                {errors.full_name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.memberName?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
 
               <div className="col-span-6">
@@ -134,8 +136,8 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   placeholder="Xin mời nhập  CMT/CCCD"
                   {...register('cardNumber', { required: true, minLength: 6 })}
                 />
-                {errors.cccd?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.cccd?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.cardNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
+                {errors.cardNumber?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -148,9 +150,9 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   placeholder="Xin mời nhập  sô điện thoại"
                   {...register('phoneNumber', { required: true, minLength: 6, maxLength: 11 })}
                 />
-                {errors.phone?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.phone?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-                {errors.phone?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
+                {errors.phoneNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
+                {errors.phoneNumber?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.phoneNumber?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
               </div>
 
               <div className="flex items-center">
