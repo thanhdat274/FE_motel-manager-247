@@ -44,8 +44,6 @@ const Receipt = (props: Props) => {
       (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
       initialValue,
     );
-  console.log(readBills);
-  
 
   const onCloseModal = () => setOpen(false);
 
@@ -327,7 +325,7 @@ const Receipt = (props: Props) => {
                   <strong>Trạng thái:</strong>
                 </div>
                 <div className="mt-5 " >
-                  <form action=""  onSubmit={handleSubmit(submitHandle)}>
+                  <form action="" onSubmit={handleSubmit(submitHandle)}>
                     <input type="text" value={readBills && readBills._id} {...register("_id")} className="hidden" />
                     <select  {...register("paymentStatus")} className="border-2  form-select appearance-none block px-3 py-1.5 text-base  font-normal text-gray-700  bg-clip-padding bg-no-repeatborder border-solid border-gray-300 rounded transition ease-in-out m-0  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none ">
                       <option value="false" className=''>Chưa thanh toán</option>
@@ -349,9 +347,7 @@ const Receipt = (props: Props) => {
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>
           <div className="w-full">
-            <h1 className="pt-2 text-white">
-              -----------------------------------------------------------------------------------------------------------------------
-            </h1>
+
             <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500">
               <div className="">

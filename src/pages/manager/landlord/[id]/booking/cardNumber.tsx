@@ -13,8 +13,6 @@ type Props = {
 
 };
 const CardNumber = (props: Props) => {
-  console.log('itemmmm', props.itemm1, props.itemm2);
-
   const { cookies, setLoading } = useUserContext();
   // const [open, setOpen] = useState(false);
   // const onCloseModal = () => setOpen(false);
@@ -37,9 +35,9 @@ const CardNumber = (props: Props) => {
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((err) => {
-         Toast('error',  err.response.data.message);
+        Toast('error', err.response.data.message);
         // setOpen(true)
-       
+
       });
   };
   return (

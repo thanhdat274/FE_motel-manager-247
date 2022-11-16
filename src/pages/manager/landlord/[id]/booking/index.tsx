@@ -35,11 +35,14 @@ const Booking = (props: Props) => {
   const [listBookings, setListBookings] = useState<any>({});
 
   useEffect(() => {
-    const getListBooking = async () => {
-      const { data } = await listBooking(userData, id);
-      setListBookings(data.data);
-    };
-    getListBooking();
+    if (id) {
+      const getListBooking = async () => {
+        const { data } = await listBooking(userData, id);
+        setListBookings(data.data);
+      };
+      getListBooking();
+    }
+
   }, []);
 
 
@@ -163,7 +166,6 @@ const Booking = (props: Props) => {
                                 </td>
                                 <td className="flex pt-2">
                                   <div>
-                                    {/* --------------------- */}
                                     <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
                                   </div>
                                   <div>
@@ -203,7 +205,6 @@ const Booking = (props: Props) => {
                                 </td>
                                 <td className="flex pt-2">
                                   <div>
-                                    {/* --------------------- */}
                                     <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
                                   </div>
                                   <div>
@@ -239,9 +240,7 @@ const Booking = (props: Props) => {
 
       <Modal open={open} onClose={onCloseModal} center>
         <div className="w-full">
-          <h1 className="pt-2 text-white">
-            -----------------------------------------------------------------------------------------------------------------------
-          </h1>
+
           <hr />
           <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500">
             <div className="">

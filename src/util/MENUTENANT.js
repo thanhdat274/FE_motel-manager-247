@@ -5,7 +5,7 @@ export const MENU_TENANTS = [
   {
     url: '',
     gap: true,
-    title: 'Bảng điều khiển',
+    title: 'Thống kê',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
   },
   {
