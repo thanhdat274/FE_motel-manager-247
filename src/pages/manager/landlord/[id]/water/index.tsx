@@ -141,8 +141,6 @@ const ListWaterUsed = () => {
   }, [listBillData, listRoomData, setValue]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
-    console.log('data', data);
-
     if (monthCheck && yearCheck) {
       const confirm = window.confirm(
         'Vui lòng kiểm tra lại số nước mới của các phòng trong tháng này đã nhập đúng chưa. Nếu chưa đúng vui lòng bấm vào cancel và sửa lại trước khi lưu. Nếu đúng rồi mời bạn bấm ok để lưu số nước tháng này.',

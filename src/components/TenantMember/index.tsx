@@ -14,10 +14,10 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 type IProps = {
   data: IMember2;
   data1: any;
-  
+
 };
 
-const TenantMember = ({ data, data1  }: IProps) => {
+const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { cookies, setLoading, user } = useUserContext();
@@ -37,12 +37,12 @@ const TenantMember = ({ data, data1  }: IProps) => {
     const newData = { ...{ listMember }, userData: userData };
 
     try {
-      const {data} = await addPeople(param.id_room, newData)
-        setLoading(false);
-        setOpen(false);
-        router.push(`/manager/landlord/${param.id}/list-room`); 
-        Toast('success', data.message);
-      
+      const { data } = await addPeople(param.id_room, newData)
+      setLoading(false);
+      setOpen(false);
+      router.push(`/manager/landlord/${param.id}/list-room`);
+      Toast('success', data.message);
+
     } catch (error) {
       setLoading(false);
       Toast('error', 'Thêm mới thành viên không thành công');
@@ -73,10 +73,8 @@ const TenantMember = ({ data, data1  }: IProps) => {
         )}
 
         <Modal open={open} onClose={onCloseModal} center>
-          <div className="w-full">
-            <h1 className="pt-2 text-white">
-              -----------------------------------------------------------------------------------------------------------------------
-            </h1>
+          <div className="w-full pt-6">
+
             <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">

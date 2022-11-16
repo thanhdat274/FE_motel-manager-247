@@ -2,8 +2,8 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { updateRoom } from 'src/pages/api/room';
 
@@ -20,7 +20,6 @@ type Props = {
 };
 
 const TenantInformation = ({ data }: any) => {
-  const { name, price, status, maxMember, area, emailOfAuth } = data;
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -37,8 +36,10 @@ const TenantInformation = ({ data }: any) => {
     }
   }, [data, reset]);
 
+
+
   const onSubmit = async (data: any) => {
-    const newData = { ...data, idRoom: param?.id_room, token: userData?.token};
+    const newData = { ...data, idRoom: param?.id_room, token: userData?.token };
     setLoading(true);
     await updateRoom(newData)
       .then((result) => {
@@ -70,7 +71,7 @@ const TenantInformation = ({ data }: any) => {
                     {...register('name', { required: true, minLength: 6 })}
                   />
                   {errors.name?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                    <span className="text-[red] mt-1 block">Không được để trống!</span>
                   )}
                   {errors.name?.type === 'minLength' && (
                     <span className="text-[red] mt-1 block">Tối thiểu 6 ký tự</span>
@@ -102,7 +103,7 @@ const TenantInformation = ({ data }: any) => {
                     {...register('price', { required: true, min: 1000 })}
                   />
                   {errors.price && errors.price.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                    <span className="text-[red] mt-1 block">Không được để trống!</span>
                   )}
                 </div>
                 <div className="col-span-6">
@@ -113,10 +114,10 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="emailOfAuth"
                     type="emailOfAuth"
-                    {...register('emailOfAuth', {  min: 1000 })}
+                    {...register('emailOfAuth', { min: 1000 })}
                   />
                   {errors.price && errors.price.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                    <span className="text-[red] mt-1 block">Không được để trống!</span>
                   )}
                 </div>
 
@@ -131,7 +132,7 @@ const TenantInformation = ({ data }: any) => {
                     {...register('maxMember', { required: true })}
                   />
                   {errors.maxMember && errors.maxMember.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                    <span className="text-[red] mt-1 block">Không được để trống!</span>
                   )}
                 </div>
 
@@ -146,7 +147,7 @@ const TenantInformation = ({ data }: any) => {
                     {...register('area', { required: true })}
                   />
                   {errors.area && errors.area.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                    <span className="text-[red] mt-1 block">Không được để trống!</span>
                   )}
                 </div>
               </div>

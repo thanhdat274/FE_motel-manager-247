@@ -13,8 +13,6 @@ type Props = {
 
 };
 const CardNumber = (props: Props) => {
-  console.log('itemmmm', props.itemm1, props.itemm2);
-
   const { cookies, setLoading } = useUserContext();
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);

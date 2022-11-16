@@ -61,9 +61,8 @@ const HeaderPreview = (props: Props) => {
       </div>
 
       <header
-        className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${
-          toggle ? 'right-0' : 'right-[-100%]'
-        }`}
+        className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${toggle ? 'right-0' : 'right-[-100%]'
+          }`}
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
           <div className="flex flex-col lg:flex lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center px-[15px] lg:p-0 py-[20px]">
@@ -76,41 +75,41 @@ const HeaderPreview = (props: Props) => {
               <h2 className="lg:text-xl xl:text-2xl font-bold">QUẢN LÝ NHÀ TRỌ 24/7</h2>
               <p>Đơn giản - Dễ sử dụng - Chính xác</p>
             </div>
-              {cookies?.user && (
+            {cookies?.user && (
+              <div className="flex flex-col md:flex md:flex-row gap-2">
                 <div className="flex flex-col md:flex md:flex-row gap-2">
-                  <div className="flex flex-col md:flex md:flex-row gap-2">
-                    <Link href={`/manager/landlord/list-home`}>
-                      <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
-                        Quản lý nhà trọ
-                      </a>
-                    </Link>
+                  <Link href={`/manager/landlord/list-home`}>
+                    <a className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
+                      Quản lý nhà trọ
+                    </a>
+                  </Link>
 
-                    <div className={`${styles['dropdown']} inline-block relative`}>
-                      <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
-                        Xin chào: {cookies?.user?.user.name}
-                      </button>
-                      <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
-                        <Link href={'/auth/accountInformation'}>
-                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
-                            Thông tin tài khoản
-                          </a>
-                        </Link>
-                        <Link href={'/auth/changePassword'}>
-                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
-                            Đổi mật khẩu
-                          </a>
-                        </Link>
+                  <div className={`${styles['dropdown']} inline-block relative`}>
+                    <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
+                      Xin chào: {cookies?.user?.user.name}
+                    </button>
+                    <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
+                      <Link href={'/auth/accountInformation'}>
+                        <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          Thông tin tài khoản
+                        </a>
+                      </Link>
+                      <Link href={'/auth/changePassword'}>
+                        <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          Đổi mật khẩu
+                        </a>
+                      </Link>
 
-                        <div
-                          onClick={() => logoutResetData()}
-                          className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block cursor-pointer"
-                        >
-                          Đăng xuất
-                        </div>
+                      <div
+                        onClick={() => logoutResetData()}
+                        className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block cursor-pointer"
+                      >
+                        Đăng xuất
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
             )}{' '}
             {!cookies?.user && (
               <div className="flex flex-col md:flex md:flex-row gap-2">
@@ -124,9 +123,7 @@ const HeaderPreview = (props: Props) => {
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <p className="pt-2 text-white">
-                          -----------------------------------------------------------------------------------------------------------------------
-                        </p>
+
                         <hr />
                         <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
                           <div className="">

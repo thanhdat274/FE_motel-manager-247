@@ -2,8 +2,9 @@ import { useUserContext } from '@/context/UserContext';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 
 import { Toast } from 'src/hooks/toast';
 import { addRoom } from 'src/pages/api/room';
@@ -12,7 +13,7 @@ type Props = {};
 type FromValues = {
   _id: string;
   name: string;
-  price: number;
+  price: string;
   area: number;
   maxMember: number;
   status: string;
@@ -28,13 +29,27 @@ const AddRoom = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
+    watch,
+    setValue
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
+  const watchFields = watch(["price"]);
+
+  const handleErrorPrice = useMemo(() => {
+
+    return Number(getValues('price')?.replace(/[^0-9\.]+/g, "")) < 1000 && (
+      <span className="text-[red] mt-1 block"> Số tiền không nhỏ hớn 1000 vnđ</span>
+    )
+  }, [watchFields])
+
+
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
+
     setLoading(true);
-    const newData = { ...data, userData: userData, idHouse: id, idAuth: userData?.user?._id };
+    const newData = { ...data, price: Number(data.price.replace(/[^0-9\.]+/g, "")), userData: userData, idHouse: id, idAuth: userData?.user?._id };
 
     await addRoom(newData)
       .then((data: any) => {
@@ -80,7 +95,7 @@ const AddRoom = (props: Props) => {
                         {...register('name', { required: true, minLength: 6 })}
                       />
                       {errors.name?.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                        <span className="text-[red] mt-1 block">Không được để trống!</span>
                       )}
                       {errors.name?.type === 'minLength' && (
                         <span className="text-[red] mt-1 block">Tối thiểu 6 ký tự</span>
@@ -105,15 +120,14 @@ const AddRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="price"
-                        type="text"
-                        {...register('price', { required: true, min: 1000 })}
-                      />
-                      {errors.price && errors.price.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" thousandSeparator="," {...register('price', {
+                        required: true,
+                      })} onChange={(e) => setValue('price', e.target.value)} />
+                      {errors.price && (
+                        <span className="text-[red] mt-1 block">Không được để trống!</span>
                       )}
+                      {handleErrorPrice}
+
                     </div>
 
                     <div className="col-span-6">
@@ -127,7 +141,7 @@ const AddRoom = (props: Props) => {
                         {...register('maxMember', { required: true })}
                       />
                       {errors.maxMember && errors.maxMember.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                        <span className="text-[red] mt-1 block">Không được để trống!</span>
                       )}
                     </div>
 
@@ -142,7 +156,7 @@ const AddRoom = (props: Props) => {
                         {...register('area', { required: true })}
                       />
                       {errors.area && errors.area.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không dược để trống!</span>
+                        <span className="text-[red] mt-1 block">Không được để trống!</span>
                       )}
                     </div>
                   </div>

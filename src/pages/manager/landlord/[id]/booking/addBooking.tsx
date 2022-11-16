@@ -82,9 +82,7 @@ const AddBooking = (props: Props) => {
 
 
           <div className="w-full mb-3">
-            <h1 className="pt-2 text-white">
-              ---------------------------------------------------------------------------------------
-            </h1>
+
             <h2>Mời bạn nhập số CMT/CCCD</h2>
 
           </div>

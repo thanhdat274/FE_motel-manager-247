@@ -71,7 +71,6 @@ export const removePeople = (_id: any, data: any) => {
 // api ma dang nhap
 
 export const loginCode = (data: any) => {
-  console.log(data);
 
   const url = `/rom/edit-code-room`;
   return instance.post(url, data, {
