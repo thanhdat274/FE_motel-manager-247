@@ -95,7 +95,7 @@ const Booking = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Cọc phòng
+                Đặt cọc
               </h2>
             </div>
             <div className='text-right'>
@@ -111,133 +111,136 @@ const Booking = (props: Props) => {
       </header>
       <div>
 
-        
-          <div className="flex flex-col border bg-white mt-3">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                <div className="overflow-hidden">
-                  <table className="min-w-full">
-                    <thead className="border-b">
+
+        <div className="flex flex-col border bg-white mt-3">
+          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+              <div className="overflow-hidden">
+                <table className="min-w-full">
+                  <thead className="border-b">
+                    <tr>
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        STT
+                      </th>
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Họ và tên
+                      </th>
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Email
+                      </th>
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Số điện thoại
+                      </th>
+
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Tiền cọc
+                      </th>
+                      <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                        Ngày nhận phòng
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className=' ' >
+                    {listBookings && listBookings.length > 0 ? (
+                      listBookings?.map((item: any, index: number) => {
+                        return (
+                          <>
+                            {item.expectTime == date ? (
+                              <tr className=" border-yellow-500 border-2">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.fullName}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.email}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.phoneNumber}
+                                </td>
+
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.bookMoney}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.expectTime}
+                                </td>
+                                <td className="flex pt-2">
+                                  <div>
+                                    {/* --------------------- */}
+                                    <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
+                                  </div>
+                                  <div>
+
+                                    <button
+                                      type="submit"
+                                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                      onClick={() => onHandleRemove(item._id)}
+                                    >
+                                      Xóa
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+
+
+                            ) : (
+
+
+                              <tr className="border-b">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.fullName}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.email}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.phoneNumber}
+                                </td>
+
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.bookMoney}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {item.expectTime}
+                                </td>
+                                <td className="flex pt-2">
+                                  <div>
+                                    {/* --------------------- */}
+                                    <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
+                                  </div>
+                                  <div>
+
+                                    <button
+                                      type="submit"
+                                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                      onClick={() => onHandleRemove(item._id)}
+                                    >
+                                      Xóa
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+
+
+                            )}
+                          </>
+
+                        );
+                      })
+                    ) : (
+                      // <div className='text-red-500 p-5'>Không có dữ liệu</div>
                       <tr>
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          STT
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          Họ và tên
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          Email
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          Số điện thoại
-                        </th>
-
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          Tiền cọc
-                        </th>
-                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                          Ngày nhận phòng
-                        </th>
+                        <td className='text-red-500 p-5'>Không có dữ liệu</td>
                       </tr>
-                    </thead>
-                    <tbody className=' ' >
-                      {listBookings && listBookings.length > 0 ? (
-                        listBookings?.map((item: any, index: number) => {
-                          return (
-                            <>
-                              {item.expectTime == date ? (
-                                <tr className=" border-yellow-500 border-2">
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.fullName}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.email}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.phoneNumber}
-                                  </td>
-
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.bookMoney}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.expectTime}
-                                  </td>
-                                  <td className="flex pt-2">
-
-                                    <div>
-
-                                      <button
-                                        type="submit"
-                                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                        onClick={() => onHandleRemove(item._id)}
-                                      >
-                                        Xóa
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-
-
-                              ) : (
-
-
-                                <tr className="border-b">
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.fullName}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.email}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.phoneNumber}
-                                  </td>
-
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.bookMoney}
-                                  </td>
-                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {item.expectTime}
-                                  </td>
-                                  <td className="flex pt-2">
-                                    <div>
-                                      {/* --------------------- */}
-                                      <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
-                                    </div>
-                                    <div>
-
-                                      <button
-                                        type="submit"
-                                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                        onClick={() => onHandleRemove(item._id)}
-                                      >
-                                        Xóa
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-
-
-                              )}
-                            </>
-
-                          );
-                        })
-                      ) : (
-                        // <div className='text-red-500 p-5'>Không có dữ liệu</div>
-                        <tr>
-                          <td  className='text-red-500 p-5'>Không có dữ liệu</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-        
+        </div>
+
 
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full">

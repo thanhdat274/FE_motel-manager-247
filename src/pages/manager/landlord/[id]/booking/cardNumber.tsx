@@ -6,18 +6,19 @@ import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
+import { message } from 'antd';
 type Props = {
-    itemm1: any,
-    itemm2: any
+  itemm1: any,
+  itemm2: any
 
 };
 const CardNumber = (props: Props) => {
-    console.log('itemmmm', props.itemm1, props.itemm2);
-    
+  console.log('itemmmm', props.itemm1, props.itemm2);
+
   const { cookies, setLoading } = useUserContext();
-  const [open, setOpen] = useState(false);
-  const onCloseModal = () => setOpen(false);
-  const onOpenModal = () => setOpen(true);
+  // const [open, setOpen] = useState(false);
+  // const onCloseModal = () => setOpen(false);
+  // const onOpenModal = () => setOpen(true);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
@@ -36,7 +37,9 @@ const CardNumber = (props: Props) => {
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((err) => {
-        setOpen(true)
+         Toast('error',  err.response.data.message);
+        // setOpen(true)
+       
       });
   };
   return (
@@ -59,28 +62,29 @@ const CardNumber = (props: Props) => {
               {...register('idRoom', { required: true })}
             />
           </div>
-          
-
         </div>
         <div>
-            {' '}
-            <input
-              type="number"
-              {...register('cardNumber', { required: true })}
-            />
-            <h1>hello</h1>
-          </div>
+          {' '}
+
+          <input
+            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            id="inline-full-name"
+            type="text"
+            {...register('cardNumber', { required: true, minLength: 3 })}
+
+          />
+        </div>
         <div>
           <button
             type="submit"
-            className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
+            className=" mt-5 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
           >
             Nhận phòng
           </button>
         </div>
       </form>
 
-      
+
     </div>
   );
 };

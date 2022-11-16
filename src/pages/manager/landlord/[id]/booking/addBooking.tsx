@@ -7,6 +7,7 @@ import { useUserContext } from '@/context/UserContext';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import CardNumber from './cardNumber';
+import { message } from 'antd';
 type Props = {
   item1: any,
   item2: any
@@ -34,7 +35,9 @@ const AddBooking = (props: Props) => {
         Toast('success', 'Thêm người vào phòng thành công');
         router.push(`/manager/landlord/${id}/list-room`);
       })
-      .catch((err) => {
+      .catch((err) => { 
+        Toast('error', err.response.data.message);
+
         setOpen(true)
       });
   };
@@ -74,11 +77,11 @@ const AddBooking = (props: Props) => {
         <Modal open={open} onClose={onCloseModal} center>
 
 
-          <div className="w-full">
+          <div className="w-full mb-3">
             <h1 className="pt-2 text-white">
-              -----------------------------------------------------------------------------------------------------------------------
+              ---------------------------------------------------------------------------------------
             </h1>
-            <h2>Mời bạn nhập thông tin</h2>
+            <h2>Mời bạn nhập số CMT/CCCD</h2>
 
           </div>
           <CardNumber itemm1={props.item1} itemm2={props.item2} ></CardNumber>

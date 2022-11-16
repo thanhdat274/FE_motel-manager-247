@@ -33,7 +33,6 @@ const ListMember = (props: IMember) => {
 
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
-  const [peopleData, setPeopleData] = useState([]);
   const [open, setOpen] = useState(false);
   const { cookies, setLoading, user } = useUserContext();
 
@@ -58,11 +57,12 @@ const ListMember = (props: IMember) => {
       try {
         await removePeople(param.id_room, newData).then(() => {
           Toast('success', 'Xóa thành viên thành công');
-          setPeopleData(peopleData.filter((item: any) => item.id !== _id));
+          router.push(`/manager/landlord/${param.id}/list-room`);
+
           setLoading(false);
         });
       } catch (error) {
-        Toast('error', 'Xóa thành viên thành công');
+        Toast('error', 'Xóa thành viên không thành công');
         setLoading(false);
       }
     } else {
@@ -128,7 +128,7 @@ const ListMember = (props: IMember) => {
           </div>
         </div>
 
-        
+
       </div>
     </div>
   );
