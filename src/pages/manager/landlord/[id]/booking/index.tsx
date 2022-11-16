@@ -35,12 +35,15 @@ const Booking = (props: Props) => {
   const [listBookings, setListBookings] = useState<any>({});
 
   useEffect(() => {
-    const getListBooking = async () => {
-      const { data } = await listBooking(userData, id);
-      setListBookings(data.data);
-    };
-    getListBooking();
-  }, []);
+    if (id) {
+      const getListBooking = async () => {
+        const { data } = await listBooking(userData, id);
+        setListBookings(data.data);
+      };
+      getListBooking();
+    }
+
+  }, [id]);
 
 
   const onHandleRemove = async (id: any) => {
@@ -49,9 +52,13 @@ const Booking = (props: Props) => {
       setLoading(true)
       await deleteBooking(id, userData)
         .then((result: any) => {
+          console.log("ádasdasd", result);
+
+
           setListBookings(listBookings.filter((item: { _id: any; }) => item._id !== id))
+
           setLoading(false)
-          Toast('success', 'Xóa thành công');
+          Toast('success', result?.data?.message);
         })
         .catch((err) => {
           setLoading(false)
@@ -63,26 +70,35 @@ const Booking = (props: Props) => {
 
 
   useEffect(() => {
-    const getListRoom = async () => {
-      const { data } = await listRoom(id, userData);
-      setListRooms(data.data);
-    };
-    getListRoom();
-  }, []);
+
+    if (id) {
+      const getListRoom = async () => {
+        const { data } = await listRoom(id, userData);
+        setListRooms(data.data);
+      };
+      getListRoom();
+    }
+
+  }, [id]);
 
 
   const onSubmit = async (data1: any) => {
-    try {
-      const { data } = await createBooking(data1, userData, id);
-      const daata = data.data
+    if (id) {
+      try {
+        const { data } = await createBooking(data1, userData, id)
+        const daata = data.data
+        setListBookings([...listBookings, daata])
+        setOpen(false)
+        Toast('success', 'Đặt tiền cọc thành công');
 
-      setListBookings([...listBookings, daata])
-      setOpen(false)
-      Toast('success', 'Đặt tiền cọc thành công');
-
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.massage);
+      } catch (error: any) {
+        console.log("dasdasd",error);
+        
+        Toast('error', error?.response
+        ?.data?.message);
+      }
     }
+
   };
 
   return (
@@ -226,7 +242,7 @@ const Booking = (props: Props) => {
                         );
                       })
                     ) : (
-                      <div className='text-red-500 p-5'>Không có dữ liệu</div>
+                      <tr className='text-red-500 p-5'><td className='p-5'>Không có dữ liệu</td></tr>
                     )}
                   </tbody>
                 </table>

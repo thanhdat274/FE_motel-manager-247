@@ -31,17 +31,20 @@ const AddBooking = (props: Props) => {
   const onCreateRoom = async (data: any) => {
     setLoading(true)
     const newData = { ...data, userData: userData };
-    await createBookingRoom(newData)
-      .then((result: any) => {
-        setLoading(false)
-        Toast('success', 'Thêm người vào phòng thành công');
-        router.push(`/manager/landlord/${id}/list-room`);
-      })
-      .catch((err) => {
-        setLoading(false)
-        Toast('error', err?.response?.data?.massage);
-      });
-  };
+    if (id) {
+      await createBookingRoom(newData)
+        .then((result: any) => {
+          setLoading(false)
+          Toast('success', result?.response?.data?.message);
+          router.push(`/manager/landlord/${id}/list-room`);
+        })
+        .catch((err) => {
+          setLoading(false)
+          setOpen(true)
+          Toast('error', err?.response?.data?.message);
+        });
+    };
+  }
   return (
     <div>
       <form action="" onSubmit={handleSubmit(onCreateRoom)}>
