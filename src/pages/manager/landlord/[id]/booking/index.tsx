@@ -92,10 +92,10 @@ const Booking = (props: Props) => {
         Toast('success', 'Đặt tiền cọc thành công');
 
       } catch (error: any) {
-        console.log("dasdasd",error);
-        
+        console.log("dasdasd", error);
+
         Toast('error', error?.response
-        ?.data?.message);
+          ?.data?.message);
       }
     }
 
@@ -126,7 +126,7 @@ const Booking = (props: Props) => {
 
 
         <div className="flex flex-col border bg-white mt-3">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="overflow-x-auto ">
             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
                 <table className="min-w-full">
@@ -159,7 +159,7 @@ const Booking = (props: Props) => {
                         return (
                           <>
                             {item.expectTime == date ? (
-                              <tr className=" border-yellow-500 border-2">
+                              <tr className=" border-yellow-500 border-2 ">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.fullName}
