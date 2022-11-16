@@ -30,7 +30,6 @@ const AddServiceRoom = (props: Props) => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
     const newData = { ...data, idHouse: id, userData: userData };
     setLoading(true);
-
     await addService(newData)
       .then((data: any) => {
         Toast('success', 'Thêm dịch vụ thành công');
@@ -38,7 +37,7 @@ const AddServiceRoom = (props: Props) => {
         setLoading(false);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.error);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };

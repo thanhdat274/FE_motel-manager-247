@@ -25,7 +25,7 @@ const HeaderPreview = (props: Props) => {
   const toggleNav = () => {
     setToggle(!toggle);
   };
-  const { cookies, logoutResetData, setLoading } = useUserContext();
+  const { cookies, logoutResetData, setLoading, setCookie } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -37,13 +37,14 @@ const HeaderPreview = (props: Props) => {
     await getRoomBySubName(data.code_room)
       .then((result) => {
         setLoading(false);
-        localStorage.setItem('code_room', JSON.stringify(result.data.data));
+        setCookie('code_room', JSON.stringify(result.data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
+        // localStorage.setItem('code_room', JSON.stringify(result.data.data));
         router.push(`/manager/ternant`);
         Toast('success', 'Đăng nhập thành công');
       })
       .catch((err) => {
         setLoading(false);
-        Toast('error', err?.response?.data.error);
+        Toast('error', err?.response?.data?.message);
       });
   };
 
@@ -62,7 +63,7 @@ const HeaderPreview = (props: Props) => {
       <header
         className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${
           toggle ? 'right-0' : 'right-[-100%]'
-          }`}
+        }`}
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
           <div className="flex flex-col lg:flex lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center px-[15px] lg:p-0 py-[20px]">

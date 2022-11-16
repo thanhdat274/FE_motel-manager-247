@@ -11,7 +11,7 @@ const Introduce = (props: Props) => {
 
   return (
     <div className="bg-slate-200 clear-both min-h-screen">
-      {/* <div className="lg:grid lg:grid-cols-3 py-10">
+      <div className="lg:grid lg:grid-cols-3 py-10">
         <div className="grid col-span-2">
           <div className="bg-white lg:mx-10 mx-5 p-5">
             <div>
@@ -269,7 +269,7 @@ const Introduce = (props: Props) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

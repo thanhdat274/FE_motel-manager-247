@@ -29,16 +29,17 @@ const AddBooking = (props: Props) => {
   } = useForm<any>();
 
   const onCreateRoom = async (data: any) => {
+    setLoading(true)
     const newData = { ...data, userData: userData };
     await createBookingRoom(newData)
       .then((result: any) => {
+        setLoading(false)
         Toast('success', 'Thêm người vào phòng thành công');
         router.push(`/manager/landlord/${id}/list-room`);
       })
-      .catch((err) => { 
-        Toast('error', err.response.data.message);
-
-        setOpen(true)
+      .catch((err) => {
+        setLoading(false)
+        Toast('error', err?.response?.data?.massage);
       });
   };
   return (

@@ -1,9 +1,53 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import { DatePicker, DatePickerProps, Space } from 'antd';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { getDetailBillServiceByMonthYear } from 'src/pages/api/statistical';
+import 'antd/dist/antd.css';
+import { useUserContext } from '@/context/UserContext';
 
 type Props = {};
 
-const listWater = (props: Props) => {
+const ListWater = (props: Props) => {
+  const today = new Date();
+
+  const [monthCheck, setMonth] = useState(today.getMonth() + 1);
+  const [yearCheck, setYear] = useState(today.getFullYear());
+  const [listBillData, setListBillData] = useState<any>([]);
+  const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+
+  useEffect(() => {
+    const data = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
+
+  var NameBuild = 'nuoc';
+
+  const YearStatistical = new Date().getFullYear();
+  const datePickerShow = React.useMemo(() => {
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+      setMonth(parseInt(dateString.slice(5, 7)));
+      setYear(parseInt(dateString.slice(0, 4)));
+    };
+    return (
+      <DatePicker
+        style={{ width: '200px' }}
+        onChange={onChange}
+        defaultValue={moment(`${yearCheck}-${monthCheck}`, 'YYYY-MM')}
+        picker="month"
+      />
+    );
+  }, [monthCheck, yearCheck]);
+
+  useEffect(() => {
+    if (codeRoom?._id) {
+      const getListBillData = async () => {
+        const { data } = await getDetailBillServiceByMonthYear(codeRoom?._id, NameBuild, monthCheck, yearCheck)
+        setListBillData(data.data)
+      };
+      getListBillData();
+    }
+  }, [codeRoom?._id,monthCheck, yearCheck]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -28,6 +72,10 @@ const listWater = (props: Props) => {
         </div>
       </header>
       <main>
+        <div className="block p-2">
+          <h3>Chọn tháng năm</h3>
+          <Space direction="vertical">{datePickerShow}</Space>
+        </div>
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -66,17 +114,17 @@ const listWater = (props: Props) => {
                     <tbody className="bg-white divide-y divide-gray-200">
                       <tr>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">Tháng 9</div>
+                          <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">100 khối</div>
+                          <div className="text-center">{listBillData.inputValue} khối</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">150 khối</div>
+                          <div className="text-center">{listBillData.outputValue} khối</div>
                         </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">50 khối</div>
+                        <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
+                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} khối</div>
                         </td>
                       </tr>
                     </tbody>
@@ -91,4 +139,4 @@ const listWater = (props: Props) => {
   );
 };
 
-export default listWater;
+export default ListWater;

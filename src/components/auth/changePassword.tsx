@@ -25,12 +25,11 @@ const ChangePassword = (props: Props) => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setLoading(true);
-    console.log(data);
-    const newdata = { ...data, email: userData?.user?.email };
-    await changePassword(newdata)
+    const newData = { ...data, email: userData?.user?.email };
+    await changePassword(newData)
       .then((data: any) => {
         setLoading(false);
-        Toast('success', data?.data?.message + ' chuyển trang sau 2s!');
+        Toast('success', 'Thay đổi mật khẩu thành công, chuyển trang sau 2s!');
         setTimeout(() => {
           router.push('/');
         }, 2000);
