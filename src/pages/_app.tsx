@@ -18,6 +18,8 @@ config.autoAddCss = false;
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
+  console.log('process.env.BASE_API_LOCAL', process.env.BASE_API_LOCAL);
+
   const switchLayout = () => {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
