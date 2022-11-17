@@ -19,17 +19,13 @@ const Forgetpassword = (props: Props) => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setLoading(true);
-    console.log(data);
     await fogetPassword(data)
       .then((data: any) => {
-        console.log('data', data);
-        setLoading(false);
         Toast('success', 'Vui lòng check Email của bạn !');
+        setLoading(false);
       })
       .catch((error) => {
-        Toast('error', error.response.data.message);
-        console.log();
-
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };

@@ -25,7 +25,7 @@ const HeaderPreview = (props: Props) => {
   const toggleNav = () => {
     setToggle(!toggle);
   };
-  const { cookies, logoutResetData, setLoading } = useUserContext();
+  const { cookies, logoutResetData, setLoading, setCookie } = useUserContext();
   const {
     register,
     handleSubmit,
@@ -37,13 +37,14 @@ const HeaderPreview = (props: Props) => {
     await getRoomBySubName(data.code_room)
       .then((result) => {
         setLoading(false);
-        localStorage.setItem('code_room', JSON.stringify(result.data.data));
+        setCookie('code_room', JSON.stringify(result.data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
+        // localStorage.setItem('code_room', JSON.stringify(result.data.data));
         router.push(`/manager/ternant`);
         Toast('success', 'Đăng nhập thành công');
       })
       .catch((err) => {
         setLoading(false);
-        Toast('error', err?.response?.data.error);
+        Toast('error', err?.response?.data?.message);
       });
   };
 
@@ -60,9 +61,8 @@ const HeaderPreview = (props: Props) => {
       </div>
 
       <header
-        className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${
-          toggle ? 'right-0' : 'right-[-100%]'
-        }`}
+        className={`fixed lg:relative lg:block right-0 lg:right-0 top-0  w-4/5 lg:w-full h-full bg-white z-10 ease-in duration-300 ${toggle ? 'right-0' : 'right-[-100%]'
+          }`}
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
           <div className="flex flex-col lg:flex lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center px-[15px] lg:p-0 py-[20px]">
@@ -72,7 +72,7 @@ const HeaderPreview = (props: Props) => {
               </a>
             </Link>
             <div>
-              <h2 className="lg:text-xl xl:text-2xl font-bold">PHẦN MỀM QUẢN LÝ NHÀ TRỌ 24/7</h2>
+              <h2 className="lg:text-xl xl:text-2xl font-bold">QUẢN LÝ NHÀ TRỌ 24/7</h2>
               <p>Đơn giản - Dễ sử dụng - Chính xác</p>
             </div>
             {cookies?.user && (
@@ -94,6 +94,11 @@ const HeaderPreview = (props: Props) => {
                           Thông tin tài khoản
                         </a>
                       </Link>
+                      <Link href={'/auth/changePassword'}>
+                        <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          Đổi mật khẩu
+                        </a>
+                      </Link>
 
                       <div
                         onClick={() => logoutResetData()}
@@ -113,14 +118,12 @@ const HeaderPreview = (props: Props) => {
                     onClick={onOpenModal}
                     className="h-auto rounded bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]"
                   >
-                    Quản lý phòng trọ
+                    Kiểm tra thông tin phòng thuê
                   </button>
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <p className="pt-2 text-white">
-                          -----------------------------------------------------------------------------------------------------------------------
-                        </p>
+
                         <hr />
                         <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
                           <div className="">

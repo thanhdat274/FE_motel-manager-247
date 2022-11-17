@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 
 export const options = {
   responsive: true,
@@ -13,35 +11,32 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'THống kê phòng',
+      text: 'Thống kê phòng',
     },
   },
 };
 
-export const data = {
-  
-  labels: ['Phfng trống', 'Phòng đã thuê'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+export function PieChart(dataRoomStatus: any) {
+  const dataPie = {
+    labels: ['Phòng trống', 'Đang sử dụng', 'Phòng chưa đưa vào sử dụng'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [
+          dataRoomStatus.dataRoomStatus.roomReadyEmpty,
+          dataRoomStatus.dataRoomStatus.roomReadyUsing,
+          dataRoomStatus.dataRoomStatus.roomNotReady,
+        ],
+        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 255, 30, 0.2)', 'rgba(0, 81, 255, 0.2)'],
+        borderColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 255, 30, 0.2)', 'rgba(0, 81, 255, 0.2)'],
+        borderWidth: 1,
+      },
+    ],
+  };
 
-export function PieChart() {
   return (
     <div className="block xl:w-[400px] mx-auto">
-      <Pie options={options} data={data} />
+      <Pie options={options} data={dataPie} />
     </div>
   );
 }

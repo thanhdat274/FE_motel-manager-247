@@ -19,10 +19,10 @@ export const UserInfo = (userData: any) => {
   });
 };
 export const UpdateUserInfo = (newData: any) => {
-  const url = `/user/${newData.userData.user._id}`;
+  const url = `/user/${newData?.userData?.user?._id}`;
   return instance.put(url, newData, {
     headers: {
-      Authorization: `Bearer ${newData.userData.token}`,
+      Authorization: `Bearer ${newData?.userData?.token}`,
     },
   });
 };
@@ -34,11 +34,24 @@ export const getInfoUser = (idUser: string, token: string) => {
     },
   });
 };
-export const fogetPassword = (data:any) => {
+export const fogetPassword = (data: any) => {
   const url = '/forgot-password';
-  return instance.post(url,data);
+  return instance.post(url, data);
 };
-export const resetPassword = (data:any) => {
+export const resetPassword = (newData: any) => {
   const url = '/reset_password';
-  return instance.post(url,data);
+  return instance.post(url, newData);
 };
+export const comfimEmail = (data: any) => {
+  const url = '/reset_password';
+  return instance.post(url, data);
+};
+export const confirmation = (email: string | string[] | undefined, token: string | string[] | undefined) => {
+  const url = `/confirmation/${email}/${token}`;
+  return instance.get(url);
+};
+export const changePassword = (newData: any) => {
+  const url = '/change-password';
+  return instance.put(url, newData);
+};
+

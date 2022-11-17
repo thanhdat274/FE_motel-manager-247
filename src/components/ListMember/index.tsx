@@ -33,7 +33,6 @@ const ListMember = (props: IMember) => {
 
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
-  const [peopleData, setPeopleData] = useState([]);
   const [open, setOpen] = useState(false);
   const { cookies, setLoading, user } = useUserContext();
 
@@ -48,8 +47,6 @@ const ListMember = (props: IMember) => {
     formState: { errors },
   } = useForm();
 
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
 
   const removeRoom = async (props: IMember) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
@@ -60,11 +57,12 @@ const ListMember = (props: IMember) => {
       try {
         await removePeople(param.id_room, newData).then(() => {
           Toast('success', 'Xóa thành viên thành công');
-          setPeopleData(peopleData.filter((item: any) => item.id !== _id));
+          router.push(`/manager/landlord/${param.id}/list-room`);
+
           setLoading(false);
         });
       } catch (error) {
-        Toast('error', 'Xóa thành viên thành công');
+        Toast('error', 'Xóa thành viên không thành công');
         setLoading(false);
       }
     } else {
@@ -130,88 +128,7 @@ const ListMember = (props: IMember) => {
           </div>
         </div>
 
-        {/* <Modal open={open} onClose={onCloseModal} center>
-          <h1 className="pt-2">
-            -----------------------------------------------------------------------------------------------------------------------
-          </h1>
-          <div className="w-full ">
-            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
-              <div className="">
-                <h2 className="pt-2 text-xl">Thêm thành viên </h2>
-              </div>
-            </div>
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  Tên thành viên
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="name"
-                  type="text"
-                  placeholder="Xin mời nhập tên thành viên"
-                  {...register('full_name', { required: true, minLength: 6 })}
-                />
-                {errors.full_name?.type === 'required' && (
-                  <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
-                )}
-                {errors.full_name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-              </div>
 
-              <div className="col-span-6">
-                <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                  Trạng thái phòng
-                </label>
-                <select
-                  className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  {...register('role', { required: true })}
-                  id="role"
-                >
-                  <option value="1">Chủ phòng</option>
-                  <option value="0">Thành viên</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  CMT/CCCD
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="cccd"
-                  type="text"
-                  placeholder="Xin mời nhập  CMT/CCCD"
-                  {...register('cccd', { required: true, minLength: 6 })}
-                />
-                {errors.cccd?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.cccd?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  Số điện thoại
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="phone"
-                  type="text"
-                  placeholder="Xin mời nhập  sô điện thoại"
-                  {...register('phone', { required: true, minLength: 6, maxLength: 11 })}
-                />
-                {errors.phone?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.phone?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-                {errors.phone?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
-              </div>
-
-              <div className="flex items-center">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
-                >
-                  Sửa
-                </button>
-              </div>
-            </form>
-          </div>
-        </Modal> */}
       </div>
     </div>
   );
