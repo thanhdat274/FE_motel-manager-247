@@ -31,17 +31,20 @@ const AddBooking = (props: Props) => {
   const onCreateRoom = async (data: any) => {
     setLoading(true)
     const newData = { ...data, userData: userData };
-    await createBookingRoom(newData)
-      .then((result: any) => {
-        setLoading(false)
-        Toast('success', 'Thêm người vào phòng thành công');
-        router.push(`/manager/landlord/${id}/list-room`);
-      })
-      .catch((err) => {
-        setLoading(false)
-        Toast('error', err?.response?.data?.message);
-      });
-  };
+    if (id) {
+      await createBookingRoom(newData)
+        .then((result: any) => {
+          setLoading(false)
+          Toast('success', result?.response?.data?.message);
+          router.push(`/manager/landlord/${id}/list-room`);
+        })
+        .catch((err) => {
+          setLoading(false)
+          setOpen(true)
+          Toast('error', err?.response?.data?.message);
+        });
+    };
+  }
   return (
     <div>
       <form action="" onSubmit={handleSubmit(onCreateRoom)}>
@@ -69,7 +72,7 @@ const AddBooking = (props: Props) => {
             type="submit"
             className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
           >
-            Nhận phòng
+            Chuyển
           </button>
         </div>
       </form>
