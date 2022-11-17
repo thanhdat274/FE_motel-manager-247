@@ -58,9 +58,7 @@ const Receipt = (props: Props) => {
 
   const [bill, setBill] = useState<any>();
 
-
-  useEffect(() => {
-    const getBill = async () => {
+ const getBill = async () => {
       if (monthCheckk && yearCheckk) {
         const { data } = await listBill(userData, yearCheckk, monthCheckk);
         setBill(data.data);
@@ -69,6 +67,8 @@ const Receipt = (props: Props) => {
         Toast('error', 'Vui lòng chọn tháng năm!');
       }
     };
+  useEffect(() => {
+   
     getBill();
   }, [monthCheckk, userData, yearCheckk]);
 
@@ -110,6 +110,14 @@ const Receipt = (props: Props) => {
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
                 Quản lý hóa đơn
               </h2>
+            </div>
+            <div className='mr-5'>
+            <button
+            onClick={onOpenModal1}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
+          >
+            Tính hóa đơn
+          </button>
             </div>
             <div>
               <Space direction="vertical">{datePickerShow} </Space>
@@ -232,12 +240,7 @@ const Receipt = (props: Props) => {
                   ) : (
                     <div className="text-center p-2">
                       <p className="text-red-500">Chưa có hóa đơn tháng này!</p>
-                      <button
-                        onClick={onOpenModal1}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
-                      >
-                        Tính hóa đơn
-                      </button>
+                     
                     </div>
                   )}
                 </div>
@@ -354,7 +357,7 @@ const Receipt = (props: Props) => {
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
             </div>{' '}
-            <AddBill></AddBill>
+            <AddBill onclose={onCloseModal1} data = {getBill}></AddBill>
           </div>
         </Modal>
       </div>
