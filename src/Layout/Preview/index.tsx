@@ -13,7 +13,7 @@ const LayoutIntro = ({ children }: Props) => {
 
   return (
     <div className="m-auto bg-white w-full min-h-screen">
-      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
+      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" zIndex={9999} />}
 
       <div>
         <HeaderPreview />
