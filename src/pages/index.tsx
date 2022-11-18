@@ -246,12 +246,12 @@ const Introduce = (props: Props) => {
                   Hơn {count?.countUser} chủ trọ đăng ký
                 </>
               </h2>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl font-bold pb-5">
                 <>
                   Hơn {count?.countHouse} nhà trọ
                 </>
               </h2>
-              <h2 className="text-2xl font-bold pb-5">
+              <h2 className="text-2xl font-bold ">
                 <>
                   Hơn {count?.countRoom} phòng trọ
                 </>

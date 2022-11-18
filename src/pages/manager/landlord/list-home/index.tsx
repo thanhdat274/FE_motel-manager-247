@@ -20,8 +20,8 @@ const ListHome = () => {
           setLoading(false)
           setHouse(data.data as any);
         }
-      } catch (error:any) {
-        
+      } catch (error: any) {
+
         setLoading(false)
         Toast('error', error?.response?.data?.message);
       }
@@ -96,7 +96,7 @@ const ListHome = () => {
                 .map((item: any, index: React.Key | null | undefined) => {
                   return (
                     <>
-                      <div className="border pt-3 bg-white rounded pr-2" key={index}>
+                      <div className="border pt-3 bg-white rounded pr-2 flex flex-col justify-between" key={index}>
                         <div className=" text-2xl rounded-md  font-bold pl-3 flex items-center">
                           <span className="pr-3">
                             <FontAwesomeIcon className="w-[20px] text-emerald-500 " icon={faHouse} />
