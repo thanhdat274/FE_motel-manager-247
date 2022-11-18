@@ -10,7 +10,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Toast } from 'src/hooks/toast';
 import { Image } from 'antd';
 import 'antd/dist/antd.css';
-import ImageUploading from 'react-images-uploading';
 
 export type IContractData = {
   addressCT: string;
@@ -51,15 +50,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   });
 
   const [contractData, setContractData] = useState<IContractData>();
+  const [file, setFile] = useState<any>();
+  const [imgPreview, setImgPreview] = useState('');
 
-  const [images, setImages] = useState<any>([]);
-  const maxNumber = 69;
-
-  const onChange = (imageList: any, addUpdateIndex: any) => {
-    // data for submit
-    // console.log(imageList, addUpdateIndex);
-    setImages(imageList);
-  };
   const userData = cookies?.user;
   const {
     register,
@@ -103,16 +96,19 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     }
   }, [contractData, leadMember]);
 
-  const onSubmit = async (data: any) => {
-    console.log("ảnh chọn để lưu", images);
+  const handleChange = (event: any) => {
+    setFile(event.target.files[0] as any);
+    setImgPreview(URL.createObjectURL(event.target.files[0] as any))
+  };
 
+  const onSubmit = async (data: any) => {
     const newAdditional = data.additional.split('\n');
     if (contractData?.addressCT) {
-      if (!images) {
+      if (!file) {
         Toast('error', 'Chưa thêm ảnh hợp đồng');
       } else {
-        const storageRef = ref(storage, `/files/${images}`);
-        const uploadTask = uploadBytesResumable(storageRef, images);
+        const storageRef = ref(storage, `/files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(
           'state_changed',
           (snapshot) => {
@@ -206,64 +202,39 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     <div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
-        {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt='' />}
+        {imgPreview &&
+          <div>
+            <h2>Ảnh hợp đồng xem trước</h2>
+            <Image style={{ width: '200px' }} src={imgPreview} alt='' />
+          </div>
+        }
+        {!imgPreview &&
+          <div>
+            {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt='' />}
+          </div>
+        }
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
           <div className="space-y-1 text-center">
-            <ImageUploading
-              multiple
-              value={images}
-              onChange={onChange}
-              maxNumber={maxNumber}
-              dataURLKey="data_url"
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400"
+              stroke="currentColor"
+              fill="none"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
             >
-              {({
-                imageList,
-                onImageUpload,
-                onImageRemoveAll,
-                onImageUpdate,
-                onImageRemove,
-                isDragging,
-                dragProps,
-              }) => (
-                <div className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                  <button
-                    style={isDragging ? { color: 'red' } : undefined}
-                    onClick={onImageUpload}
-                    {...dragProps}
-                  >
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    Click or Drop here
-                  </button>
-                  &nbsp;
-                  {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                  <div className='flex items-center gap-10'>
-                    {imageList.map((image, index) => (
-                      <div key={index} className="image-item">
-                        <Image style={{ width: '100px', height: '100px' }} src={image['data_url']} alt='' />
-                        <div className="image-item__btn-wrapper flex gap-3">
-                          <button onClick={() => onImageUpdate(index)}>Update</button>
-                          <button onClick={() => onImageRemove(index)}>Remove</button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </ImageUploading>
+              <path
+                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="text-sm text-gray-600 py-3">
+              <label className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                <input type="file" accept="Image" id="imageFile" onChange={handleChange} />
+              </label>
+            </div>
+            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
           </div>
         </div>
       </div>
