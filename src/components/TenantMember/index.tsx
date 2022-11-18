@@ -43,7 +43,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
       router.push(`/manager/landlord/${param.id}/list-room`);
       Toast('success', data.message);
 
-    } catch (error) {
+    } catch (error) {      
       setLoading(false);
       Toast('error', 'Thêm mới thành viên không thành công');
     }
@@ -78,7 +78,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
             <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">
-                <h2 className="pt-2 text-xl">Thêm thành viên </h2>
+                <h2 className="pt-2 text-xl text-white">Thêm thành viên </h2>
               </div>
             </div>
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>

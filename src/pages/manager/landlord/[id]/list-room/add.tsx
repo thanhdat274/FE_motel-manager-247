@@ -58,7 +58,7 @@ const AddRoom = (props: Props) => {
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
@@ -112,7 +112,7 @@ const AddRoom = (props: Props) => {
                         id="status"
                       >
                         <option value="true">Sẵn sàng</option>
-                        <option value="false">Chưa sẵn sàng</option>
+                        <option value="false">Phòng đang sửa chữa</option>
                       </select>
                     </div>
 
