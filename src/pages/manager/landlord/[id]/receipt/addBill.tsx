@@ -21,7 +21,10 @@ type FormInputs = {
   name: string;
 };
 
-type Props = {};
+type Props = {
+  onclose : ()=>void;
+  data:()=>void;
+};
 
 const AddBill = (props: Props) => {
   const today = new Date();
@@ -74,6 +77,8 @@ const AddBill = (props: Props) => {
           .then((data: any) => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
+            props.onclose();
+            props.data();
           })
           .catch((error: any) => {
             setLoading(false);
@@ -83,6 +88,8 @@ const AddBill = (props: Props) => {
           .then((data: any) => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
+            props.onclose();
+            props.data();
           })
           .catch((error: any) => {
             setLoading(false);
