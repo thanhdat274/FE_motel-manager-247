@@ -10,22 +10,13 @@ type Props = {};
 
 const SideBar = (props: Props) => {
   const [collapseShow, setCollapseShow] = React.useState('hidden');
-  const [actives, setActives] = React.useState('')
+  const [actives, setActives] = React.useState()
   const router = useRouter();
   const { id } = router.query;
   const { logoutResetData } = useUserContext();
   const checkActive = (e: any) => {
-    console.log(e);
-    if (e === 1) {
-      setActives('bg-blue-500')
-    }
-    else {
-      setActives('')
-    }
+      setActives(e)
   }
-  console.log(actives);
-  
-
   return (
     <>
       <div
@@ -107,16 +98,17 @@ const SideBar = (props: Props) => {
                   <li
                     key={index}
                     onClick={() => checkActive(menu.checkMenu)}
-                    className={actives + "items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md" +
+                    className={" items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md" +
                       (menu.url != '' ? ((menu.url != '' && router.pathname.indexOf(menu.url) == -1
-                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
-                        : 'text-blueGray-700 hover:text-blueGray-500 bg-blue-500 rounded-lg text-white')) : 'focus:bg-blue-500')
+                        ? ('text-lightBlue-500 hover:text-lightBlue-600')
+                        : 'text-blueGray-700 hover:text-blueGray-500 bg-blue-500 rounded-lg text-white')) : '') +
+                      (actives != undefined && router.pathname.indexOf(menu.url) != -1  ? ' bg-blue-500' : '')
                     }
                   >
                     <Link href={`/manager/landlord/${id}/${menu.url}`}>
                       <a
                         className={
-                          'h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 rounded-lg focus:bg-blue-500 focus:text-white hover:text-white shadow-md'
+                          'h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 rounded-lg focus:bg-blue-500 hover:text-white shadow-md'
                         }
                       >
                         {menu.icon}
