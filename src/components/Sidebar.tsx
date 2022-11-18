@@ -10,10 +10,21 @@ type Props = {};
 
 const SideBar = (props: Props) => {
   const [collapseShow, setCollapseShow] = React.useState('hidden');
-  const [actives, setActives] = React.useState(false)
+  const [actives, setActives] = React.useState('')
   const router = useRouter();
   const { id } = router.query;
   const { logoutResetData } = useUserContext();
+  const checkActive = (e: any) => {
+    console.log(e);
+    if (e === 1) {
+      setActives('bg-blue-500')
+    }
+    else {
+      setActives('')
+    }
+  }
+  console.log(actives);
+  
 
   return (
     <>
@@ -92,15 +103,15 @@ const SideBar = (props: Props) => {
               </Link>
 
               {MENU_LANDLORD.map((menu, index) => {
-                console.log(menu.checkMenu)
                 return (
                   <li
                     key={index}
-                    className={ (menu.checkMenu == 1?  "bg-blue-500" : "") + "items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md" + 
-                    (menu.url != '' ?  ((menu.url != '' && router.pathname.indexOf(menu.url) == -1
-                    ? 'text-lightBlue-500 hover:text-lightBlue-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500 bg-blue-500 rounded-lg text-white')) : 'focus:bg-blue-500')
-                  }
+                    onClick={() => checkActive(menu.checkMenu)}
+                    className={actives + "items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md" +
+                      (menu.url != '' ? ((menu.url != '' && router.pathname.indexOf(menu.url) == -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500 bg-blue-500 rounded-lg text-white')) : 'focus:bg-blue-500')
+                    }
                   >
                     <Link href={`/manager/landlord/${id}/${menu.url}`}>
                       <a
