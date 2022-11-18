@@ -35,18 +35,26 @@ const TenantMember = ({ data, data1 }: IProps) => {
     setLoading(true);
 
     const newData = { ...{ listMember }, userData: userData };
+    const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+    console.log();
+    if (newData.listMember.phoneNumber == regex) {
+      try {
+        const { data } = await addPeople(param.id_room, newData)
+        setLoading(false);
+        setOpen(false);
+        router.push(`/manager/landlord/${param.id}/list-room`);
+        Toast('success', data.message);
 
-    try {
-      const { data } = await addPeople(param.id_room, newData)
+      } catch (error) {
+        setLoading(false);
+        Toast('error', 'Thêm mới thành viên không thành công');
+      }
+    } else {
       setLoading(false);
-      setOpen(false);
-      router.push(`/manager/landlord/${param.id}/list-room`);
-      Toast('success', data.message);
-
-    } catch (error) {
-      setLoading(false);
-      Toast('error', 'Thêm mới thành viên không thành công');
+      Toast('error', 'Số điện thoại không đúng định dạng');
     }
+
+
   };
 
   return (
@@ -145,12 +153,11 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="phoneNumber"
                   type="text"
-                  placeholder="Xin mời nhập  sô điện thoại"
-                  {...register('phoneNumber', { required: true, minLength: 6, maxLength: 11 })}
+                  placeholder="Xin mời nhập số điện thoại"
+                  {...register('phoneNumber', { required: true, maxLength: 11 })}
                 />
-                {errors.phoneNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.phoneNumber?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-                {errors.phoneNumber?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
+                {errors.phoneNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập SDT</span>}
+                {errors.phoneNumber?.type === 'maxLength' && <span className="text-rose-600">Tối đa 10 ký tự</span>}
               </div>
 
               <div className="flex items-center">
