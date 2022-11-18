@@ -18,7 +18,6 @@ interface IFormInputs {
 const Signup = (props: Props) => {
   const { setLoading } = useUserContext();
   const [message, setMessage] = useState('');
-  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -38,7 +37,7 @@ const Signup = (props: Props) => {
           setLoading(false);
         });
     } else {
-      Toast('error', 'Sai mật khẩu');
+      Toast('error', 'Mật khẩu không trùng khớp vui lòng bạn nhập lại!');
       setLoading(false);
     }
   };

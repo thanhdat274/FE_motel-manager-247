@@ -32,11 +32,12 @@ export const UserProvider = ({ children }: any) => {
   const [dateOfBirth, setDateOfBirth] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user','code_room']);
 
   const logoutResetData = () => {
-    removeCookie('user', { path: '/', maxAge: 30 * 24 * 60 * 60 });
     setLoading(true);
+    removeCookie('user', { path: '/', maxAge: 30 * 24 * 60 * 60 });
+    removeCookie('code_room', { path: '/', maxAge: 30 * 24 * 60 * 60 });
     setTimeout(() => {
       setLoading(false);
     }, 1000);

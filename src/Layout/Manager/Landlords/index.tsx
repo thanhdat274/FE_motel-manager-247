@@ -15,7 +15,7 @@ const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
 
   return (
     <div>
-      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
+      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" zIndex={9999} />}
 
       <SideBar />
       <Navbar />

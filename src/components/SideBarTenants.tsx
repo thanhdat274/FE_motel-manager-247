@@ -77,14 +77,6 @@ const SideBarTenants = (props: Props) => {
             </div>
 
             <ul className="md:flex-col md:min-w-full flex flex-col 2xs:h-screen md:h-screen sm:h-screen s:h-screen xs:h-screen list-none">
-              <li className={`rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md`}>
-                <Link href={'/'}>
-                  <a className="h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 hover:text-white shadow-md">
-                    <FontAwesomeIcon className="w-[16px] text-black" icon={faHouse} />
-                    <span className={`font-bold text-black`}>Trở lại trang chủ</span>
-                  </a>
-                </Link>
-              </li>
               {MENU_TENANTS.map((menu, index) => {
                 return (
                   <li

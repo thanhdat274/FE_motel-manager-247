@@ -24,7 +24,6 @@ const AddHome = (props: Props) => {
   const onSubmit: SubmitHandler<FormInput> = async (dataForm: any) => {
     const newData = { ...dataForm, userData: userData };
     setLoading(true);
-
     await addHouse(newData)
       .then(() => {
         setLoading(false);
@@ -32,7 +31,7 @@ const AddHome = (props: Props) => {
         router.push('/manager/landlord/list-home');
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };

@@ -9,36 +9,39 @@ import { listHouse, removeHouses } from 'src/pages/api/house';
 const ListHome = () => {
   const { cookies, setLoading } = useUserContext();
   const [house, setHouse] = useState([]);
-  
+
   const userData = cookies?.user;
   useEffect(() => {
     const getHouse = async () => {
+      setLoading(true)
       try {
         const { data } = await listHouse(userData as any);
         if (data.data) {
+          setLoading(false)
           setHouse(data.data as any);
         }
-      } catch (error) {
+      } catch (error:any) {
+        
+        setLoading(false)
+        Toast('error', error?.response?.data?.message);
       }
     };
     getHouse();
   }, [userData]);
 
   const removeHouse = async (_id: number, userData: any) => {
-    setLoading(true);
 
     const confirm = window.confirm('Bạn có muốn xóa không ?');
     if (confirm) {
-      try {
-        await removeHouses({ _id: _id, userData: userData }).then(() => {
-          Toast('success', 'Xóa nhà thành công');
-          setHouse(house.filter((item: any) => item._id !== _id));
-          setLoading(false);
-        });
-      } catch (error) {
-        Toast('error', 'Xóa nhà không thành công');
+      setLoading(true);
+      await removeHouses({ _id: _id, userData: userData }).then(() => {
+        Toast('success', 'Xóa nhà thành công');
+        setHouse(house.filter((item: any) => item._id !== _id));
         setLoading(false);
-      }
+      }).catch((error) => {
+        Toast('error', error?.response?.data?.message);
+        setLoading(false);
+      });
     }
   };
 
@@ -145,8 +148,8 @@ const ListHome = () => {
                     </>
                   );
                 })
-                ): <div>
-                  <p className="text-blue-600/100 " >Không có dữ liệu</p></div>}
+            ) : <div>
+              <p className="text-blue-600/100 " >Không có dữ liệu</p></div>}
           </div>
         </div>
 

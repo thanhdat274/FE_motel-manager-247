@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Image } from 'antd';
 import 'antd/dist/antd.css';
+import { useUserContext } from '@/context/UserContext';
 
 type Props = {};
 
 const ContractTernant = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
-  console.log(codeRoom);
+  const { cookies } = useUserContext();
+  
   useEffect(() => {
-    const codeRoom = JSON.parse(localStorage.getItem('code_room') as string);
-    setCodeRoom(codeRoom as any);
-  }, []);
+    const  data  = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
   return (
     <div>
       <header className="bg-white shadow">
@@ -33,7 +35,7 @@ const ContractTernant = (props: Props) => {
           <div>
             <h2 className='uppercase text-2xl'>Không có ảnh hợp đồng</h2>
           </div>
-       )}
+        )}
       </main>
     </div>
   );

@@ -21,21 +21,22 @@ type FormInputs = {
   name: string;
 };
 
-type Props = {};
+type Props = {
+  onclose : ()=>void;
+  data:()=>void;
+};
 
 const AddBill = (props: Props) => {
   const today = new Date();
   const [rooms, setRooms] = useState([]);
   const [roomsBillId, setRoomsBillId] = useState(['']);
   const [rooms1, setRooms1] = useState();
-  console.log(roomsBillId);
 
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
   const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
   const [house, setHouse] = useState<any>([]);
-  console.log(rooms1);
   const router = useRouter();
   const { id } = router.query;
 
@@ -60,13 +61,12 @@ const AddBill = (props: Props) => {
         if (data.data) {
           setHouse(data.data as any);
         }
-      } catch (error) {}
+      } catch (error) { }
     };
     getHouse();
   }, [userData]);
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: any) => {
-    console.log(data);
 
     if (monthCheck && yearCheck) {
       const newData = { ...data, month: monthCheck, year: yearCheck, userData: userData };
@@ -77,6 +77,8 @@ const AddBill = (props: Props) => {
           .then((data: any) => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
+            props.onclose();
+            props.data();
           })
           .catch((error: any) => {
             setLoading(false);
@@ -86,6 +88,8 @@ const AddBill = (props: Props) => {
           .then((data: any) => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
+            props.onclose();
+            props.data();
           })
           .catch((error: any) => {
             setLoading(false);
@@ -96,7 +100,6 @@ const AddBill = (props: Props) => {
     }
   };
   const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
     setRoomsBillId(value);
   };
   const datePickerShow = React.useMemo(() => {

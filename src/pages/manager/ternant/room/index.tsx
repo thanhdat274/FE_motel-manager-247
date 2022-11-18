@@ -1,13 +1,16 @@
+import { useUserContext } from '@/context/UserContext';
 import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
 const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+  
   useEffect(() => {
-    const { data } = JSON.parse(localStorage.getItem('code_room') as string);
+    const  data  = cookies?.code_room;
     setCodeRoom(data as any);
-  }, []);
+  }, [cookies?.code_room]);
   return (
     <div className="h-auto">
       <div className="bg-white shadow">
@@ -65,19 +68,19 @@ const InfoRoom = (props: Props) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     <tr>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.name}</div>
+                        <div className="text-center font-bold">{codeRoom?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.name}</div>
+                        <div className="text-center">{codeRoom?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">20 m2</div>
+                        <div className="text-center">{codeRoom?.area} m2</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.maxMember}</div>
+                        <div className="text-center font-bold">{codeRoom?.maxMember}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.listMember?.length}</div>
+                        <div className="text-center font-bold">{codeRoom?.listMember?.length}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -145,12 +148,11 @@ const InfoRoom = (props: Props) => {
                       </th>
                     </tr>
                   </thead>
-
                   <tbody className="bg-white divide-y divide-gray-200">
                     {codeRoom?.listMember?.map((item: any, index: number) => (
                       <tr key={index}>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">{item.memberName}</div>
+                          <div className="text-center font-bold">{item.memberName}</div>
                         </td>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
                           <div className="text-center">{item.cardNumber}</div>

@@ -14,6 +14,7 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 type IProps = {
   data: IMember2;
   data1: any;
+
 };
 
 const TenantMember = ({ data, data1 }: IProps) => {
@@ -34,17 +35,27 @@ const TenantMember = ({ data, data1 }: IProps) => {
     setLoading(true);
 
     const newData = { ...{ listMember }, userData: userData };
-
-    try {
-      await addPeople(param.id_room, newData).then((data: any) => {
+    const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+    if (regex.test(newData.listMember.phoneNumber)==true) {
+      try {
+        const { data } = await addPeople(param.id_room, newData)
         setLoading(false);
+        setOpen(false);
         router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', 'Thêm mới thành viên thành công');
-      });
-    } catch (error) {
+        Toast('success', data.message);
+
+      } catch (error) {
+        setLoading(false);
+        Toast('error', 'Thêm mới thành viên không thành công');
+      }
+    } else {
       setLoading(false);
-      Toast('error', 'Thêm mới thành viên không thành công');
+
+      Toast('error', 'Số điện thoại không đúng định dạng');
+
     }
+
+
   };
 
   return (
@@ -71,14 +82,12 @@ const TenantMember = ({ data, data1 }: IProps) => {
         )}
 
         <Modal open={open} onClose={onCloseModal} center>
-          <div className="w-full">
-            <h1 className="pt-2 text-white">
-              -----------------------------------------------------------------------------------------------------------------------
-            </h1>
+          <div className="w-full pt-6">
+
             <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">
-                <h2 className="pt-2 text-xl">Thêm thành viên </h2>
+                <h2 className="pt-2 text-xl text-white">Thêm thành viên </h2>
               </div>
             </div>
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
@@ -93,10 +102,10 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   placeholder="Xin mời nhập tên thành viên"
                   {...register('memberName', { required: true, minLength: 6 })}
                 />
-                {errors.full_name?.type === 'required' && (
+                {errors.memberName?.type === 'required' && (
                   <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
                 )}
-                {errors.full_name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.memberName?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
 
               <div className="col-span-6">
@@ -134,8 +143,8 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   placeholder="Xin mời nhập  CMT/CCCD"
                   {...register('cardNumber', { required: true, minLength: 6 })}
                 />
-                {errors.cccd?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.cccd?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.cardNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
+                {errors.cardNumber?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -145,12 +154,11 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="phoneNumber"
                   type="text"
-                  placeholder="Xin mời nhập  sô điện thoại"
-                  {...register('phoneNumber', { required: true, minLength: 6, maxLength: 11 })}
+                  placeholder="Xin mời nhập số điện thoại"
+                  {...register('phoneNumber', { required: true, maxLength: 11 })}
                 />
-                {errors.phone?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.phone?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
-                {errors.phone?.type === 'maxLength' && <span className="text-rose-600">Tối thiểu 11 ký tự</span>}
+                {errors.phoneNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập SDT</span>}
+                {errors.phoneNumber?.type === 'maxLength' && <span className="text-rose-600">Tối đa 10 ký tự</span>}
               </div>
 
               <div className="flex items-center">

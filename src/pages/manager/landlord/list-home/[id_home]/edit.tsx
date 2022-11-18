@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { readHouse, updateHouse } from 'src/pages/api/house';
@@ -10,7 +9,6 @@ type Props = {};
 
 const EditHouse = (props: Props) => {
   const router = useRouter();
-  const [house, setHouse] = useState([]);
   const { cookies, setLoading } = useUserContext();
   const userData = cookies?.user;
 
@@ -33,6 +31,7 @@ const EditHouse = (props: Props) => {
     };
     getHome();
   }, [param.id_home, reset, userData]);
+  
   const onSubmit = async (dataForm: any) => {
     const newData = { ...dataForm, userData: userData };
     setLoading(true);
@@ -43,7 +42,7 @@ const EditHouse = (props: Props) => {
         router.push('/manager/landlord/list-home');
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
