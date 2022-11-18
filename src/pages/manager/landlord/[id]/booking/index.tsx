@@ -8,7 +8,8 @@ import { createBooking, createBookingRoom, deleteBooking, listBooking } from 'sr
 import { listRoom } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 import AddBooking from './addBooking';
-
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type Props = {};
 
 
@@ -43,7 +44,7 @@ const Booking = (props: Props) => {
       getListBooking();
     }
 
-  }, []);
+  }, [id]);
 
 
   const onHandleRemove = async (id: any) => {
@@ -52,13 +53,17 @@ const Booking = (props: Props) => {
       setLoading(true)
       await deleteBooking(id, userData)
         .then((result: any) => {
+          console.log("ádasdasd", result);
+
+
           setListBookings(listBookings.filter((item: { _id: any; }) => item._id !== id))
+
           setLoading(false)
-          Toast('success', 'Xóa thành công');
+          Toast('success', result?.data?.message);
         })
         .catch((err) => {
           setLoading(false)
-          Toast('error', err?.response?.data?.massage);
+          Toast('error', err?.response?.data?.message);
         });
     }
 
@@ -66,26 +71,35 @@ const Booking = (props: Props) => {
 
 
   useEffect(() => {
-    const getListRoom = async () => {
-      const { data } = await listRoom(id, userData);
-      setListRooms(data.data);
-    };
-    getListRoom();
-  }, []);
+
+    if (id) {
+      const getListRoom = async () => {
+        const { data } = await listRoom(id, userData);
+        setListRooms(data.data);
+      };
+      getListRoom();
+    }
+
+  }, [id]);
 
 
   const onSubmit = async (data1: any) => {
-    try {
-      const { data } = await createBooking(data1, userData, id);
-      const daata = data.data
+    if (id) {
+      try {
+        const { data } = await createBooking(data1, userData, id)
+        const daata = data.data
+        setListBookings([...listBookings, daata])
+        setOpen(false)
+        Toast('success', 'Đặt tiền cọc thành công');
 
-      setListBookings([...listBookings, daata])
-      setOpen(false)
-      Toast('success', 'Đặt tiền cọc thành công');
+      } catch (error: any) {
+        console.log("dasdasd", error);
 
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response
+          ?.data?.message);
+      }
     }
+
   };
 
   return (
@@ -113,7 +127,7 @@ const Booking = (props: Props) => {
 
 
         <div className="flex flex-col border bg-white mt-3">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="overflow-x-auto ">
             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
               <div className="overflow-hidden">
                 <table className="min-w-full">
@@ -146,7 +160,7 @@ const Booking = (props: Props) => {
                         return (
                           <>
                             {item.expectTime == date ? (
-                              <tr className=" border-yellow-500 border-2">
+                              <tr className=" border-yellow-500 border-2 ">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.fullName}
@@ -211,10 +225,12 @@ const Booking = (props: Props) => {
 
                                     <button
                                       type="submit"
-                                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                      className=" flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                       onClick={() => onHandleRemove(item._id)}
                                     >
-                                      Xóa
+
+                                      <span className='pr-2'> Xóa</span>
+                                      <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
                                     </button>
                                   </div>
                                 </td>
@@ -227,7 +243,7 @@ const Booking = (props: Props) => {
                         );
                       })
                     ) : (
-                      <div className='text-red-500 p-5'>Không có dữ liệu</div>
+                      <tr className='text-red-500 p-5'><td className='p-5'>Không có dữ liệu</td></tr>
                     )}
                   </tbody>
                 </table>

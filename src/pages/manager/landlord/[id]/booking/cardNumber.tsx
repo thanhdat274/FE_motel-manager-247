@@ -14,9 +14,9 @@ type Props = {
 };
 const CardNumber = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
-  // const [open, setOpen] = useState(false);
-  // const onCloseModal = () => setOpen(false);
-  // const onOpenModal = () => setOpen(true);
+  const [open, setOpen] = useState(false);
+  const onCloseModal = () => setOpen(false);
+  const onOpenModal = () => setOpen(true);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
@@ -29,17 +29,20 @@ const CardNumber = (props: Props) => {
 
   const onCreateRoom = async (data: any) => {
     const newData = { ...data, userData: userData };
-    await createBookingRoom(newData)
-      .then((result: any) => {
-        Toast('success', 'Thêm người vào phòng thành công');
-        router.push(`/manager/landlord/${id}/list-room`);
-      })
-      .catch((err) => {
-        Toast('error', err.response.data.message);
-        // setOpen(true)
+    if (id) {
+      await createBookingRoom(newData)
+        .then((result: any) => {
+          Toast('success', result?.response?.data?.message);
+          router.push(`/manager/landlord/${id}/list-room`);
+        })
+        .catch((error) => {
+          Toast('error',  error?.response?.data?.message);
+          setOpen(true)
 
-      });
-  };
+        });
+    };
+  }
+
   return (
     <div>
       <form action="" onSubmit={handleSubmit(onCreateRoom)}>

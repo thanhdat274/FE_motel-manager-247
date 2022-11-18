@@ -13,7 +13,7 @@ const LayoutTenants = ({ children }: Props) => {
 
   return (
     <div>
-      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" />}
+      {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" zIndex={9999} />}
 
       <SideBarTenants />
       <Navbar />

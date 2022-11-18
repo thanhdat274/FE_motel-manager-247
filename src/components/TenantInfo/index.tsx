@@ -88,7 +88,7 @@ const TenantInformation = ({ data }: any) => {
                     id="status"
                   >
                     <option value="true">Sẵn sàng</option>
-                    <option value="false">Chưa sẵn sàng</option>
+                    <option value="false">Phòng đang sửa chữa</option>
                   </select>
                 </div>
 
