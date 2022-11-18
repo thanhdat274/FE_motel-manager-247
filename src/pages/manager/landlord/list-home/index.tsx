@@ -23,7 +23,7 @@ const ListHome = () => {
       } catch (error:any) {
         
         setLoading(false)
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
       }
     };
     getHouse();
