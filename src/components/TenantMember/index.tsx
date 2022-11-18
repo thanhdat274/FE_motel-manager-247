@@ -36,8 +36,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
 
     const newData = { ...{ listMember }, userData: userData };
     const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
-    console.log();
-    if (newData.listMember.phoneNumber == regex) {
+    if (regex.test(newData.listMember.phoneNumber)==true) {
       try {
         const { data } = await addPeople(param.id_room, newData)
         setLoading(false);
