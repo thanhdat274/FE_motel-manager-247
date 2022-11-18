@@ -8,7 +8,8 @@ import { createBooking, createBookingRoom, deleteBooking, listBooking } from 'sr
 import { listRoom } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 import AddBooking from './addBooking';
-
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type Props = {};
 
 
@@ -224,10 +225,12 @@ const Booking = (props: Props) => {
 
                                     <button
                                       type="submit"
-                                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                      className=" flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                       onClick={() => onHandleRemove(item._id)}
                                     >
-                                      Xóa
+
+                                      <span className='pr-2'> Xóa</span>
+                                      <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
                                     </button>
                                   </div>
                                 </td>
