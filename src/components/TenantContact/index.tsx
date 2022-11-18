@@ -397,7 +397,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
             <div className="mb-4">
               <div className="md:grid grid-cols-4 mb-4">
-                <p className="">Tiền phạt</p>
+                <p className="">Tiền phạt nếu vi phạm</p>
                 <input
                   type="string"
                   className="p-2 max-h-10 w-full  md:col-span-3"

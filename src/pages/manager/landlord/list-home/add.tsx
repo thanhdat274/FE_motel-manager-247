@@ -31,7 +31,7 @@ const AddHome = (props: Props) => {
         router.push('/manager/landlord/list-home');
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };

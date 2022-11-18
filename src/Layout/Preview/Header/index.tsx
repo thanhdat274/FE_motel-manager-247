@@ -123,9 +123,7 @@ const HeaderPreview = (props: Props) => {
                   <div>
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
-                        <p className="pt-2 text-white">
-                          -----------------------------------------------------------------------------------------------------------------------
-                        </p>
+
                         <hr />
                         <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
                           <div className="">
