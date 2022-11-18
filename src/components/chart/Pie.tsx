@@ -35,7 +35,7 @@ export function PieChart(dataRoomStatus: any) {
   };
 
   return (
-    <div className="block xl:w-[400px] mx-auto">
+    <div className="block xl:w-[400px] mx-auto sm:max-w-[70%]">
       <Pie options={options} data={dataPie} />
     </div>
   );

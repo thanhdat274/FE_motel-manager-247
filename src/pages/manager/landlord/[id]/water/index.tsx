@@ -189,12 +189,6 @@ const ListWaterUsed = () => {
                 Chỉ số nước
               </h2>
             </div>
-            <div className="flex ml-auto">
-              <button className="border flex bg-sky-500 items-center rounded-md p-1.5 mx-2">
-                <FontAwesomeIcon className="w-[16px] text-white" icon={faFileExcel} />
-                <span className="font-semibold mx-1">Xuất file excel</span>
-              </button>
-            </div>
           </div>
         </div>
         <div className="relative max-w-full">

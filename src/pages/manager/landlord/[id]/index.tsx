@@ -101,64 +101,64 @@ const HomeManagerPage = () => {
         </div>
       </header>
       {totalRooms != 0 && (
-        <div className="w-full flex">
-          <div className="grid grid-rows-2 p-2 grid-cols-2 flex-[50%]  xl:flex-nowrap flex-wrap lg:gap-3 sm:gap-2 md:gap-2 gap-y-2 md:gap-y-2 justify-between">
-            <div className="flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+        <div className="w-full flex sm:flex 2xs:block xs:block s:block">
+          <div className="grid grid-rows-2 sm:grid-cols-1 p-2 grid-cols-2 flex-[50%] justify-items-stretch xl:flex-nowrap flex-wrap lg:gap-3 sm:gap-2 md:gap-2 gap-y-2 md:gap-y-2 justify-between">
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:px-5 sm:py-2 2xs:p-2 2xs:m-2  xs:p-2 s:p-2 s:m-2 xs:m-2 xs:-p-2 xs bg-white shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Tổng số phòng</p>
                   <h5 className="mb-0">{totalRooms} phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full 2xs:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
             </div>
-            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:px-5 sm:py-2 2xs:p-2 2xs:m-2  xs:p-2 s:p-2 s:m-2 xs:m-2 bg-white shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa</p>
                   <h5 className="mb-0">{roomStatisticals.roomNotReady} phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full 2xs:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
                 </div>
               </div>
             </div>
 
-            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
-              <div className="max-w-full ">
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:px-5 sm:py-2 2xs:p-2 2xs:m-2  xs:p-2 s:p-2 s:m-2 xs:m-2 bg-white shadow border rounded-md">
+              <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
                   <h5 className="mb-0">{roomStatisticals.roomReadyUsing} phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full">
+              <div className="max-w-full 2xs:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
             </div>
-            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:p-5  bg-white shadow border rounded-md">
+            <div className="flex-[25%] flex flex-wrap justify-between items-center lg:p-5 md:p-[4px] sm:px-5 sm:py-2 2xs:p-2 2xs:m-2  xs:p-2 s:p-2 s:m-2 xs:m-2 bg-white shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
                   <h5 className="mb-0">{roomStatisticals.numberMemberInHouse} người</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full 2xs:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faPerson} />
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex-[50%] md:max-w-[50%] p-2">
-            <div className="w-full lg:w-[100%]  bg-white shadow border rounded-md p-2">
+          <div className="flex-[50%] sm:max-w-[50%] md:max-w-[50%] p-2">
+            <div className="w-full lg:w-[100%] sm:py-5 sm:h-[100%] bg-white shadow border rounded-md p-2">
               <PieChart dataRoomStatus={roomStatisticals} />
             </div>
           </div>
