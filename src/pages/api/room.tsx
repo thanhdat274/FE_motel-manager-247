@@ -1,4 +1,5 @@
 import instance from './instance';
+import axios from "axios";
 
 export const listRoom = (id: any, userData: any) => {
   const url = `/list-room/${userData?.user?._id}/${id}`;
@@ -71,6 +72,7 @@ export const removePeople = (_id: any, data: any) => {
 // api ma dang nhap
 
 export const loginCode = (data: any) => {
+  console.log(data);
 
   const url = `/rom/edit-code-room`;
   return instance.post(url, data, {
@@ -78,4 +80,21 @@ export const loginCode = (data: any) => {
       Authorization: `Bearer ${data?.userData?.token}`,
     },
   });
+};
+
+// hàm upload ảnh hợp đồng
+export const upload = async (file: any) => {
+  const CLOUNDINARY_URL = "https://api.cloudinary.com/v1_1/dvj4wwihv/image/upload";
+  const CLOUNDINARY_PRESET = "js8yqruv";
+  console.log(file);
+
+  const formData = new FormData();
+  formData.append("file", file.file.name);
+  formData.append("upload_preset", CLOUNDINARY_PRESET);
+
+  const { data } = await axios.post(CLOUNDINARY_URL, formData, {
+    headers: { "Content-Type": "application/form-data" },
+  });
+
+  return data.url;
 };

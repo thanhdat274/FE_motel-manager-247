@@ -13,12 +13,17 @@ const ListHome = () => {
   const userData = cookies?.user;
   useEffect(() => {
     const getHouse = async () => {
+      setLoading(true)
       try {
         const { data } = await listHouse(userData as any);
         if (data.data) {
+          setLoading(false)
           setHouse(data.data as any);
         }
-      } catch (error) {
+      } catch (error:any) {
+        
+        setLoading(false)
+        Toast('error', error?.response?.data?.message);
       }
     };
     getHouse();
