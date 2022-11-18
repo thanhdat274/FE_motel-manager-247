@@ -58,7 +58,7 @@ const AddRoom = (props: Props) => {
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };

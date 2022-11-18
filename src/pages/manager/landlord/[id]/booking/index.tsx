@@ -63,7 +63,7 @@ const Booking = (props: Props) => {
         })
         .catch((err) => {
           setLoading(false)
-          Toast('error', err?.response?.data?.massage);
+          Toast('error', err?.response?.data?.message);
         });
     }
 
