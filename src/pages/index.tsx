@@ -1,13 +1,40 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faMessage, faLocationDot, faEnvelope, faLink, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
+import { getValueCountStatis } from './api/statistical';
 type Props = {};
 
+type IDataCount = {
+  countRoom: Number,
+  countHouse: Number,
+  countUser: Number,
+}
+
 const Introduce = (props: Props) => {
-  const router = useRouter();
+
+  const [count, setCount] = useState<IDataCount>();
+
+  useEffect(() => {
+    const getValueCount = async () => {
+      await getValueCountStatis().then((result) => {
+        setCount(result.data.data)
+      }).catch(() => {
+        setCount({
+          countRoom: 0,
+          countHouse: 0,
+          countUser: 0,
+        })
+      });
+    };
+
+    getValueCount()
+  }, [])
+
+  console.log('count', count);
+
 
   return (
     <div className="bg-slate-200 clear-both min-h-screen">
@@ -214,9 +241,21 @@ const Introduce = (props: Props) => {
           <div>
             <div className="bg-white lg:mr-10  mx-5 p-5 lg:ml-0 mt-10 lg:mt-0">
               <h2 className="text-2xl font-bold">Phòng trọ 24/7 và những con số</h2>
-              <h2 className="text-2xl font-bold pt-6 pb-5">1,170+ chủ trọ đăng ký</h2>
-              <h2 className="text-2xl font-bold">9,175+ phòng trọ</h2>
-              <h2 className="text-2xl font-bold pt-6 pb-5">47+ tỉnh thành/ phố</h2>
+              <h2 className="text-2xl font-bold pt-6 pb-5">
+                <>
+                  Hơn {count?.countUser} chủ trọ đăng ký
+                </>
+              </h2>
+              <h2 className="text-2xl font-bold pb-5">
+                <>
+                  Hơn {count?.countHouse} nhà trọ
+                </>
+              </h2>
+              <h2 className="text-2xl font-bold ">
+                <>
+                  Hơn {count?.countRoom} phòng trọ
+                </>
+              </h2>
             </div>
           </div>
           <div className="mt-10">
@@ -226,30 +265,30 @@ const Introduce = (props: Props) => {
                 <div className="flex pt-5">
                   <FontAwesomeIcon className="w-5" icon={faPhone}></FontAwesomeIcon>
 
-                  <span className="pl-3">0963209332</span>
+                  <a href={`tel:0824144695`} className="pl-3">0824144695</a>
                 </div>
                 <div className="flex pt-5">
                   <FontAwesomeIcon className="w-5" icon={faMessage}></FontAwesomeIcon>
-                  <span className="pl-3">0915 85 0918</span>
+                  <a href={`tel:0824144695`} className="pl-3">0824144695</a>
                 </div>
                 <div className="flex pt-5">
                   <FontAwesomeIcon className="w-5" icon={faLocationDot}></FontAwesomeIcon>
-                  <span className="pl-3">Tòa nhà SBI, Trịnh Văn Bô, P. Nam Từ Niêm,Hà Nội</span>
+                  <span className="pl-3">Số 1, Trịnh Văn Bô, P. Nam Từ Niêm,Hà Nội</span>
                 </div>
                 <div className="flex pt-5">
                   <FontAwesomeIcon className="w-5" icon={faEnvelope}></FontAwesomeIcon>
-                  <span className="pl-3">info@maple.com.vn</span>
+                  <a href="mailto:motel-manager-247@gmail.com" className="pl-3">motel-manager-247@gmail.com</a>
                 </div>
                 <div className="flex pt-5">
                   <FontAwesomeIcon className="w-5" icon={faLink}></FontAwesomeIcon>
                   <Link href="/">
-                    <a className="pl-3 text-green-500">http/www.nhatro247.com.vn</a>
+                    <a href='https://motel-manager-247.vercel.app/' className="pl-3 text-green-500">https://motel-manager-247.vercel.app/</a>
                   </Link>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-10">
+          {/* <div className="mt-10">
             <div className="bg-white lg:mr-10  mx-5 p-5 lg:ml-0 mt-10 lg:mt-0">
               <h2 className="text-2xl font-bold ">KHÁCH HÀNG</h2>
               <p className="pt-5">CCMN 958/3 ÂU CƠ - Tân Bình, TP.HCM: 123 phòng</p>
@@ -257,8 +296,8 @@ const Introduce = (props: Props) => {
               <p className="pt-5">Chú 6 - Khu nhà trọ Trung Mỹ Tây, Quận 12: 18 phòng</p>
               <p className="pt-5">Chú Mậu - Khu nhà trọ Gò Vấp - TP.HCM: 20 phòng</p>
             </div>
-          </div>
-          <div className="mt-10">
+          </div> */}
+          {/* <div className="mt-10">
             <div className="bg-white lg:mr-10  mx-5 p-5 lg:ml-0 mt-10 lg:mt-0">
               <h2 className="text-2xl font-bold ">ĐÁNH GIÁ</h2>
               <p className="pt-5 border-l-4 border-green-300 pl-2 flex">
@@ -267,7 +306,7 @@ const Introduce = (props: Props) => {
               </p>
               <p className="pt-5">Chị Hiền - Khu nhà trọ Phú Hòa, Bình Dương: 24 phòng</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
