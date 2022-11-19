@@ -89,7 +89,7 @@ const Ternant = () => {
 
     }
   }, [codeRoom?._id, checkYear, checkNameDien]);
-
+  
   return (
     <div className="w-full gap-4 flex flex-col ">
       <header className="bg-white shadow border rounded-md">
@@ -109,7 +109,7 @@ const Ternant = () => {
           <BarChart data={totalWater} />
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarDien data={totalElictic} />
+          <BarDien data={totalElictic}  dataNuoc={totalWater}/>
         </div>
       </div>
     </div>

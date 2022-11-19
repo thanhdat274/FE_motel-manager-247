@@ -35,8 +35,7 @@ const labels = [
   'Tháng 11',
   'Tháng 12',
 ];
-const dataWater: any = [];
-const BarChart = (dataNumber: any) => {
+const BarChart = (dataNumber: any) => {  
   const data = {
     labels,
     datasets: [
