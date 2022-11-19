@@ -123,24 +123,29 @@ const ListRoom = (props: Props) => {
                                   </span>
                                 </p>
 
-                                <p className="flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faUser} />
-                                  <span className="">
-                                    {item.listMember.map((item1: any, index: number) => {
-                                      return (
-                                        <div key={index}>
-                                          {item1.status == true ? <div>{item1.memberName}</div> : <div>{null}</div>}
-                                        </div>
-                                      );
-                                    })}
-                                  </span>
-                                </p>
-                                <p className="flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faUser} />
-                                  <span className="">{item.listMember.length}</span>
-                                </p>
+                                {item.listMember.length > 0 ? (
+                                  <>
+                                    <p className="flex items-center gap-2 mb-[20px]">
+                                      <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                                      <span className="">
+                                        {item.listMember.map((item1: any, index: number) => {
+                                          return (
+                                            <div key={index}>
+                                              {item1.status == true ? <div>{item1.memberName}</div> : <div>{null}</div>}
+                                            </div>
+                                          );
+                                        })}
+                                      </span>
+                                    </p>
+                                    <p className="flex items-center gap-2 mb-[20px]">
+                                      <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                                      <span className="">{item.listMember.length}</span>
+                                    </p> </>) : (<div className="pt-2 pb-5">
+                                      <h2>Phòng trống</h2>
+                                    </div>)}
 
-                                <div className="text-center flex gap-3">
+
+                                <div className="text-center flex gap-3 ">
                                   <Link
                                     href={`/manager/landlord/${id}/list-room/${item._id}/`}
                                     className="text-amber-500 hover:text-amber-600"
