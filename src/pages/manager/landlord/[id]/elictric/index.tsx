@@ -78,7 +78,7 @@ const LisElectric = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading]);
+  }, [id, setLoading,NameBuild]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -97,7 +97,7 @@ const LisElectric = () => {
       }
     };
     getListBillData();
-  }, [id, monthCheck, setLoading, yearCheck]);
+  }, [NameBuild, id, monthCheck, setLoading, yearCheck]);
 
   const useWater = outputVs - inputVs;
 
@@ -131,7 +131,7 @@ const LisElectric = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck,NameBuild]);
 
   useEffect(() => {
     if (listBillData.length) {

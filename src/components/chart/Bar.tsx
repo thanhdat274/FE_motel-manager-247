@@ -16,7 +16,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Số nước tiêu thụ hàng tháng',
+      text: 'Doanh thu hàng tháng của nhà',
     },
   },
 };
@@ -36,14 +36,14 @@ const labels = [
   'Tháng 12',
 ];
 const dataWater: any = [];
-const BarChart = (dataNuoc: any) => {
+const BarChart = (dataNumber: any) => {
   const data = {
     labels,
     datasets: [
       {
-        label: '',
-        data: dataNuoc.data,
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        label: 'Tổng số tiền',
+        data: dataNumber.data,
+        backgroundColor: 'springgreen',
         borderWidth: 1,
       },
     ],

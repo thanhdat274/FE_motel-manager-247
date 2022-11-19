@@ -4,13 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { faChartSimple, faHouse, faPerson } from '@fortawesome/free-solid-svg-icons';
-import { getAllBillServiceByYear, getAllStatusRooms } from 'src/pages/api/statistical';
+import { getAllBillServiceByYear, getAllStatusRooms, statisticalPayment } from 'src/pages/api/statistical';
 import BarDien from '@/components/chart/barDien';
 
 const HomeManagerPage = () => {
   const [roomStatisticals, setRoomStatisticals] = useState<any>([]);
   const [totalWater, setTotalWater] = useState<any>([]);
   const [totalElictic, setTotalElictric] = useState<any>([]);
+  const [totalMoneys, setTotalMoneys] = useState<any>([]);
   const [checkYear, setCheckYear] = useState(new Date().getFullYear());
   const router = useRouter();
   const { id } = router.query;
@@ -81,10 +82,21 @@ const HomeManagerPage = () => {
           }
         };
         getTotalElictric();
+
+        const getTotaMoney = async () => {
+          try {
+            const { data } = await statisticalPayment(id, checkYear);
+            if (data.data) {
+              setTotalMoneys(data.data.allPayment as any);
+            }
+          } catch (error) {
+            console.log('error', error);
+          }
+        };
+        getTotaMoney();
       }
     }
-  }, [id, checkYear, checkNameDien]);
-
+  }, [id, checkYear]);
   var totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
 
   return (
@@ -226,10 +238,10 @@ const HomeManagerPage = () => {
       {yearShow}
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarChart data={totalWater} />
+          <BarChart data={totalMoneys} />
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarDien data={totalElictic} />
+          <BarDien data={totalElictic} dataNuoc={totalWater} />
         </div>
       </div>
     </div>

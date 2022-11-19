@@ -14,7 +14,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Số điện tiêu thụ hàng tháng',
+      text: 'Số điện, nước tiêu thụ hàng tháng',
     },
   },
 };
@@ -39,11 +39,17 @@ const BarDien = (dataDien: any) => {
     labels,
     datasets: [
       {
-        label: '',
+        label: 'Số điện',
         data: dataDien.data,
-        backgroundColor: 'rgba(240, 224, 101, 0.5)',
+        backgroundColor: 'red',
         borderWidth: 1,
       },
+      {
+        label: 'Số nước',
+        data: dataDien.dataNuoc,
+        backgroundColor: 'blue',
+        borderWidth: 1,
+      }
     ],
   };
   return (
