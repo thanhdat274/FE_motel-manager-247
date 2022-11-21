@@ -15,7 +15,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Số lượng điện tiêu thụ hàng tháng',
+      text: 'Doanh thu hàng tháng',
     },
   },
 };
@@ -35,19 +35,27 @@ const labels = [
   'Tháng 12',
 ];
 
-const BarDien = (dataDien: any) => {
+const BarPayment = (dataPayment: any) => {
+  console.log("data  payment :",dataPayment.dataPayment);
   const router = useRouter();
   const { id } = router.query;
   if (id) {
     var data = {
       labels,
       datasets: [
+        
         {
-          label: 'Số điện',
-          data: dataDien.data,
-          backgroundColor: 'rgb(255, 152, 152)',
+          label: 'Số tiền đã thu',
+          data: dataPayment.dataPayment.fullPayment,
+          backgroundColor: 'rgb(153, 255, 153)',
           borderWidth: 1,
-        }
+        },
+        {
+          label: 'Tổng số tiền',
+          data: dataPayment.dataPayment.allPayment,
+          backgroundColor: 'rgb(255, 153, 153)',
+          borderWidth: 1,
+        },
       ],
     };
   }
@@ -57,9 +65,14 @@ const BarDien = (dataDien: any) => {
       datasets: [
         {
           label: 'Số điện',
-          // data: dataDien.data.result,
-          data: dataDien.data,
-          backgroundColor: 'rgb(255, 152, 152)',
+          data: dataPayment.dataPayment.allPayment,
+          backgroundColor: 'rgb(153, 255, 153)',
+          borderWidth: 1,
+        },
+        {
+          label: 'Số nước',
+          data: dataPayment.dataPayment.fullPayment,
+          backgroundColor: 'rgb(255, 153, 153)',
           borderWidth: 1,
         }
       ],
@@ -72,4 +85,5 @@ const BarDien = (dataDien: any) => {
     </div>
   );
 };
-export default BarDien;
+export default BarPayment;
+

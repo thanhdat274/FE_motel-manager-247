@@ -15,7 +15,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Số lượng điện tiêu thụ hàng tháng',
+      text: 'Số lượng nước tiêu thụ hàng tháng',
     },
   },
 };
@@ -35,7 +35,7 @@ const labels = [
   'Tháng 12',
 ];
 
-const BarDien = (dataDien: any) => {
+const BarNuoc = (dataDien: any) => {
   const router = useRouter();
   const { id } = router.query;
   if (id) {
@@ -43,9 +43,9 @@ const BarDien = (dataDien: any) => {
       labels,
       datasets: [
         {
-          label: 'Số điện',
-          data: dataDien.data,
-          backgroundColor: 'rgb(255, 152, 152)',
+          label: 'Số nước',
+          data: dataDien.dataNuoc,
+          backgroundColor: 'rgb(153,255,255)',
           borderWidth: 1,
         }
       ],
@@ -56,10 +56,10 @@ const BarDien = (dataDien: any) => {
       labels,
       datasets: [
         {
-          label: 'Số điện',
-          // data: dataDien.data.result,
-          data: dataDien.data,
-          backgroundColor: 'rgb(255, 152, 152)',
+          label: 'Số nước',
+          // data: dataDien.dataNuoc.result,
+          data: dataDien.dataNuoc,
+          backgroundColor: 'rgb(153,255,255)',
           borderWidth: 1,
         }
       ],
@@ -72,4 +72,4 @@ const BarDien = (dataDien: any) => {
     </div>
   );
 };
-export default BarDien;
+export default BarNuoc;
