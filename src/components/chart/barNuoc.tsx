@@ -35,7 +35,7 @@ const labels = [
   'Tháng 12',
 ];
 
-const BarNuoc = (dataDien: any) => {
+const BarNuoc = (dataNuoc: any) => {
   const router = useRouter();
   const { id } = router.query;
   if (id) {
@@ -44,7 +44,7 @@ const BarNuoc = (dataDien: any) => {
       datasets: [
         {
           label: 'Số nước',
-          data: dataDien.dataNuoc,
+          data: dataNuoc.dataNuoc,
           backgroundColor: 'rgb(153,255,255)',
           borderWidth: 1,
         }
@@ -57,8 +57,7 @@ const BarNuoc = (dataDien: any) => {
       datasets: [
         {
           label: 'Số nước',
-          // data: dataDien.dataNuoc.result,
-          data: dataDien.dataNuoc,
+          data: dataNuoc.dataNuoc.result,
           backgroundColor: 'rgb(153,255,255)',
           borderWidth: 1,
         }

@@ -36,7 +36,6 @@ const labels = [
 ];
 
 const BarPayment = (dataPayment: any) => {
-  console.log("data  payment :",dataPayment.dataPayment);
   const router = useRouter();
   const { id } = router.query;
   if (id) {

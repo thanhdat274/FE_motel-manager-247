@@ -57,8 +57,7 @@ const BarDien = (dataDien: any) => {
       datasets: [
         {
           label: 'Số điện',
-          // data: dataDien.data.result,
-          data: dataDien.data,
+          data: dataDien.data.result,
           backgroundColor: 'rgb(255, 152, 152)',
           borderWidth: 1,
         }
