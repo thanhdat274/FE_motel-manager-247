@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getBillServiceByYear, getDetailBillServiceByMonthYear } from 'src/pages/api/statistical';
 import BarDien from '@/components/chart/barDien';
 import { useUserContext } from '@/context/UserContext';
+import BarNuoc from '@/components/chart/barNuoc';
 
 const Ternant = () => {
   const [roomStatisticals, setRoomStatisticals] = useState<any>([]);
@@ -89,7 +90,7 @@ const Ternant = () => {
 
     }
   }, [codeRoom?._id, checkYear, checkNameDien]);
-
+  
   return (
     <div className="w-full gap-4 flex flex-col ">
       <header className="bg-white shadow border rounded-md">
@@ -106,10 +107,10 @@ const Ternant = () => {
       {YearShow}
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarChart data={totalWater} />
+          <BarDien data={totalElictic}/>
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarDien data={totalElictic} />
+          <BarNuoc dataNuoc={totalWater} />
         </div>
       </div>
     </div>
