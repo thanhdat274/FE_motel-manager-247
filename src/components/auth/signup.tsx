@@ -76,19 +76,11 @@ const Signup = (props: Props) => {
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập họ và tên"
                 {...register('name', {
-                  required: true,
-                  minLength: 1,
-                  maxLength: 32
+                  required: true
                 })}
               />
               {errors.name?.type === 'required' && (
                 <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của bạn!</span>
-              )}
-              {errors.name?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Họ và tên của bạn phải tối thiểu 8 ký tự!</span>
-              )}
-              {errors.name?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Họ và tên của bạn phải tối đa 32 ký tự!</span>
               )}
             </div>
 

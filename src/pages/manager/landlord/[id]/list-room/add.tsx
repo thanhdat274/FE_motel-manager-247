@@ -108,17 +108,16 @@ const AddRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="price"
-                        type="number"
-                        {...register('price', { required: true, min: 1000 })}
-                      />
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" thousandSeparator=","
+                        {...register('price', {
+                          required: true,
+                          validate: value => value > '0'
+                        })} />
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
                       )}
-                      {errors.price?.type === 'min' && (
-                        <span className="text-[red] mt-1 block"> Giá phòng không nhỏ hớn 1000 VNĐ</span>
+                      {errors.price?.type === 'validate' && (
+                        <span className="text-[red] mt-1 block">Giá phòng không nhỏ hớn 1000 VNĐ</span>
                       )}
                     </div>
 
