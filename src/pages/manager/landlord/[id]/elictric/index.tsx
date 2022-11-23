@@ -78,7 +78,7 @@ const LisElectric = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading]);
+  }, [id, setLoading,NameBuild]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -97,7 +97,7 @@ const LisElectric = () => {
       }
     };
     getListBillData();
-  }, [id, monthCheck, setLoading, yearCheck]);
+  }, [NameBuild, id, monthCheck, setLoading, yearCheck]);
 
   const useWater = outputVs - inputVs;
 
@@ -131,7 +131,7 @@ const LisElectric = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck,NameBuild]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -189,12 +189,6 @@ const LisElectric = () => {
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
                 Chỉ số điện
               </h2>
-            </div>
-            <div className="flex ml-auto">
-              <button className="border flex bg-sky-500 items-center rounded-md p-1.5 mx-2">
-                <FontAwesomeIcon className="w-[16px] text-white" icon={faFileExcel} />
-                <span className="font-semibold mx-1">Xuất file excel</span>
-              </button>
             </div>
           </div>
         </div>
