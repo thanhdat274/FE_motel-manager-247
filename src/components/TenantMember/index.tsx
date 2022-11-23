@@ -33,24 +33,16 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onCloseModal = () => setOpen(false);
   const onSubmit = async (listMember: any) => {
     setLoading(true);
-
     const newData = { ...{ listMember }, userData: userData };
-    const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
-    if (regex.test(newData.listMember.phoneNumber) == true) {
-      try {
-        const { data } = await addPeople(param.id_room, newData)
-        setLoading(false);
-        setOpen(false);
-        router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', data.message);
-
-      } catch (error) {
-        setLoading(false);
-        Toast('error', 'Thêm mới thành viên không thành công');
-      }
-    } else {
+    try {
+      const { data } = await addPeople(param.id_room, newData)
       setLoading(false);
-      Toast('error', 'Số điện thoại không đúng định dạng');
+      setOpen(false);
+      router.push(`/manager/landlord/${param.id}/list-room`);
+      Toast('success', 'Thêm mới thành viên thành công');
+    } catch (error) {
+      setLoading(false);
+      Toast('error', 'Thêm mới thành viên không thành công');
     }
   };
 
