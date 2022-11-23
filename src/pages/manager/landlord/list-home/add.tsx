@@ -1,4 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -40,13 +41,13 @@ const AddHome = (props: Props) => {
     <div className="w-full ">
       <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
         <div className="">
-          <h2 className="pt-2 text-xl">Thêm nhà </h2>
+          <h2 className="pt-2 text-xl">Thêm nhà</h2>
         </div>
       </div>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Tên nhà
+            Tên nhà <span className="text-[red]">*</span>
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -55,12 +56,16 @@ const AddHome = (props: Props) => {
             placeholder="Xin mời nhập tên nhà"
             {...register('name', { required: true, minLength: 6 })}
           />
-          {errors.name?.type === 'required' && <span className="text-rose-600">Mời bạn nhập tên nhà</span>}
-          {errors.name?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+          {errors.name?.type === 'required' && (
+            <span className="text-[red] mt-1 block">Vui lòng nhập tên nhà của bạn!</span>
+          )}
+          {errors.name?.type === 'minLength' && (
+            <span className="text-[red] mt-1 block">Tên nhà của bạn phải tối thiểu 6 ký tự!</span>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-            Địa chỉ
+            Địa chỉ <span className="text-[red]">*</span>
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -69,14 +74,27 @@ const AddHome = (props: Props) => {
             placeholder="Xin mời nhập địa chỉ"
             {...register('address', { required: true, minLength: 6 })}
           />
-          {errors.address?.type === 'required' && <span className="text-rose-600">Mời bạn nhập địa chỉ</span>}
-          {errors.address?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+          {errors.address?.type === 'required' && (
+            <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ nhà của bạn!</span>
+          )}
+          {errors.address?.type === 'minLength' && (
+            <span className="text-[red] mt-1 block">Địa chỉ nhà của bạn phải tối thiểu 6 ký tự!</span>
+          )}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-6">
+          <Link
+            href={`/manager/landlord/list-home`}
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <a className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Quay lại
+            </a>
+          </Link>
+
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Thêm nhà
           </button>
