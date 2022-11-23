@@ -23,6 +23,7 @@ const Booking = (props: Props) => {
   const param = router.query;
   const id = param.id;
   const [listRooms, setListRooms] = useState<any>();
+  
   var today = new Date();
 
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -217,6 +218,7 @@ const Booking = (props: Props) => {
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.expectTime}
                                 </td>
+
                                 <td className="flex pt-2">
                                   <div>
                                     <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
@@ -302,7 +304,7 @@ const Booking = (props: Props) => {
                     id="grid-state"
                     {...register('idRoom')}
                   >
-                    {listRooms &&
+                    {listRooms &&                    
                       listRooms.map((item: any, index: number) => {
                         return (
                           <>
