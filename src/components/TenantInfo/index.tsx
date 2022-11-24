@@ -54,7 +54,7 @@ const TenantInformation = ({ data }: any) => {
   };
 
   return (
-    <div className="max-w-full mx-auto py-6 ">
+    <div className="max-w-full mx-auto">
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="mt-5 md:mt-0 md:col-span-3 border rounded-md">
           <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
