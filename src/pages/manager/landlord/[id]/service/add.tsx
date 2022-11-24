@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 import { Toast } from 'src/hooks/toast';
 import { addService } from 'src/pages/api/service';
 
@@ -24,6 +25,7 @@ const AddServiceRoom = (props: Props) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IFormInputs>();
 
@@ -82,15 +84,19 @@ const AddServiceRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
                       </label>
-                      <input
+                      <NumericFormat
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="number"
                         placeholder="Nhập giá dịch vụ..."
-                        {...register('price', { required: true })}
+                        thousandSeparator=","
+                        {...register('price', { required: true , minLength:4})}
+                        onChange={(e:any) => setValue('price', e.target.value)}
                       />
                       {errors.price && errors.price.type === 'required' && (
                         <span className="text-rose-600">Không được bỏ trống</span>
+                      )}
+                      {errors.price && errors.price.type === 'minLength' && (
+                        <span className="text-rose-600">Tối thểu 1000đ</span>
                       )}
                     </div>
                     <div className="col-span-6">

@@ -23,7 +23,7 @@ const Booking = (props: Props) => {
   const param = router.query;
   const id = param.id;
   const [listRooms, setListRooms] = useState<any>();
-  
+
   var today = new Date();
 
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -284,7 +284,7 @@ const Booking = (props: Props) => {
                     {...register('fullName', { required: true, minLength: 3 })}
 
                   />
-                  <p className='text-red-500'>{errors.fullName?.type === "required" && <span>Không được đểtrống </span>}</p>
+                  <p className='text-red-500'>{errors.fullName?.type === "required" && <span>Không được để trống </span>}</p>
                   <p className='text-red-500'>{errors.fullName?.type === "minLength" && <span>Tối thiểu 3 ký tự </span>}</p>
                 </div>
               </div>
@@ -304,7 +304,7 @@ const Booking = (props: Props) => {
                     id="grid-state"
                     {...register('idRoom')}
                   >
-                    {listRooms &&                    
+                    {listRooms &&
                       listRooms.map((item: any, index: number) => {
                         return (
                           <>
@@ -356,9 +356,10 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-password"
                     type="email"
-                    {...register('email', { required: true })}
+                    {...register('email', { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}
                   />
-                  <p className='text-red-500'>{errors.email?.type === "required" && <span>Không được đểtrống </span>}</p>
+                  <p className='text-red-500'>{errors.email?.type === "required" && <span>Không được để trống </span>}</p>
+                  <p className='text-red-500'>{errors.email?.type === "pattern" && <span>Không đúng định dạng email </span>}</p>
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -375,10 +376,11 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="number"
-                    {...register('phoneNumber', { required: true, minLength: 10 })}
+                    {...register('phoneNumber', { required: true, minLength: 10, pattern: /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/ })}
                   />
-                  <p className='text-red-500'>{errors.phoneNumber?.type === "required" && <span>Không được đểtrống </span>}</p>
-                  <p className='text-red-500'>{errors.phoneNumber?.type === "minLength" && <span>Tối thiểu 10 ký tự </span>}</p>
+                  <p className='text-red-500'>{errors.phoneNumber?.type === "required" && <span>Không được để trống </span>}</p>
+                  <p className='text-red-500'>{errors.phoneNumber?.type === "minLength" && <span>Tối thiểu 10 số</span>}</p>
+                  <p className='text-red-500'>{errors.phoneNumber?.type === "pattern" && <span>Số điện thoại không đúng định dạng</span>}</p>
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -395,8 +397,9 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="number"
-                    {...register('cardNumber')}
+                    {...register('cardNumber' ,{required:true, minLength:9})}
                   />
+                  <p className='text-red-500'>{errors.cardNumber?.type === "minLength" && <span>Tối thiểu  8 số</span>}</p>
 
                 </div>
               </div>
@@ -413,10 +416,11 @@ const Booking = (props: Props) => {
                   <input
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
-                    type="text"
-                    {...register('bookMoney', { required: true })}
+                    type="number"
+                    {...register('bookMoney', { required: true , minLength:7})}
                   />
-                  <p className='text-red-500'>{errors.bookMoney?.type === "required" && <span>Không được đểtrống </span>}</p>
+                  <p className='text-red-500'>{errors.bookMoney?.type === "required" && <span>Không được để trống </span>}</p>
+                  <p className='text-red-500'>{errors.bookMoney?.type === "minLength" && <span>Tối thiểu 100.000 </span>}</p>
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -435,7 +439,7 @@ const Booking = (props: Props) => {
                     type="date"
                     {...register('expectTime', { required: true })}
                   />
-                  <p className='text-red-500'>{errors.expectTime?.type === "required" && <span>Không được đểtrống </span>}</p>
+                  <p className='text-red-500'>{errors.expectTime?.type === "required" && <span>Không được để trống </span>}</p>
 
                 </div>
               </div>

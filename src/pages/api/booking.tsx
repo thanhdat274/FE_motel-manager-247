@@ -1,6 +1,8 @@
 import instance from './instance';
 
-export const createBooking = (data:any,userData:any, id:any ) => {  
+export const createBooking = (data:any,userData:any ) => {  
+  console.log('token',userData);
+  
   const url = `/booking/create`;
   return instance.post(url, data , {
     headers: {
