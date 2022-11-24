@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { CookiesProvider } from 'react-cookie';
 import { CheckUser, PrivateRouter } from './PrivateRouter';
-import Script from 'next/script';
 
 config.autoAddCss = false;
 

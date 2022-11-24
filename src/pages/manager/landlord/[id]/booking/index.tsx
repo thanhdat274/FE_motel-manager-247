@@ -53,8 +53,6 @@ const Booking = (props: Props) => {
       setLoading(true)
       await deleteBooking(id, userData)
         .then((result: any) => {
-          console.log("ádasdasd", result);
-
 
           setListBookings(listBookings.filter((item: { _id: any; }) => item._id !== id))
 
@@ -93,7 +91,7 @@ const Booking = (props: Props) => {
         Toast('success', 'Đặt tiền cọc thành công');
 
       } catch (error: any) {
-        console.log("dasdasd", error);
+        console.log("error", error);
 
         Toast('error', error?.response
           ?.data?.message);

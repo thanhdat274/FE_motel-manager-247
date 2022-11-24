@@ -33,9 +33,6 @@ const Introduce = (props: Props) => {
     getValueCount()
   }, [])
 
-  console.log('count', count);
-
-
   return (
     <div className="bg-slate-200 clear-both min-h-screen">
       <div className="lg:grid lg:grid-cols-3 py-10">

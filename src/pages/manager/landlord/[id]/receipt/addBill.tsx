@@ -22,8 +22,8 @@ type FormInputs = {
 };
 
 type Props = {
-  onclose : ()=>void;
-  data:()=>void;
+  onclose: () => void;
+  data: () => void;
 };
 
 const AddBill = (props: Props) => {
@@ -75,13 +75,15 @@ const AddBill = (props: Props) => {
       if (rooms1 !== '2') {
         await CreateBillHouseAll(newData)
           .then((data: any) => {
+
+          })
+          .catch((error: any) => {
+            setLoading(false);
+          }).finally(() => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
             props.onclose();
             props.data();
-          })
-          .catch((error: any) => {
-            setLoading(false);
           });
       } else {
         await CreateBillRooms(newDataRooms)

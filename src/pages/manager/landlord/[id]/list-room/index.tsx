@@ -11,8 +11,6 @@ type Props = {};
 const ListRoom = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const [rooms, setRooms] = useState([]);
-  console.log(rooms);
-
   const userData = cookies?.user;
   const router = useRouter();
   const { id } = router.query;

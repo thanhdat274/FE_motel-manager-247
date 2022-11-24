@@ -164,23 +164,23 @@ const HeaderPreview = (props: Props) => {
                   </div>
                   <div className={`${styles['dropdown']} inline-block relative`}>
                     <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white inline-flex items-center justify-center px-[15px] py-[10px]">
-                      Đăng nhập/Đăng ki
+                      Đăng nhập/Đăng kí
                       <FontAwesomeIcon className="w-[12px] ml-2" icon={faCaretDown} />
                     </button>
                     <div
                       className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 w-[210px] rounded-md`}
                     >
-                      <div>
+                      <div >
                         <Link href={'/auth/signin'}>
-                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block" onClick={() => setToggle(false)}>
                             Đăng nhập
                           </a>
                         </Link>
                       </div>
 
-                      <div>
+                      <div >
                         <Link href={'/auth/signup'}>
-                          <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block">
+                          <a className="bg-slate-200 hover:bg-gray-400 hover:text-gray-50 rounded-md font-bold py-2 px-4 block" onClick={() => setToggle(false)}>
                             Đăng kí
                           </a>
                         </Link>

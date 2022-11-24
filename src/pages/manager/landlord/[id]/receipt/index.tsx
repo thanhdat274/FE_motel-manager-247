@@ -21,6 +21,7 @@ type FormInputs = {
   year: number;
   name: string;
   paymentStatus: boolean;
+  paidAmount: number;
 };
 
 const Receipt = (props: Props) => {
@@ -37,13 +38,16 @@ const Receipt = (props: Props) => {
     reset(data)
   };
 
+  console.log('readBills', readBills);
+
+
   const initialValue = 0;
   const sumWithInitial =
     readBills &&
-    readBills?.invoiceService.reduce(
+    (readBills?.debt + readBills?.invoiceService.reduce(
       (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
       initialValue,
-    );
+    ));
 
   const onCloseModal = () => setOpen(false);
 
@@ -58,17 +62,17 @@ const Receipt = (props: Props) => {
 
   const [bill, setBill] = useState<any>();
 
- const getBill = async () => {
-      if (monthCheckk && yearCheckk) {
-        const { data } = await listBill(userData, yearCheckk, monthCheckk);
-        setBill(data.data);
+  const getBill = async () => {
+    if (monthCheckk && yearCheckk) {
+      const { data } = await listBill(userData, yearCheckk, monthCheckk);
+      setBill(data.data);
 
-      } else {
-        Toast('error', 'Vui lòng chọn tháng năm!');
-      }
-    };
+    } else {
+      Toast('error', 'Vui lòng chọn tháng năm!');
+    }
+  };
   useEffect(() => {
-   
+
     getBill();
   }, [monthCheckk, userData, yearCheckk]);
 
@@ -112,12 +116,12 @@ const Receipt = (props: Props) => {
               </h2>
             </div>
             <div className='mr-5'>
-            <button
-            onClick={onOpenModal1}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
-          >
-            Tính hóa đơn
-          </button>
+              <button
+                onClick={onOpenModal1}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
+              >
+                Tính hóa đơn
+              </button>
             </div>
             <div>
               <Space direction="vertical">{datePickerShow} </Space>
@@ -178,8 +182,8 @@ const Receipt = (props: Props) => {
                             initialValue,
                           );
 
-                          const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 'Tiền nhà');
-                          const status = item.paymentStatus
+                          const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 'Tiền Nhà');
+                          const status = item.paymentStatus;
 
                           return (
                             <>
@@ -190,7 +194,7 @@ const Receipt = (props: Props) => {
                                   </td>
                                   <td className="px-6 py-4 whitespace">
                                     <div className="text-center">
-                                      {priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                      {priceRoom && priceRoom.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
                                   </td>
 
@@ -223,10 +227,10 @@ const Receipt = (props: Props) => {
                                     </div>
                                   </td>
                                   <td className="px-6 py-4 whitespace">
-                                    <div className="text-center">
-                                      <button onClick={() => onOpenModal(item?._id)}>
-                                        <FontAwesomeIcon className="w-[16px] text-black" icon={faEye} />
-                                      </button>
+                                    <div className="text-center underline decoration-indigo-500 cursor-pointer">
+                                      <div onClick={() => onOpenModal(item?._id)}>
+                                        Xem và chỉnh sửa
+                                      </div>
                                     </div>
                                   </td>
 
@@ -235,12 +239,16 @@ const Receipt = (props: Props) => {
                             </>
                           );
                         })}
+
+                        {
+
+                        }
                       </>
                     </table>
                   ) : (
                     <div className="text-center p-2">
                       <p className="text-red-500">Chưa có hóa đơn tháng này!</p>
-                     
+
                     </div>
                   )}
                 </div>
@@ -251,99 +259,130 @@ const Receipt = (props: Props) => {
       </main>
       <div className="">
         <Modal open={open} onClose={onCloseModal} center>
-          <div className='text-slate-600'>
-            <header className="bg-white ">
-              <div className="max-w-full mx-auto  py-2 border-b-2 border-black mb-2">
-                <div className="lg:flex lg:items-center lg:justify-between">
-                  <div className="flex-1 min-w-0">
-                    <h2 className="  text-gray-900 sm:text-2xl sm:truncate uppercase">
-                      hóa đơn
-                    </h2>
+          <form action="" onSubmit={handleSubmit(submitHandle)}>
+
+            <div className='text-slate-600'>
+              <header className="bg-white ">
+                <div className="max-w-full mx-auto  py-2 border-b-2 border-black mb-2">
+                  <div className="lg:flex lg:items-center lg:justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h2 className="  text-gray-900 sm:text-2xl sm:truncate uppercase">
+                        hóa đơn
+                      </h2>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </header>
-            <div className="modal-body" id="contentPDF">
-              <div className="h-[27px]">
-                <span>
-                  <strong>{readBills && readBills.houseName}</strong>
-                </span>
-                <span className="float-right" />
-              </div>
-              <div className="h-[27px]">
-                <span>
-                  <strong>Địa chỉ: {readBills && readBills.address} </strong>
-                </span>
-              </div>
-              <div>
-                <h4 className="text-center">
-                  <strong>HÓA ĐƠN TIỀN NHÀ</strong>
-                </h4>
-              </div>
-              <div>
-                <p className="text-center">
-                  <strong>
-                    Tháng {readBills && readBills.month}/{readBills && readBills.year}{' '}
-                  </strong>
-                </p>
-              </div>
+              </header>
+              <div className="modal-body" id="contentPDF">
+                <div className="h-[27px]">
+                  <span>
+                    <strong>{readBills && readBills.houseName}</strong>
+                  </span>
+                  <span className="float-right" />
+                </div>
+                <div className="h-[27px]">
+                  <span>
+                    <strong>Địa chỉ: {readBills && readBills.address} </strong>
+                  </span>
+                </div>
+                <div>
+                  <h4 className="text-center">
+                    <strong>HÓA ĐƠN TIỀN NHÀ</strong>
+                  </h4>
+                </div>
+                <div>
+                  <p className="text-center">
+                    <strong>
+                      Tháng {readBills && readBills.month}/{readBills && readBills.year}{' '}
+                    </strong>
+                  </p>
+                </div>
 
-              <div>
-                <p>
-                  <strong>{readBills && readBills.roomName}</strong>
-                </p>
-              </div>
-              <div className="border-b-2 border-t-2 border-black">
-                <div className='py-2'>
-                  <table cellSpacing={0} cellPadding={0} width="100%" >
-                    <tbody>
-                      {readBills &&
-                        readBills.invoiceService.map((name: any, index: number) => {
-                          return (
-                            <>
-                              <tr>
-                                <td className="w-[2%]">{index + 1}.</td>
-                                <td className="w-[70%]">{name.serviceName} </td>
-                                <td className="w-[25%] text-right">
-                                  {name.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                <div>
+                  <p>
+                    <strong>{readBills && readBills.roomName}</strong>
+                  </p>
                 </div>
-              </div>
-              <div className="border-b-2 border-black ">
-                <div className='py-2'>
-                  <strong className=''>TỔNG CỘNG</strong>
-                  <strong className="float-right">
-                    {sumWithInitial && sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                  </strong>
+                <div className="border-b-2 border-t-2 border-black">
+                  <div className='py-2'>
+                    <table cellSpacing={0} cellPadding={0} width="100%" >
+                      <tbody>
+                        {readBills &&
+                          readBills.invoiceService.map((name: any, index: number) => {
+                            return (
+                              <>
+                                <tr>
+                                  <td className="w-[2%]">{index + 1}.</td>
+                                  <td className="w-[70%]">{name.serviceName} </td>
+                                  <td className="w-[25%] text-right">
+                                    {name.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+
+                        {readBills?.debt && (
+                          <>
+                            <tr>
+                              <td className="w-[2%]"></td>
+                              <td className="w-[70%]">Tiền nợ </td>
+                              <td className="w-[25%] text-right">
+                                {readBills?.debt.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-              <div className='pb-5'>
-                <div className=" relative float-left pr-5 pt-2 ">
-                  <strong>Trạng thái:</strong>
+                <div className="border-b-2 border-black ">
+                  <div className='py-2'>
+                    <strong className=''>TỔNG CỘNG</strong>
+                    <strong className="float-right">
+                      {sumWithInitial && sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                    </strong>
+                  </div>
                 </div>
-                <div className="mt-5 " >
-                  <form action="" onSubmit={handleSubmit(submitHandle)}>
+                <div className="border-b-2 border-black h-[60px]">
+                  <div className='py-2'>
+                    <strong className=''>Đã thanh toán</strong>
+                    <input className="float-right value-right icon-vnd w-1/2 md:w-1/4 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" {...register("paidAmount")} type='number' />
+
+                  </div>
+                </div>
+                <div className="border-b-2 border-black ">
+                  <div className='py-2'>
+                    <strong className=''>Còn lại</strong>
+                    <strong className="float-right">
+                      {readBills && (sumWithInitial - readBills.paidAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                    </strong>
+                  </div>
+                </div>
+                <div className='pb-5'>
+                  {/* <div className=" relative float-left pr-5 pt-2 ">
+                    <strong>Trạng thái:</strong>
+                  </div>
+                  <div className="mt-5 " >
                     <input type="text" value={readBills && readBills._id} {...register("_id")} className="hidden" />
                     <select  {...register("paymentStatus")} className="border-2  form-select appearance-none block px-3 py-1.5 text-base  font-normal text-gray-700  bg-clip-padding bg-no-repeatborder border-solid border-gray-300 rounded transition ease-in-out m-0  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none ">
                       <option value="false" className=''>Chưa thanh toán</option>
                       <option value="true" >Đã thanh toán</option>
 
                     </select>
-                    <button type="submit" className=" float-right text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cập nhật</button>
 
-                  </form>
+
+
+                  </div> */}
+                  <button type="submit" className=" float-right text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cập nhật</button>
+
 
                 </div>
-
               </div>
             </div>
-          </div>
+          </form>
+
         </Modal>
       </div>
 
@@ -357,7 +396,7 @@ const Receipt = (props: Props) => {
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
             </div>{' '}
-            <AddBill onclose={onCloseModal1} data = {getBill}></AddBill>
+            <AddBill onclose={onCloseModal1} data={getBill}></AddBill>
           </div>
         </Modal>
       </div>
