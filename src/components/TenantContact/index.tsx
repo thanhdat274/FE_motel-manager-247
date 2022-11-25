@@ -183,7 +183,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
         {contractData?.imageContract &&
-          contractData?.imageContract.map((item: any) => <Image style={{ width: '200px' }} src={item} alt="" />)}
+          contractData?.imageContract.map((item: any, index: number) => (
+            <Image key="img" style={{ width: '200px' }} src={item} alt="" />
+          ))}
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
           <div className="space-y-1 text-center">
             <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
