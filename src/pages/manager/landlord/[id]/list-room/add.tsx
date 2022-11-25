@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NumericFormat } from 'react-number-format';
 
 import { Toast } from 'src/hooks/toast';
 import { addRoom } from 'src/pages/api/room';
@@ -28,11 +27,8 @@ const AddRoom = (props: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    getValues,
-    watch,
-    setValue
-  } = useForm<FromValues>();
+    formState: { errors }
+  } = useForm<FromValues>({});
   const router = useRouter();
   const { id } = router.query;
 
@@ -109,12 +105,12 @@ const AddRoom = (props: Props) => {
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
                       <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="price"
                         type="number"
+                        id="price"
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('price', { required: true, min: 0 })}
                       />
-                      {errors.price?.type === 'required' && (
+                      {errors.price && errors.price.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
                       )}
                       {errors.price?.type === 'min' && (
