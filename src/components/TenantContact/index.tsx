@@ -10,6 +10,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Toast } from 'src/hooks/toast';
 import { Image } from 'antd';
 import 'antd/dist/antd.css';
+import ImageUploading from 'react-images-uploading';
 
 export type IContractData = {
   addressCT: string;
@@ -21,7 +22,7 @@ export type IContractData = {
   timeContract: string;
   infoTenant: Info;
   infoLandlord: Info;
-  imageContract: string;
+  imageContract: any;
 };
 
 type Info = {
@@ -50,9 +51,19 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   });
 
   const [contractData, setContractData] = useState<IContractData>();
-  const [file, setFile] = useState<any>();
-  const [imgPreview, setImgPreview] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [selectedImages, setSelectedImages] = useState<any[]>();
+  const [URLs, setURLs] = useState<any>([]);
 
+  const [images, setImages] = useState<any>(dataContract.imageContract);
+  const maxNumber = 69;
+
+  const onChange = (imageList: any, addUpdateIndex: any) => {
+    // data for submit
+    console.log('imageList', imageList);
+
+    setImages(imageList);
+  };
   const userData = cookies?.user;
   const {
     register,
@@ -96,145 +107,136 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     }
   }, [contractData, leadMember]);
 
-  const handleChange = (event: any) => {
-    setFile(event.target.files[0] as any);
-    setImgPreview(URL.createObjectURL(event.target.files[0] as any))
+  const uploadTask = (image: any) => {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, `files/${image.file.name}`);
+
+      const uploadTask = uploadBytesResumable(storageRef, image.file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgress(prog);
+        },
+        (error) => console.log(error),
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
+            resolve(downloadURLs);
+          });
+        },
+      );
+    });
   };
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
+
     const newAdditional = data.additional.split('\n');
-    if (contractData?.addressCT) {
-      if (!file) {
-        Toast('error', 'Chưa thêm ảnh hợp đồng');
-      } else {
-        const storageRef = ref(storage, `/files/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            setLoading(true);
+
+    Promise.all(images.map((image: any) => uploadTask(image)))
+      .then(async (ListImgs) => {
+        console.log('ListImgs', ListImgs);
+
+        const newValue = {
+          contract: {
+            startTime: data.startTime,
+            endTime: data.endTime,
+            additional: newAdditional,
+            timeContract: data.timeContract,
+            fine: data.fine,
+            timeCT: data.timeCT,
+            addressCT: data.addressCT,
+            imageContract: ListImgs,
+            infoTenant: {
+              name: data.TNname,
+              cardNumber: data.TNcardNumber,
+              phoneNumber: data.TNphoneNumber,
+              issuedBy: data.TNIssuedBy,
+              dateRange: data.TNdateRange,
+            },
+            infoLandlord: {
+              name: data.LLname,
+              cardNumber: data.LLcardNumber,
+              phoneNumber: data.LLphoneNumber,
+              issuedBy: data.LLIssuedBy,
+              dateRange: data.LLdateRange,
+            },
           },
-          (err) => console.log(err),
-          () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              setLoading(false);
-              Toast('success', 'Thêm ảnh hợp đồng thành công');
-              const newValue = {
-                contract: {
-                  startTime: data.startTime,
-                  endTime: data.endTime,
-                  additional: newAdditional,
-                  timeContract: data.timeContract,
-                  fine: data.fine,
-                  timeCT: data.timeCT,
-                  addressCT: data.addressCT,
-                  imageContract: url,
-                  infoTenant: {
-                    name: data.TNname,
-                    cardNumber: data.TNcardNumber,
-                    phoneNumber: data.TNphoneNumber,
-                    issuedBy: data.TNIssuedBy,
-                    dateRange: data.TNdateRange,
-                  },
-                  infoLandlord: {
-                    name: data.LLname,
-                    cardNumber: data.LLcardNumber,
-                    phoneNumber: data.LLphoneNumber,
-                    issuedBy: data.LLIssuedBy,
-                    dateRange: data.LLdateRange,
-                  },
-                }, idRoom: param?.id_room, token: userData?.token
-              };
-              setLoading(true);
-              updateRoom(newValue)
-                .then((result) => {
-                  setLoading(false);
-                  Toast('success', 'Cập nhật hợp đồng thành công');
-                })
-                .catch((err) => {
-                  setLoading(false);
-                });
-            });
-          },
-        );
-      }
-    } else {
-      const newValue = {
-        contract: {
-          startTime: data.startTime,
-          endTime: data.endTime,
-          additional: newAdditional,
-          timeContract: data.timeContract,
-          fine: data.fine,
-          timeCT: data.timeCT,
-          addressCT: data.addressCT,
-          imageContract: "",
-          infoTenant: {
-            name: data.TNname,
-            cardNumber: data.TNcardNumber,
-            phoneNumber: data.TNphoneNumber,
-            issuedBy: data.TNIssuedBy,
-            dateRange: data.TNdateRange,
-          },
-          infoLandlord: {
-            name: data.LLname,
-            cardNumber: data.LLcardNumber,
-            phoneNumber: data.LLphoneNumber,
-            issuedBy: data.LLIssuedBy,
-            dateRange: data.LLdateRange,
-          },
-        }, idRoom: param?.id_room, token: userData?.token
-      };
-      setLoading(true);
-      await updateRoom(newValue)
-        .then((result) => {
-          setLoading(false);
-          Toast('success', 'Thêm hợp đồng thành công');
-        })
-        .catch((err) => {
-          setLoading(false);
-        });
-    }
+          idRoom: param?.id_room,
+          token: userData?.token,
+        };
+        await updateRoom(newValue)
+          .then((result) => {
+            setLoading(false);
+            Toast('success', 'Thêm hợp đồng thành công');
+          })
+          .catch((err) => {
+            setLoading(false);
+          });
+      })
+      .then((err) => console.log(err));
   };
 
   return (
     <div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
-        {imgPreview &&
-          <div>
-            <h2>Ảnh hợp đồng xem trước</h2>
-            <Image style={{ width: '200px' }} src={imgPreview} alt='' />
-          </div>
-        }
-        {!imgPreview &&
-          <div>
-            {contractData?.imageContract && <Image style={{ width: '200px' }} src={contractData?.imageContract} alt='' />}
-          </div>
-        }
+        {contractData?.imageContract &&
+          contractData?.imageContract.map((item: any, index: number) => (
+            <Image key="img" style={{ width: '200px' }} src={item} alt="" />
+          ))}
         <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
           <div className="space-y-1 text-center">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div className="text-sm text-gray-600 py-3">
-              <label className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                <input type="file" accept="Image" id="imageFile" onChange={handleChange} />
-              </label>
-            </div>
-            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
+              {({
+                imageList,
+                onImageUpload,
+                onImageRemoveAll,
+                onImageUpdate,
+                onImageRemove,
+                isDragging,
+                dragProps,
+              }) => (
+                <div className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                  <button style={isDragging ? { color: 'red' } : undefined} onClick={onImageUpload} {...dragProps}>
+                    <svg
+                      className="mx-auto h-12 w-12 text-gray-400"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Click or Drop here
+                  </button>
+                  &nbsp;
+                  {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <div className="flex flex-col md:flex-row items-center gap-10">
+                    {imageList.map((image: any, index) => {
+                      console.log('image url data', image['data_url'], image);
+
+                      return (
+                        <div key={index} className="image-item">
+                          <Image style={{ width: '100px', height: '100px' }} src={image} alt="" />
+                          <div className="image-item__btn-wrapper flex gap-3">
+                            <button onClick={() => onImageUpdate(index)}>Update</button>
+                            <button onClick={() => onImageRemove(index)}>Remove</button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </ImageUploading>
           </div>
         </div>
       </div>
@@ -327,7 +329,10 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
                 {...register('LLcardNumber', {
-                  required: true, minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                  required: true,
+                  minLength: 9,
+                  maxLength: 12,
+                  pattern: /^[0-9]+$/,
                 })}
               />
               {errors.LLcardNumber?.type === 'required' && (
@@ -360,10 +365,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Nơi cấp </p>
-              <input
-                className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLIssuedBy', { required: true })}
-              />
+              <input className="p-2 max-h-10 w-full md:col-span-3" {...register('LLIssuedBy', { required: true })} />
               {errors.LLIssuedBy?.type === 'required' && (
                 <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp CMND/CCCD!</span>
               )}
@@ -380,7 +382,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   required: true,
                   minLength: 10,
                   maxLength: 10,
-                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
                 })}
               />
               {errors.LLphoneNumber?.type === 'required' && (
@@ -418,7 +420,10 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
                 {...register('TNcardNumber', {
-                  required: true, minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                  required: true,
+                  minLength: 9,
+                  maxLength: 12,
+                  pattern: /^[0-9]+$/,
                 })}
               />
               {errors.TNcardNumber?.type === 'required' && (
@@ -451,10 +456,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Nơi cấp </p>
-              <input
-                className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNIssuedBy', { required: true })}
-              />
+              <input className="p-2 max-h-10 w-full md:col-span-3" {...register('TNIssuedBy', { required: true })} />
               {errors.TNIssuedBy?.type === 'required' && (
                 <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp của CMND/CCCD!</span>
               )}
@@ -471,7 +473,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   required: true,
                   minLength: 10,
                   maxLength: 10,
-                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
                 })}
               />
               {errors.TNphoneNumber?.type === 'required' && (
@@ -496,7 +498,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   type="number"
                   className="p-2 max-h-10 w-full  md:col-span-3"
                   {...register('fine', {
-                    pattern: /^[0-9]+$/
+                    pattern: /^[0-9]+$/,
                   })}
                 />
                 {errors.fine?.type === 'pattern' && (
@@ -710,8 +712,8 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
             </p>
             {getValues('additional')
               ? getValues('additional')
-                .split('\n')
-                .map((item: any) => <p key={item}>{item}</p>)
+                  .split('\n')
+                  .map((item: any) => <p key={item}>{item}</p>)
               : '…………………'}
             <p>
               <strong className="font-bold text-base"> Điều V: Điều khoản chung</strong>
