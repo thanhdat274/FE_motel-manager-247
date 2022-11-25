@@ -11,8 +11,6 @@ export const listBill = (userData: any, year: number, month: number) => {
 };
 export const readBill = (id: any, newData: any) => {
 
-  console.log('id', id);
-
   const url = `/bill/detail/${id}`;
   return instance.get(url, {
     headers: {

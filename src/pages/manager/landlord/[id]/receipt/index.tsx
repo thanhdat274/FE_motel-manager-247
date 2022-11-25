@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { faEye, faKeyboard, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useMemo, useState } from 'react';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import 'antd/dist/antd.css';
-import { DatePickerProps, message } from 'antd';
+import { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import moment from 'moment';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
 import { listBill, paymentStatus, readBill } from 'src/pages/api/bill';
 import AddBill from './addBill';
-import { getAllBillForHouse } from 'src/pages/api/billService';
-type Props = {};
 type FormInputs = {
   _id: string,
   idRoom: string;
@@ -24,7 +22,7 @@ type FormInputs = {
   paidAmount: number;
 };
 
-const Receipt = (props: Props) => {
+const Receipt = () => {
   const today = new Date();
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
@@ -33,6 +31,8 @@ const Receipt = (props: Props) => {
 
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
+  const { register, handleSubmit, setValue, getValues, reset, watch, formState: { errors } } = useForm<FormInputs>();
+
   const onOpenModal = async (_id: any) => {
     setOpen(true);
     const { data } = await readBill(_id, userData as any);
@@ -48,6 +48,8 @@ const Receipt = (props: Props) => {
       initialValue,
     ));
 
+  // const
+
   const onCloseModal = () => setOpen(false);
 
   const [open1, setOpen1] = useState(false);
@@ -57,23 +59,24 @@ const Receipt = (props: Props) => {
   const [monthCheckk, setMonthh] = useState(today.getMonth() + 1);
   const [yearCheckk, setYearr] = useState(today.getFullYear());
 
-  const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
 
   const [bill, setBill] = useState<any>();
 
-  const getBill = async () => {
-    setLoading(true)
+
+
+  async function getBill() {
+    setLoading(true);
     if (monthCheckk && yearCheckk) {
       const { data } = await listBill(userData, yearCheckk, monthCheckk);
       setBill(data.data);
-      setLoading(false)
+      setLoading(false);
 
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
-      setLoading(false)
+      setLoading(false);
 
     }
-  };
+  }
   useEffect(() => {
 
     getBill();
@@ -108,6 +111,12 @@ const Receipt = (props: Props) => {
 
   }
 
+  const watchAllFields = watch();
+
+  const remainingAmount = useMemo(() => {
+    return sumWithInitial - getValues('paidAmount')
+  }, [watchAllFields])
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -118,17 +127,22 @@ const Receipt = (props: Props) => {
                 Quản lý hóa đơn
               </h2>
             </div>
-            <div className='mr-5'>
-              <button
-                onClick={onOpenModal1}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
-              >
-                Tính hóa đơn
-              </button>
+            <div className="flex gap-2 flex-col md:flex-row md:gap-4">
+
+              <div>
+                <Space direction="vertical">{datePickerShow} </Space>
+              </div>
+
+              <div className=''>
+                <button
+                  onClick={onOpenModal1}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
+                >
+                  Tính hóa đơn
+                </button>
+              </div>
             </div>
-            <div>
-              <Space direction="vertical">{datePickerShow} </Space>
-            </div>
+
           </div>
         </div>
       </header>
@@ -340,7 +354,7 @@ const Receipt = (props: Props) => {
                     </table>
                   </div>
                 </div>
-                <div className="border-b-2 border-black ">
+                <div className="border-t-2 border-t-black ">
                   <div className='py-2'>
                     <strong className=''>TỔNG CỘNG</strong>
                     <strong className="float-right">
@@ -348,18 +362,24 @@ const Receipt = (props: Props) => {
                     </strong>
                   </div>
                 </div>
-                <div className="border-b-2 border-black h-[60px]">
+                <div>
+                  -
+                </div>
+                <div className={errors.paidAmount?.type == 'max' ? "border-b-2 border-b-black min-h-[100px] h-auto" : '"border-b-2 border-b-black min-h-[60px] h-auto"'}>
                   <div className='py-2'>
                     <strong className=''>Đã thanh toán</strong>
-                    <input className="float-right value-right icon-vnd w-1/2 md:w-1/4 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" {...register("paidAmount")} type='number' />
+                    <div className='float-right flex flex-col w-1/2 md:w-1/4 '>
+                      <input className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" {...register("paidAmount", { max: sumWithInitial })} type='number' />
+                      {errors.paidAmount?.type == 'max' && <p className='text-red-500'>Giá trị không được vượt quá tổng tiền</p>}
+                    </div>
 
                   </div>
                 </div>
-                <div className="border-b-2 border-black ">
+                <div className="border-b-2 border-black mb-4">
                   <div className='py-2'>
                     <strong className=''>Còn lại</strong>
                     <strong className="float-right">
-                      {readBills && (sumWithInitial - readBills.paidAmount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                      {readBills && remainingAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                     </strong>
                   </div>
                 </div>

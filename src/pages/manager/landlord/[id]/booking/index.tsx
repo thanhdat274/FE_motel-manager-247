@@ -81,8 +81,6 @@ const Booking = (props: Props) => {
 
 
   const onSubmit = async (data1: any) => {
-    console.log("data", data1);
-
     if (id) {
 
       const newData = { ...data1, userData: userData }
