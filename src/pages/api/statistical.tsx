@@ -16,3 +16,11 @@ export const getDetailBillServiceByMonthYear = (idRooms: any, NameBuild: any, mo
   const url = `/statistical/get-detail-bill-service/${idRooms}/${NameBuild}/${month}/${year}`;
   return instance.get(url);
 };
+export const statisticalPayment = (id: any, year: any) => {
+  const url = `/statistical/get-statical-payment/${id}/${year}`;
+  return instance.get(url);
+};
+export const getValueCountStatis = () => {
+  const url = `/statistical/get-statis`;
+  return instance.get(url);
+}

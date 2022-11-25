@@ -49,32 +49,52 @@ const Signup = (props: Props) => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label className="block" htmlFor="email">
-                Địa chỉ email <span className="text-red-500">*</span>
+                Địa chỉ email <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập email"
-                {...register('email', { required: true })}
+                {...register('email', {
+                  required: true,
+                  pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                })}
               />
-              {errors.email && <span style={{ color: 'red' }}>Hãy nhập email của bạn!</span>}
+              {errors.email?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập email của bạn!</span>
+              )}
+              {errors.email?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Email không đúng định dạng</span>
+              )}
             </div>
             <div className="mt-4">
               <label className="block" htmlFor="full_name">
-                Họ và tên <span className="text-red-500">*</span>
+                Họ và tên <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập họ và tên"
-                {...register('name', { required: true })}
+                {...register('name', {
+                  required: true,
+                  minLength: 1,
+                  maxLength: 32
+                })}
               />
-              {errors.name && <span style={{ color: 'red' }}>Hãy nhập tên của bạn!</span>}
+              {errors.name?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của bạn!</span>
+              )}
+              {errors.name?.type === 'minLength' && (
+                <span className="text-[red] mt-1 block">Họ và tên của bạn phải tối thiểu 8 ký tự!</span>
+              )}
+              {errors.name?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Họ và tên của bạn phải tối đa 32 ký tự!</span>
+              )}
             </div>
 
             <div className="mt-4">
               <label className="block">
-                Mật khẩu <span className="text-red-500">*</span>
+                Mật khẩu <span className="text-[red]">*</span>
               </label>
               <input
                 type="password"
@@ -82,17 +102,19 @@ const Signup = (props: Props) => {
                 placeholder="Nhập mật khẩu"
                 {...register('password', { required: true, minLength: 8, maxLength: 20 })}
               />
-              {errors.password?.type === 'required' && <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>}
+              {errors.password?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu của bạn</span>
+              )}
               {errors.password?.type === 'minLength' && (
-                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
               )}
               {errors.password?.type === 'maxLength' && (
-                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="mt-4">
               <label className="block">
-                Nhập lại mật khẩu <span className="text-red-500">*</span>
+                Nhập lại mật khẩu <span className="text-[red]">*</span>
               </label>
               <input
                 type="password"
@@ -101,13 +123,13 @@ const Signup = (props: Props) => {
                 {...register('repassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.repassword?.type === 'required' && (
-                <span style={{ color: 'red' }}>Hãy nhập mật khẩu của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu của bạn</span>
               )}
               {errors.repassword?.type === 'minLength' && (
-                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
               )}
               {errors.repassword?.type === 'maxLength' && (
-                <span style={{ color: 'red' }}>Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="flex mt-[20px]">

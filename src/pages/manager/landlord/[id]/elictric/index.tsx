@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from '@/context/UserContext';
@@ -58,6 +58,7 @@ const LisElectric = () => {
     setValue,
     setError,
     reset,
+    watch,
     getValues,
     formState: { errors },
   } = useForm<FormInputs>();
@@ -77,7 +78,7 @@ const LisElectric = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading]);
+  }, [id, setLoading,NameBuild]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -96,7 +97,7 @@ const LisElectric = () => {
       }
     };
     getListBillData();
-  }, [id, monthCheck, setLoading, yearCheck]);
+  }, [NameBuild, id, monthCheck, setLoading, yearCheck]);
 
   const useWater = outputVs - inputVs;
 
@@ -130,7 +131,7 @@ const LisElectric = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck,NameBuild]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -188,12 +189,6 @@ const LisElectric = () => {
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
                 Chỉ số điện
               </h2>
-            </div>
-            <div className="flex ml-auto">
-              <button className="border flex bg-sky-500 items-center rounded-md p-1.5 mx-2">
-                <FontAwesomeIcon className="w-[16px] text-white" icon={faFileExcel} />
-                <span className="font-semibold mx-1">Xuất file excel</span>
-              </button>
             </div>
           </div>
         </div>
@@ -315,7 +310,7 @@ const LisElectric = () => {
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
-                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}
                                       KWH
                                     </div>
                                   </div>
@@ -329,6 +324,10 @@ const LisElectric = () => {
                         <div className="bg-white divide-y divide-gray-200 table-footer-group">
                           {listRoomData &&
                             listRoomData.map((item: any, index: any) => {
+                              const getInputValue = getValues(`data.${index}.inputValue`);
+
+                              const getOuputValue = getValues(`data.${index}.outputValue`);
+
                               return (
                                 <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
@@ -358,7 +357,7 @@ const LisElectric = () => {
                                         },
                                       })}
                                     />
-                                    {getValues(`data.${index}.inputValue`) < 0 && (
+                                    {getInputValue < 0 && (
                                       <p role="alert">Số điện mới phải lớn hơn 0</p>
                                     )}
                                   </div>
@@ -369,25 +368,19 @@ const LisElectric = () => {
                                       className="font-bold w-full flex border-0 px-2 py-2 placeholder-blueGray-300 bg-gray-200  rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
                                       {...register(`data.${index}.outputValue`, {
                                         required: true,
-                                        min: getValues(`data.${index}.inputValue`),
+                                        min: getInputValue,
                                         valueAsNumber: true,
                                         onChange(e) {
                                           setOutputVs(parseInt(e.target.value));
                                         },
                                       })}
                                     />
-                                    {getValues(`data.${index}.outputValue`) < 0 && (
-                                      <p role="alert">Số điện cũ phải lớn hơn 0</p>
-                                    )}
-                                    {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
-                                      <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>
-                                    ) : (
-                                      ''
-                                    )}
+                                    {getOuputValue < 0 && <p role="alert">Số điện cũ phải lớn hơn 0</p>}
+                                    {getOuputValue < getInputValue && <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
-                                      {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}{' '}
+                                      {getOuputValue - getInputValue < 0 ? 0 : getOuputValue - getInputValue}
                                       KWH
                                     </div>
                                   </div>

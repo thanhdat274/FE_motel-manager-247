@@ -17,6 +17,7 @@ export const MENU_LANDLORD = [
     gap: true,
     title: 'Thống kê',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
+    checkMenu : 1
   },
   {
     url: 'list-room',

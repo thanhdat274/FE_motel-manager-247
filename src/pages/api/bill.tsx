@@ -1,7 +1,7 @@
 
 import instance from './instance';
 
-export const listBill = ( userData:any,  year: number ,month: number) => {  
+export const listBill = (userData: any, year: number, month: number) => {
   const url = `/bill-all/list/${userData?.user?._id}/${year}/${month}`;
   return instance.get(url, {
     headers: {
@@ -10,6 +10,7 @@ export const listBill = ( userData:any,  year: number ,month: number) => {
   });
 };
 export const readBill = (id: any, newData: any) => {
+
   const url = `/bill/detail/${id}`;
   return instance.get(url, {
     headers: {
@@ -33,9 +34,9 @@ export const CreateBillRooms = (newDataRooms: any) => {
     },
   });
 };
-export const paymentStatus = (data: any, userData:any) => {
+export const paymentStatus = (data: any, userData: any) => {
   const url = `/bill-update/${data._id}`;
-  return instance.put(url,data, {
+  return instance.put(url, data, {
     headers: {
       Authorization: `Bearer ${userData.token}`,
     },

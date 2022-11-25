@@ -35,22 +35,10 @@ const AddRoom = (props: Props) => {
   } = useForm<FromValues>();
   const router = useRouter();
   const { id } = router.query;
-  const watchFields = watch(["price"]);
-
-  const handleErrorPrice = useMemo(() => {
-
-    return Number(getValues('price')?.replace(/[^0-9\.]+/g, "")) < 1000 && (
-      <span className="text-[red] mt-1 block"> Số tiền không nhỏ hớn 1000 vnđ</span>
-    )
-  }, [watchFields])
-
-
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
-
-    setLoading(true);
     const newData = { ...data, price: Number(data.price.replace(/[^0-9\.]+/g, "")), userData: userData, idHouse: id, idAuth: userData?.user?._id };
-
+    setLoading(true);
     await addRoom(newData)
       .then((data: any) => {
         setLoading(false);
@@ -58,13 +46,13 @@ const AddRoom = (props: Props) => {
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((error) => {
-        Toast('error', error?.response?.data?.massage);
+        Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <header className="bg-white shadow border rounded-md">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -78,7 +66,7 @@ const AddRoom = (props: Props) => {
       </header>
 
       <main>
-        <div className="max-w-full mx-auto py-6 ">
+        <div className="max-w-full mx-auto py-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="mt-5 md:mt-0 md:col-span-3 border rounded-md">
               <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
@@ -95,10 +83,10 @@ const AddRoom = (props: Props) => {
                         {...register('name', { required: true, minLength: 6 })}
                       />
                       {errors.name?.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không được để trống!</span>
+                        <span className="text-[red] mt-1 block">Vui lòng nhập tên phòng của bạn!</span>
                       )}
                       {errors.name?.type === 'minLength' && (
-                        <span className="text-[red] mt-1 block">Tối thiểu 6 ký tự</span>
+                        <span className="text-[red] mt-1 block">Tên phòng của bạn phải tối thiểu 6 ký tự!</span>
                       )}
                     </div>
 
@@ -112,7 +100,7 @@ const AddRoom = (props: Props) => {
                         id="status"
                       >
                         <option value="true">Sẵn sàng</option>
-                        <option value="false">Chưa sẵn sàng</option>
+                        <option value="false">Phòng đang sửa chữa</option>
                       </select>
                     </div>
 
@@ -120,14 +108,18 @@ const AddRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
-                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" thousandSeparator="," {...register('price', {
-                        required: true,
-                      })} onChange={(e) => setValue('price', e.target.value)} />
-                      {errors.price && (
-                        <span className="text-[red] mt-1 block">Không được để trống!</span>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="number"
+                        {...register('price', { required: true, min: 1000 })}
+                      />
+                      {errors.price?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
                       )}
-                      {handleErrorPrice}
-
+                      {errors.price?.type === 'min' && (
+                        <span className="text-[red] mt-1 block"> Giá phòng không nhỏ hớn 1000 VNĐ</span>
+                      )}
                     </div>
 
                     <div className="col-span-6">
@@ -138,25 +130,31 @@ const AddRoom = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="maxMember"
                         type="number"
-                        {...register('maxMember', { required: true })}
+                        {...register('maxMember', { required: true, min: 0 })}
                       />
-                      {errors.maxMember && errors.maxMember.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không được để trống!</span>
+                      {errors.maxMember?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập số người ở tối đa của phòng!</span>
+                      )}
+                      {errors.maxMember && errors.maxMember.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Số người ở tối đa của phòng Không được nhỏ hơn 0!</span>
                       )}
                     </div>
 
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                        Diện tích <span className="text-[red]">*</span>
+                        Diện tích (m2) <span className="text-[red]">*</span>
                       </label>
                       <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="area"
                         type="number"
-                        {...register('area', { required: true })}
+                        {...register('area', { required: true, min: 0 })}
                       />
                       {errors.area && errors.area.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Không được để trống!</span>
+                        <span className="text-[red] mt-1 block">Vui lòng nhập diện tích phòng của bạn!</span>
+                      )}
+                      {errors.area && errors.area.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Diện tích phòng của bạn không được nhỏ hơn 0m2!</span>
                       )}
                     </div>
                   </div>
