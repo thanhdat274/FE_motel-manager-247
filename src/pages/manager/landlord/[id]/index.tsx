@@ -18,7 +18,7 @@ const HomeManagerPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const yearStatistical = new Date().getFullYear();
-  var years = Array.from(new Array(20), (val, index) => yearStatistical - index);
+  let years = Array.from(new Array(40), (val, index) => yearStatistical - index);
   const checkNameNuoc = 'nuoc';
   const checkNameDien = 'dien';
 

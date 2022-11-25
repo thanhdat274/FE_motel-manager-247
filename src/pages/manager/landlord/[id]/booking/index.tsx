@@ -81,8 +81,6 @@ const Booking = (props: Props) => {
 
 
   const onSubmit = async (data1: any) => {
-    console.log("data", data1);
-
     if (id) {
 
       const newData = { ...data1, userData: userData }
@@ -101,9 +99,7 @@ const Booking = (props: Props) => {
         }
 
       } catch (error: any) {
-
-        Toast('error', error?.response
-          ?.data?.message);
+        Toast('error', error?.response?.data?.message);
       }
     }
   };

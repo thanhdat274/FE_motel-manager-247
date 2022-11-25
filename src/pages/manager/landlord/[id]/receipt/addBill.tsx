@@ -21,8 +21,9 @@ type FormInputs = {
 };
 
 type Props = {
-  onclose : ()=>void;
-  data:()=>void;
+  onclose: () => void;
+  data: () => void;
+  setChangeValueBill: () => void;
 };
 
 const AddBill = (props: Props) => {
@@ -35,7 +36,6 @@ const AddBill = (props: Props) => {
   const userData = cookies?.user;
   const [monthCheck, setMonth] = useState(today.getMonth() + 1);
   const [yearCheck, setYear] = useState(today.getFullYear());
-  const [house, setHouse] = useState<any>([]);
   const router = useRouter();
   const { id } = router.query;
 
@@ -53,17 +53,7 @@ const AddBill = (props: Props) => {
     };
     getRoom();
   }, [userData, id]);
-  useEffect(() => {
-    const getHouse = async () => {
-      try {
-        const { data } = await listHouse(userData as any);
-        if (data.data) {
-          setHouse(data.data as any);
-        }
-      } catch (error) { }
-    };
-    getHouse();
-  }, [userData]);
+
   const { register, handleSubmit, setValue, getValues, reset } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data: any) => {
 
@@ -73,25 +63,26 @@ const AddBill = (props: Props) => {
       setLoading(true);
       if (rooms1 !== '2') {
         await CreateBillHouseAll(newData)
-          .then((data: any) => {
+          .catch((error: any) => {
+            setLoading(false);
+          }).finally(() => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
             props.onclose();
             props.data();
-          })
-          .catch((error: any) => {
-            setLoading(false);
+            props.setChangeValueBill()
           });
       } else {
         await CreateBillRooms(newDataRooms)
-          .then((data: any) => {
+
+          .catch((error: any) => {
+            setLoading(false);
+          }).finally(() => {
             Toast('success', 'Tạo hóa đơn thành công');
             setLoading(false);
             props.onclose();
             props.data();
-          })
-          .catch((error: any) => {
-            setLoading(false);
+            props.setChangeValueBill()
           });
       }
     } else {
