@@ -27,15 +27,15 @@ export function PieChart(dataRoomStatus: any) {
           dataRoomStatus.dataRoomStatus.roomReadyUsing,
           dataRoomStatus.dataRoomStatus.roomNotReady,
         ],
-        backgroundColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 255, 30, 0.2)', 'rgba(0, 81, 255, 0.2)'],
-        borderColor: ['rgba(255, 0, 0, 0.2)', 'rgba(0, 255, 30, 0.2)', 'rgba(0, 81, 255, 0.2)'],
+        backgroundColor: ['rgb(255, 153, 153)', 'rgb(90, 246, 132)', 'rgb(160, 160, 160)'],
+        borderColor: ['rgb(255, 153, 153)', 'rgb(90, 246, 132)', 'rgb(160, 160, 160)'],
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <div className="block xl:w-[400px] mx-auto">
+    <div className="block xl:w-[400px] mx-auto sm:max-w-[70%]">
       <Pie options={options} data={dataPie} />
     </div>
   );

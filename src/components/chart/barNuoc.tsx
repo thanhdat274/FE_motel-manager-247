@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { useRouter } from 'next/router';
 import { Bar } from 'react-chartjs-2';
-import { getAllBillServiceByYear } from 'src/pages/api/statistical';
+import { useRouter } from 'next/router';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -16,7 +15,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Doanh thu hàng tháng của nhà',
+      text: 'Số lượng nước tiêu thụ hàng tháng',
     },
   },
 };
@@ -35,18 +34,36 @@ const labels = [
   'Tháng 11',
   'Tháng 12',
 ];
-const BarChart = (dataNumber: any) => {  
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Tổng số tiền',
-        data: dataNumber.data,
-        backgroundColor: 'springgreen',
-        borderWidth: 1,
-      },
-    ],
-  };
+
+const BarNuoc = (dataNuoc: any) => {
+  const router = useRouter();
+  const { id } = router.query;
+  if (id) {
+    var data = {
+      labels,
+      datasets: [
+        {
+          label: 'Số nước',
+          data: dataNuoc.dataNuoc,
+          backgroundColor: 'rgb(153,255,255)',
+          borderWidth: 1,
+        }
+      ],
+    };
+  }
+  else {
+    var data = {
+      labels,
+      datasets: [
+        {
+          label: 'Số nước',
+          data: dataNuoc.dataNuoc.result,
+          backgroundColor: 'rgb(153,255,255)',
+          borderWidth: 1,
+        }
+      ],
+    };
+  }
 
   return (
     <div className="block h-[300px] lg:h-[400px]">
@@ -54,4 +71,4 @@ const BarChart = (dataNumber: any) => {
     </div>
   );
 };
-export default BarChart;
+export default BarNuoc;

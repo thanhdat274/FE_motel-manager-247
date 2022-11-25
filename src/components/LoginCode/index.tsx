@@ -55,9 +55,15 @@ const LoginCode = ({ data }: Props) => {
               />
 
               <div className="mt-2 text-red-500">
-                {errors.codeRoom?.type === 'required' && <span>Bạn ko được bỏ qua trường này</span>}
-                {errors.codeRoom?.type === 'minLength' && <span>Tối thiểu 4 ký tự</span>}
-                {errors.codeRoom?.type === 'pattern' && <span>Không chứa dấu cách và chữ có dấu</span>}
+                {errors.codeRoom?.type === 'required' && (
+                  <span className="text-[red] mt-1 block">Vui lòng nhập mã đăng nhập!</span>
+                )}
+                {errors.codeRoom?.type === 'minLength' && (
+                  <span className="text-[red] mt-1 block">Mã đăng nhập tối thiểu 4 ký tự</span>
+                )}
+                {errors.codeRoom?.type === 'pattern' && (
+                  <span className="text-[red] mt-1 block">Mã đăng nhập không chứa dấu cách và chữ có dấu</span>
+                )}
               </div>
               <p>VD: abc_12345</p>
             </div>

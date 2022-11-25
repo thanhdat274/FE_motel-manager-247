@@ -277,16 +277,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('addressCT', { maxLength: 80 })}
+                {...register('addressCT', { required: true })}
               />
+              {errors.addressCT?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ ký hợp đồng!</span>
+              )}
             </div>
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Thời gian kí HĐ</p>
               <input
                 type="date"
                 className="p-2 max-h-10 w-full  md:col-span-3"
-                {...register('timeCT', { required: true, maxLength: 80 })}
+                {...register('timeCT', { required: true })}
               />
+              {errors.timeCT?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng chọn thời gian ký hợp đồng!</span>
+              )}
             </div>
           </div>
 
@@ -299,6 +305,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 className="p-2 max-h-10 w-full md:col-span-3"
                 {...register('timeContract', { required: true, maxLength: 80 })}
               />
+              {errors.timeContract?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập thời gian hiệu lực của hợp đồng!</span>
+              )}
             </div>
           </div>
 
@@ -308,17 +317,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="date"
                 className="p-2 max-h-10 w-full  md:col-span-3"
-                {...register('startTime', { required: true, maxLength: 80 })}
+                {...register('startTime', { required: true })}
               />
+              {errors.startTime?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng chọn thời gian bắt đầu hợp đồng!</span>
+              )}
             </div>
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Ngày kết thúc HĐ</p>
-
               <input
                 type="date"
                 className="p-2 max-h-10 w-full  md:col-span-3"
-                {...register('endTime', { required: true, maxLength: 80 })}
+                {...register('endTime', { required: true })}
               />
+              {errors.endTime?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng chọn thời gian kết thúc hợp đồng!</span>
+              )}
             </div>
           </div>
 
@@ -329,8 +343,11 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 type="string"
                 placeholder="Nguyễn Văn A"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLname', { required: true, maxLength: 80 })}
+                {...register('LLname', { required: true })}
               />
+              {errors.LLname?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của chủ trọ!</span>
+              )}
             </div>
 
             <div className="md:grid grid-cols-4 mb-4">
@@ -338,8 +355,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLcardNumber', { required: true, maxLength: 80 })}
+                {...register('LLcardNumber', {
+                  required: true, minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                })}
               />
+              {errors.LLcardNumber?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
+              )}
+              {errors.LLcardNumber?.type === 'minLength' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối thiểu 9 chữ số!</span>
+              )}
+              {errors.LLcardNumber?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
+              )}
+              {errors.LLcardNumber?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
+              )}
             </div>
           </div>
 
@@ -349,16 +380,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="date"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLdateRange', { required: true, maxLength: 80 })}
+                {...register('LLdateRange', { required: true })}
               />
+              {errors.LLdateRange?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp CMND/CCCD!</span>
+              )}
             </div>
 
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Nơi cấp </p>
               <input
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLIssuedBy', { required: true, maxLength: 80 })}
+                {...register('LLIssuedBy', { required: true })}
               />
+              {errors.LLIssuedBy?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp CMND/CCCD!</span>
+              )}
             </div>
           </div>
 
@@ -368,8 +405,25 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('LLphoneNumber', { required: true, maxLength: 80 })}
+                {...register('LLphoneNumber', {
+                  required: true,
+                  minLength: 10,
+                  maxLength: 10,
+                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+                })}
               />
+              {errors.LLphoneNumber?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
+              )}
+              {errors.LLphoneNumber?.type === 'minLength' && (
+                <span className="text-[red] mt-1 block">Số điện thoại phải tối thiểu 10 chữ số!</span>
+              )}
+              {errors.LLphoneNumber?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Số điện thoại phải tối đa 10 chữ số!</span>
+              )}
+              {errors.LLphoneNumber?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+              )}
             </div>
           </div>
 
@@ -380,8 +434,11 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                 type="string"
                 placeholder="Nguyễn Văn A"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNname', { required: true, maxLength: 80 })}
+                {...register('TNname', { required: true })}
               />
+              {errors.TNname?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên người đại diện!</span>
+              )}
             </div>
 
             <div className="md:grid grid-cols-4 mb-4">
@@ -389,8 +446,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNcardNumber', { required: true, maxLength: 80 })}
+                {...register('TNcardNumber', {
+                  required: true, minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                })}
               />
+              {errors.TNcardNumber?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
+              )}
+              {errors.TNcardNumber?.type === 'minLength' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối thiểu 9 chữ số!</span>
+              )}
+              {errors.TNcardNumber?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
+              )}
+              {errors.TNcardNumber?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
+              )}
             </div>
           </div>
 
@@ -400,16 +471,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="date"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNdateRange', { required: true, maxLength: 80 })}
+                {...register('TNdateRange', { required: true })}
               />
+              {errors.TNdateRange?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp của CMND/CCCD!</span>
+              )}
             </div>
 
             <div className="md:grid grid-cols-4 mb-4">
               <p className="">Nơi cấp </p>
               <input
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNIssuedBy', { required: true, maxLength: 80 })}
+                {...register('TNIssuedBy', { required: true })}
               />
+              {errors.TNIssuedBy?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp của CMND/CCCD!</span>
+              )}
             </div>
           </div>
 
@@ -419,8 +496,25 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <input
                 type="string"
                 className="p-2 max-h-10 w-full md:col-span-3"
-                {...register('TNphoneNumber', { required: true, maxLength: 80 })}
+                {...register('TNphoneNumber', {
+                  required: true,
+                  minLength: 10,
+                  maxLength: 10,
+                  pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+                })}
               />
+              {errors.TNphoneNumber?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
+              )}
+              {errors.TNphoneNumber?.type === 'minLength' && (
+                <span className="text-[red] mt-1 block">Số điện thoại phải tối thiểu 10 chữ số!</span>
+              )}
+              {errors.TNphoneNumber?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Số điện thoại phải tối đa 10 chữ số!</span>
+              )}
+              {errors.TNphoneNumber?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+              )}
             </div>
           </div>
           <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
@@ -428,10 +522,15 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
               <div className="md:grid grid-cols-4 mb-4">
                 <p className="">Tiền phạt nếu vi phạm</p>
                 <input
-                  type="string"
+                  type="number"
                   className="p-2 max-h-10 w-full  md:col-span-3"
-                  {...register('fine', { required: true, maxLength: 80 })}
+                  {...register('fine', {
+                    pattern: /^[0-9]+$/
+                  })}
                 />
+                {errors.fine?.type === 'pattern' && (
+                  <span className="text-[red] mt-1 block">Số tiền phạt không được nhỏ hơn 0 VNĐ!</span>
+                )}
               </div>
             </div>
             <div className=""></div>

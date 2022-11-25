@@ -1,10 +1,12 @@
 import instance from './instance';
 
-export const createBooking = (data:any,userData:any, id:any ) => {  
+export const createBooking = (data:any) => {  
+  console.log(data);
+    
   const url = `/booking/create`;
   return instance.post(url, data , {
     headers: {
-      Authorization: `Bearer ${userData?.token}`,
+      Authorization: `Bearer ${data.userData?.token}`,
     },
   });
 };

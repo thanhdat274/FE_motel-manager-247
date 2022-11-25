@@ -45,36 +45,42 @@ const Signin = (props: Props) => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <div className="mt-4">
               <label className="block" htmlFor="email">
-                Địa chỉ email <span className="text-red-500">*</span>
+                Địa chỉ email <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập email"
-                {...register('email', { required: true, minLength: 3 })}
+                {...register('email', {
+                  required: true,
+                  pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                })}
               />
               {errors.email?.type === 'required' && (
-                <span className="text-rose-500 mt-3 block">Không được bỏ trống</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
               )}
-              {errors.email?.type === 'minLength' && (
-                <span className="text-rose-500 mt-3 block">Tối thiểu 3 ký tự</span>
+              {errors.email?.type === 'pattern' && (
+                <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
               )}
             </div>
             <div className="mt-4">
               <label className="block">
-                Mật khẩu <span className="text-red-500">*</span>
+                Mật khẩu <span className="text-[red]">*</span>
               </label>
               <input
                 type="password"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập mật khẩu"
-                {...register('password', { required: true, minLength: 6 })}
+                {...register('password', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.password?.type === 'required' && (
-                <span className="text-rose-500 mt-3 block">Không được bỏ trống</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu của bạn!</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span className="text-rose-500 mt-3 block">Tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+              )}
+              {errors.password?.type === 'maxLength' && (
+                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="flex items-center justify-end">

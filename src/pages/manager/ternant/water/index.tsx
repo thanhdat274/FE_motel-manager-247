@@ -47,7 +47,7 @@ const ListWater = (props: Props) => {
       };
       getListBillData();
     }
-  }, [codeRoom?._id,monthCheck, yearCheck]);
+  }, [codeRoom?._id,monthCheck, yearCheck, NameBuild]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
