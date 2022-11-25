@@ -81,18 +81,16 @@ const Booking = (props: Props) => {
 
 
   const onSubmit = async (data1: any) => {
-    console.log("data", data1);
-
     if (id) {
 
       const newData = { ...data1, userData: userData }
       try {
         if (data1.expectTime <= date
         ) {
-          
+
           Toast('error', 'Ngày tháng phải lớn hơn  thời gian hiện tại');
-        }else{
-          
+        } else {
+
           const { data } = await createBooking(newData)
           const daata = data.data
           setListBookings([...listBookings, daata])
@@ -101,9 +99,7 @@ const Booking = (props: Props) => {
         }
 
       } catch (error: any) {
-
-        Toast('error', error?.response
-          ?.data?.message);
+        Toast('error', error?.response?.data?.message);
       }
     }
   };
@@ -411,7 +407,7 @@ const Booking = (props: Props) => {
                     type="number"
                     placeholder='Xin mời nhập CCCD hoặc CMT'
 
-                    {...register('cardNumber', { minLength: 9 , maxLength:12})}
+                    {...register('cardNumber', { minLength: 9, maxLength: 12 })}
                   />
                   <p className='text-red-500'>{errors.cardNumber?.type === "minLength" && <span>Tối thiểu  9 số</span>}</p>
                   <p className='text-red-500'>{errors.cardNumber?.type === "maxLength" && <span>Tối đa  12 số</span>}</p>

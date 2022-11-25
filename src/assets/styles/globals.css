@@ -41,3 +41,13 @@ img {
 .react-responsive-modal-closeButton {
   margin-bottom: 10px;
 }
+
+.value-right {
+  /* direction: rtl; */
+  /* unicode-bidi: bidi-override; */
+}
+
+.icon-vnd {
+  background: url('../../../public/images/noun-dong-3451411.png') no-repeat right;
+  background-size: 20px;
+}

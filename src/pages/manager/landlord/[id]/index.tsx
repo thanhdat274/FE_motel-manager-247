@@ -18,7 +18,7 @@ const HomeManagerPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const yearStatistical = new Date().getFullYear();
-  var years = Array.from(new Array(20), (val, index) => yearStatistical - index);
+  let years = Array.from(new Array(40), (val, index) => yearStatistical - index);
   const checkNameNuoc = 'nuoc';
   const checkNameDien = 'dien';
 
@@ -100,7 +100,7 @@ const HomeManagerPage = () => {
     }
   }, [id, checkYear]);
   var totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
-  
+
 
   return (
     <div className="w-full gap-4 flex flex-col ">
@@ -185,7 +185,7 @@ const HomeManagerPage = () => {
       </div>
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-        <BarDien data={totalElictic}/>
+          <BarDien data={totalElictic} />
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <BarNuoc dataNuoc={totalWater} />
