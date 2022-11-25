@@ -9,6 +9,9 @@ module.exports = {
     BASE_API_LOCAL: process.env.BASE_API_LOCAL,
     BASE_API_PRODUCTION: '',
   },
+  images: {
+    domains: ['https://firebasestorage.googleapis.com'],
+  },
   async redirects() {
     return [
       {
