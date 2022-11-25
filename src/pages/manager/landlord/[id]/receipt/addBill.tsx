@@ -15,7 +15,6 @@ import { useRouter } from 'next/router';
 import { listHouse } from 'src/pages/api/house';
 type FormInputs = {
   idHouse: string;
-
   month: number;
   year: number;
   name: string;
@@ -131,9 +130,6 @@ const AddBill = (props: Props) => {
         <div className="mt-5 mb-2">
           <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
             Tính Hóa đơn theo
-          </label>
-          <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-            Nhà
           </label>
           <select
             className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
