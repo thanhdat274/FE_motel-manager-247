@@ -29,6 +29,8 @@ const Receipt = (props: Props) => {
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
 
+  const [changedValue, setChangedValue] = useState(0)
+
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
   const onOpenModal = async (_id: any) => {
@@ -37,9 +39,6 @@ const Receipt = (props: Props) => {
     setReadBills(data);
     reset(data)
   };
-
-  console.log('readBills', readBills);
-
 
   const initialValue = 0;
   const sumWithInitial =
@@ -63,18 +62,22 @@ const Receipt = (props: Props) => {
   const [bill, setBill] = useState<any>();
 
   const getBill = async () => {
+    setLoading(true)
     if (monthCheckk && yearCheckk) {
       const { data } = await listBill(userData, yearCheckk, monthCheckk);
       setBill(data.data);
+      setLoading(false)
 
     } else {
       Toast('error', 'Vui lòng chọn tháng năm!');
+      setLoading(false)
+
     }
   };
   useEffect(() => {
 
     getBill();
-  }, [monthCheckk, userData, yearCheckk]);
+  }, [monthCheckk, userData, yearCheckk, changedValue]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -180,7 +183,7 @@ const Receipt = (props: Props) => {
                           const sumWithInitial = item?.invoiceService.reduce(
                             (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
                             initialValue,
-                          );
+                          ) + item?.debt;
 
                           const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 'Tiền Nhà');
                           const status = item.paymentStatus;
@@ -396,7 +399,7 @@ const Receipt = (props: Props) => {
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
             </div>{' '}
-            <AddBill onclose={onCloseModal1} data={getBill}></AddBill>
+            <AddBill onclose={onCloseModal1} data={getBill} setChangeValueBill={() => setChangedValue(changedValue + 1)}></AddBill>
           </div>
         </Modal>
       </div>
