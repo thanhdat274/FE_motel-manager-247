@@ -178,9 +178,9 @@ const Receipt = (props: Props) => {
                             initialValue,
                           );
 
-                          const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 'Tiền nhà');
-                          const status = item.paymentStatus
-
+                          const priceRoom = item.invoiceService.find((item: any) => item.serviceName === 
+                          "Tiền Nhà");
+                          const status = item.paymentStatus                          
                           return (
                             <>
                               <tbody className="bg-white divide-y divide-gray-200">

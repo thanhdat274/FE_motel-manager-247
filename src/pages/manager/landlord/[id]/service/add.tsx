@@ -77,26 +77,24 @@ const AddServiceRoom = (props: Props) => {
                         placeholder="Nhập tên dịch vụ..."
                         {...register('label', { required: true })}
                       />
-                      {errors.label?.type === 'required' && <span className="text-rose-600">Không được bỏ trống</span>}
+                      {errors.label?.type === 'required' && <span className="text-rose-600 text-sm">Không được bỏ trống</span>}
                     </div>
 
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
                       </label>
-                      <NumericFormat
+                      <input
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
                         placeholder="Nhập giá dịch vụ..."
-                        thousandSeparator=","
                         {...register('price', { required: true , minLength:4})}
-                        onChange={(e:any) => setValue('price', e.target.value)}
                       />
                       {errors.price && errors.price.type === 'required' && (
-                        <span className="text-rose-600">Không được bỏ trống</span>
+                        <span className="text-rose-600 text-sm">Không được bỏ trống</span>
                       )}
                       {errors.price && errors.price.type === 'minLength' && (
-                        <span className="text-rose-600">Tối thểu 1000đ</span>
+                        <span className="text-rose-600 text-sm">Tối thểu 1000đ</span>
                       )}
                     </div>
                     <div className="col-span-6">
@@ -111,7 +109,7 @@ const AddServiceRoom = (props: Props) => {
                         {...register('unit', { required: true })}
                       />
                       {errors.unit && errors.unit.type === 'required' && (
-                        <span className="text-rose-600">Không được bỏ trống</span>
+                        <span className="text-rose-600 text-sm">Không được bỏ trống</span>
                       )}
                     </div>
                     <div>
