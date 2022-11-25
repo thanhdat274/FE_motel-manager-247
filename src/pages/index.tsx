@@ -235,7 +235,7 @@ const Introduce = (props: Props) => {
         </div>
 
         <div>
-          <div>
+          {/* <div>
             <div className="bg-white lg:mr-10  mx-5 p-5 lg:ml-0 mt-10 lg:mt-0">
               <h2 className="text-2xl font-bold">Phòng trọ 24/7 và những con số</h2>
               <h2 className="text-2xl font-bold pt-6 pb-5">
@@ -254,8 +254,8 @@ const Introduce = (props: Props) => {
                 </>
               </h2>
             </div>
-          </div>
-          <div className="mt-10">
+          </div> */}
+          <div className="">
             <div className="bg-white lg:mr-10 mx-5 p-5 lg:ml-0 mt-10 lg:mt-0">
               <h2 className="text-2xl font-bold">LIÊN HỆ</h2>
               <div className="text-gray-500">
