@@ -12,13 +12,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { CookiesProvider } from 'react-cookie';
 import { CheckUser, PrivateRouter } from './PrivateRouter';
-import Script from 'next/script';
 
 config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
+  console.error = () => {};
   const switchLayout = () => {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (

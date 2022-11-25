@@ -33,29 +33,17 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onCloseModal = () => setOpen(false);
   const onSubmit = async (listMember: any) => {
     setLoading(true);
-
     const newData = { ...{ listMember }, userData: userData };
-    const regex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
-    if (regex.test(newData.listMember.phoneNumber)==true) {
-      try {
-        const { data } = await addPeople(param.id_room, newData)
-        setLoading(false);
-        setOpen(false);
-        router.push(`/manager/landlord/${param.id}/list-room`);
-        Toast('success', data.message);
-
-      } catch (error) {
-        setLoading(false);
-        Toast('error', 'Thêm mới thành viên không thành công');
-      }
-    } else {
+    try {
+      const { data } = await addPeople(param.id_room, newData)
       setLoading(false);
-
-      Toast('error', 'Số điện thoại không đúng định dạng');
-
+      setOpen(false);
+      router.push(`/manager/landlord/${param.id}/list-room`);
+      Toast('success', 'Thêm mới thành viên thành công');
+    } catch (error) {
+      setLoading(false);
+      Toast('error', 'Thêm mới thành viên không thành công');
     }
-
-
   };
 
   return (
@@ -83,7 +71,6 @@ const TenantMember = ({ data, data1 }: IProps) => {
 
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full pt-6">
-
             <hr />
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
               <div className="">
@@ -103,16 +90,17 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   {...register('memberName', { required: true, minLength: 6 })}
                 />
                 {errors.memberName?.type === 'required' && (
-                  <span className="text-rose-600">Mời bạn nhập tên thành viên</span>
+                  <span className="text-[red] mt-1 block">Vui lòng nhập tên thành viên!</span>
                 )}
-                {errors.memberName?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.memberName?.type === 'minLength' && (
+                  <span className="text-[red] mt-1 block">Tên thành viên phải tối thiểu 6 ký tự!</span>
+                )}
               </div>
 
               <div className="col-span-6">
                 <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                   Trạng thái phòng
                 </label>
-
                 {data1?.length < 1 ? (
                   <select
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -141,10 +129,25 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   id="cardNumber"
                   type="text"
                   placeholder="Xin mời nhập  CMT/CCCD"
-                  {...register('cardNumber', { required: true, minLength: 6 })}
+                  {...register('cardNumber', {
+                    required: true,
+                    minLength: 12,
+                    maxLength: 12,
+                    pattern: /^[0-9]+$/
+                  })}
                 />
-                {errors.cardNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập CMT/CCCD</span>}
-                {errors.cardNumber?.type === 'minLength' && <span className="text-rose-600">Tối thiểu 6 ký tự</span>}
+                {errors.cardNumber?.type === 'required' && (
+                  <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
+                )}
+                {errors.cardNumber?.type === 'minLength' && (
+                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 12 chữ số!</span>
+                )}
+                {errors.cardNumber?.type === 'maxLength' && (
+                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                )}
+                {errors.cardNumber?.type === 'pattern' && (
+                  <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                )}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -155,10 +158,25 @@ const TenantMember = ({ data, data1 }: IProps) => {
                   id="phoneNumber"
                   type="text"
                   placeholder="Xin mời nhập số điện thoại"
-                  {...register('phoneNumber', { required: true, maxLength: 11 })}
+                  {...register('phoneNumber', {
+                    required: true,
+                    minLength: 10,
+                    maxLength: 10,
+                    pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+                  })}
                 />
-                {errors.phoneNumber?.type === 'required' && <span className="text-rose-600">Mời bạn nhập SDT</span>}
-                {errors.phoneNumber?.type === 'maxLength' && <span className="text-rose-600">Tối đa 10 ký tự</span>}
+                {errors.phoneNumber?.type === 'required' && (
+                  <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                )}
+                {errors.phoneNumber?.type === 'minLength' && (
+                  <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối thiểu 10 chữ số!</span>
+                )}
+                {errors.phoneNumber?.type === 'maxLength' && (
+                  <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối đa 10 chữ số!</span>
+                )}
+                {errors.phoneNumber?.type === 'pattern' && (
+                  <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                )}
               </div>
 
               <div className="flex items-center">

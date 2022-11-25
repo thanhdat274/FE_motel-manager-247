@@ -110,6 +110,7 @@ const SideBar = (props: Props) => {
                         className={
                           'h-[45px] text-xs font-bold flex items-center gap-4 text-black px-4 py-3 bg-gradient-to-tr from-light-blue-500 to-light-blue-700 rounded-lg focus:bg-blue-500 hover:text-white shadow-md'
                         }
+                        onClick={() => setCollapseShow('hidden')}
                       >
                         {menu.icon}
                         {menu.title}

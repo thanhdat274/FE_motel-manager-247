@@ -37,15 +37,23 @@ const Forgetpassword = (props: Props) => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label className="block" htmlFor="full_name">
-                Email <span className="text-red-500">*</span>
+                Email <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 placeholder="Nhập email đã đăng kí"
-                {...register('email', { required: true })}
+                {...register('email', {
+                  required: true,
+                  pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                })}
               />
-              {errors.email?.type === 'required' && <span className="text-rose-600">Không được bỏ trống</span>}
+              {errors.email?.type === 'required' && (
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+              )}
+              {errors.email?.type === 'pattern' && (
+                <span className="text-[red] mt-3 block">Địa chỉ email của bạn không đúng định dạng!</span>
+              )}
             </div>
 
             <div className="flex mt-[20px]">
