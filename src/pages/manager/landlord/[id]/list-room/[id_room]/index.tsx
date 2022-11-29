@@ -101,7 +101,7 @@ const ManageRoom = () => {
   ];
 
   return (
-    <div className="container">
+    <div className="">
       <div className="title w-full p-4 bg-white rounded-sm shadow-lg mb-4">Quản lý phòng trọ</div>
       <div className="manage-room-container ">
         <TabPanelComponent data={data} valueInit={setFirstTab} />
