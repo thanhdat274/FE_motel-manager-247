@@ -18,6 +18,7 @@ type IData = {
 
 type ITabPanel = {
   data: IData[];
+  valueInit?: number;
 };
 
 function TabPanel(props: TabPanelProps) {
@@ -47,8 +48,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function TabPanelComponent({ data }: ITabPanel) {
-  const [value, setValue] = React.useState(0);
+export default function TabPanelComponent({ data, valueInit }: ITabPanel) {
+  const [value, setValue] = React.useState(valueInit || 0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

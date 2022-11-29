@@ -39,9 +39,10 @@ type Props = {
   dataLandlord: any;
   roomArea: number;
   roomPrice: number;
+  setSetFirstTab: (number: number) => void;
 };
 
-const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea }: Props) => {
+const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roomArea, setSetFirstTab }: Props) => {
   const router = useRouter();
   const { setLoading, cookies } = useUserContext();
   const param = router.query;
@@ -53,15 +54,12 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   const [contractData, setContractData] = useState<IContractData>();
   const [progress, setProgress] = useState(0);
   const [selectedImages, setSelectedImages] = useState<any[]>();
-  const [URLs, setURLs] = useState<any>([]);
 
   const [images, setImages] = useState<any>(dataContract.imageContract);
   const maxNumber = 69;
+  console.log('dataContract.imageContract', dataContract.imageContract);
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
-    // data for submit
-    console.log('imageList', imageList);
-
     setImages(imageList);
   };
   const userData = cookies?.user;
@@ -108,25 +106,29 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   }, [contractData, leadMember]);
 
   const uploadTask = (image: any) => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `files/${image.file.name}`);
+    if (image.data_url == null) {
+      return image;
+    } else {
+      return new Promise((resolve, reject) => {
+        const storageRef = ref(storage, `files/${image?.file?.name}`);
 
-      const uploadTask = uploadBytesResumable(storageRef, image.file);
+        const uploadTask = uploadBytesResumable(storageRef, image.file);
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setProgress(prog);
-        },
-        (error) => console.log(error),
-        async () => {
-          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
-            resolve(downloadURLs);
-          });
-        },
-      );
-    });
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            setProgress(prog);
+          },
+          (error) => console.log(error),
+          async () => {
+            await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
+              resolve(downloadURLs);
+            });
+          },
+        );
+      });
+    }
   };
 
   const onSubmit = async (data: any) => {
@@ -136,8 +138,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
     Promise.all(images.map((image: any) => uploadTask(image)))
       .then(async (ListImgs) => {
-        console.log('ListImgs', ListImgs);
-
         const newValue = {
           contract: {
             startTime: data.startTime,
@@ -173,6 +173,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           })
           .catch((err) => {
             setLoading(false);
+          })
+          .finally(() => {
+            setSetFirstTab(3);
           });
       })
       .then((err) => console.log(err));
@@ -184,24 +187,27 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="px-4 py-5 bg-white space-y-6 sm:p-6 mt-5 md:mt-0 md:col-span-3 border rounded-md">
           <div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
+            <label className="block text-sm font-medium text-gray-700 mb-5">Hình ảnh hợp đồng sau khi đã ký</label>
+            <div className="flex flex-col gap-2 md:flex-row md:gap-6">
               {contractData?.imageContract &&
                 contractData?.imageContract.map((item: any, index: number) => (
-                  <Image key="img" style={{ width: '200px' }} src={item} alt="" />
+                  <Image key="img" style={{ width: '200px', height: '200px', objectFit: 'cover' }} src={item} alt="" />
                 ))}
-              <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
-                <div className="space-y-1 text-center">
-                  <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
-                    {({
-                      imageList,
-                      onImageUpload,
-                      onImageRemoveAll,
-                      onImageUpdate,
-                      onImageRemove,
-                      isDragging,
-                      dragProps,
-                    }) => (
+            </div>
+
+            <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
+              <div className="space-y-1 text-center">
+                <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                  }) => {
+                    return (
                       <div className="relative cursor-pointer  rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                         <button style={isDragging ? { color: 'red' } : undefined} onClick={onImageUpload} {...dragProps}>
                           <svg
@@ -225,11 +231,10 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                         <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                         <div className="flex flex-col md:flex-row items-center gap-10">
                           {imageList.map((image: any, index) => {
-                            console.log('image url data', image['data_url'], image);
-
+                            const imageFormat = image?.data_url || image;
                             return (
                               <div key={index} className="image-item">
-                                <Image style={{ width: '100px', height: '100px' }} src={image} alt="" />
+                                <Image style={{ width: '100px', height: '100px' }} src={imageFormat} alt="" />
                                 <div className="image-item__btn-wrapper flex gap-3">
                                   <button onClick={() => onImageUpdate(index)}>Update</button>
                                   <button onClick={() => onImageRemove(index)}>Remove</button>
@@ -239,16 +244,12 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                           })}
                         </div>
                       </div>
-                    )}
-                  </ImageUploading>
-                </div>
+                    );
+                  }}
+                </ImageUploading>
               </div>
             </div>
-
-
-
           </div>
-
           <div className="border p-5">
             <p className="mb-5">Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng</p>
             <form onSubmit={handleSubmit(onSubmit)}>

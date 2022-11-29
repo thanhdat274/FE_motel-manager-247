@@ -16,13 +16,11 @@ const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr
 const ManageRoom = () => {
   const [roomData, setRoomData] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
+  const [setFirstTab, setSetFirstTab] = useState(0);
   const [infoLandlord, setInfoLandlord] = useState();
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
-
-
-
 
   const getInfoLandlord = async () => {
     setLoading(true);
@@ -59,7 +57,11 @@ const ManageRoom = () => {
       };
       getRoom();
     }
-  }, [param.id, param.id_room, setLoading, userData]);
+  }, [param.id, param.id_room, setLoading, userData, setFirstTab]);
+
+  const setDataFromChild = (number: number) => {
+    setSetFirstTab(number);
+  };
 
   const data = [
     {
@@ -87,6 +89,7 @@ const ManageRoom = () => {
           roomArea={roomData.area}
           roomPrice={roomData.price}
           dataLandlord={infoLandlord}
+          setSetFirstTab={(value: number) => setDataFromChild(value)}
         />
       ),
     },
@@ -111,7 +114,7 @@ const ManageRoom = () => {
         </div>
       </header>
       <div className="manage-room-container ">
-        <TabPanelComponent data={data} />
+        <TabPanelComponent data={data} valueInit={setFirstTab} />
       </div>
     </div>
   );
