@@ -34,7 +34,7 @@ const Ternant = () => {
           Chọn năm thống kê
         </label>
         <select
-          className="mt-2 shadow appearance-none border rounded w-[10%] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="mt-2 shadow appearance-none border rounded w-[10%] 2xs:w-[20%] xs:w-[20%] s:w-[20%] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="status"
           onChange={onChange}
         >
