@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 
 import { Toast } from 'src/hooks/toast';
 import { addRoom } from 'src/pages/api/room';
@@ -12,7 +13,7 @@ type Props = {};
 type FromValues = {
   _id: string;
   name: string;
-  price: number;
+  price: string;
   area: number;
   maxMember: number;
   status: string;
@@ -27,6 +28,8 @@ const AddRoom = (props: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors }
   } = useForm<FromValues>({});
   const router = useRouter();
@@ -104,16 +107,18 @@ const AddRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá phòng <span className="text-[red]">*</span>
                       </label>
-                      <input
-                        type="number"
-                        id="price"
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        {...register('price', { required: true, min: 0 })}
-                      />
-                      {errors.price && errors.price.type === 'required' && (
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" thousandSeparator=","
+                        {...register('price', {
+                          required: true,
+                          validate: value => value > '0',
+                          onChange(e) {
+                            setValue('price', e.target.value)
+                          },
+                        })}  />
+                      {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
                       )}
-                      {errors.price?.type === 'min' && (
+                      {errors.price?.type === 'validate' && (
                         <span className="text-[red] mt-1 block"> Giá phòng không nhỏ hớn 1.000 VNĐ</span>
                       )}
                     </div>

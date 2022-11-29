@@ -10,7 +10,7 @@ import { addService } from 'src/pages/api/service';
 type Props = {};
 interface IFormInputs {
   label: string;
-  price: number;
+  price: string;
   unit: string;
   type: boolean;
   idHouse: string;
@@ -84,20 +84,25 @@ const AddServiceRoom = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
                       </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        type="number"
-                        placeholder="Nhập giá dịch vụ..."
-                        {...register('price', { required: true, minLength: 4, min: 0 })}
-                      />
+                        type="text"
+                        placeholder="Nhập giá dịch vụ..." thousandSeparator=","
+                        {...register('price', {
+                          required: true,
+                          validate: value => value > '0',
+                          onChange(e) {
+                            setValue('price', e.target.value)
+                          },
+                          min: 1000
+                        })} />
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
                       )}
-                      {errors.price?.type === 'min' && (
+                      {errors.price?.type === 'validate' && (
                         <span className="text-[red] mt-1 block">Giá dịch vụ không được nhỏ hơn 0 VND</span>
                       )}
-                      {errors.price?.type === 'minLength' && (
+                      {errors.price?.type === 'min' && (
                         <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
                       )}
                     </div>

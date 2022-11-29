@@ -12,6 +12,7 @@ import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
 import { listBill, paymentStatus, readBill } from 'src/pages/api/bill';
 import AddBill from './addBill';
+import { NumericFormat } from 'react-number-format';
 type FormInputs = {
   _id: string;
   idRoom: string;
@@ -19,7 +20,7 @@ type FormInputs = {
   year: number;
   name: string;
   paymentStatus: boolean;
-  paidAmount: number;
+  paidAmount: string;
 };
 
 const Receipt = () => {
@@ -52,10 +53,10 @@ const Receipt = () => {
   const sumWithInitial =
     readBills &&
     readBills?.debt +
-      readBills?.invoiceService.reduce(
-        (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
-        initialValue,
-      );
+    readBills?.invoiceService.reduce(
+      (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+      initialValue,
+    );
 
   // const
 
@@ -116,7 +117,7 @@ const Receipt = () => {
   const watchAllFields = watch();
 
   const remainingAmount = useMemo(() => {
-    return sumWithInitial - getValues('paidAmount');
+    return sumWithInitial - Number(getValues('paidAmount'))
   }, [watchAllFields]);
 
   return (
@@ -261,7 +262,7 @@ const Receipt = () => {
                           );
                         })}
 
-                        {}
+                        { }
                       </>
                     </table>
                   ) : (
@@ -312,7 +313,6 @@ const Receipt = () => {
                     </strong>
                   </p>
                 </div>
-
                 <div>
                   <p>
                     <strong>{readBills && readBills.roomName}</strong>
@@ -365,7 +365,7 @@ const Receipt = () => {
                 <div>-</div>
                 <div
                   className={
-                    errors.paidAmount?.type == 'max'
+                    errors.paidAmount?.type === 'max' || errors.paidAmount?.type === 'required'|| errors.paidAmount?.type === 'validate'
                       ? 'border-b-2 border-b-black min-h-[100px] h-auto'
                       : '"border-b-2 border-b-black min-h-[60px] h-auto"'
                   }
@@ -373,13 +373,31 @@ const Receipt = () => {
                   <div className="py-2">
                     <strong className="">Đã thanh toán</strong>
                     <div className="float-right flex flex-col w-1/2 md:w-1/4 ">
-                      <input
-                        className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                        {...register('paidAmount', { max: sumWithInitial })}
+                      {/* <input
                         type="number"
-                      />
-                      {errors.paidAmount?.type == 'max' && (
-                        <p className="text-red-500">Giá trị không được vượt quá tổng tiền</p>
+                        className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                        {...register('paidAmount', { required: true, min: 0, })}
+                      /> */}
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        placeholder="Nhập giá dịch vụ..." thousandSeparator=","
+                        {...register('paidAmount', {
+                          required: true,
+                          validate: value => value > '0',
+                          onChange(e) {
+                            setValue('paidAmount', e.target.value)
+                          },
+                          max: sumWithInitial
+                        })} />
+                      {errors.paidAmount?.type === 'required' && (
+                        <p className="text-red-500">Vui lòng nhập số tiền thành toán!</p>
+                      )}
+                      {errors.paidAmount?.type === 'validate' && (
+                        <p className="text-red-500">Số tiền thành toán không được nhỏ hơn 0 VNĐ!</p>
+                      )}
+                      {errors.paidAmount?.type === 'max' && (
+                        <p className="text-red-500">Số tiền thanh toán không được vượt quá tổng tiền</p>
                       )}
                     </div>
                   </div>

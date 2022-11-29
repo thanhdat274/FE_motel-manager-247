@@ -297,7 +297,7 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước cũ phải lớn hơn 0
+                                        Số nước mới phải lớn hơn 0
                                       </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
@@ -373,7 +373,7 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước cũ phải lớn hơn 0
+                                        Số nước mới phải lớn hơn 0
                                       </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (

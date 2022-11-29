@@ -25,6 +25,7 @@ const EditService = (props: Props) => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<IFormInputs>();
 
@@ -103,7 +104,11 @@ const EditService = (props: Props) => {
                         id="price"
                         type="number"
                         placeholder="Nhập giá dịch vụ..."
-                        {...register('price', { required: true, minLength: 4, min: 0 })}
+                        {...register('price', {
+                          required: true,
+                          minLength: 4,
+                          min: 0
+                        })}
                       />
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
