@@ -57,8 +57,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const [images, setImages] = useState<any>(dataContract.imageContract);
   const maxNumber = 69;
-  console.log('dataContract.imageContract', dataContract.imageContract);
-
   const onChange = (imageList: any, addUpdateIndex: any) => {
     setImages(imageList);
   };

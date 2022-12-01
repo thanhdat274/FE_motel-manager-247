@@ -1,4 +1,4 @@
-import AccountInformation from '@/components/auth/accountInformation'
+import AccountInformation from '@/components/auth/information'
 import React from 'react'
 
 type Props = {}
@@ -6,7 +6,7 @@ type Props = {}
 const accountInformation = (props: Props) => {
   return (
     <div>
-      <AccountInformation/>
+      <AccountInformation />
     </div>
   )
 }

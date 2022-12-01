@@ -51,3 +51,7 @@ img {
   background: url('../../../public/images/noun-dong-3451411.png') no-repeat right;
   background-size: 20px;
 }
+
+.min-h-80vh {
+  min-height: 80vh;
+}

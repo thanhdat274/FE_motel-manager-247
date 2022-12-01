@@ -9,7 +9,6 @@ import { useUserContext } from '@/context/UserContext';
 import Modal from 'react-responsive-modal';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { Toast } from 'src/hooks/toast';
 import { getRoomBySubName } from 'src/pages/api/room';
 
@@ -31,6 +30,8 @@ const HeaderPreview = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  console.log('cookies', cookies?.user);
+
   const onSubmit = async (data: any) => {
     setLoading(true);
 
@@ -89,11 +90,19 @@ const HeaderPreview = (props: Props) => {
                       Xin chào: {cookies?.user?.user.name}
                     </button>
                     <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
-                      <Link href={'/auth/accountInformation'}>
+                      <Link href={'/auth/information'}>
                         <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
                           Thông tin tài khoản
                         </a>
                       </Link>
+
+                      {cookies?.user?.user?.isUpgrade?.active != true &&
+                        <Link href={'/payment/optional'}>
+                          <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
+                            Nâng cấp tài khoản
+                          </a>
+                        </Link>
+                      }
                       <Link href={'/auth/changePassword'}>
                         <a className="rounded-md bg-slate-200 font-bold hover:text-gray-50 hover:bg-gray-400 py-2 px-4 block">
                           Đổi mật khẩu

@@ -18,7 +18,7 @@ config.autoAddCss = false;
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  console.error = () => {};
+  console.error = () => { };
   const switchLayout = () => {
     if (router.pathname.search('/manager/landlord/list-home') >= 0) {
       return (
@@ -52,14 +52,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           </LayoutTenants>
         </div>
       );
-    } else {
+    }
+    else {
       return (
         <div className="bg-gray-200">
-          <CheckUser>
-            <LayoutIntro>
+          <LayoutIntro>
+            <CheckUser>
               <Component {...pageProps} />
-            </LayoutIntro>
-          </CheckUser>
+            </CheckUser>
+          </LayoutIntro>
         </div>
       );
     }
