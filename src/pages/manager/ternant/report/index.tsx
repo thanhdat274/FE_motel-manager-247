@@ -35,8 +35,18 @@ console.log("code",codeRoom);
     <>
       {' '}
       <div className="flex flex-col">
+        
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
           <div className="inline-block min-w-full align-middle">
+            <button
+            // onClick={onOpenModal}
+            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+          >
+            Thông báo
+          </button>
+          <div className="text-right">
+          
+        </div>
             <div className="overflow-hidden ">
               <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                 <thead className="bg-gray-100 dark:bg-gray-700">
