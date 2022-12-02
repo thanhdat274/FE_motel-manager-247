@@ -51,7 +51,6 @@ const Report = ({ data1 }: Props) => {
     const newDataa = { ...data2, userData };
     await addReport(newDataa)
       .then((result: any) => {
-        console.log('bien lơn', result);
         setLoading(false);
         setReport([...repost, result.data.data]);
         setOpen(false);
