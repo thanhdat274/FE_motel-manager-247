@@ -133,8 +133,8 @@ const HeaderPreview = (props: Props) => {
                     <Modal open={open} onClose={onCloseModal} center>
                       <div className="w-full">
 
-                        <hr />
-                        <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
+
+                        <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4 ">
                           <div className="">
                             <h2 className="pt-2 text-xl">Mời bạn nhập mã đăng nhập</h2>
                           </div>

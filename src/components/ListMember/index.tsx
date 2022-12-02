@@ -17,6 +17,7 @@ export type IMember = {
   memberName: string;
   cardNumber: string;
   phoneNumber: string;
+  handleResetPage: () => void
 };
 export type IMember2 = {
   _id: string;
@@ -29,7 +30,7 @@ export type IMember2 = {
 };
 
 const ListMember = (props: IMember) => {
-  const { _id, memberName, cardNumber, phoneNumber, status } = props;
+  const { _id, memberName, cardNumber, phoneNumber, status, } = props;
 
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
@@ -53,18 +54,17 @@ const ListMember = (props: IMember) => {
     if (confirm) {
       setLoading(true);
       const newData = { ...props, userData: userData };
-
-      try {
-        await removePeople(param.id_room, newData).then(() => {
-          Toast('success', 'Xóa thành viên thành công');
-          router.push(`/manager/landlord/${param.id}/list-room`);
-
-          setLoading(false);
-        });
-      } catch (error) {
-        Toast('error', 'Xóa thành viên không thành công');
+      await removePeople(param.id_room, newData).then((result) => {
+        Toast('success', result.data.message);
         setLoading(false);
-      }
+
+      }).catch((error) => {
+        Toast('error', error.message);
+        setLoading(false);
+      }).finally(() => {
+        props.handleResetPage()
+      })
+
     } else {
       setLoading(false);
     }

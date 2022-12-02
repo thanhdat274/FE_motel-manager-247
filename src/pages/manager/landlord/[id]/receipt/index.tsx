@@ -52,10 +52,10 @@ const Receipt = () => {
   const sumWithInitial =
     readBills &&
     readBills?.debt +
-      readBills?.invoiceService.reduce(
-        (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
-        initialValue,
-      );
+    readBills?.invoiceService.reduce(
+      (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+      initialValue,
+    );
 
   // const
 
@@ -261,7 +261,7 @@ const Receipt = () => {
                           );
                         })}
 
-                        {}
+                        { }
                       </>
                     </table>
                   ) : (
@@ -423,8 +423,8 @@ const Receipt = () => {
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>
           <div className="w-full">
-            <hr />
-            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500">
+
+            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4">
               <div className="">
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>

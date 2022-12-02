@@ -39,7 +39,7 @@ const AddHome = (props: Props) => {
 
   return (
     <div className="w-full ">
-      <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
+      <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4 ">
         <div className="">
           <h2 className="pt-2 text-xl">Thêm nhà</h2>
         </div>
