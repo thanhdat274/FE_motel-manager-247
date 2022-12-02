@@ -54,7 +54,7 @@ const TenantInformation = ({ data }: any) => {
   };
 
   return (
-    <div className="max-w-full mx-auto py-6 ">
+    <div className="max-w-full mx-auto">
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="mt-5 md:mt-0 md:col-span-3 border rounded-md">
           <form id="formAdd" onSubmit={handleSubmit(onSubmit)}>
@@ -117,10 +117,16 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="emailOfAuth"
                     type="emailOfAuth"
-                    {...register('emailOfAuth', { min: 1000 })}
+                    {...register('emailOfAuth', {
+                      required: true,
+                      pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    })}
                   />
-                  {errors.price && errors.price.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Không được để trống!</span>
+                  {errors.emailOfAuth?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                  )}
+                  {errors.emailOfAuth?.type === 'pattern' && (
+                    <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
                   )}
                 </div>
 

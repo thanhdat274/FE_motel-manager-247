@@ -18,7 +18,7 @@ export const options = {
 
 export function PieChart(dataRoomStatus: any) {
   const dataPie = {
-    labels: ['Phòng trống', 'Đang sử dụng', 'Phòng chưa đưa vào sử dụng'],
+    labels: ['Phòng trống', 'Phòng dang sử dụng', 'Phòng chưa đưa vào sử dụng'],
     datasets: [
       {
         label: '# of Votes',

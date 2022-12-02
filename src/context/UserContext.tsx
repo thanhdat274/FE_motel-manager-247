@@ -32,7 +32,7 @@ export const UserProvider = ({ children }: any) => {
   const [dateOfBirth, setDateOfBirth] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
-  const [cookies, setCookie, removeCookie] = useCookies(['user','code_room']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user', 'code_room']);
 
   const logoutResetData = () => {
     setLoading(true);
@@ -44,6 +44,7 @@ export const UserProvider = ({ children }: any) => {
     router.push(`/`);
     Toast('success', 'Đăng xuất thành công!');
   };
+
   const value: UserState = {
     loading,
     setLoading,

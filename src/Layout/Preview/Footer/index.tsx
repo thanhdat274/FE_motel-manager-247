@@ -5,7 +5,7 @@ type Props = {};
 const FooterPreview = (props: Props) => {
   return (
     <div>
-      <div className="flex justify-center items-center lg:justify-between p-6 border-b border-gray-300">
+      {/* <div className="flex justify-center items-center lg:justify-between p-6 border-b border-gray-300">
         <div className="mr-12 hidden lg:block">
           <span>Kết nối với chúng tôi trên các mạng xã hội:</span>
         </div>
@@ -41,9 +41,9 @@ const FooterPreview = (props: Props) => {
             </svg>
           </a>
         </div>
-      </div>
+      </div> */}
 
-      <div className="px-6 pt-6 text-black">
+      {/* <div className="px-6 pt-6 text-black">
         <div>
           <form>
             <div className="grid md:grid-cols-3 gird-cols-1 gap-4 flex justify-center items-center">
@@ -84,7 +84,7 @@ const FooterPreview = (props: Props) => {
             Website <strong>Quản lý phòng trọ 24/7</strong> luôn đặt khách hàng lên hàng đầu, đội ngũ tư vấn nhiệt tình, tính năng sử dụng dễ dàng, độ bảo mật thông tin cao, phù hợp cho mọi cá nhân muốn sử dụng quản lý phòng trọ vừa và nhỏ.
           </p>
         </div>
-      </div>
+      </div> */}
       <div className="py-10 text-center bg-slate-200 md:text-left">
         <div className="grid grid-1 md:grid-cols-2 mx-6 lg:grid-cols-4 gap-8">
           <div>

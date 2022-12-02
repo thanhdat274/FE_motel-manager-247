@@ -18,6 +18,7 @@ type IData = {
 
 type ITabPanel = {
   data: IData[];
+  valueInit?: number;
 };
 
 function TabPanel(props: TabPanelProps) {
@@ -47,8 +48,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function TabPanelComponent({ data }: ITabPanel) {
-  const [value, setValue] = React.useState(0);
+export default function TabPanelComponent({ data, valueInit }: ITabPanel) {
+  const [value, setValue] = React.useState(valueInit || 0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -58,7 +59,7 @@ export default function TabPanelComponent({ data }: ITabPanel) {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
-          className="overflow-auto"
+          className="overflow-auto bg-white shadow border rounded-md mt-5"
           value={value}
           onChange={handleChange}
           variant="scrollable"

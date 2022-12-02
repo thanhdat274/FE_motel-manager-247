@@ -7,6 +7,7 @@ export const MENU_TENANTS = [
     gap: true,
     title: 'Thống kê',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
+    checkMenu : 1
   },
   {
     url: 'room',

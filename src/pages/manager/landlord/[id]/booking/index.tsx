@@ -10,6 +10,7 @@ import { Toast } from 'src/hooks/toast';
 import AddBooking from './addBooking';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NumericFormat } from 'react-number-format';
 type Props = {
   expectTime: Date
 };
@@ -34,6 +35,7 @@ const Booking = (props: Props) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<any>();
   const [listBookings, setListBookings] = useState<any>({});
@@ -126,8 +128,6 @@ const Booking = (props: Props) => {
         </div>
       </header>
       <div>
-
-
         <div className="flex flex-col border bg-white mt-3">
           <div className="overflow-x-auto ">
             <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -175,7 +175,7 @@ const Booking = (props: Props) => {
                                 </td>
 
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.bookMoney}
+                                  {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.expectTime}
@@ -197,11 +197,7 @@ const Booking = (props: Props) => {
                                   </div>
                                 </td>
                               </tr>
-
-
                             ) : (
-
-
                               <tr className="border-b">
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -213,37 +209,30 @@ const Booking = (props: Props) => {
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.phoneNumber}
                                 </td>
-
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.bookMoney}
+                                  {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.expectTime}
                                 </td>
-
                                 <td className="flex pt-2">
                                   <div>
                                     <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
                                   </div>
                                   <div>
-
                                     <button
                                       type="submit"
                                       className=" flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                       onClick={() => onHandleRemove(item._id)}
                                     >
-
                                       <span className='pr-2'> Xóa</span>
                                       <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
                                     </button>
                                   </div>
                                 </td>
                               </tr>
-
-
                             )}
                           </>
-
                         );
                       })
                     ) : (
@@ -285,10 +274,13 @@ const Booking = (props: Props) => {
                     type="text"
                     placeholder='Xin mời nhập họ và tên'
                     {...register('fullName', { required: true, minLength: 3 })}
-
                   />
-                  <p className='text-red-500 text-sm'>{errors.fullName?.type === "required" && <span>Không được để trống </span>}</p>
-                  <p className='text-red-500 text-sm'>{errors.fullName?.type === "minLength" && <span>Tối thiểu 3 ký tự </span>}</p>
+                  {errors.fullName?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên!</span>
+                  )}
+                  {errors.fullName?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Họ và tên tối thiểu 3 ký tự!</span>
+                  )}
                 </div>
               </div>
 
@@ -364,8 +356,12 @@ const Booking = (props: Props) => {
 
                     {...register('email', { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ })}
                   />
-                  <p className='text-red-500 text-sm'>{errors.email?.type === "required" && <span>Không được để trống </span>}</p>
-                  <p className='text-red-500 text-sm'>{errors.email?.type === "pattern" && <span>Không đúng định dạng email </span>}</p>
+                  {errors.email?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                  )}
+                  {errors.email?.type === 'pattern' && (
+                    <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
+                  )}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -381,14 +377,20 @@ const Booking = (props: Props) => {
                   <input
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
-                    type="number"
+                    type="text"
                     placeholder='Xin mời nhập số điện thoại'
 
                     {...register('phoneNumber', { required: true, minLength: 10, pattern: /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/ })}
                   />
-                  <p className='text-red-500 text-sm'>{errors.phoneNumber?.type === "required" && <span>Không được để trống </span>}</p>
-                  <p className='text-red-500 text-sm'>{errors.phoneNumber?.type === "minLength" && <span>Tối thiểu 10 số</span>}</p>
-                  <p className='text-red-500 text-sm'>{errors.phoneNumber?.type === "pattern" && <span>Số điện thoại không đúng định dạng</span>}</p>
+                  {errors.phoneNumber?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                  )}
+                  {errors.phoneNumber?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Số điện thoại của bạn tối thiểu 10 chữ số!</span>
+                  )}
+                  {errors.phoneNumber?.type === 'pattern' && (
+                    <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                  )}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -404,14 +406,21 @@ const Booking = (props: Props) => {
                   <input
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
-                    type="number"
+                    type="text"
                     placeholder='Xin mời nhập CCCD hoặc CMT'
-
-                    {...register('cardNumber', { minLength: 9, maxLength: 12 })}
+                    {...register('cardNumber', {
+                      minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                    })}
                   />
-                  <p className='text-red-500'>{errors.cardNumber?.type === "minLength" && <span>Tối thiểu  9 số</span>}</p>
-                  <p className='text-red-500'>{errors.cardNumber?.type === "maxLength" && <span>Tối đa  12 số</span>}</p>
-
+                  {errors.cardNumber?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Số CCCD tối thiểu 9 chữ số!</span>
+                  )}
+                  {errors.cardNumber?.type === 'maxLength' && (
+                    <span className="text-[red] mt-1 block">Số CCCD tối đa 12 chữ số!</span>
+                  )}
+                  {errors.cardNumber?.type === 'pattern' && (
+                    <span className="text-[red] mt-1 block">Số CCCD hoặc CMND không đúng dịnh dạng!</span>
+                  )}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -424,16 +433,24 @@ const Booking = (props: Props) => {
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="inline-full-name"
-                    type="number"
-                    placeholder='Xin mời nhập số tiền cọc'
-
-                    {...register('bookMoney', { required: true, minLength: 7 })}
-                  />
-                  <p className='text-red-500 text-sm'>{errors.bookMoney?.type === "required" && <span>Không được để trống </span>}</p>
-                  <p className='text-red-500 text-sm'>{errors.bookMoney?.type === "minLength" && <span>Tối thiểu 100.000đ </span>}</p>
+                  <NumericFormat className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" thousandSeparator="," placeholder='Xin mời nhập số tiền cọc'
+                    {...register('bookMoney', {
+                      required: true,
+                      validate: value => value > '0',
+                      onChange(e) {
+                        setValue('bookMoney', e.target.value)
+                      },
+                      minLength: 8
+                    })} />
+                  {errors.bookMoney?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
+                  )}
+                  {errors.bookMoney?.type === 'validate' && (
+                    <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VND</span>
+                  )}
+                  {errors.bookMoney?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000.000 VNĐ</span>
+                  )}
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
@@ -452,8 +469,9 @@ const Booking = (props: Props) => {
                     type="date"
                     {...register('expectTime', { required: true })}
                   />
-                  <p className='text-red-500 text-sm'>{errors.expectTime?.type === "required" && <span>Không được để trống </span>}</p>
-
+                  {errors.expectTime?.type === 'required' && (
+                    <span className="text-[red] mt-1 block">Vui lòng chọn thời gian nhận phòngc!</span>
+                  )}
                 </div>
               </div>
 

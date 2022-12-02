@@ -7,7 +7,7 @@ const LandlordHome = () => {
     // router.push('/manager/landlord/list-home');
     // router.push('/manager/landlord');
   }
-  
+
 };
 
 export default LandlordHome;
