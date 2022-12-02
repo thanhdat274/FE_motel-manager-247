@@ -8,6 +8,8 @@ type Props = {};
 const ListReport = (props: Props) => {
   const [repost, setReport] = useState<any>();
   const [codeRoom, setCodeRoom] = useState<any>();
+console.log("code",codeRoom);
+
   const idd = codeRoom && codeRoom._id;
   const { cookies, setLoading } = useUserContext();
   useEffect(() => {
@@ -24,13 +26,11 @@ const ListReport = (props: Props) => {
         }).catch((err) => {
             
         });
-
-        
         setLoading(false);
       };
       getReport();
     }
-  }, []);
+  }, [idd]);
   return (
     <>
       {' '}
