@@ -41,6 +41,7 @@ const Report = ({ data1 }: Props) => {
         setLoading(false);
       };
       getReport();
+      setLoading(false);
     }
   }, []);
   // ------------------- AND GET  repost------------------
