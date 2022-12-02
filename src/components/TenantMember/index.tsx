@@ -20,9 +20,10 @@ type IProps = {
 const TenantMember = ({ data, data1 }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const param = router.query;
   const { cookies, setLoading, user } = useUserContext();
   const userData = cookies?.user;
-  const param = router.query;
+  
 
   const {
     register,
