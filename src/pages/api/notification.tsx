@@ -15,11 +15,7 @@ export const listReport = (id:any) =>{
 
 export const addReport = (data:any) =>{
     const url = `/report/create`
-    return instance.post(url,data, {
-       headers: {
-         Authorization: `Bearer ${data?.userData?.token}`,
-       },
-     } )
+    return instance.post(url,data)
    }
    export const updateReport = (data:any) =>{
     const url = `/report/update/${data._id}`

@@ -1,5 +1,4 @@
 import LoginCode from '@/components/LoginCode';
-import Report from '@/components/report';
 import TabPanelComponent from '@/components/TabPanel';
 import TenantContract from '@/components/TenantContact';
 import TenantMember from '@/components/TenantMember';
@@ -98,12 +97,7 @@ const ManageRoom = () => {
       label: 'Mã đăng nhập',
       value: 3,
       children: <LoginCode data={roomData} />,
-    },
-    {
-      label: 'Thông báo',
-      value: 4,
-      children: <Report data1={roomData} />,
-    },
+    }
   ];
 
   return (
