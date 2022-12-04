@@ -102,7 +102,7 @@ const ManageRoom = () => {
       label: 'Mã đăng nhập',
       value: 3,
       children: <LoginCode data={roomData} />,
-    },
+    }
   ];
 
   return (
