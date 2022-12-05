@@ -27,14 +27,11 @@ const Receipt = () => {
   const today = new Date();
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
-
   const router = useRouter();
   const { id: idHouse } = router.query;
-
-  const [changedValue, setChangedValue] = useState(0);
-
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
+
   const {
     register,
     handleSubmit,
@@ -61,8 +58,6 @@ const Receipt = () => {
       initialValue,
     );
 
-  // const
-
   const onCloseModal = () => setOpen(false);
 
   const [open1, setOpen1] = useState(false);
@@ -86,8 +81,11 @@ const Receipt = () => {
     }
   }
   useEffect(() => {
-    getBill();
-  }, [monthCheckk, userData, yearCheckk, changedValue, idHouse]);
+    if (idHouse) {
+      getBill();
+
+    }
+  }, [monthCheckk, userData, yearCheckk, idHouse]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -432,12 +430,11 @@ const Receipt = () => {
               <div className="">
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
-            </div>{' '}
+            </div>
             <AddBill
               onclose={onCloseModal1}
               data={getBill}
-              setChangeValueBill={() => setChangedValue(changedValue + 1)}
-            ></AddBill>
+            />
           </div>
         </Modal>
       </div>

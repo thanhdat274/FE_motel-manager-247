@@ -23,7 +23,6 @@ type FormInputs = {
 type Props = {
   onclose: () => void;
   data: () => void;
-  setChangeValueBill: () => void;
 };
 
 const AddBill = (props: Props) => {
@@ -74,12 +73,6 @@ const AddBill = (props: Props) => {
             props.onclose();
 
             setLoading(false);
-          }).finally(() => {
-
-            setTimeout(() => {
-              props.setChangeValueBill()
-
-            }, 1000);
           });
       } else {
         await CreateBillRooms(newDataRooms).then(() => {
@@ -90,11 +83,6 @@ const AddBill = (props: Props) => {
 
           .catch((error: any) => {
             setLoading(false);
-          }).finally(() => {
-            setTimeout(() => {
-              props.setChangeValueBill()
-
-            }, 1000);
           });
       }
     } else {
