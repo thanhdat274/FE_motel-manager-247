@@ -42,14 +42,10 @@ const Resport = () => {
         setLoading(true);
         await updateReport(report)
             .then((result: any) => {
-                // console.log(result.data.data);
                 const data = result.data.data._id
 
                 setLoading(false);
                 Toast('success', 'Update thành công');
-                // router.push(`/manager/landlord/${param.id}/list-room`);
-
-                // setReport(report.map((item: { _id: any; }) => item._id === data ? report : item))
 
             })
             .catch((err) => {
@@ -151,7 +147,7 @@ const Resport = () => {
                                                                 </svg>
                                                                 <span className="sr-only">Info</span>
                                                                 <div>
-                                                                    <span className="font-medium">Đã sử lý</span>
+                                                                    <span className="font-medium">Đã xử lý</span>
                                                                 </div>
                                                             </div>
                                                         ) : (
@@ -174,7 +170,7 @@ const Resport = () => {
                                                                 </svg>
                                                                 <span className="sr-only">Info</span>
                                                                 <div>
-                                                                    <span className="font-medium">Chưa sử lý !</span>
+                                                                    <span className="font-medium">Chưa xử lý !</span>
                                                                 </div>
                                                             </div>
                                                         )}

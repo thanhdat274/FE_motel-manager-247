@@ -62,27 +62,39 @@ const AddBill = (props: Props) => {
       const newDataRooms = { month: monthCheck, year: yearCheck, userData: userData, idRooms: roomsBillId };
       setLoading(true);
       if (rooms1 !== '2') {
-        await CreateBillHouseAll(newData)
+        await CreateBillHouseAll(newData).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          setLoading(false);
+          props.onclose();
+          props.data();
+        })
           .catch((error: any) => {
+
+            Toast('error', error.response.data.message);
+            props.onclose();
+
             setLoading(false);
           }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
-            props.onclose();
-            props.data();
-            props.setChangeValueBill()
+
+            setTimeout(() => {
+              props.setChangeValueBill()
+
+            }, 1000);
           });
       } else {
-        await CreateBillRooms(newDataRooms)
+        await CreateBillRooms(newDataRooms).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          props.onclose();
+          props.data();
+        })
 
           .catch((error: any) => {
             setLoading(false);
           }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
-            props.onclose();
-            props.data();
-            props.setChangeValueBill()
+            setTimeout(() => {
+              props.setChangeValueBill()
+
+            }, 1000);
           });
       }
     } else {

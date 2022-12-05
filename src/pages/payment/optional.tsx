@@ -21,14 +21,11 @@ const OptionalPayment = () => {
             setLoading(true)
             await createOrder(dataPayment).then((result) => {
                 setLoading(false);
-                console.log('result', result.data.redirect);
                 window.location.href = result.data.redirect
             }).catch((err) => {
                 setLoading(false);
-                console.log('bug');
             })
         } else {
-            console.log('khong co id user');
         }
     }
 

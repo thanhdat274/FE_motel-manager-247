@@ -45,7 +45,7 @@ const ListReport = (props: Props) => {
 
   // -------------------Add  repost------------------
   const onSubmit = async (data2: any) => {
-    
+
     setLoading(true);
     await addReport(data2)
       .then((result: any) => {
@@ -90,7 +90,7 @@ const ListReport = (props: Props) => {
                             Phòng
                           </label>
                         </div>
-                        <div className=" hidden md:w-2/3">
+                        <div className=" hidden md:w-4/5">
                           <input
                             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-full-name"
@@ -107,7 +107,7 @@ const ListReport = (props: Props) => {
                           </p>
                         </div>
                       </div>
-                      <div className="md:flex md:items-center mb-6">
+                      <div className="md:flex mb-6 w-full justify-center">
                         <div className="md:w-1/5">
                           <label
                             className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -116,10 +116,11 @@ const ListReport = (props: Props) => {
                             Nội dung
                           </label>
                         </div>
-                        <div className="md:w-2/3">
+                        <div className="md:w-[70%]">
                           <textarea
-                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 pl-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             id="inline-full-name"
+                            rows={6}
                             placeholder="Xin mời nhập nội dung"
                             {...register('content', { required: true, minLength: 3 })}
                           />
@@ -256,7 +257,7 @@ const ListReport = (props: Props) => {
                                   </svg>
                                   <span className="sr-only">Info</span>
                                   <div>
-                                    <span className="font-medium">Đã sử lý</span>
+                                    <span className="font-medium">Đã xử lý</span>
                                   </div>
                                 </div>
                               ) : (
@@ -279,7 +280,7 @@ const ListReport = (props: Props) => {
                                   </svg>
                                   <span className="sr-only">Info</span>
                                   <div>
-                                    <span className="font-medium">Chưa sử lý !</span>
+                                    <span className="font-medium">Chưa xử lý !</span>
                                   </div>
                                 </div>
                               )}

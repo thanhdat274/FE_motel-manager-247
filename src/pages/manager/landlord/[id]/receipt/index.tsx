@@ -12,6 +12,7 @@ import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
 import { listBill, paymentStatus, readBill } from 'src/pages/api/bill';
 import AddBill from './addBill';
+import { useRouter } from 'next/router';
 type FormInputs = {
   _id: string;
   idRoom: string;
@@ -26,6 +27,9 @@ const Receipt = () => {
   const today = new Date();
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
+
+  const router = useRouter();
+  const { id: idHouse } = router.query;
 
   const [changedValue, setChangedValue] = useState(0);
 
@@ -73,7 +77,7 @@ const Receipt = () => {
   async function getBill() {
     setLoading(true);
     if (monthCheckk && yearCheckk) {
-      const { data } = await listBill(userData, yearCheckk, monthCheckk);
+      const { data } = await listBill(userData, idHouse, yearCheckk, monthCheckk);
       setBill(data.data);
       setLoading(false);
     } else {
@@ -83,7 +87,7 @@ const Receipt = () => {
   }
   useEffect(() => {
     getBill();
-  }, [monthCheckk, userData, yearCheckk, changedValue]);
+  }, [monthCheckk, userData, yearCheckk, changedValue, idHouse]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {

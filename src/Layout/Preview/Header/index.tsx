@@ -30,7 +30,6 @@ const HeaderPreview = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log('cookies', cookies?.user);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
