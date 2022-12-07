@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import { faCalculator, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { ReactCalculator } from 'simple-react-calculator';
@@ -20,7 +19,6 @@ const customStyles = {
 };
 
 const Navbar = (props: Props) => {
-  const router = useRouter();
   const [modalIsOpen, setIsOpen] = useState(false);
   const { logoutResetData } = useUserContext();
   function closeModal() {

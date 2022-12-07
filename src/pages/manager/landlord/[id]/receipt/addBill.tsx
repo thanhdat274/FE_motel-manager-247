@@ -23,7 +23,6 @@ type FormInputs = {
 type Props = {
   onclose: () => void;
   data: () => void;
-  setChangeValueBill: () => void;
 };
 
 const AddBill = (props: Props) => {
@@ -62,27 +61,28 @@ const AddBill = (props: Props) => {
       const newDataRooms = { month: monthCheck, year: yearCheck, userData: userData, idRooms: roomsBillId };
       setLoading(true);
       if (rooms1 !== '2') {
-        await CreateBillHouseAll(newData)
+        await CreateBillHouseAll(newData).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          setLoading(false);
+          props.onclose();
+          props.data();
+        })
           .catch((error: any) => {
-            setLoading(false);
-          }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
+
+            Toast('error', error.response.data.message);
             props.onclose();
-            props.data();
-            props.setChangeValueBill()
+
+            setLoading(false);
           });
       } else {
-        await CreateBillRooms(newDataRooms)
+        await CreateBillRooms(newDataRooms).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          props.onclose();
+          props.data();
+        })
 
           .catch((error: any) => {
             setLoading(false);
-          }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
-            props.onclose();
-            props.data();
-            props.setChangeValueBill()
           });
       }
     } else {

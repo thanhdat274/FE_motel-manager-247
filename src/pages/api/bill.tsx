@@ -1,8 +1,8 @@
 
 import instance from './instance';
 
-export const listBill = (userData: any, year: number, month: number) => {
-  const url = `/bill-all/list/${userData?.user?._id}/${year}/${month}`;
+export const listBill = (userData: any, idHouse: any, year: number, month: number) => {
+  const url = `/bill-all/list/${userData?.user?._id}/${idHouse}/${year}/${month}`;
   return instance.get(url, {
     headers: {
       Authorization: `Bearer ${userData?.token}`,

@@ -10,8 +10,6 @@ const VNpayReturn = () => {
     const param = router.query;
     const { setLoading, cookies } = useUserContext()
 
-    console.log('param', cookies?.user?.user?._id);
-
     async function checkReturn() {
         setLoading(true);
         await returnPayment(param).then((result) => {
@@ -29,8 +27,6 @@ const VNpayReturn = () => {
 
         }).catch((err) => {
             setLoading(false);
-            console.log('bug');
-
         })
     }
 

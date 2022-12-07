@@ -12,6 +12,7 @@ import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
 import { listBill, paymentStatus, readBill } from 'src/pages/api/bill';
 import AddBill from './addBill';
+import { useRouter } from 'next/router';
 type FormInputs = {
   _id: string;
   idRoom: string;
@@ -26,11 +27,11 @@ const Receipt = () => {
   const today = new Date();
   const { setLoading, cookies } = useUserContext();
   const userData = cookies?.user;
-
-  const [changedValue, setChangedValue] = useState(0);
-
+  const router = useRouter();
+  const { id: idHouse } = router.query;
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
+
   const {
     register,
     handleSubmit,
@@ -52,12 +53,10 @@ const Receipt = () => {
   const sumWithInitial =
     readBills &&
     readBills?.debt +
-      readBills?.invoiceService.reduce(
-        (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
-        initialValue,
-      );
-
-  // const
+    readBills?.invoiceService.reduce(
+      (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+      initialValue,
+    );
 
   const onCloseModal = () => setOpen(false);
 
@@ -73,7 +72,7 @@ const Receipt = () => {
   async function getBill() {
     setLoading(true);
     if (monthCheckk && yearCheckk) {
-      const { data } = await listBill(userData, yearCheckk, monthCheckk);
+      const { data } = await listBill(userData, idHouse, yearCheckk, monthCheckk);
       setBill(data.data);
       setLoading(false);
     } else {
@@ -82,8 +81,11 @@ const Receipt = () => {
     }
   }
   useEffect(() => {
-    getBill();
-  }, [monthCheckk, userData, yearCheckk, changedValue]);
+    if (idHouse) {
+      getBill();
+
+    }
+  }, [monthCheckk, userData, yearCheckk, idHouse]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -261,7 +263,7 @@ const Receipt = () => {
                           );
                         })}
 
-                        {}
+                        { }
                       </>
                     </table>
                   ) : (
@@ -423,17 +425,16 @@ const Receipt = () => {
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>
           <div className="w-full">
-            <hr />
-            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500">
+
+            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4">
               <div className="">
                 <h2 className="pt-2 text-xl">Tính tiền </h2>
               </div>
-            </div>{' '}
+            </div>
             <AddBill
               onclose={onCloseModal1}
               data={getBill}
-              setChangeValueBill={() => setChangedValue(changedValue + 1)}
-            ></AddBill>
+            />
           </div>
         </Modal>
       </div>

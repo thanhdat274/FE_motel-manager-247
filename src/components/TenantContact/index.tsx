@@ -175,6 +175,48 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           .finally(() => {
             setSetFirstTab(3);
           });
+      }).catch(async (err) => {
+        Toast('error', 'Thêm ảnh thất bại!');
+
+        const newValue = {
+          contract: {
+            startTime: data.startTime,
+            endTime: data.endTime,
+            additional: newAdditional,
+            timeContract: data.timeContract,
+            fine: data.fine,
+            timeCT: data.timeCT,
+            addressCT: data.addressCT,
+            imageContract: dataContract.imageContract,
+            infoTenant: {
+              name: data.TNname,
+              cardNumber: data.TNcardNumber,
+              phoneNumber: data.TNphoneNumber,
+              issuedBy: data.TNIssuedBy,
+              dateRange: data.TNdateRange,
+            },
+            infoLandlord: {
+              name: data.LLname,
+              cardNumber: data.LLcardNumber,
+              phoneNumber: data.LLphoneNumber,
+              issuedBy: data.LLIssuedBy,
+              dateRange: data.LLdateRange,
+            },
+          },
+          idRoom: param?.id_room,
+          token: userData?.token,
+        };
+        await updateRoom(newValue)
+          .then((result) => {
+            setLoading(false);
+            Toast('success', 'Thêm hợp đồng thành công');
+          })
+          .catch((err) => {
+            setLoading(false);
+          })
+          .finally(() => {
+            setSetFirstTab(3);
+          });
       })
       .then((err) => console.log(err));
   };
