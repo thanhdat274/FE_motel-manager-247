@@ -10,7 +10,7 @@ import { addService } from 'src/pages/api/service';
 type Props = {};
 interface IFormInputs {
   label: string;
-  price: number;
+  price: string;
   unit: string;
   type: boolean;
   idHouse: string;
@@ -30,7 +30,7 @@ const AddServiceRoom = (props: Props) => {
   } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
-    const newData = { ...data, idHouse: id, userData: userData };
+    const newData = { ...data,price: Number(data.price.replace(/[^0-9\.]+/g, "")), idHouse: id, userData: userData };
     setLoading(true);
     await addService(newData)
       .then((data: any) => {
@@ -57,7 +57,6 @@ const AddServiceRoom = (props: Props) => {
           </div>
         </div>
       </header>
-    
 
       <main>
         <div className="max-w-full mx-auto py-6 ">
@@ -77,24 +76,34 @@ const AddServiceRoom = (props: Props) => {
                         placeholder="Nhập tên dịch vụ..."
                         {...register('label', { required: true })}
                       />
-                      {errors.label?.type === 'required' && <span className="text-rose-600 text-sm">Không được bỏ trống</span>}
+                      {errors.label?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập tên dịch vụ!</span>
+                      )}
                     </div>
-
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
                       </label>
-                      <input
-                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="price"
-                        placeholder="Nhập giá dịch vụ..."
-                        {...register('price', { required: true , minLength:4})}
-                      />
-                      {errors.price && errors.price.type === 'required' && (
-                        <span className="text-rose-600 text-sm">Không được bỏ trống</span>
+                        type="text"
+                        placeholder="Nhập giá dịch vụ..." thousandSeparator=","
+                        {...register('price', {
+                          required: true,
+                          validate: value => value > '0',
+                          onChange(e) {
+                            setValue('price', e.target.value)
+                          },
+                          min: 1000
+                        })} />
+                      {errors.price?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
                       )}
-                      {errors.price && errors.price.type === 'minLength' && (
-                        <span className="text-rose-600 text-sm">Tối thểu 1000đ</span>
+                      {errors.price?.type === 'validate' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ không được nhỏ hơn 0 VND</span>
+                      )}
+                      {errors.price?.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
                       )}
                     </div>
                     <div className="col-span-6">
@@ -108,8 +117,8 @@ const AddServiceRoom = (props: Props) => {
                         placeholder="Nhập đơn vị dịch vụ..."
                         {...register('unit', { required: true })}
                       />
-                      {errors.unit && errors.unit.type === 'required' && (
-                        <span className="text-rose-600 text-sm">Không được bỏ trống</span>
+                      {errors.unit?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập đơn vị dịch vụ!</span>
                       )}
                     </div>
                     <div>

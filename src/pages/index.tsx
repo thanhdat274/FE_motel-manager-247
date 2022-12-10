@@ -84,7 +84,7 @@ const Introduce = (props: Props) => {
               Tại màn hình chính bạn có thể xem nhanh được tình trạng các phòng. Đăng ký khách thuê mới, xem lại thông
               tin khách thuê, thực hiện thao tác trả phòng.
             </p>
-            <hr />
+
 
             <div className="md:grid md:grid-cols-3 pt-10">
               <div className="pr-5">

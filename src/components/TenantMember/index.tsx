@@ -14,15 +14,16 @@ const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false
 type IProps = {
   data: IMember2;
   data1: any;
-
+  handleResetPage: () => void
 };
 
-const TenantMember = ({ data, data1 }: IProps) => {
+const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const param = router.query;
   const { cookies, setLoading, user } = useUserContext();
   const userData = cookies?.user;
-  const param = router.query;
+  
 
   const {
     register,
@@ -34,16 +35,17 @@ const TenantMember = ({ data, data1 }: IProps) => {
   const onSubmit = async (listMember: any) => {
     setLoading(true);
     const newData = { ...{ listMember }, userData: userData };
-    try {
-      const { data } = await addPeople(param.id_room, newData)
+
+    await addPeople(param.id_room, newData).then((result) => {
       setLoading(false);
       setOpen(false);
-      router.push(`/manager/landlord/${param.id}/list-room`);
-      Toast('success', 'Thêm mới thành viên thành công');
-    } catch (error) {
+      Toast('success', result.data.message);
+    }).catch((err) => {
       setLoading(false);
-      Toast('error', 'Thêm mới thành viên không thành công');
-    }
+      Toast('error', err.message);
+    }).finally(() => {
+      handleResetPage()
+    });
   };
 
   return (
@@ -71,8 +73,8 @@ const TenantMember = ({ data, data1 }: IProps) => {
 
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full pt-6">
-            <hr />
-            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 ">
+
+            <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4 ">
               <div className="">
                 <h2 className="pt-2 text-xl text-white">Thêm thành viên </h2>
               </div>
@@ -196,7 +198,7 @@ const TenantMember = ({ data, data1 }: IProps) => {
           {data1.length > 0 ? (
             data1?.map((item: IMember) => (
               <div key={item.memberName} className=" basis-full md:basis-[30%] ">
-                <ListMember {...item} />
+                <ListMember {...item} handleResetPage={() => handleResetPage()} />
               </div>
             ))
           ) : (

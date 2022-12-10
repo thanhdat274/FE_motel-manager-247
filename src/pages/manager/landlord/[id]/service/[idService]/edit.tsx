@@ -1,5 +1,4 @@
 import { useUserContext } from '@/context/UserContext';
-import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -26,6 +25,7 @@ const EditService = (props: Props) => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<IFormInputs>();
 
@@ -91,9 +91,10 @@ const EditService = (props: Props) => {
                         placeholder="Nhập tên dịch vụ..."
                         {...register('label', { required: true })}
                       />
-                      {errors.name?.type === 'required' && <span className="text-rose-600">Không được bỏ trống</span>}
+                      {errors.label?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập tên dịch vụ!</span>
+                      )}
                     </div>
-
                     <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
@@ -103,10 +104,20 @@ const EditService = (props: Props) => {
                         id="price"
                         type="number"
                         placeholder="Nhập giá dịch vụ..."
-                        {...register('price', { required: true })}
+                        {...register('price', {
+                          required: true,
+                          minLength: 4,
+                          min: 0
+                        })}
                       />
-                      {errors.price && errors.price.type === 'required' && (
-                        <span className="text-rose-600">Không được bỏ trống</span>
+                      {errors.price?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
+                      )}
+                      {errors.price?.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ không được nhỏ hơn 0 VND</span>
+                      )}
+                      {errors.price?.type === 'minLength' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
                       )}
                     </div>
                     <div className="col-span-6">
@@ -120,8 +131,8 @@ const EditService = (props: Props) => {
                         placeholder="Nhập đơn vị dịch vụ..."
                         {...register('unit', { required: true })}
                       />
-                      {errors.unit && errors.unit.type === 'required' && (
-                        <span className="text-rose-600">Không được bỏ trống</span>
+                      {errors.unit?.type === 'required' && (
+                        <span className="text-[red] mt-1 block">Vui lòng nhập đơn vị dịch vụ!</span>
                       )}
                     </div>
                     <div>
@@ -138,7 +149,6 @@ const EditService = (props: Props) => {
                       </select>
                     </div>
                   </div>
-
                   <div className="px-4 py-3 flex gap-[20px] bg-gray-50 text-right sm:px-6 ">
                     <Link
                       href={`/manager/landlord/${param.id}/service`}

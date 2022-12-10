@@ -15,7 +15,6 @@ import { useRouter } from 'next/router';
 import { listHouse } from 'src/pages/api/house';
 type FormInputs = {
   idHouse: string;
-
   month: number;
   year: number;
   name: string;
@@ -24,7 +23,6 @@ type FormInputs = {
 type Props = {
   onclose: () => void;
   data: () => void;
-  setChangeValueBill: () => void;
 };
 
 const AddBill = (props: Props) => {
@@ -63,27 +61,28 @@ const AddBill = (props: Props) => {
       const newDataRooms = { month: monthCheck, year: yearCheck, userData: userData, idRooms: roomsBillId };
       setLoading(true);
       if (rooms1 !== '2') {
-        await CreateBillHouseAll(newData)
+        await CreateBillHouseAll(newData).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          setLoading(false);
+          props.onclose();
+          props.data();
+        })
           .catch((error: any) => {
-            setLoading(false);
-          }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
+
+            Toast('error', error.response.data.message);
             props.onclose();
-            props.data();
-            props.setChangeValueBill()
+
+            setLoading(false);
           });
       } else {
-        await CreateBillRooms(newDataRooms)
+        await CreateBillRooms(newDataRooms).then(() => {
+          Toast('success', 'Tạo hóa đơn thành công');
+          props.onclose();
+          props.data();
+        })
 
           .catch((error: any) => {
             setLoading(false);
-          }).finally(() => {
-            Toast('success', 'Tạo hóa đơn thành công');
-            setLoading(false);
-            props.onclose();
-            props.data();
-            props.setChangeValueBill()
           });
       }
     } else {
@@ -123,7 +122,6 @@ const AddBill = (props: Props) => {
           <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
             Tính Hóa đơn theo
           </label>
-
           <select
             className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             {...register('idHouse', { required: true })}

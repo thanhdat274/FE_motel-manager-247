@@ -7,6 +7,7 @@ export const MENU_TENANTS = [
     gap: true,
     title: 'Thống kê',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPalette} />,
+    checkMenu : 1
   },
   {
     url: 'room',
@@ -29,4 +30,5 @@ export const MENU_TENANTS = [
   // },
   { url: 'receipt', title: 'Hóa đơn', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
   { url: 'contract', title: 'Hợp đồng', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
+  { url: 'report', title: 'Thông báo', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faCoins} /> },
 ];
