@@ -14,6 +14,7 @@ const ContractTernant = (props: Props) => {
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
   const arrImage = codeRoom?.contract?.imageContract
+console.log(arrImage);
 
   return (
     <div>
@@ -29,7 +30,7 @@ const ContractTernant = (props: Props) => {
         </div>
       </header>
       <main className='text-center mt-10'>
-        {codeRoom?.contract?.imageContract ? (
+        {arrImage?.length ? (
           <div className='flex gap-4 flex-wrap justify-center'>
             {arrImage.map((item: any, index: number) => {
               return (
