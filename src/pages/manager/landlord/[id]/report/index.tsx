@@ -60,11 +60,11 @@ const Resport = () => {
         <div className="flex flex-col">
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <div className="inline-block min-w-full align-middle">
+                <div className="inline-block align-middle  min-w-full">
 
 
-                    <div className="overflow-hidden ">
-                        <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
+                    <div className=" ">
+                        <table className=" min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                             <thead className="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
