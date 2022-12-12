@@ -8,6 +8,7 @@ import { getAllBillServiceByYear, getAllStatusRooms, statisticalPayment } from '
 import BarDien from '@/components/chart/barDien';
 import BarNuoc from '@/components/chart/barNuoc';
 import BarPayment from '@/components/chart/barPayment';
+import Link from 'next/link';
 
 const HomeManagerPage = () => {
   const [roomStatisticals, setRoomStatisticals] = useState<any>([]);
@@ -99,8 +100,7 @@ const HomeManagerPage = () => {
       }
     }
   }, [id, checkYear]);
-  var totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
-
+  let totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
 
   return (
     <div className="w-full gap-4 flex flex-col ">
@@ -116,21 +116,23 @@ const HomeManagerPage = () => {
         </div>
       </header>
       {totalRooms != 0 && (
-        <div className="w-full">
-          <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 md:gap-0 gap-y-2 md:gap-y-2 justify-between">
-            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
-              <div className="max-w-full">
-                <div>
-                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Tổng số</p>
-                  <h5 className="mb-0">{totalRooms} phòng</h5>
+        <div className="w-full ">
+          <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 gap-y-2 md:gap-2 justify-between">
+            <Link href={`${id}/list-room`}>
+              <a className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-blue-300 shadow border rounded-md">
+                <div className="max-w-full">
+                  <div>
+                    <p className="mb-0 font-sans font-bold leading-normal text-sm text-black dark:opacity-60">Tổng số</p>
+                    <h5 className="mb-0">{totalRooms} phòng</h5>
+                  </div>
                 </div>
-              </div>
-              <div className="max-w-full ">
-                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
-                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                <div className="max-w-full ">
+                  <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                    <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
+                  </div>
                 </div>
-              </div>
-            </div>
+              </a>
+            </Link>
             <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
               <div className="max-w-full">
                 <div>
@@ -144,7 +146,7 @@ const HomeManagerPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-green-300 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
@@ -157,7 +159,7 @@ const HomeManagerPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-white shadow border rounded-md">
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-yellow-200 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
@@ -167,6 +169,20 @@ const HomeManagerPage = () => {
               <div className="max-w-full ">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-red-300 shadow border rounded-md">
+              <div className="max-w-full">
+                <div>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng chưa có người ở</p>
+                  <h5 className="mb-0">{roomStatisticals.countRoomsNotUsing} phòng</h5>
+                </div>
+              </div>
+              <div className="max-w-full ">
+                <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
+                  <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
             </div>

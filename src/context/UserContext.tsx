@@ -18,6 +18,8 @@ export interface UserState {
   logoutResetData: () => void;
   cookies: any;
   setCookie: any;
+  actives: any;
+  setActives: (loading: string) => void;
 }
 
 const UserContext = createContext<UserState | null>(null);
@@ -33,6 +35,12 @@ export const UserProvider = ({ children }: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['user', 'code_room']);
+
+  const pathnameUrl = router.pathname.split('/');
+
+
+  const [actives, setActives] = useState(pathnameUrl[4] || '')
+
 
   const logoutResetData = () => {
     setLoading(true);
@@ -59,6 +67,8 @@ export const UserProvider = ({ children }: any) => {
     logoutResetData,
     cookies,
     setCookie,
+    actives,
+    setActives
   };
 
   return (
