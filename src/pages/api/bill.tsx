@@ -34,8 +34,8 @@ export const CreateBillRooms = (newDataRooms: any) => {
     },
   });
 };
-export const paymentStatus = (data: any, userData: any) => {
-  const url = `/bill-update/${data._id}`;
+export const paymentStatus = (data: any, id: any, userData: any) => {
+  const url = `/bill-update/${id}`;
   return instance.put(url, data, {
     headers: {
       Authorization: `Bearer ${userData.token}`,

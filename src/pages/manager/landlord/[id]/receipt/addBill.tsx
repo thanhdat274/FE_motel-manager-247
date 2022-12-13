@@ -111,6 +111,23 @@ const AddBill = (props: Props) => {
   return (
     <div>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
+        <div className="luuy">
+          <div className="font-bold">
+            Lưu ý:
+          </div>
+          <small>
+            Tất cả các hóa đơn chỉ được tính theo khi phòng đó có người (có nghĩa là khi phòng đó đang trong trạng thái hoạt động).
+            <br />
+            Khi tính lại hóa đơn thì tất cả các khoản tiền đã trả sẽ trở lại là 0 để đảm bảo tính toán chuẩn xác và tính tiền hóa đơn cho tháng sau.
+            <br />
+            Nếu chỉ muốn tính lại 1 phòng hoặc một vài phòng, chúng ta có thể chọn Tính tiền và chọn Tính hóa đơn theo phòng.
+            <br />
+
+          </small>
+          <div className="text-red-500">
+            Dữ liệu cũ không thể phục hồi nên bạn hãy cần trọng trước khi tính lại hóa đơn
+          </div>
+        </div>
         <div className="mt-5">
           <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
             Tháng/Năm

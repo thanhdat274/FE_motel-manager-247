@@ -12,11 +12,21 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { CookiesProvider } from 'react-cookie';
 import { CheckUser, PrivateRouter } from './PrivateRouter';
+import { useEffect, useState } from 'react';
 
 config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const [showChild, setShowChild] = useState(false)
+
+  useEffect(() => {
+    setShowChild(true)
+  }, [])
+
+  if (!showChild) {
+    return null
+  }
 
   console.error = () => { };
   const switchLayout = () => {

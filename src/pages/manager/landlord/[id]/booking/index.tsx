@@ -85,7 +85,7 @@ const Booking = (props: Props) => {
   const onSubmit = async (data1: any) => {
     if (id) {
 
-      const newData = { ...data1, bookMoney: Number(data1.bookMoney.replace(/[^0-9\.]+/g, "")),userData: userData }
+      const newData = { ...data1, bookMoney: Number(data1.bookMoney.replace(/[^0-9\.]+/g, "")), userData: userData }
       try {
         if (data1.expectTime < date
         ) {

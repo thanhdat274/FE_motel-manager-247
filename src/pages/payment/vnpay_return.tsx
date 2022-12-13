@@ -35,7 +35,7 @@ const VNpayReturn = () => {
             checkReturn()
 
         }
-    }, [param])
+    }, [])
 
 
     return (
