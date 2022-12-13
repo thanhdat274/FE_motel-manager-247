@@ -39,6 +39,8 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
       setOpen(false);
       Toast('success', result.data.message);
     }).catch((err) => {
+    
+      
       setLoading(false);
       Toast('error', err.message);
     }).finally(() => {

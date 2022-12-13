@@ -18,12 +18,15 @@ const Resport = () => {
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
+    const [resetPage, setResetPage] = useState(0)
 
+    const handleResetPage = () => {
+        setResetPage(resetPage + 1)
+    }
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
             setLoading(true);
-
             const getReport = async () => {
                 const { data } = await listReports(newData1);
                 setReport(data.data);
@@ -36,13 +39,14 @@ const Resport = () => {
 
 
 
-    }, [id]);
+    }, [id,resetPage]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
         await updateReport(report)
+
             .then((result: any) => {
-                const data = result.data.data._id
+                console.log(result);
 
                 setLoading(false);
                 Toast('success', 'Update thành công');
@@ -51,6 +55,8 @@ const Resport = () => {
             .catch((err) => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
+            }).finally(() => {
+                handleResetPage()
             });
 
         // onOpen()
@@ -123,7 +129,7 @@ const Resport = () => {
                                                                 className=" p-2 mb-4 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
                                                                 role="alert"
                                                             >
-                                                                
+
                                                                 <div>
                                                                     <span className="font-medium">Đã xử lý</span>
                                                                 </div>
@@ -133,7 +139,7 @@ const Resport = () => {
                                                                 className=" p-2 text-center mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
                                                                 role="alert"
                                                             >
-                                                              
+
                                                                 <div>
                                                                     <span className="font-medium">Chưa xử lý !</span>
                                                                 </div>
