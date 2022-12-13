@@ -18,12 +18,15 @@ const Resport = () => {
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
+    const [resetPage, setResetPage] = useState(0)
 
+    const handleResetPage = () => {
+        setResetPage(resetPage + 1)
+    }
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
             setLoading(true);
-
             const getReport = async () => {
                 const { data } = await listReports(newData1);
                 setReport(data.data);
@@ -36,13 +39,14 @@ const Resport = () => {
 
 
 
-    }, [id]);
+    }, [id,resetPage]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
         await updateReport(report)
+
             .then((result: any) => {
-                const data = result.data.data._id
+                console.log(result);
 
                 setLoading(false);
                 Toast('success', 'Update thành công');
@@ -51,6 +55,8 @@ const Resport = () => {
             .catch((err) => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
+            }).finally(() => {
+                handleResetPage()
             });
 
         // onOpen()
@@ -60,11 +66,11 @@ const Resport = () => {
         <div className="flex flex-col">
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <div className="inline-block min-w-full align-middle">
+                <div className="inline-block align-middle  min-w-full">
 
 
-                    <div className="overflow-hidden ">
-                        <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
+                    <div className=" ">
+                        <table className=" min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                             <thead className="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     <th
@@ -111,7 +117,7 @@ const Resport = () => {
                                                     <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
                                                         {item?.roomName}
                                                     </td>
-                                                    <td className="  py-4 px-6 text-sm font-medium text-gray-900  dark:text-white">
+                                                    <td className="  py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap w-[10px]  dark:text-white">
                                                         {item?.content}
                                                     </td>
                                                     <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -120,55 +126,20 @@ const Resport = () => {
                                                     <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                         {item?.status == true ? (
                                                             <div
-                                                                className="flex p-2 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                                                                className=" p-2 mb-4 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
                                                                 role="alert"
                                                             >
-                                                                <svg
-                                                                    aria-hidden="true"
-                                                                    className="flex-shrink-0 inline w-5 h-5 mr-3"
-                                                                    fill="currentColor"
-                                                                    viewBox="0 0 20 20"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                >
-                                                                    <svg
-                                                                        className="w-6 h-6 dark:text-white"
-                                                                        fill="none"
-                                                                        stroke="currentColor"
-                                                                        viewBox="0 0 24 24"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                    >
-                                                                        <path
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                            strokeWidth={2}
-                                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                        />
-                                                                    </svg>
-                                                                </svg>
-                                                                <span className="sr-only">Info</span>
+
                                                                 <div>
                                                                     <span className="font-medium">Đã xử lý</span>
                                                                 </div>
                                                             </div>
                                                         ) : (
                                                             <div
-                                                                className="flex p-2 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                                                                className=" p-2 text-center mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
                                                                 role="alert"
                                                             >
-                                                                <svg
-                                                                    aria-hidden="true"
-                                                                    className="flex-shrink-0 inline w-5 h-5 mr-3"
-                                                                    fill="currentColor"
-                                                                    viewBox="0 0 20 20"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                >
-                                                                    <path
-                                                                        fillRule="evenodd"
-                                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                                                        clipRule="evenodd"
-                                                                    />
-                                                                </svg>
-                                                                <span className="sr-only">Info</span>
+
                                                                 <div>
                                                                     <span className="font-medium">Chưa xử lý !</span>
                                                                 </div>
