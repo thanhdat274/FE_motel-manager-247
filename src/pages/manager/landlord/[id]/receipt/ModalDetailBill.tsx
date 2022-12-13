@@ -1,5 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { paymentStatus } from 'src/pages/api/bill';
@@ -10,6 +10,7 @@ type Props = {
     onCloseModal: () => void;
     setOpen: (data: boolean) => void;
     readBills: any;
+    changeValue: () => void;
 };
 
 type FormInputs = {
@@ -17,12 +18,12 @@ type FormInputs = {
     idRoom: string;
     month: number;
     year: number;
-    name: string;
-    paymentStatus: boolean;
     paidAmount: number;
+    invoiceService: any;
+    debt: number
 };
 
-const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
+const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }: Props) => {
     const {
         register,
         handleSubmit,
@@ -33,7 +34,7 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
         formState: { errors },
     } = useForm<FormInputs>();
     const { cookies } = useUserContext();
-    const [numberinput, setNumberinput] = useState(0)
+    const [numberInput, setNumberInput] = useState(0)
 
     const userData = cookies?.user;
     const sumWithInitial =
@@ -45,27 +46,43 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
         );
     const watchAllFields = watch();
 
+    useEffect(() => {
+        setValue("_id", readBills?._id);
+        setValue("idRoom", readBills?.idRoom);
+        setValue("month", readBills?.month);
+        setValue("year", readBills?.year)
+        setValue("invoiceService", readBills?.invoiceService);
+        setValue("debt", readBills?.debt)
+        setValue('paidAmount', readBills?.paidAmount)
+    }, [readBills])
+
     const remainingAmount = useMemo(() => {
         return sumWithInitial - (getValues('paidAmount') || 0);
     }, [watchAllFields]);
 
     const submitHandle = async (data1: any) => {
-        try {
-            const { data } = await paymentStatus(data1, userData);
-            Toast('success', 'Cập nhật trạng thái thành công');
+
+        const newData = { ...data1, paymentStatus: data1?.SumValue - data1?.paidAmount > 0 ? false : true }
+        await paymentStatus(newData, readBills._id, userData).then((result) => {
+            Toast('success', result.data.message);
             setOpen(false);
-        } catch (error: any) {
-            Toast('error', error?.response?.data?.message);
-        }
+
+        }).catch((err) => {
+            Toast('error', err?.response?.data?.message);
+
+        }).finally(() => {
+            console.log('2323fsdf');
+            changeValue;
+        });
     };
 
     const changeValueKeyUp = (e: any) => {
         if (e.target.value > sumWithInitial) {
-            setNumberinput(sumWithInitial);
-            setValue('paidAmount', numberinput)
+            setNumberInput(sumWithInitial);
+            setValue('paidAmount', numberInput)
         } else if (e.target.value.length && e.target.value <= 0) {
-            setNumberinput(0);
-            setValue('paidAmount', numberinput)
+            setNumberInput(0);
+            setValue('paidAmount', numberInput)
         }
     }
 
@@ -162,7 +179,7 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                 className={
                                     errors.paidAmount?.type == 'max'
                                         ? 'border-b-2 border-b-black min-h-[100px] h-auto'
-                                        : '"border-b-2 border-b-black min-h-[60px] h-auto"'
+                                        : 'border-b-2 border-b-black min-h-[60px] h-auto'
                                 }
                             >
                                 <div className="py-2">

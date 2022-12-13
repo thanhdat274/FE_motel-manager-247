@@ -43,6 +43,9 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
         getDataRoom()
     }, [dataRoom])
 
+    console.log('data', data);
+
+
     const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
         var listSv = {
             service: data.service
@@ -98,10 +101,7 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                                 >
                                                     Đơn vị
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                                ></th>
+
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">

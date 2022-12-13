@@ -52,7 +52,7 @@ const HeaderPreview = (props: Props) => {
     <div className="shadow lg:shadow-none">
       <div className="flex lg:hidden justify-between items-center px-4">
         <div className="w-[170px] h-[100px] relative">
-          <Image src="/images/logo1.png" alt="logo" height={220} width={220} layout="fill" priority />
+          <Image src="/images/logo1.PNG" alt="logo" height={220} width={220} layout="fill" priority />
         </div>
         <div className="flex items-center" onClick={() => toggleNav()}>
           <FontAwesomeIcon className="text-2xl" icon={faBars} />
@@ -69,7 +69,7 @@ const HeaderPreview = (props: Props) => {
             <div className='flex items-start lg:items-center'>
               <Link href={'/'}>
                 <a className="hidden lg:block w-[170px] h-[100px] relative">
-                  <Image src="/images/logo1.png" height={220} width={220} alt="logo" layout="fill" priority></Image>
+                  <Image src="/images/logo1.PNG" height={220} width={220} alt="logo" layout="fill" priority></Image>
                 </a>
               </Link>
               <div>

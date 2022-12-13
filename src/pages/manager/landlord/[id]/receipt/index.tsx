@@ -6,23 +6,13 @@ import 'react-responsive-modal/styles.css';
 import 'antd/dist/antd.css';
 import { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
-import { useForm } from 'react-hook-form';
 import moment from 'moment';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
-import { listBill, paymentStatus, readBill } from 'src/pages/api/bill';
+import { listBill, readBill } from 'src/pages/api/bill';
 import AddBill from './addBill';
 import { useRouter } from 'next/router';
 import ModalDetailBill from './ModalDetailBill';
-type FormInputs = {
-  _id: string;
-  idRoom: string;
-  month: number;
-  year: number;
-  name: string;
-  paymentStatus: boolean;
-  paidAmount: number;
-};
 
 const Receipt = () => {
   const today = new Date();
@@ -33,33 +23,12 @@ const Receipt = () => {
   const [open, setOpen] = useState(false);
   const [readBills, setReadBills] = useState<any>();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<FormInputs>();
-
   const onOpenModal = async (_id: any) => {
     setOpen(true);
     const { data } = await readBill(_id, userData as any);
     setReadBills(data);
-    reset(data);
   };
-
-  const sumWithInitial =
-    readBills &&
-    readBills?.debt +
-    readBills?.invoiceService.reduce(
-      (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
-      0,
-    );
-
   const onCloseModal = () => setOpen(false);
-
   const [open1, setOpen1] = useState(false);
   const onOpenModal1 = () => setOpen1(true);
   const onCloseModal1 = () => setOpen1(false);
@@ -69,6 +38,7 @@ const Receipt = () => {
 
   const [bill, setBill] = useState<any>();
 
+  const [changeValue, setChangeValue] = useState(0);
   async function getBill() {
     setLoading(true);
     if (monthCheckk && yearCheckk) {
@@ -84,13 +54,16 @@ const Receipt = () => {
     if (idHouse) {
       getBill();
     }
-  }, [monthCheckk, userData, yearCheckk, idHouse]);
+  }, [monthCheckk, userData, yearCheckk, idHouse, changeValue]);
+
+  const ChangeValueFromForm = () => setChangeValue(changeValue + 1);
+
+  console.log('changeValue', changeValue);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
       setMonthh(parseInt(dateString.slice(5, 7)));
       setYearr(parseInt(dateString.slice(0, 4)));
-      reset();
     };
     return (
       <DatePicker
@@ -100,25 +73,7 @@ const Receipt = () => {
         picker="month"
       />
     );
-  }, [monthCheckk, reset, yearCheckk]);
-
-  const submitHandle = async (data1: any) => {
-    try {
-      const { data } = await paymentStatus(data1, userData);
-      const data2 = data.data;
-      Toast('success', 'Cập nhật trạng thái thành công');
-      setBill(bill.map((item: { _id: any }) => (item._id === data2._id ? data1 : item)));
-      setOpen(false);
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.message);
-    }
-  };
-
-  const watchAllFields = watch();
-
-  const remainingAmount = useMemo(() => {
-    return sumWithInitial - getValues('paidAmount');
-  }, [watchAllFields]);
+  }, [monthCheckk, yearCheckk]);
 
   return (
     <div className="h-screen">
@@ -276,7 +231,13 @@ const Receipt = () => {
           </div>
         </div>
       </main>
-      <ModalDetailBill open={open} onCloseModal={onCloseModal} setOpen={setOpen} readBills={readBills} />
+      <ModalDetailBill
+        open={open}
+        onCloseModal={onCloseModal}
+        setOpen={setOpen}
+        readBills={readBills}
+        changeValue={ChangeValueFromForm}
+      />
 
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>

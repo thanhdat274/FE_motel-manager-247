@@ -47,7 +47,7 @@ const SideBar = () => {
           {/* Collapse */}
           <div
             className={
-              'md:flex md:flex-col md:items-stretch md:opacity-100 ease-out duration-300  md:relative md:mt-4  md:shadow-none shadow absolute top-0 right-0 z-40 overflow-x-hidden h-auto items-center flex-1 rounded ' +
+              'md:flex md:flex-col md:items-stretch md:opacity-100 ease-out duration-300  md:relative md:mt-4  md:shadow-none shadow absolute top-0 right-0 z-40 overflow-x-hidden items-center flex-1 rounded ' +
               collapseShow
             }
           >

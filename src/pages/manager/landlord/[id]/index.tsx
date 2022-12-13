@@ -115,7 +115,7 @@ const HomeManagerPage = () => {
           </div>
         </div>
       </header>
-      {totalRooms != 0 && (
+      {(
         <div className="w-full ">
           <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 gap-y-2 md:gap-2 justify-between">
             <Link href={`${id}/list-room`}>
