@@ -94,3 +94,12 @@ export const upload = async (file: any) => {
 
   return data.url;
 };
+
+export const addServiceRoom = (idRoom: string, params: any, userData: any) => {
+  const url = `/room/${idRoom}/service/add`;
+  return instance.post(url, params, {
+    headers: {
+      Authorization: `Bearer ${userData?.token}`,
+    },
+  });
+};

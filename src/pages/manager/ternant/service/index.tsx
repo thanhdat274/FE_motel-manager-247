@@ -1,8 +1,15 @@
-import React from 'react';
+import { useUserContext } from '@/context/UserContext';
+import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
 const InfoService = (props: Props) => {
+  const [codeRoom, setCodeRoom] = useState<any>();
+  const { cookies } = useUserContext();
+  useEffect(() => {
+    const data = cookies?.code_room;
+    setCodeRoom(data as any);
+  }, [cookies?.code_room]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -47,37 +54,25 @@ const InfoService = (props: Props) => {
                         >
                           Giá dịch vụ
                         </th>
-
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Đơn vị
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Trạng thái
-                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                          <div className="text-center">Điện</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">1000.000 vnd</div>
-                        </td>
-
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">kw/h</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace">
-                          <div className="text-center">Trả theo tháng</div>
-                        </td>
-                      </tr>
+                      {codeRoom &&
+                        codeRoom?.service?.map((service: any, index: any) => {
+                          const pricePar = parseInt(service?.price)
+                          if (service?.status == true) {
+                            return (
+                              <tr key={index}>
+                                <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                  <div className="text-center">{service?.name}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace">
+                                  <div className="text-center">{pricePar?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                                </td>
+                              </tr>
+                            );
+                          }
+                        })}
                     </tbody>
                   </table>
                 </div>

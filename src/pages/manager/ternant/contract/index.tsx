@@ -8,11 +8,14 @@ type Props = {};
 const ContractTernant = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
   const { cookies } = useUserContext();
-  
+
   useEffect(() => {
-    const  data  = cookies?.code_room;
+    const data = cookies?.code_room;
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
+  const arrImage = codeRoom?.contract?.imageContract
+console.log(arrImage);
+
   return (
     <div>
       <header className="bg-white shadow">
@@ -27,10 +30,16 @@ const ContractTernant = (props: Props) => {
         </div>
       </header>
       <main className='text-center mt-10'>
-        {codeRoom?.contract?.imageContract ? (
-          <div>
-            <Image style={{ width: '500px' }} src={codeRoom?.contract?.imageContract} />
-        </div>
+        {arrImage?.length ? (
+          <div className='flex gap-4 flex-wrap justify-center'>
+            {arrImage.map((item: any, index: number) => {
+              return (
+                <div key={index} className="">
+                  <Image style={{ width: '400px' }} src={item} alt='' />
+                </div>
+              )
+            })}
+          </div>
         ) : (
           <div>
             <h2 className='uppercase text-2xl'>Không có ảnh hợp đồng</h2>

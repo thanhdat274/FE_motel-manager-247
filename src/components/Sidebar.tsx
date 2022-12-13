@@ -6,17 +6,13 @@ import { faBars, faRightFromBracket, faXmark, faChevronLeft } from '@fortawesome
 import { MENU_LANDLORD } from 'src/util/MENU';
 import { useUserContext } from '@/context/UserContext';
 
-type Props = {};
 
-const SideBar = (props: Props) => {
+const SideBar = () => {
   const [collapseShow, setCollapseShow] = React.useState('hidden');
-  const [actives, setActives] = React.useState()
   const router = useRouter();
   const { id } = router.query;
-  const { logoutResetData } = useUserContext();
-  const checkActive = (e: any) => {
-    setActives(e)
-  }
+  const { actives, setActives, logoutResetData } = useUserContext();
+
   return (
     <>
       <div
@@ -51,7 +47,7 @@ const SideBar = (props: Props) => {
           {/* Collapse */}
           <div
             className={
-              'md:flex md:flex-col md:items-stretch md:opacity-100 ease-out duration-300  md:relative md:mt-4  md:shadow-none shadow absolute top-0 right-0 z-40 overflow-x-hidden h-auto items-center flex-1 rounded ' +
+              'md:flex md:flex-col md:items-stretch md:opacity-100 ease-out duration-300  md:relative md:mt-4  md:shadow-none shadow absolute top-0 right-0 z-40 overflow-x-hidden items-center flex-1 rounded ' +
               collapseShow
             }
           >
@@ -94,15 +90,16 @@ const SideBar = (props: Props) => {
               </Link>
 
               {MENU_LANDLORD.map((menu, index) => {
+
                 return (
                   <li
                     key={index}
-                    onClick={() => checkActive(menu.checkMenu)}
+                    onClick={() => setActives(menu.url)}
                     className={" items-center rounded-lg mb-4 bg-gray-300 fw-500 cursor-pointer hover:bg-blue-500 round-md" +
                       (menu.url != '' ? ((menu.url != '' && router.pathname.indexOf(menu.url) == -1
                         ? ('text-lightBlue-500 hover:text-lightBlue-600')
                         : 'text-blueGray-700 hover:text-blueGray-500 bg-blue-500 rounded-lg text-white')) : '') +
-                      (actives != undefined && router.pathname.indexOf(menu.url) != -1 ? ' bg-blue-500' : '')
+                      (menu.url == actives ? ' bg-blue-500' : '')
                     }
                   >
                     <Link href={`/manager/landlord/${id}/${menu.url}`}>

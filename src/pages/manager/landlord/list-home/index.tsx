@@ -7,7 +7,7 @@ import { useUserContext } from '@/context/UserContext';
 import { listHouse, removeHouses } from 'src/pages/api/house';
 
 const ListHome = () => {
-  const { cookies, setLoading } = useUserContext();
+  const { cookies, setLoading, setActives } = useUserContext();
   const [house, setHouse] = useState([]);
 
   const userData = cookies?.user;
@@ -112,7 +112,7 @@ const ListHome = () => {
                         <div>
                           <div className="flex flex-row pl-2 pb-4 justify-around gap-2">
                             <Link href={`${item?._id}`}>
-                              <a className="text-white base-1/3 bg-sky-500 w-1/3">
+                              <a className="text-white base-1/3 bg-sky-500 w-1/3" onClick={() => setActives('')}>
                                 <div className="  flex rounded-md pr-2 pl-2 pt-1 pb-1 text-[12px] font-bold">
                                   <span className="pr-2">
                                     <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]  " icon={faBars} />

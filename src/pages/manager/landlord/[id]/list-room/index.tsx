@@ -6,11 +6,16 @@ import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { useUserContext } from '@/context/UserContext';
 import { listRoom, removeRoom } from 'src/pages/api/room';
-type Props = {};
 
-const ListRoom = (props: Props) => {
+const ListRoom = () => {
   const { cookies, setLoading } = useUserContext();
-  const [rooms, setRooms] = useState([]);
+  const [roomsAll, setRoomsAll] = useState([]);
+  const [listRoomUsing, setListRoomUsing] = useState([]);
+  const [listRoomNotReady, setListRoomNotReady] = useState([]);
+  const [listRoomEmptyMember, setListRoomEmptyMember] = useState([]);
+  const [changeValue, setChangeValue] = useState(0);
+  const [selectValue, setSelectValue] = useState('0');
+
   const userData = cookies?.user;
   const router = useRouter();
   const { id } = router.query;
@@ -28,7 +33,10 @@ const ListRoom = (props: Props) => {
         try {
           const { data } = await listRoom(id, userData as any);
           if (data.data) {
-            setRooms(data.data as any);
+            setRoomsAll(data.data as any);
+            setListRoomUsing(data.listRoomUsing as any);
+            setListRoomNotReady(data.listRoomNotReady as any);
+            setListRoomEmptyMember(data.listRoomEmptyMember as any);
             setLoading(false);
           }
         } catch (error) {
@@ -37,23 +45,193 @@ const ListRoom = (props: Props) => {
       };
       getRoom();
     }
-  }, [userData, id, setLoading]);
+  }, [userData, id, setLoading, changeValue]);
 
   const removeRooms = async (_id: number, userData: any) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
 
-      await removeRoom({ _id: _id, userData: userData }).then(() => {
-        Toast('success', 'Xóa phòng thành công');
-        setRooms(rooms.filter((item: any) => item._id !== _id));
-        setLoading(false);
-      }).catch((error) => {
-        Toast('error', error?.response?.data?.message);
-        setLoading(false);
-      });
+      await removeRoom({ _id: _id, userData: userData })
+        .then(() => {
+          Toast('success', 'Xóa phòng thành công');
+          setLoading(false);
+        })
+        .catch((error) => {
+          Toast('error', error?.response?.data?.message);
+          setLoading(false);
+        })
+        .finally(() => {
+          setChangeValue(changeValue + 1);
+        });
     }
   };
+
+  const genData = (data: any, color?: string) => {
+    return (
+      <div className="w-full grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+        {data.length > 0 ? (
+          data
+            .filter((val: any) => {
+              if (fillter == '') {
+                return val;
+              } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                return val;
+              }
+            })
+            .map((item: any, index: React.Key | null | undefined) => {
+              return (
+                <>
+                  {item?.status == true ? (
+                    <div
+                      className={`w-full border-2 p-[20px] ${item?.listMember?.length == 0 ? 'border-yellow-400' : color
+                        } bg-white rounded-[5px] flex flex-col justify-between`}
+                      key={index}
+                    >
+                      <h2 className="text-xl flex items-center gap-2 mb-[20px]">
+                        <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
+                        {item.name}
+                      </h2>
+
+                      <p className="flex items-center gap-2 mb-[20px]">
+                        <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                        <span className="text-red-500">
+                          {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                        </span>
+                      </p>
+
+                      {item.listMember.length > 0 ? (
+                        <>
+                          <p className="flex items-center gap-2 mb-[20px]">
+                            <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                            <span className="">
+                              {item.listMember.map((item1: any, index: number) => {
+                                return (
+                                  <div key={index}>
+                                    {item1.status == true ? <div>{item1.memberName}</div> : <div>{null}</div>}
+                                  </div>
+                                );
+                              })}
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2 mb-[20px]">
+                            <FontAwesomeIcon className="h-[15px]" icon={faUser} />
+                            <span className="">{item.listMember.length}</span>
+                          </p>{' '}
+                        </>
+                      ) : (
+                        <div className="pt-2 pb-5">
+                          <h2>Phòng trống</h2>
+                        </div>
+                      )}
+
+                      <div className="text-center flex gap-3 ">
+                        <Link
+                          href={`/manager/landlord/${id}/list-room/${item._id}/`}
+                          className="text-amber-500 hover:text-amber-600"
+                        >
+                          <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
+                            <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
+                          </a>
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            removeRooms(item._id, userData);
+                          }}
+                          className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
+                        >
+                          <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="w-full border-2 p-[20px] border-y-red-400 border-x-red-400 bg-white rounded-[5px]"
+                      key={index}
+                    >
+                      <h2 className="text-xl flex items-center gap-2 mb-[20px]">
+                        <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
+                        {item.name}
+                      </h2>
+
+                      <p className="flex items-center gap-2 mb-[20px]">
+                        <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
+                        <span className="text-red-500">
+                          {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                        </span>
+                      </p>
+                      <div className="pt-2 pb-5">
+                        <h2>Phòng chưa sẵn sàng</h2>
+                      </div>
+                      <div className=" flex gap-3  ">
+                        <Link
+                          href={`/manager/landlord/${id}/list-room/${item._id}/`}
+                          className="text-amber-500 hover:text-amber-600"
+                        >
+                          <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
+                            <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
+                          </a>
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            removeRooms(item._id, userData);
+                          }}
+                          className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
+                        >
+                          <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })
+        ) : (
+          <div>
+            <p className="text-blue-600/100 ">Không có dữ liệu</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const returnData = (value: any) => {
+    switch (value) {
+      case '1':
+        return (
+          <div className="w-full border-solid  border-green-500 p-4">
+            <div className="title text-xl font-bold">Phòng đang sử dụng</div>
+            <>{genData(listRoomUsing, 'border-green-500')}</>
+          </div>
+        );
+      case '2':
+        return (
+          <div className="w-full border-solid  border-red-400 p-4">
+            <div className="title text-xl font-bold">Phòng đang sửa chữa</div>
+            <>{genData(listRoomNotReady, 'border-red-400')}</>
+          </div>
+        );
+
+      case '3':
+        return (
+          <div className="w-full border-solid  border-yellow-400 p-4">
+            <div className="title text-xl font-bold">Phòng còn trống</div>
+            <>{genData(listRoomEmptyMember, 'border-yellow-400')}</>
+          </div>
+        );
+      default:
+        return (
+          <>
+            <div className="w-full border-solid border-b-2  p-4">
+              <>{genData(roomsAll, 'border-green-400')}</>
+            </div>
+          </>
+        );
+    }
+  };
+
   return (
     <div className="h-auto">
       <header className="bg-white shadow">
@@ -66,7 +244,13 @@ const ListRoom = (props: Props) => {
             </div>
             <div className="mt-5 flex flex-col gap-4 md:flex-row md:gap-0 lg:mt-0 lg:ml-4">
               <div className="mr-[20px]">
-                <form>
+                <form className="flex flex-row gap-4">
+                  <select onChange={(e) => setSelectValue(e.target.value)} name="" id="">
+                    <option value="0">Toàn bộ</option>
+                    <option value="1">Phòng đang sử dụng</option>
+                    <option value="2">Phòng đang sửa chữa</option>
+                    <option value="3">Phòng còn trống</option>
+                  </select>
                   <input
                     type="text"
                     name="keyword"
@@ -90,134 +274,10 @@ const ListRoom = (props: Props) => {
         <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <div className="sm:-mx-6 lg:-mx-8">
-              <div className="py-2 align-mparamle inline-block min-w-full ">
-                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 drop-shadow-xl">
-                  {rooms.length > 0 ? (
-                    rooms
-                      .filter((val: any) => {
-                        if (fillter == '') {
-                          return val;
-                        } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
-                          return val;
-                        }
-                      })
-                      .map((item: any, index: React.Key | null | undefined) => {
-                        return (
-                          <>
-                            {item?.status == true ? (
-                              <div
-                                className="w-full border-2 p-[20px] border-y-yellow-400 border-x-yellow-400 bg-white rounded-[5px]"
-                                key={index}
-                              >
-                                <h2 className="text-xl flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
-                                  {item.name}
-                                </h2>
-
-                                <p className="flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                                  <span className="text-red-500">
-                                    {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-                                  </span>
-                                </p>
-
-                                {item.listMember.length > 0 ? (
-                                  <>
-                                    <p className="flex items-center gap-2 mb-[20px]">
-                                      <FontAwesomeIcon className="h-[15px]" icon={faUser} />
-                                      <span className="">
-                                        {item.listMember.map((item1: any, index: number) => {
-                                          return (
-                                            <div key={index}>
-                                              {item1.status == true ? <div>{item1.memberName}</div> : <div>{null}</div>}
-                                            </div>
-                                          );
-                                        })}
-                                      </span>
-                                    </p>
-                                    <p className="flex items-center gap-2 mb-[20px]">
-                                      <FontAwesomeIcon className="h-[15px]" icon={faUser} />
-                                      <span className="">{item.listMember.length}</span>
-                                    </p> </>) : (<div className="pt-2 pb-5">
-                                      <h2>Phòng trống</h2>
-                                    </div>)}
-
-
-                                <div className="text-center flex gap-3 ">
-                                  <Link
-                                    href={`/manager/landlord/${id}/list-room/${item._id}/`}
-                                    className="text-amber-500 hover:text-amber-600"
-                                  >
-                                    <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
-                                      <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
-                                    </a>
-                                  </Link>
-
-                                  <button
-                                    onClick={() => {
-                                      removeRooms(item._id, userData);
-                                    }}
-                                    className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
-                                  >
-                                    <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <div
-                                className="w-full border-2 p-[20px] border-y-red-400 border-x-red-400 bg-white rounded-[5px]"
-                                key={index}
-                              >
-                                <h2 className="text-xl flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faHouse} />
-                                  {item.name}
-                                </h2>
-
-                                <p className="flex items-center gap-2 mb-[20px]">
-                                  <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
-                                  <span className="text-red-500">
-                                    {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                  </span>
-                                </p>
-                                <div className="pt-2 pb-5">
-                                  <h2>Phòng chưa sẵn sàng</h2>
-                                </div>
-                                <div className=" flex gap-3  ">
-                                  <Link
-                                    href={`/manager/landlord/${id}/list-room/${item._id}/`}
-                                    className="text-amber-500 hover:text-amber-600"
-                                  >
-                                    <a className="text-amber-500 hover:text-amber-600 flex gap-1 items-center">
-                                      <FontAwesomeIcon className="h-[20px]" icon={faPenToSquare} /> Quản lý
-                                    </a>
-                                  </Link>
-
-                                  <button
-                                    onClick={() => {
-                                      removeRooms(item._id, userData);
-                                    }}
-                                    className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
-                                  >
-                                    <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        );
-                      })
-                  ) : (
-                    <div>
-                      {' '}
-                      <p className="text-blue-600/100 ">Không có dữ liệu</p>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <div className="py-2 align-mparamle min-w-full flex flex-col gap-6 ">{returnData(selectValue)}</div>
             </div>
           </div>
         </div>
-        <div></div>
       </main>
     </div>
   );

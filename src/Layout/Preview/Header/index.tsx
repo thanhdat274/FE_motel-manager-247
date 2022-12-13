@@ -51,8 +51,8 @@ const HeaderPreview = (props: Props) => {
   return (
     <div className="shadow lg:shadow-none">
       <div className="flex lg:hidden justify-between items-center px-4">
-        <div className="w-[100px] h-[100px] relative">
-          <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority />
+        <div className="w-[170px] h-[100px] relative">
+          <Image src="/images/logo1.PNG" alt="logo" height={220} width={220} layout="fill" priority />
         </div>
         <div className="flex items-center" onClick={() => toggleNav()}>
           <FontAwesomeIcon className="text-2xl" icon={faBars} />
@@ -66,15 +66,18 @@ const HeaderPreview = (props: Props) => {
       >
         <div className="container mx-auto bg-[#3f51b5] lg:bg-transparent p-4">
           <div className="flex flex-col lg:flex lg:flex-row lg:justify-between gap-y-4 items-start lg:items-center px-[15px] lg:p-0 py-[20px]">
-            <Link href={'/'}>
-              <a className="hidden lg:block w-[100px] h-[100px] relative">
-                <Image src="/images/SimpleHouse_180.png" alt="logo" layout="fill" priority></Image>
-              </a>
-            </Link>
-            <div>
-              <h2 className="lg:text-xl xl:text-2xl font-bold">QUẢN LÝ NHÀ TRỌ 24/7</h2>
-              <p>Đơn giản - Dễ sử dụng - Chính xác</p>
+            <div className='flex items-start lg:items-center'>
+              <Link href={'/'}>
+                <a className="hidden lg:block w-[170px] h-[100px] relative">
+                  <Image src="/images/logo1.PNG" height={220} width={220} alt="logo" layout="fill" priority></Image>
+                </a>
+              </Link>
+              <div>
+                <h2 className="lg:text-xl xl:text-2xl font-bold">QUẢN LÝ NHÀ TRỌ 24/7</h2>
+                <p>Đơn giản - Dễ sử dụng - Chính xác</p>
+              </div>
             </div>
+
             {cookies?.user && (
               <div className="flex flex-col md:flex md:flex-row gap-2">
                 <div className="flex flex-col md:flex md:flex-row gap-2">
