@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { paymentStatus } from 'src/pages/api/bill';
 import Modal from 'react-responsive-modal';
+import { NumericFormat } from 'react-number-format';
 
 type Props = {
     open: boolean;
@@ -18,7 +19,7 @@ type FormInputs = {
     idRoom: string;
     month: number;
     year: number;
-    paidAmount: number;
+    paidAmount: string;
     invoiceService: any;
     debt: number
 };
@@ -54,36 +55,41 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
         setValue("invoiceService", readBills?.invoiceService);
         setValue("debt", readBills?.debt)
         setValue('paidAmount', readBills?.paidAmount)
-    }, [readBills])
+    }, [readBills, setValue])
 
     const remainingAmount = useMemo(() => {
-        return sumWithInitial - (getValues('paidAmount') || 0);
+        return sumWithInitial - (numberInput || 0);
     }, [watchAllFields]);
+console.log("số tiền đã tính", remainingAmount);
 
     const submitHandle = async (data1: any) => {
-
+        
         const newData = { ...data1, paymentStatus: data1?.SumValue - data1?.paidAmount > 0 ? false : true }
-        await paymentStatus(newData, readBills._id, userData).then((result) => {
-            Toast('success', result.data.message);
-            setOpen(false);
+        console.log("số tiền lưu vào databasse", newData);
+        // await paymentStatus(newData, readBills._id, userData).then((result) => {
+        //     Toast('success', result.data.message);
+        //     setOpen(false);
 
-        }).catch((err) => {
-            Toast('error', err?.response?.data?.message);
+        // }).catch((err) => {
+        //     Toast('error', err?.response?.data?.message);
 
-        }).finally(() => {
-            console.log('2323fsdf');
-            changeValue;
-        });
+        // }).finally(() => {
+        //     console.log('2323fsdf');
+        //     changeValue;
+        // });
     };
 
     const changeValueKeyUp = (e: any) => {
-        if (e.target.value > sumWithInitial) {
-            setNumberInput(sumWithInitial);
-            setValue('paidAmount', numberInput)
-        } else if (e.target.value.length && e.target.value <= 0) {
-            setNumberInput(0);
-            setValue('paidAmount', numberInput)
-        }
+        console.log("số tiền nhập vào", Number(e.target.value.replace(/[^0-9\.]+/g, "")));
+        console.log("số tiền nhập vào length", e.target.value.length);
+
+        setNumberInput(Number(e.target.value.replace(/[^0-9\.]+/g, "")));
+        // if (Number(e.target.value.replace(/[^0-9\.]+/g, "")) > sumWithInitial) {
+        //     setValue('paidAmount', numberInput)
+        // } else if (e.target.value.length && Number(e.target.value.replace(/[^0-9\.]+/g, "")) <= 0) {
+        //     setNumberInput(0);
+        //     setValue('paidAmount', numberInput)
+        // }
     }
 
     return (
@@ -185,7 +191,7 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
                                 <div className="py-2">
                                     <strong className="">Đã thanh toán</strong>
                                     <div className="float-right flex flex-col w-1/2 md:w-1/4 ">
-                                        <input
+                                        {/* <input
                                             className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                                             {...register('paidAmount', { max: sumWithInitial })}
                                             type="number"
@@ -194,6 +200,17 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
 
                                             onKeyUp={(e) => changeValueKeyUp(e)}
                                         />
+                                        {errors.paidAmount?.type == 'max' && (
+                                            <p className="text-red-500">Giá trị không được vượt quá tổng tiền</p>
+                                        )} */}
+
+                                        <NumericFormat thousandSeparator="," type='text' className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                            {...register('paidAmount', { max: sumWithInitial })}
+
+                                            max={sumWithInitial}
+                                            min={0}
+
+                                            onKeyUp={(e: any) => changeValueKeyUp(e)} />
                                         {errors.paidAmount?.type == 'max' && (
                                             <p className="text-red-500">Giá trị không được vượt quá tổng tiền</p>
                                         )}

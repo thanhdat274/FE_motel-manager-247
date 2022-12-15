@@ -69,10 +69,10 @@ const Resport = () => {
                 <div className="inline-block align-middle  min-w-full">
 
 
-                    <div className=" ">
-                        <table className=" min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
+                    <div className="bg-white ">
+                        <table className="bg-white min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                             <thead className="bg-gray-100 dark:bg-gray-700">
-                                <tr>
+                                <tr className='bg-white'>
                                     <th
                                         scope="col"
                                         className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
@@ -103,6 +103,7 @@ const Resport = () => {
                                     >
                                         Tình Trạng
                                     </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
