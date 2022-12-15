@@ -13,6 +13,15 @@ export const listReport = (id:any) =>{
   return instance.get(url )
  }
 
+ export const listReportStatus = (id:any) =>{
+  const url = `/report/count-not-complete/${id}`
+  return instance.get(url )
+ }
+ export const removeReport = (id:any) =>{
+  const url = `/report/remove/${id}`
+  return instance.delete(url )
+ }
+
 export const addReport = (data:any) =>{
     const url = `/report/create`
     return instance.post(url,data)
