@@ -249,13 +249,11 @@ const Booking = (props: Props) => {
 
       <Modal open={open} onClose={onCloseModal} center>
         <div className="w-full">
-
-
           <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4">
             <div className="">
               <h2 className="pt-2 text-xl">Thông tin </h2>
             </div>
-          </div>{' '}
+          </div>
           <div className="border mt-5 p-2">
             <form className="w-full " onSubmit={handleSubmit(onSubmit)}>
               <div className="md:flex md:items-center mb-6">
@@ -297,7 +295,6 @@ const Booking = (props: Props) => {
                   <select
                     className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
-
                     {...register('idRoom')}
                   >
                     {listRooms &&
@@ -433,7 +430,11 @@ const Booking = (props: Props) => {
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <NumericFormat className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" thousandSeparator="," placeholder='Xin mời nhập số tiền cọc'
+                  <NumericFormat className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    id="bookMoney"
+                    type="text"
+                    thousandSeparator=","
+                    placeholder='Xin mời nhập số tiền cọc'
                     {...register('bookMoney', {
                       required: true,
                       validate: value => value > '0',
@@ -441,7 +442,7 @@ const Booking = (props: Props) => {
                         setValue('bookMoney', e.target.value)
                       },
                       minLength: 8
-                    })} />
+                    })} />  
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
                   )}

@@ -33,7 +33,8 @@
     "src/pages/api/examples/session.js",
     "src/pages/api/examples/protected.js",
     "src/pages/api/auth/[...nextauth].js",
-    "src/pages/signin/index.tsx"
+    "src/pages/signin/index.tsx",
+    "src/pages/manager/landlord/[id]/receipt/ModalDetailBill.js"
   ],
   "exclude": ["node_modules"]
 }

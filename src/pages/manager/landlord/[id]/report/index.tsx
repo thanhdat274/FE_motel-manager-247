@@ -23,6 +23,7 @@ const Resport = () => {
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
+    const [resetPage, setResetPage] = useState(0)
 
 
    

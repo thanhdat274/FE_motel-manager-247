@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
 import { paymentStatus } from 'src/pages/api/bill';
 import Modal from 'react-responsive-modal';
+import { NumericFormat } from 'react-number-format';
 
 type Props = {
     open: boolean;
     onCloseModal: () => void;
     setOpen: (data: boolean) => void;
     readBills: any;
-    changeValue: () => void;
 };
 
 type FormInputs = {
@@ -18,12 +18,12 @@ type FormInputs = {
     idRoom: string;
     month: number;
     year: number;
-    paidAmount: number;
+    paidAmount: string;
     invoiceService: any;
-    debt: number
+    debt: number;
 };
 
-const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }: Props) => {
+const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
     const {
         register,
         handleSubmit,
@@ -33,9 +33,9 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
         watch,
         formState: { errors },
     } = useForm<FormInputs>();
-    const { cookies } = useUserContext();
-    const [numberInput, setNumberInput] = useState(0)
 
+    const { setLoading } = useUserContext();
+    const { cookies } = useUserContext();
     const userData = cookies?.user;
     const sumWithInitial =
         readBills &&
@@ -47,44 +47,75 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
     const watchAllFields = watch();
 
     useEffect(() => {
-        setValue("_id", readBills?._id);
-        setValue("idRoom", readBills?.idRoom);
-        setValue("month", readBills?.month);
-        setValue("year", readBills?.year)
-        setValue("invoiceService", readBills?.invoiceService);
-        setValue("debt", readBills?.debt)
-        setValue('paidAmount', readBills?.paidAmount)
-    }, [readBills])
+        if (readBills) {
+            setValue('_id', readBills?._id);
+            setValue('idRoom', readBills?.idRoom);
+            setValue('month', readBills?.month);
+            setValue('year', readBills?.year);
+            setValue('invoiceService', readBills?.invoiceService);
+            setValue('debt', readBills?.debt);
+            setValue('paidAmount', String(readBills?.paidAmount));
+        }
+    }, [readBills]);
+
+    const initValuePaidAmount = useMemo(() => {
+        if (readBills) {
+            return (
+                <NumericFormat
+                    value={String(readBills?.paidAmount)}
+                    thousandSeparator=","
+                    type="text"
+                    className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                    {...register('paidAmount', { max: sumWithInitial })}
+                    onChange={(e) => {
+                        setValue(
+                            'paidAmount',
+                            Number(e.target.value.split(',').join('')) > sumWithInitial
+                                ? String(sumWithInitial)
+                                : e.target.value.split(',').join(''),
+                        );
+                    }}
+                    max={sumWithInitial}
+                    min={0}
+                    isAllowed={(values: any) => {
+                        const { floatValue } = values;
+
+                        return floatValue <= sumWithInitial;
+                    }}
+                />
+            );
+        }
+    }, [readBills, open]);
 
     const remainingAmount = useMemo(() => {
-        return sumWithInitial - (getValues('paidAmount') || 0);
+        return sumWithInitial - (Number(getValues('paidAmount')) || 0);
     }, [watchAllFields]);
 
+    console.log('sumWithInitial', sumWithInitial);
+
     const submitHandle = async (data1: any) => {
-
-        const newData = { ...data1, paymentStatus: data1?.SumValue - data1?.paidAmount > 0 ? false : true }
-        await paymentStatus(newData, readBills._id, userData).then((result) => {
-            Toast('success', result.data.message);
-            setOpen(false);
-
-        }).catch((err) => {
-            Toast('error', err?.response?.data?.message);
-
-        }).finally(() => {
-            console.log('2323fsdf');
-            changeValue;
-        });
+        const newData = {
+            debt: data1?.debt,
+            idRoom: data1?.idRoom,
+            invoiceService: data1?.invoiceService,
+            month: data1?.month,
+            year: data1?.year,
+            paidAmount: Number(getValues('paidAmount')) || 0,
+            paymentStatus: sumWithInitial - Number(getValues('paidAmount')) > 0 ? false : true,
+        };
+        setLoading(true);
+        await paymentStatus(newData, readBills._id, userData)
+            .then((result) => {
+                Toast('success', result.data.message);
+                setOpen(false);
+            })
+            .catch((err) => {
+                Toast('error', err?.response?.data?.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
-
-    const changeValueKeyUp = (e: any) => {
-        if (e.target.value > sumWithInitial) {
-            setNumberInput(sumWithInitial);
-            setValue('paidAmount', numberInput)
-        } else if (e.target.value.length && e.target.value <= 0) {
-            setNumberInput(0);
-            setValue('paidAmount', numberInput)
-        }
-    }
 
     return (
         <div className="">
@@ -185,15 +216,7 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills, changeValue }
                                 <div className="py-2">
                                     <strong className="">Đã thanh toán</strong>
                                     <div className="float-right flex flex-col w-1/2 md:w-1/4 ">
-                                        <input
-                                            className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                                            {...register('paidAmount', { max: sumWithInitial })}
-                                            type="number"
-                                            max={sumWithInitial}
-                                            min={0}
-
-                                            onKeyUp={(e) => changeValueKeyUp(e)}
-                                        />
+                                        {initValuePaidAmount}
                                         {errors.paidAmount?.type == 'max' && (
                                             <p className="text-red-500">Giá trị không được vượt quá tổng tiền</p>
                                         )}
