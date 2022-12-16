@@ -22,9 +22,8 @@ const Navbar = (props: Props) => {
   const [open1, setOpen1] = useState(false);
 
   const { cookies, setLoading } = useUserContext();
-  const [report, setReport] = useState<any>([]);
+  const [report, setReport] = useState<any>();  
   const userData = cookies?.user;
-
 
   const router = useRouter();
   const { id } = router.query;
@@ -41,7 +40,7 @@ const Navbar = (props: Props) => {
       setStatus(data)
     }
     getStatus()
-  }, [id])
+  }, [id,status])
   // ------------------------------------
   useEffect(() => {
     if (id) {
