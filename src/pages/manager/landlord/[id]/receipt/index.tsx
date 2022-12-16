@@ -38,7 +38,6 @@ const Receipt = () => {
 
   const [bill, setBill] = useState<any>();
 
-  const [changeValue, setChangeValue] = useState(0);
   async function getBill() {
     setLoading(true);
     if (monthCheckk && yearCheckk) {
@@ -54,11 +53,7 @@ const Receipt = () => {
     if (idHouse) {
       getBill();
     }
-  }, [monthCheckk, userData, yearCheckk, idHouse, changeValue]);
-
-  const ChangeValueFromForm = () => setChangeValue(changeValue + 1);
-
-  console.log('changeValue', changeValue);
+  }, [monthCheckk, userData, yearCheckk, idHouse, open]);
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -231,13 +226,7 @@ const Receipt = () => {
           </div>
         </div>
       </main>
-      <ModalDetailBill
-        open={open}
-        onCloseModal={onCloseModal}
-        setOpen={setOpen}
-        readBills={readBills}
-        changeValue={ChangeValueFromForm}
-      />
+      <ModalDetailBill open={open} onCloseModal={onCloseModal} setOpen={setOpen} readBills={readBills} />
 
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>
