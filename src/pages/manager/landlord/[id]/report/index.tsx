@@ -23,12 +23,9 @@ const Resport = () => {
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
-    const [resetPage, setResetPage] = useState(0)
 
 
-    const handleResetPage = () => {
-        setResetPage(resetPage + 1)
-    }
+   
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
@@ -43,7 +40,7 @@ const Resport = () => {
             setLoading(false);
         }
 
-    }, [id, resetPage]);
+    }, [id, report]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
@@ -59,9 +56,7 @@ const Resport = () => {
             .catch((err) => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
-            }).finally(() => {
-                handleResetPage()
-            });
+            })
 
         // onOpen()
     };
@@ -101,7 +96,7 @@ const Resport = () => {
                             >
 
                                 <div>
-                                    <span className="font-medium">Chưa sử lý</span>
+                                    <span className="font-medium">Chưa xử lý</span>
                                 </div>
                             </div> : <div></div>}
                         </>
