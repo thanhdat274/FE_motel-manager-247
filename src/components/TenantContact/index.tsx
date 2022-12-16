@@ -11,6 +11,7 @@ import { Toast } from 'src/hooks/toast';
 import { Image } from 'antd';
 import 'antd/dist/antd.css';
 import ImageUploading from 'react-images-uploading';
+import { NumericFormat } from 'react-number-format';
 
 export type IContractData = {
   addressCT: string;
@@ -67,7 +68,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     formState: { errors },
     setValue,
     getValues,
-  } = useForm();
+  } = useForm<any>();
 
   useEffect(() => {
     if (dataContract) {
@@ -101,7 +102,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
       setValue('LLdateRange', infoLandlord?.dateRange ? infoLandlord?.dateRange : dataLandlord?.dateRange);
       setValue('LLIssuedBy', infoLandlord?.issuedBy ? infoLandlord?.issuedBy : dataLandlord?.issuedBy);
     }
-  }, [contractData, leadMember]);
+  }, [contractData, dataLandlord?.cardNumber, dataLandlord?.dateRange, dataLandlord?.issuedBy, dataLandlord?.name, dataLandlord?.phoneNumber, leadMember, setValue]);
 
   const uploadTask = (image: any) => {
     if (image.data_url == null) {
@@ -575,15 +576,22 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <label className="block text-gray-700 text-sm font-bold">
                       Tiền phạt nếu vi phạm <span className="text-[red]">*</span>
                     </label>
-                    <input
-                      type="number"
-                      className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3"
-                      {...register('fine', {
-                        pattern: /^[0-9]+$/
-                      })}
-                    />
-                    {errors.fine?.type === 'pattern' && (
-                      <span className="text-[red] mt-1 block">Số tiền phạt không được nhỏ hơn 0 VNĐ!</span>
+                    <NumericFormat type='text' thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
+                      required: false,
+                      onChange(e) {
+                        setValue('fine', e.target.value)
+                      },
+                      validate: value => value > '0',
+                      minLength: 8
+                    })} />
+                    {errors.fine?.type === 'required' && (
+                      <span className="text-[red] mt-1 block">nhập số tiền phạt!</span>
+                    )}
+                    {errors.fine?.type === 'validate' && (
+                      <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VND</span>
+                    )}
+                    {errors.fine?.type === 'minLength' && (
+                      <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000.000 VNĐ</span>
                     )}
                   </div>
                 </div>
