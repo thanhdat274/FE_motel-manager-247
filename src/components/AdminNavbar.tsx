@@ -55,7 +55,7 @@ const Navbar = (props: Props) => {
       setLoading(false);
     }
 
-  }, [id]);
+  }, [id,report]);
   return (
     <div>
       <nav className="left-0 w-full z-50 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
