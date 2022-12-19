@@ -40,7 +40,7 @@ const Navbar = (props: Props) => {
       setStatus(data)
     }
     getStatus()
-  }, [id,status])
+  }, [id])
   // ------------------------------------
   useEffect(() => {
     if (id) {
@@ -55,7 +55,7 @@ const Navbar = (props: Props) => {
       setLoading(false);
     }
 
-  }, [id,report]);
+  }, [id]);
   return (
     <div>
       <nav className="left-0 w-full z-50 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">

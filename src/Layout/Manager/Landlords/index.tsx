@@ -12,7 +12,6 @@ export interface ILayoutAdminProps {
 
 const LayoutLandlords = ({ children }: ILayoutAdminProps) => {
   const { loading } = useUserContext();
-
   return (
     <div>
       {<CircleSpinnerOverlay loading={loading} color="#2563eb" size={100} message="Loadinggg" zIndex={9999} />}
