@@ -4,7 +4,11 @@ import { useRouter } from 'next/router';
 import { listReports, updateReport } from 'src/pages/api/notification';
 import UpdateReport from 'src/pages/manager/landlord/[id]/report/update';
 import { Toast } from 'src/hooks/toast';
+import moment from "moment"
+import { Space, Table, Tag } from 'antd';
+import 'antd/dist/antd.css';
 
+const { Column, ColumnGroup } = Table;
 interface DataType {
     _id: string;
     roomName: string;
@@ -14,18 +18,18 @@ interface DataType {
 const Resport = () => {
 
     const { cookies, setLoading } = useUserContext();
-    const [report, setReport] = useState([]);
+    const [report, setReport] = useState<any>([]);
+
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
-    const [resetPage, setResetPage] = useState(0)
 
-    const handleResetPage = () => {
-        setResetPage(resetPage + 1)
-    }
+
+   
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
+
             setLoading(true);
             const getReport = async () => {
                 const { data } = await listReports(newData1);
@@ -36,10 +40,7 @@ const Resport = () => {
             setLoading(false);
         }
 
-
-
-
-    }, [id,resetPage]);
+    }, [id, report]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
@@ -55,111 +56,102 @@ const Resport = () => {
             .catch((err) => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
-            }).finally(() => {
-                handleResetPage()
-            });
+            })
 
         // onOpen()
     };
 
+
+
+    const adss = report.filter((report: { status: boolean; }) => report.status == true)
+
+
+    const ads = report.filter((report: { status: boolean; }) => report.status == false)
+
+
     return (
-        <div className="flex flex-col">
+        <div className="">
+            <Table
+                dataSource={ads.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                    index: index + 1,
+                    key: item._id,
+                    name: item.roomName,
+                    content: item.content,
+                    date: moment(item.createdAt).format('DD/MM/YYYY'),
+                    status: item.status
+                }))}
+                pagination={{ pageSize: 3 }}
+            >
+                <Column title="STT" dataIndex="index" key="name" />
 
-            <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                <div className="inline-block align-middle  min-w-full">
+                <Column title="Phòng" dataIndex="name" key="name" />
+                <Column title="Nội dung" dataIndex="content" key="content" width={500} />
+                <Column title="Ngày thông báo" dataIndex="date" key="date" />
+                <Column title="Trạng thái" dataIndex="status" key="date" render={(status) => {
+                    return (
+                        <>
+                            {status == false ? <div
+                                className=" p-2 mb-4 text-center text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                                role="alert"
+                            >
+
+                                <div>
+                                    <span className="font-medium">Chưa xử lý</span>
+                                </div>
+                            </div> : <div></div>}
+                        </>
+                    );
+                }} />
+                <Column title="" key="action" render={(action) => {
+                    return (
+                        <>
+                            <UpdateReport id={action.key} onUpdate={onHandleUpdate}></UpdateReport>
+                        </>
+                    );
+                }} />
+            </Table>
+            <Table
+                dataSource={adss.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                    index: index + 1,
+                    key: item._id,
+                    name: item.roomName,
+                    content: item.content,
+                    date: moment(item.createdAt).format('DD/MM/YYYY'),
+                    status: item.status
+                }))}
+                pagination={{ pageSize: 3 }}
+            >
+                <Column title="STT" dataIndex="index" key="name" />
+                <Column title="Phòng" dataIndex="name" key="name" />
+                <Column title="Nội dung" dataIndex="content" key="content" width={500} />
+                <Column title="Ngày thông báo" dataIndex="date" key="date" />
+                <Column title="Trạng thái" dataIndex="status" key="date" render={(status) => {
+                    return (
+                        <>
+                            {status == true ? <div
+                                className=" p-2 mb-4 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                                role="alert"
+                            >
+
+                                <div>
+                                    <span className="font-medium">Đã xử lý</span>
+                                </div>
+                            </div> : <div></div>}
+                        </>
+                    );
+                }} />
+                <Column title="" key="action" render={(action) => {
+                    return (
+                        <>
+                            <UpdateReport id={action.key} onUpdate={onHandleUpdate}></UpdateReport>
+                        </>
+                    );
+                }} />
+            </Table>
 
 
-                    <div className="bg-white ">
-                        <table className="bg-white min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
-                            <thead className="bg-gray-100 dark:bg-gray-700">
-                                <tr className='bg-white'>
-                                    <th
-                                        scope="col"
-                                        className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-                                    >
-                                        STT
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-                                    >
-                                        Phòng
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-                                    >
-                                        Nội dung
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-                                    >
-                                        Ngày thông báo
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-                                    >
-                                        Tình Trạng
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                                {report &&
-                                    report?.map((item: any, index: number) => {
-                                        return (
-                                            <>
-                                                <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {index + 1}
-                                                    </td>
-                                                    <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                                                        {item?.roomName}
-                                                    </td>
-                                                    <td className="  py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap w-[10px]  dark:text-white">
-                                                        {item?.content}
-                                                    </td>
-                                                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {item?.createdAt}
-                                                    </td>
-                                                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {item?.status == true ? (
-                                                            <div
-                                                                className=" p-2 mb-4 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
-                                                                role="alert"
-                                                            >
 
-                                                                <div>
-                                                                    <span className="font-medium">Đã xử lý</span>
-                                                                </div>
-                                                            </div>
-                                                        ) : (
-                                                            <div
-                                                                className=" p-2 text-center mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-                                                                role="alert"
-                                                            >
-
-                                                                <div>
-                                                                    <span className="font-medium">Chưa xử lý !</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </td>
-                                                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        <UpdateReport id={item._id} onUpdate={onHandleUpdate}></UpdateReport>
-                                                    </td>
-                                                </tr>
-                                            </>
-                                        );
-                                    })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div >
     )
 }
 
