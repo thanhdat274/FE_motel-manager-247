@@ -19,13 +19,15 @@ const Resport = () => {
 
     const { cookies, setLoading } = useUserContext();
     const [report, setReport] = useState<any>([]);
-
+    const [reset, reset1] = useState<any>([]);
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
 
+    const handleResetPage = () => {
+        reset1(reset + 1)
+    }
 
-   
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
@@ -40,7 +42,7 @@ const Resport = () => {
             setLoading(false);
         }
 
-    }, [id, report]);
+    }, [id, reset]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
@@ -56,23 +58,25 @@ const Resport = () => {
             .catch((err) => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
-            })
+            }).finally(() => {
+                handleResetPage()
+            });
 
         // onOpen()
     };
 
 
 
-    const adss = report.filter((report: { status: boolean; }) => report.status == true)
+    const adss = report?.filter((report: { status: boolean; }) => report.status == true)
 
 
-    const ads = report.filter((report: { status: boolean; }) => report.status == false)
+    const ads = report?.filter((report: { status: boolean; }) => report.status == false)
 
 
     return (
         <div className="">
             <Table
-                dataSource={ads.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                dataSource={ads?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
                     index: index + 1,
                     key: item._id,
                     name: item.roomName,
@@ -91,7 +95,7 @@ const Resport = () => {
                     return (
                         <>
                             {status == false ? <div
-                                className=" p-2 mb-4 text-center text-sm text-red-700 bg-red-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                                className=" p-2 mb-4 text-center text-sm text-red-700 bg-red-100 rounded-lg "
                                 role="alert"
                             >
 
@@ -111,7 +115,7 @@ const Resport = () => {
                 }} />
             </Table>
             <Table
-                dataSource={adss.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                dataSource={adss?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
                     index: index + 1,
                     key: item._id,
                     name: item.roomName,
