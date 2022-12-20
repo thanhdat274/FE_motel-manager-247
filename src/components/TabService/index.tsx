@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Toast } from 'src/hooks/toast';
-import { addServiceRoom } from 'src/pages/api/room';
+import { updateRoom } from 'src/pages/api/room';
 
 type Props = {
     data: any,
@@ -43,16 +43,16 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
         getDataRoom()
     }, [dataRoom])
 
-    console.log('data', data);
-
-
     const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
-        var listSv = {
-            service: data.service
+        const newData = {
+            ...dataRoom,
+            service: data.service,
+            idRoom: idRoom,
+            token: userData?.token
         }
         setLoading(true)
         try {
-            const dataService = await addServiceRoom(idRoom, listSv, userData)
+            const dataService = await updateRoom(newData)
             if (dataService) {
                 setLoading(false)
                 Toast('success', 'Lưu dịch vụ thành công');
@@ -105,7 +105,7 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
-                                            {data?.map((item: any, index: any) => {
+                                            {/* {data?.map((item: any, index: any) => {
                                                 if (item?.name == "nuoc" || item?.name == "dien") {
                                                     return (
                                                         <tr key={index}>
@@ -154,7 +154,34 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                                         </tr>
                                                     )
                                                 }
-                                            })}
+                                            })} */}
+                                            {
+                                                dataRoom?.service &&
+                                                dataRoom?.service.map((service: any, index: number) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                                                <div className="text-center">
+                                                                    <input type="checkbox" {...register(`service.${index}.status`, { required: false })} />
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace">
+                                                                <div className="text-center">{service?.label}
+                                                                    <input type="text" value={service?.label} className='hidden' {...register(`service.${index}.name`, { required: true })} />
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace 2xs:hidden ">
+                                                                <div className="text-center">{service?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                                                    <input type="text" value={service?.price} className='hidden' {...register(`service.${index}.price`, { required: true })} />
+                                                                </div>
+                                                            </td>
+                                                            <td className="2xs:hidden px-6 py-4 whitespace">
+                                                                <div className="text-center">{service?.type ? 'Theo tháng' : "Không theo tháng"}</div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
                                         </tbody>
                                         <button
                                             type="submit"
