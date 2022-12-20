@@ -18,7 +18,7 @@ export const options = {
 
 export function PieChart(dataRoomStatus: any) {
   const dataPie = {
-    labels: ['Phòng trống', 'Phòng dang sử dụng', 'Phòng chưa đưa vào sử dụng'],
+    labels: ['Phòng chưa có người ở', 'Phòng dang sử dụng', 'Phòng đang sửa chữa'],
     datasets: [
       {
         label: '# of Votes',
@@ -27,8 +27,8 @@ export function PieChart(dataRoomStatus: any) {
           dataRoomStatus.dataRoomStatus.roomReadyUsing,
           dataRoomStatus.dataRoomStatus.roomNotReady,
         ],
-        backgroundColor: ['rgb(255, 153, 153)', 'rgb(90, 246, 132)', 'rgb(160, 160, 160)'],
-        borderColor: ['rgb(255, 153, 153)', 'rgb(90, 246, 132)', 'rgb(160, 160, 160)'],
+        backgroundColor: ['rgb(254,240,138)', 'rgb(134,239,172)', 'rgb(252,165,165)'],
+        borderColor: ['rgb(254,240,138)', 'rgb(134,239,172)', 'rgb(252,165,165)'],
         borderWidth: 1,
       },
     ],

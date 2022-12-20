@@ -158,8 +158,8 @@ const HomeManagerPage = () => {
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
-            </div>
-            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-yellow-200 shadow border rounded-md">
+            </div>     <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-red-300 shadow border rounded-md">
+
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
@@ -173,7 +173,7 @@ const HomeManagerPage = () => {
               </div>
             </div>
 
-            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-red-300 shadow border rounded-md">
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-yellow-200 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng chưa có người ở</p>

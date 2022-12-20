@@ -110,9 +110,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
     } else {
       return new Promise((resolve, reject) => {
         const storageRef = ref(storage, `files/${image?.file?.name}`);
-
         const uploadTask = uploadBytesResumable(storageRef, image.file);
-
         uploadTask.on(
           'state_changed',
           (snapshot) => {
@@ -132,12 +130,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
 
   const onSubmit = async (data: any) => {
     setLoading(true);
-
-    console.log('data.fine', typeof data.fine);
-
-
     const newAdditional = data.additional.split('\n');
-
     Promise.all(images.map((image: any) => uploadTask(image)))
       .then(async (ListImgs) => {
         const newValue = {
@@ -188,7 +181,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
             endTime: data.endTime,
             additional: newAdditional,
             timeContract: data.timeContract,
-            fine: data.fine,
+            fine: Number(data.fine),
             timeCT: data.timeCT,
             addressCT: data.addressCT,
             imageContract: dataContract.imageContract,
@@ -226,7 +219,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   };
 
   return (
-
     <div className="max-w-full mx-auto ">
       <div className="md:grid md:grid-cols-3 md:gap-6">
         <div className="px-4 py-5 bg-white space-y-6 sm:p-6 mt-5 md:mt-0 md:col-span-3 border rounded-md">
@@ -579,12 +571,18 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <label className="block text-gray-700 text-sm font-bold">
                       Tiền phạt nếu vi phạm <span className="text-[red]">*</span>
                     </label>
-                    <NumericFormat thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
+                    <NumericFormat
+                      value={String(contractData?.fine)}
+                      thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
                       required: false,
                       minLength: 4
-                    })} />
+                    })}
+                      onChange={(e) => {
+                        setValue('fine', Number(e.target.value.split(',').join('')))
+                      }}
+                    />
                     {errors.fine?.type === 'required' && (
-                      <span className="text-[red] mt-1 block">nhập số tiền phạt!</span>
+                      <span className="text-[red] mt-1 block">Nhập số tiền phạt!</span>
                     )}
                     {errors.fine?.type === 'minLength' && (
                       <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000 VNĐ</span>
