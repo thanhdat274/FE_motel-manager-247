@@ -55,7 +55,7 @@ const UpdateReport = (props: Props) => {
                     id="grid-state"
                     {...register('status')}
                   >
-                    <option value="false"> Chưa sử lý</option>
+                    <option value="false"> Chưa xử lý</option>
                     <option value="true"> Đã xử lý</option>
                   </select>
 
