@@ -64,7 +64,7 @@ const InfoService = (props: Props) => {
                             return (
                               <tr key={index}>
                                 <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                                  <div className="text-center">{service?.name}</div>
+                                  <div className="text-center">{service?.label}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace">
                                   <div className="text-center">{pricePar?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
