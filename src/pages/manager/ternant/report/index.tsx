@@ -221,7 +221,7 @@ const ListReport = (props: Props) => {
                       >
 
                         <div>
-                          <span className="font-medium">Chưa sử lý</span>
+                          <span className="font-medium">Chưa xử lý</span>
                         </div>
                       </div> : <div
                         className=" p-2 mb-4 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
@@ -229,7 +229,7 @@ const ListReport = (props: Props) => {
                       >
 
                         <div>
-                          <span className="font-medium">Đã sử lý</span>
+                          <span className="font-medium">Đã xử lý</span>
                         </div>
                       </div>}
                     </>

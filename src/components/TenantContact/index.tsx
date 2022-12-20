@@ -86,7 +86,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
       setValue('endTime', contractData.endTime);
       setValue('additional', contractData.additional.join('\n'));
       setValue('timeContract', contractData.timeContract);
-      setValue('fine', contractData.fine);
+      setValue('fine', String(contractData.fine));
 
       //tenant
       setValue('TNname', infoTenant?.name ? infoTenant?.name : leadMember?.memberName);
@@ -133,6 +133,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   const onSubmit = async (data: any) => {
     setLoading(true);
 
+    console.log('data.fine', typeof data.fine);
+
+
     const newAdditional = data.additional.split('\n');
 
     Promise.all(images.map((image: any) => uploadTask(image)))
@@ -143,7 +146,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
             endTime: data.endTime,
             additional: newAdditional,
             timeContract: data.timeContract,
-            fine: data.fine,
+            fine: Number(data.fine),
             timeCT: data.timeCT,
             addressCT: data.addressCT,
             imageContract: ListImgs,
@@ -400,7 +403,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                   )}
                   {errors.LLcardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối thiểu 9 chữ số!</span>
+                    <span className="text-[red] mt-1 block">CMND/CCCD không đúng định dạng</span>
                   )}
                   {errors.LLcardNumber?.type === 'maxLength' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
@@ -501,7 +504,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                   )}
                   {errors.TNcardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối thiểu 9 chữ số!</span>
+                    <span className="text-[red] mt-1 block">CMND/CCCD không đúng định dạng</span>
                   )}
                   {errors.TNcardNumber?.type === 'maxLength' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
@@ -576,22 +579,15 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <label className="block text-gray-700 text-sm font-bold">
                       Tiền phạt nếu vi phạm <span className="text-[red]">*</span>
                     </label>
-                    <NumericFormat type='text' thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
+                    <NumericFormat thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
                       required: false,
-                      onChange(e) {
-                        setValue('fine', e.target.value)
-                      },
-                      validate: value => value > '0',
-                      minLength: 8
+                      minLength: 4
                     })} />
                     {errors.fine?.type === 'required' && (
                       <span className="text-[red] mt-1 block">nhập số tiền phạt!</span>
                     )}
-                    {errors.fine?.type === 'validate' && (
-                      <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VND</span>
-                    )}
                     {errors.fine?.type === 'minLength' && (
-                      <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000.000 VNĐ</span>
+                      <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000 VNĐ</span>
                     )}
                   </div>
                 </div>
