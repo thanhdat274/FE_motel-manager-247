@@ -96,15 +96,18 @@ const Booking = (props: Props) => {
 
           const { data } = await createBooking(newData)
           const daata = data.data
-          setListBookings([...listBookings, daata])
-          setOpen(false)
-          Toast('success', 'Đặt tiền cọc thành công');
+          if (daata) {
+            setListBookings([...listBookings, daata])
+            setOpen(false)
+            Toast('success', 'Đặt tiền cọc thành công');
+            reset()
+          }
+
         }
 
       } catch (error: any) {
         Toast('error', error?.response?.data?.message);
       }
-      reset()
     }
   };
 
