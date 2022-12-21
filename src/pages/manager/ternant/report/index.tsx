@@ -15,16 +15,16 @@ type Props = {};
 
 const ListReport = (props: Props) => {
   const [repost, setReport] = useState<any>();
+  const { reset, setReset } = useUserContext()
 
   const [codeRoom, setCodeRoom] = useState<any>();
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);
   const onOpenModal = () => setOpen(true);
-  console.log("code", codeRoom);
   const {
     register,
     handleSubmit,
-    reset,
+    
     formState: { errors },
   } = useForm<any>();
   const idd = codeRoom && codeRoom._id;
@@ -47,7 +47,7 @@ const ListReport = (props: Props) => {
       };
       getReport();
     }
-  }, [idd]);
+  }, [idd,reset]);
 
   // -------------------Add  repost------------------
   const onSubmit = async (data2: any) => {

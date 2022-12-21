@@ -7,10 +7,13 @@ import useCookies from 'react-cookie/cjs/useCookies';
 export interface UserState {
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  
   user: any;
   setUser: (loading: any) => void;
   dateOfBirth: number;
   setDateOfBirth: (loading: number) => void;
+  reset: number;
+  setReset: (loading: number) => void;
   phoneNumber: string;
   setPhoneNumber: (loading: string) => void;
   token: string;
@@ -32,6 +35,8 @@ export const UserProvider = ({ children }: any) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(0);
+  const [reset, setReset] = useState(0);
+
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['user', 'code_room']);
@@ -56,10 +61,13 @@ export const UserProvider = ({ children }: any) => {
   const value: UserState = {
     loading,
     setLoading,
+   
     user,
     setUser,
     dateOfBirth,
     setDateOfBirth,
+    reset,
+    setReset,
     phoneNumber,
     setPhoneNumber,
     token,
@@ -68,7 +76,8 @@ export const UserProvider = ({ children }: any) => {
     cookies,
     setCookie,
     actives,
-    setActives
+    setActives,
+   
   };
 
   return (
