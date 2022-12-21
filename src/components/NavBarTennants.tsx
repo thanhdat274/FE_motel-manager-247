@@ -17,9 +17,7 @@ const NavbarTennants = (props: Props) => {
  
   const { logoutResetData } = useUserContext();
   const [open, setOpen] = useState(false);
-  const { reset, setReset } = useUserContext()
   const { cookies, setLoading } = useUserContext();
-  const [report, setReport] = useState<any>();
   const userData = cookies?.user;
 
   const router = useRouter();

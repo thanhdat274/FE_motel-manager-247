@@ -12,8 +12,8 @@ export interface UserState {
   setUser: (loading: any) => void;
   dateOfBirth: number;
   setDateOfBirth: (loading: number) => void;
-  reset: number;
-  setReset: (loading: number) => void;
+  resetPage: number;
+  setResetPage: (loading: number) => void;
   phoneNumber: string;
   setPhoneNumber: (loading: string) => void;
   token: string;
@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: any) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState(0);
-  const [reset, setReset] = useState(0);
+  const [resetPage, setResetPage] = useState(0);
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const [token, setToken] = useState('');
@@ -66,8 +66,8 @@ export const UserProvider = ({ children }: any) => {
     setUser,
     dateOfBirth,
     setDateOfBirth,
-    reset,
-    setReset,
+    resetPage,
+    setResetPage,
     phoneNumber,
     setPhoneNumber,
     token,

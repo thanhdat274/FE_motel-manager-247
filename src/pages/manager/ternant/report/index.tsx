@@ -15,7 +15,7 @@ type Props = {};
 
 const ListReport = (props: Props) => {
   const [repost, setReport] = useState<any>();
-  const { reset, setReset } = useUserContext()
+  const { resetPage, setResetPage } = useUserContext()
 
   const [codeRoom, setCodeRoom] = useState<any>();
   const [open, setOpen] = useState(false);
@@ -47,7 +47,7 @@ const ListReport = (props: Props) => {
       };
       getReport();
     }
-  }, [idd,reset]);
+  }, [idd,resetPage]);
 
   // -------------------Add  repost------------------
   const onSubmit = async (data2: any) => {
@@ -63,7 +63,7 @@ const ListReport = (props: Props) => {
         Toast('error', err?.data?.message);
         setLoading(false);
       }).finally(() => {
-        setReset(reset + 1)
+        setResetPage(resetPage + 1)
     });
   };
   // -------------------End   repost------------------
@@ -76,7 +76,7 @@ const ListReport = (props: Props) => {
       }).catch((err) => {
         Toast('error', err?.data?.message);
       }).finally(() => {
-        setReset(reset + 1)
+        setResetPage(resetPage + 1)
     });
   }
 

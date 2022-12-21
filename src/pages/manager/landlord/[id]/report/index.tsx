@@ -22,7 +22,7 @@ const Resport = () => {
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
-    const { reset, setReset } = useUserContext()
+    const { resetPage, setResetPage } = useUserContext()
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
@@ -37,7 +37,7 @@ const Resport = () => {
             setLoading(false);
         }
 
-    }, [id, reset]);
+    }, [id, resetPage]);
     const onHandleUpdate = async (report: any) => {
 
         setLoading(true);
@@ -54,7 +54,7 @@ const Resport = () => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
             }).finally(() => {
-                setReset(reset + 1)
+                setResetPage(resetPage + 1)
             });
 
         // onOpen()
