@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 import { Toast } from 'src/hooks/toast';
 import { updateRoom } from 'src/pages/api/room';
 
@@ -28,6 +29,8 @@ const TenantInformation = ({ data }: any) => {
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<IForm>({});
   useEffect(() => {
@@ -36,10 +39,8 @@ const TenantInformation = ({ data }: any) => {
     }
   }, [data, reset]);
 
-
-
   const onSubmit = async (data: any) => {
-    const newData = { ...data, idRoom: param?.id_room, token: userData?.token };
+    const newData = { ...data, price: Number(data.price), idRoom: param?.id_room, token: userData?.token };
     setLoading(true);
     await updateRoom(newData)
       .then((result) => {
@@ -77,7 +78,6 @@ const TenantInformation = ({ data }: any) => {
                     <span className="text-[red] mt-1 block">Tên phòng của bạn phải tối thiểu 6 ký tự!</span>
                   )}
                 </div>
-
                 <div className="col-span-6">
                   <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                     Trạng thái phòng
@@ -91,22 +91,24 @@ const TenantInformation = ({ data }: any) => {
                     <option value="false">Phòng đang sửa chữa</option>
                   </select>
                 </div>
-
                 <div className="col-span-6">
                   <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                     Giá phòng <span className="text-[red]">*</span>
                   </label>
-                  <input
+                  <NumericFormat
+                    value={String(data?.price)}
+                    thousandSeparator=","
+                    type="text"
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="price"
-                    type="number"
-                    {...register('price', { required: true, min: 1000 })}
+                    {...register('price', {
+                      required: true,
+                    })}
+                    onChange={(e) => {
+                      setValue('price', Number(e.target.value.split(',').join('')))
+                    }}
                   />
                   {errors.price?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
-                  )}
-                  {errors.price?.type === 'min' && (
-                    <span className="text-[red] mt-1 block"> Giá phòng không nhỏ hớn 1000 VNĐ</span>
                   )}
                 </div>
                 <div className="col-span-6">

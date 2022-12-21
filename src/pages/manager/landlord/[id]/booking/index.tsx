@@ -36,6 +36,7 @@ const Booking = (props: Props) => {
     handleSubmit,
     reset,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<any>();
   const [listBookings, setListBookings] = useState<any>({});
@@ -80,6 +81,8 @@ const Booking = (props: Props) => {
     }
 
   }, [id]);
+  console.log(listRooms)
+
 
   const onSubmit = async (data1: any) => {
     if (id) {

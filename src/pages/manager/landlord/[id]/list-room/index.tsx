@@ -51,7 +51,6 @@ const ListRoom = () => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
-
       await removeRoom({ _id: _id, userData: userData })
         .then(() => {
           Toast('success', 'Xóa phòng thành công');
@@ -120,9 +119,19 @@ const ListRoom = () => {
                           </p>{' '}
                         </>
                       ) : (
-                        <div className="pt-2 pb-5">
-                          <h2>Phòng trống</h2>
-                        </div>
+                        <>
+                          <p className="flex items-center gap-2 mb-[20px]">
+                            <span className="h-[15px]" ></span>
+                            <span className="">
+                              Phòng trống
+                            </span>
+                          </p>
+                          <p className="flex items-center gap-2 mb-[20px]">
+                            <span className="h-[15px]" ></span>
+                            <span className="">
+                            </span>
+                          </p>
+                        </>
                       )}
 
                       <div className="text-center flex gap-3 ">
@@ -147,7 +156,7 @@ const ListRoom = () => {
                     </div>
                   ) : (
                     <div
-                      className="w-full border-2 p-[20px] border-y-red-400 border-x-red-400 bg-white rounded-[5px]"
+                      className="w-full border-2 p-[20px] border-y-red-400 border-x-red-400 bg-white rounded-[5px] flex flex-col justify-between"
                       key={index}
                     >
                       <h2 className="text-xl flex items-center gap-2 mb-[20px]">
@@ -158,13 +167,22 @@ const ListRoom = () => {
                       <p className="flex items-center gap-2 mb-[20px]">
                         <FontAwesomeIcon className="h-[15px]" icon={faMoneyBill} />
                         <span className="text-red-500">
-                          {item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                          {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                         </span>
                       </p>
-                      <div className="pt-2 pb-5">
-                        <h2>Phòng chưa sẵn sàng</h2>
-                      </div>
-                      <div className=" flex gap-3  ">
+
+                      <p className="flex items-center gap-2 mb-[20px]">
+                        <span className="h-[15px]" ></span>
+                        <span className="">
+                          Phòng đang sửa chữa
+                        </span>
+                      </p>
+                      <p className="flex items-center gap-2 mb-[20px]">
+                        <span className="h-[15px]" ></span>
+                        <span className="">
+                        </span>
+                      </p>
+                      <div className="text-center flex gap-3">
                         <Link
                           href={`/manager/landlord/${id}/list-room/${item._id}/`}
                           className="text-amber-500 hover:text-amber-600"
@@ -202,14 +220,14 @@ const ListRoom = () => {
       case '1':
         return (
           <div className="w-full border-solid  border-green-500 p-4">
-            <div className="title text-xl font-bold">Phòng đang sử dụng</div>
+            <div className="title text-xl font-bold mb-[20px]">Phòng đang sử dụng</div>
             <>{genData(listRoomUsing, 'border-green-500')}</>
           </div>
         );
       case '2':
         return (
           <div className="w-full border-solid  border-red-400 p-4">
-            <div className="title text-xl font-bold">Phòng đang sửa chữa</div>
+            <div className="title text-xl font-bold mb-[20px]">Phòng đang sửa chữa</div>
             <>{genData(listRoomNotReady, 'border-red-400')}</>
           </div>
         );
@@ -217,14 +235,14 @@ const ListRoom = () => {
       case '3':
         return (
           <div className="w-full border-solid  border-yellow-400 p-4">
-            <div className="title text-xl font-bold">Phòng còn trống</div>
+            <div className="title text-xl font-bold mb-[20px]">Phòng còn trống</div>
             <>{genData(listRoomEmptyMember, 'border-yellow-400')}</>
           </div>
         );
       default:
         return (
           <>
-            <div className="w-full border-solid border-b-2  p-4">
+            <div className="w-full p-4">
               <>{genData(roomsAll, 'border-green-400')}</>
             </div>
           </>
