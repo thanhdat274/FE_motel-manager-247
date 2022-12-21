@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { NumericFormat } from 'react-number-format';
 import { Toast } from 'src/hooks/toast';
 import { readService, updateService } from 'src/pages/api/service';
 
@@ -26,6 +27,7 @@ const EditService = (props: Props) => {
     watch,
     reset,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<IFormInputs>();
 
@@ -44,9 +46,8 @@ const EditService = (props: Props) => {
   }, [userData, param.idService, reset, setLoading]);
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    const newData = { ...data, userData: userData };
+    const newData = { ...data, price: Number(data.price), userData: userData };
     setLoading(true);
-
     await updateService(newData)
       .then((data: any) => {
         Toast('success', 'Cập nhật dịch vụ thành công');
@@ -99,22 +100,21 @@ const EditService = (props: Props) => {
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Giá dịch vụ <span className="text-[red]">*</span>
                       </label>
-                      <input
+                      <NumericFormat
+                        value={String(getValues('price'))}
+                        thousandSeparator=","
+                        type="text"
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="price"
-                        type="number"
-                        placeholder="Nhập giá dịch vụ..."
                         {...register('price', {
                           required: true,
-                          minLength: 4,
-                          min: 0
+                          minLength: 4
                         })}
+                        onChange={(e) => {
+                          setValue('price', Number(e.target.value.split(',').join('')))
+                        }}
                       />
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
-                      )}
-                      {errors.price?.type === 'min' && (
-                        <span className="text-[red] mt-1 block">Giá dịch vụ không được nhỏ hơn 0 VND</span>
                       )}
                       {errors.price?.type === 'minLength' && (
                         <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
