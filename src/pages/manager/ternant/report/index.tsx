@@ -56,14 +56,15 @@ const ListReport = (props: Props) => {
     await addReport(data2)
       .then((result: any) => {
         setLoading(false);
-        setReport([...repost, result.data.data]);
         setOpen(false);
         Toast('success', result?.data?.message);
       })
       .catch((err) => {
         Toast('error', err?.data?.message);
         setLoading(false);
-      });
+      }).finally(() => {
+        setReset(reset + 1)
+    });
   };
   // -------------------End   repost------------------
 
@@ -71,15 +72,12 @@ const ListReport = (props: Props) => {
 
     await removeReport(id)
       .then((result) => {
-        setReport(repost.filter((item: { _id: any; }) => item._id !== id))
         Toast('success', result?.data?.message);
       }).catch((err) => {
         Toast('error', err?.data?.message);
-      });
-
-
-
-
+      }).finally(() => {
+        setReset(reset + 1)
+    });
   }
 
   return (

@@ -14,15 +14,12 @@ type Props = {};
 
 
 const Navbar = (props: Props) => {
-  // const [modalIsOpen, setIsOpen] = useState(false);
-  // const [modalIsOpen1, setIsOpen1] = useState(false);
+ 
   const { logoutResetData } = useUserContext();
   const [status, setStatus] = useState<any>({})
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const { reset, setReset } = useUserContext()
-
-
   const { cookies, setLoading } = useUserContext();
   const [report, setReport] = useState<any>();
   const userData = cookies?.user;

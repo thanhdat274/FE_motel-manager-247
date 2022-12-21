@@ -63,11 +63,11 @@ const Resport = () => {
 
 
     const noProcess = report?.filter((report: { status: boolean; }) => report.status == true)
-    noProcess.reverse()
+    noProcess?.reverse()
 
 
     const processed = report?.filter((report: { status: boolean; }) => report.status == false)
-    processed.reverse()
+    processed?.reverse()
 
     return (
         <div className="">
