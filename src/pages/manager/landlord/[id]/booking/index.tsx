@@ -81,10 +81,8 @@ const Booking = (props: Props) => {
 
   }, [id]);
 
-
   const onSubmit = async (data1: any) => {
     if (id) {
-
       const newData = { ...data1, bookMoney: Number(data1.bookMoney.replace(/[^0-9\.]+/g, "")), userData: userData }
       try {
         if (data1.expectTime < date
@@ -103,6 +101,7 @@ const Booking = (props: Props) => {
       } catch (error: any) {
         Toast('error', error?.response?.data?.message);
       }
+      reset()
     }
   };
 
@@ -299,11 +298,13 @@ const Booking = (props: Props) => {
                   >
                     {listRooms &&
                       listRooms.map((item: any, index: number) => {
-                        return (
-                          <>
-                            <option value={item._id}>{item.name}</option>
-                          </>
-                        );
+                        if (item?.status === true && !item?.listMember?.length) {
+                          return (
+                            <>
+                              <option value={item._id}>{item.name}</option>
+                            </>
+                          );
+                        }
                       })}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -437,20 +438,20 @@ const Booking = (props: Props) => {
                     placeholder='Xin mời nhập số tiền cọc'
                     {...register('bookMoney', {
                       required: true,
-                      validate: value => value > '0',
+                      min: 0,
+                      // minLength: 7,
                       onChange(e) {
                         setValue('bookMoney', e.target.value)
-                      },
-                      minLength: 8
-                    })} />  
+                      }
+                    })} />
+                  {errors.bookMoney?.type === 'min' && (
+                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 0!</span>
+                  )}
+                  {/* {errors.bookMoney?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 500000!</span>
+                  )} */}
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
-                  )}
-                  {errors.bookMoney?.type === 'validate' && (
-                    <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VND</span>
-                  )}
-                  {errors.bookMoney?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000.000 VNĐ</span>
                   )}
                 </div>
               </div>

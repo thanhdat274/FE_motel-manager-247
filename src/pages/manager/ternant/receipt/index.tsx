@@ -234,10 +234,6 @@ const InfoReceipt = (props: Props) => {
                             </li>
                           </ul>
                         </div>
-                        <div className="p-4">
-                          <h3>Chữ ký</h3>
-                          <div className="text-4xl italic text-indigo-500">Demo</div>
-                        </div>
                       </div>
                       <div className="w-full h-0.5 bg-indigo-500" />
                       <div className="p-4">
@@ -247,9 +243,9 @@ const InfoReceipt = (props: Props) => {
                         <div className="flex items-end justify-end space-x-3">
                           {/* <button className="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>
                         <button className="px-4 py-2 text-sm text-blue-600 bg-blue-100">Save</button> */}
-                          <button className="px-4 py-2 text-sm text-red-600 bg-red-100 font-extrabold tracking-widest">
+                          {/* <button className="px-4 py-2 text-sm text-red-600 bg-red-100 font-extrabold tracking-widest">
                             Phản hồi
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>

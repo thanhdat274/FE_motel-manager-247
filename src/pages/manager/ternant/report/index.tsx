@@ -20,7 +20,6 @@ const ListReport = (props: Props) => {
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);
   const onOpenModal = () => setOpen(true);
-  console.log("code", codeRoom);
   const {
     register,
     handleSubmit,

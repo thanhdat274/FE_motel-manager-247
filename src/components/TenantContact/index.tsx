@@ -133,9 +133,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   const onSubmit = async (data: any) => {
     setLoading(true);
 
-    console.log('data.fine', typeof data.fine);
-
-
     const newAdditional = data.additional.split('\n');
 
     Promise.all(images.map((image: any) => uploadTask(image)))
