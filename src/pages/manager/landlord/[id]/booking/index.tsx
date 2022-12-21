@@ -26,11 +26,8 @@ const Booking = (props: Props) => {
   const param = router.query;
   const id = param.id;
   const [listRooms, setListRooms] = useState<any>();
-
   var today = new Date();
-
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
   const {
     register,
     handleSubmit,
@@ -39,7 +36,6 @@ const Booking = (props: Props) => {
     formState: { errors },
   } = useForm<any>();
   const [listBookings, setListBookings] = useState<any>({});
-
   useEffect(() => {
     if (id) {
       const getListBooking = async () => {
@@ -48,7 +44,6 @@ const Booking = (props: Props) => {
       };
       getListBooking();
     }
-
   }, [id]);
 
   const onHandleRemove = async (id: any) => {
@@ -68,9 +63,7 @@ const Booking = (props: Props) => {
     }
   };
 
-
   useEffect(() => {
-
     if (id) {
       const getListRoom = async () => {
         const { data } = await listRoom(id, userData);
@@ -78,7 +71,6 @@ const Booking = (props: Props) => {
       };
       getListRoom();
     }
-
   }, [id]);
 
 
@@ -173,7 +165,6 @@ const Booking = (props: Props) => {
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.phoneNumber}
                                 </td>
-
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </td>
@@ -185,7 +176,6 @@ const Booking = (props: Props) => {
                                     <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
                                   </div>
                                   <div>
-
                                     <button
                                       type="submit"
                                       className="flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
@@ -437,20 +427,17 @@ const Booking = (props: Props) => {
                     placeholder='Xin mời nhập số tiền cọc'
                     {...register('bookMoney', {
                       required: true,
-                      validate: value => value > '0',
-                      onChange(e) {
-                        setValue('bookMoney', e.target.value)
-                      },
-                      minLength: 8
-                    })} />  
+                      minLength: 8,
+                    })}
+                    onChange={(e) => {
+                      setValue('bookMoney', e.target.value)
+                    }}
+                  />
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
                   )}
-                  {errors.bookMoney?.type === 'validate' && (
-                    <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VND</span>
-                  )}
                   {errors.bookMoney?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000.000 VNĐ</span>
+                    <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 100.000 VNĐ</span>
                   )}
                 </div>
               </div>
@@ -475,8 +462,6 @@ const Booking = (props: Props) => {
                   )}
                 </div>
               </div>
-
-
               <div className=" text-center">
                 <button
                   className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
@@ -485,7 +470,6 @@ const Booking = (props: Props) => {
                   Đặt cọc
                 </button>
               </div>
-
             </form>
           </div>
         </div>
