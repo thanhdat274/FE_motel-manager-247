@@ -45,7 +45,7 @@ const LoginCode = ({ data }: Props) => {
               <input
                 type="text"
                 defaultValue={data.subName}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:shadow-outline"
                 placeholder="Mã đăng nhập"
                 {...register('codeRoom', {
                   required: true,
@@ -53,21 +53,19 @@ const LoginCode = ({ data }: Props) => {
                   pattern: /^[a-zA-Z0-9&@.$%\-_,():;`]+$/,
                 })}
               />
-
               <div className="mt-2 text-red-500">
                 {errors.codeRoom?.type === 'required' && (
                   <span className="text-[red] mt-1 block">Vui lòng nhập mã đăng nhập!</span>
                 )}
                 {errors.codeRoom?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Mã đăng nhập tối thiểu 4 ký tự</span>
+                  <span className="text-[red] mt-1 block">Mã đăng nhập tối thiểu 4 ký tự!</span>
                 )}
                 {errors.codeRoom?.type === 'pattern' && (
-                  <span className="text-[red] mt-1 block">Mã đăng nhập không chứa dấu cách và chữ có dấu</span>
+                  <span className="text-[red] mt-1 block">Mã đăng nhập không chứa dấu cách và chữ có dấu!</span>
                 )}
               </div>
               <p>VD: abc_12345</p>
             </div>
-
             <div className="ml-5">
               <button
                 type="submit"

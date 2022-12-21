@@ -39,8 +39,6 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
       setOpen(false);
       Toast('success', result.data.message);
     }).catch((err) => {
-    
-      
       setLoading(false);
       Toast('error', err.message);
     }).finally(() => {
@@ -63,7 +61,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
               </button>
             ) : (
               <>
-                <button className="border mb-5 px-3 py-2  bg-cyan-400 text-white  disabled:opacity-50">Đủ người</button>
+                <button disabled className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Đủ người</button>
               </>
             )}
           </div>
@@ -73,7 +71,6 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
 
         <Modal open={open} onClose={onCloseModal} center>
           <div className="w-full pt-6">
-
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4 ">
               <div className="">
                 <h2 className="pt-2 text-xl text-white">Thêm thành viên </h2>
@@ -82,7 +79,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  Tên thành viên
+                  Tên thành viên <span className="text-[red]">*</span>
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -95,13 +92,13 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   <span className="text-[red] mt-1 block">Vui lòng nhập tên thành viên!</span>
                 )}
                 {errors.memberName?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Tên thành viên phải tối thiểu 6 ký tự!</span>
+                  <span className="text-[red] mt-1 block">Tên thành viên tối thiểu 6 ký tự!</span>
                 )}
               </div>
 
               <div className="col-span-6">
                 <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
-                  Chức vụ
+                  Chức vụ <span className="text-[red]">*</span>
                 </label>
                 {data1?.length < 1 ? (
                   <select
@@ -124,36 +121,36 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
               </div>
               <div className="mb-4 mt-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  CMT/CCCD
+                  CMND/CCCD <span className="text-[red]">*</span>
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="cardNumber"
                   type="text"
-                  placeholder="Xin mời nhập  CMT/CCCD"
+                  placeholder="Xin mời nhập  CMND/CCCD"
                   {...register('cardNumber', {
                     required: true,
-                    minLength: 12,
+                    minLength: 9,
                     maxLength: 12,
                     pattern: /^[0-9]+$/
                   })}
                 />
                 {errors.cardNumber?.type === 'required' && (
-                  <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
+                  <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                 )}
                 {errors.cardNumber?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 12 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                 )}
                 {errors.cardNumber?.type === 'maxLength' && (
-                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
                 )}
                 {errors.cardNumber?.type === 'pattern' && (
-                  <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                  <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                 )}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                  Số điện thoại
+                  Số điện thoại <span className="text-[red]">*</span>
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -168,16 +165,16 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   })}
                 />
                 {errors.phoneNumber?.type === 'required' && (
-                  <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                  <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                 )}
                 {errors.phoneNumber?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối thiểu 10 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                 )}
                 {errors.phoneNumber?.type === 'maxLength' && (
-                  <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối đa 10 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
                 )}
                 {errors.phoneNumber?.type === 'pattern' && (
-                  <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                  <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                 )}
               </div>
 

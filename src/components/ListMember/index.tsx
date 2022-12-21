@@ -97,7 +97,7 @@ const ListMember = (props: IMember) => {
         </div>
         <div className="flex flex-row justify-between">
           <div className="cart-number">
-            <strong>CMT/CCCD:</strong> {showData(cardNumber, !hiddenCardNumber)}
+            <strong>CMND/CCCD:</strong> {showData(cardNumber, !hiddenCardNumber)}
           </div>
           <FontAwesomeIcon
             className="w-[20px] text-[10px] pt-[2px]"
@@ -106,7 +106,7 @@ const ListMember = (props: IMember) => {
             size={'lg'}
           />
         </div>
-        <div className="name-member">{status == true ? <div>Chủ Phòng</div> : <div>{null}</div>}</div>
+        <div className="name-member">{status == true ? <div>Chủ Phòng</div> : <div>Thành viên</div>}</div>
 
         <div className="control-member flex flex-row gap-2">
           {/* <div

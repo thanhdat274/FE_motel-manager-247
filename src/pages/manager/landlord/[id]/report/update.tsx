@@ -33,10 +33,9 @@ const UpdateReport = (props: Props) => {
       <button
         onClick={onOpenModal1}
         type="button"
-        className="rounded-md px-3.5 py-2 m-1 overflow-hidden relative group cursor-pointer border-2 font-medium border-indigo-600 text-indigo-600 text-white"
+        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        <span className="absolute w-64 h-0 transition-all duration-300 origin-center rotate-45 -translate-x-20 bg-indigo-600 top-1/2 group-hover:h-64 group-hover:-translate-y-32 ease" />
-        <span className="relative text-indigo-600 transition duration-300 group-hover:text-white ease">Cập nhật</span>
+       Cập nhật
       </button>
       <Modal open={open1} onClose={onCloseModal1} center>
         <div className="w-full">
@@ -69,7 +68,7 @@ const UpdateReport = (props: Props) => {
 
               <div className=" text-center">
                 <button
-                  className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   type="submit"
                 >
                   Cập nhật

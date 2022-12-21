@@ -71,12 +71,12 @@ const AccountInformation = (props: Props) => {
                 {...register('name', { required: true })}
               />
               {errors.name?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên!</span>
               )}
             </div>
             <div className="mt-4">
               <label className="block">
-                CCCD <span className="text-[red]">*</span>
+                CMND/CCCD <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
@@ -87,16 +87,16 @@ const AccountInformation = (props: Props) => {
                 })}
               />
               {errors.cardNumber?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
               )}
               {errors.cardNumber?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 9 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
               )}
               {errors.cardNumber?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số CMND/CCCD tối đa 12 chữ số!</span>
               )}
               {errors.cardNumber?.type === 'pattern' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
               )}
             </div>
             <div className="mt-4">
@@ -109,7 +109,7 @@ const AccountInformation = (props: Props) => {
                 {...register('dateRange', { required: true })}
               />
               {errors.dateRange?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp!</span>
               )}
             </div>
             <div className="mt-4">
@@ -123,7 +123,7 @@ const AccountInformation = (props: Props) => {
                 {...register('issuedBy', { required: true })}
               />
               {errors.issuedBy?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập nơi cấp!</span>
               )}
             </div>
             <div className="mt-4">
@@ -142,16 +142,16 @@ const AccountInformation = (props: Props) => {
                 })}
               />
               {errors.phoneNumber?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
               )}
               {errors.phoneNumber?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối thiểu 10 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
               )}
               {errors.phoneNumber?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối đa 10 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
               )}
               {errors.phoneNumber?.type === 'pattern' && (
-                <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
               )}
             </div>
             <div className="mt-4">
@@ -165,7 +165,7 @@ const AccountInformation = (props: Props) => {
                 {...register('address', { required: true })}
               />
               {errors.address?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ!</span>
               )}
             </div>
             <div className="flex mt-[20px]">
@@ -173,7 +173,7 @@ const AccountInformation = (props: Props) => {
                 type="submit"
                 className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600"
               >
-                Lưu
+                Cập nhật
               </button>
             </div>
           </form>

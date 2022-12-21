@@ -90,7 +90,6 @@ const SideBar = () => {
               </Link>
 
               {MENU_LANDLORD.map((menu, index) => {
-
                 return (
                   <li
                     key={index}

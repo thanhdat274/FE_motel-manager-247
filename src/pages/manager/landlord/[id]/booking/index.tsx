@@ -28,6 +28,7 @@ const Booking = (props: Props) => {
   const [listRooms, setListRooms] = useState<any>();
   var today = new Date();
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  const [fillter, setfillter] = useState('');
   const {
     register,
     handleSubmit,
@@ -35,6 +36,12 @@ const Booking = (props: Props) => {
     setValue,
     formState: { errors },
   } = useForm<any>();
+
+  const handleSearch = (event: any) => {
+    const value = event.target.value;
+    setfillter(value);
+  };
+
   const [listBookings, setListBookings] = useState<any>({});
   useEffect(() => {
     if (id) {
@@ -79,19 +86,15 @@ const Booking = (props: Props) => {
 
       const newData = { ...data1, bookMoney: Number(data1.bookMoney.replace(/[^0-9\.]+/g, "")), userData: userData }
       try {
-        if (data1.expectTime < date
-        ) {
-
+        if (data1.expectTime < date) {
           Toast('error', 'Ngày tháng phải lớn hơn  thời gian hiện tại');
         } else {
-
           const { data } = await createBooking(newData)
           const daata = data.data
           setListBookings([...listBookings, daata])
           setOpen(false)
           Toast('success', 'Đặt tiền cọc thành công');
         }
-
       } catch (error: any) {
         Toast('error', error?.response?.data?.message);
       }
@@ -108,10 +111,22 @@ const Booking = (props: Props) => {
                 Đặt cọc
               </h2>
             </div>
-            <div className='text-right'>
+            <div className="mt-5 flex lg:mt-0 lg:ml-4 items-center">
+              <div className="mr-[20px]">
+                <form>
+                  <input
+                    type="text"
+                    name="keyword"
+                    className="text-black shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Tìm kiếm..."
+                    onChange={handleSearch}
+                    value={fillter}
+                  />
+                </form>
+              </div>
               <button
                 onClick={onOpenModal}
-                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Đặt cọc
               </button>
@@ -139,7 +154,6 @@ const Booking = (props: Props) => {
                       <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Số điện thoại
                       </th>
-
                       <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                         Tiền cọc
                       </th>
@@ -150,81 +164,90 @@ const Booking = (props: Props) => {
                   </thead>
                   <tbody className=' ' >
                     {listBookings && listBookings.length > 0 ? (
-                      listBookings?.map((item: any, index: number) => {
-                        return (
-                          <>
-                            {item.expectTime == date ? (
-                              <tr className=" border-yellow-500 border-2 ">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.fullName}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.email}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.phoneNumber}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.expectTime}
-                                </td>
-                                <td className="flex pt-2">
-                                  <div>
-                                    <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
-                                  </div>
-                                  <div>
-                                    <button
-                                      type="submit"
-                                      className="flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                      onClick={() => onHandleRemove(item._id)}
-                                    >
-                                      <span className='pr-2'> Xóa</span>
-                                      <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            ) : (
-                              <tr className="border-b">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.fullName}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.email}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.phoneNumber}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                                </td>
-                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {item.expectTime}
-                                </td>
-                                <td className="flex pt-2">
-                                  <div>
-                                    <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
-                                  </div>
-                                  <div>
-                                    <button
-                                      type="submit"
-                                      className=" flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                      onClick={() => onHandleRemove(item._id)}
-                                    >
-                                      <span className='pr-2'> Xóa</span>
-                                      <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
-                                    </button>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
-                          </>
-                        );
-                      })
+                      listBookings &&
+                      listBookings
+                        .filter((val: any) => {
+                          if (fillter == '') {
+                            return val;
+                          } else if (val.fullName.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                            return val;
+                          }
+                        })
+                        .map((item: any, index: number) => {
+                          return (
+                            <>
+                              {item.expectTime == date ? (
+                                <tr className=" border-yellow-500 border-2 ">
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.fullName}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.email}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.phoneNumber}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.expectTime}
+                                  </td>
+                                  <td className="flex pt-2">
+                                    <div>
+                                      <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
+                                    </div>
+                                    <div>
+                                      <button
+                                        type="submit"
+                                        className="flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                        onClick={() => onHandleRemove(item._id)}
+                                      >
+                                        <span className='pr-2'> Xóa</span>
+                                        <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ) : (
+                                <tr className="border-b">
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.fullName}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.email}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.phoneNumber}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.bookMoney.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {item.expectTime}
+                                  </td>
+                                  <td className="flex pt-2">
+                                    <div>
+                                      <AddBooking item1={item._id} item2={item.idRoom}></AddBooking>
+                                    </div>
+                                    <div>
+                                      <button
+                                        type="submit"
+                                        className=" flex focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                        onClick={() => onHandleRemove(item._id)}
+                                      >
+                                        <span className='pr-2'> Xóa</span>
+                                        <FontAwesomeIcon className="h-[15px] pt-1" icon={faTrash} />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </>
+                          );
+                        })
                     ) : (
                       <tr className='text-red-500 p-5'><td className='p-5'>Không có dữ liệu</td></tr>
                     )}
@@ -386,7 +409,7 @@ const Booking = (props: Props) => {
                     className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
                     htmlFor="inline-full-name"
                   >
-                    CMT/CCCD
+                    CMND/CCCD
                   </label>
                 </div>
                 <div className="md:w-2/3">
@@ -394,7 +417,7 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="text"
-                    placeholder='Xin mời nhập CCCD hoặc CMT'
+                    placeholder='Xin mời nhập CCCD hoặc CMND'
                     {...register('cardNumber', {
                       minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
                     })}

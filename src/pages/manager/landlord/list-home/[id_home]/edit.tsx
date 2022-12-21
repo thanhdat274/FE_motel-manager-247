@@ -67,10 +67,10 @@ const EditHouse = (props: Props) => {
             {...register('name', { required: true, minLength: 6 })}
           />
           {errors.name?.type === 'required' && (
-            <span className="text-[red] mt-1 block">Vui lòng nhập tên nhà của bạn!</span>
+            <span className="text-[red] mt-1 block">Vui lòng nhập tên nhà!</span>
           )}
           {errors.name?.type === 'minLength' && (
-            <span className="text-[red] mt-1 block">Tên nhà của bạn phải tối thiểu 6 ký tự!</span>
+            <span className="text-[red] mt-1 block">Tên nhà tối thiểu 6 ký tự!</span>
           )}
         </div>
         <div className="mb-4">
@@ -85,10 +85,10 @@ const EditHouse = (props: Props) => {
             {...register('address', { required: true, minLength: 6 })}
           />
           {errors.address?.type === 'required' && (
-            <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ nhà của bạn!</span>
+            <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ nhà!</span>
           )}
           {errors.address?.type === 'minLength' && (
-            <span className="text-[red] mt-1 block">Địa chỉ nhà của bạn phải tối thiểu 6 ký tự!</span>
+            <span className="text-[red] mt-1 block">Địa chỉ nhà tối thiểu 6 ký tự!</span>
           )}
         </div>
 
