@@ -106,7 +106,6 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                     {...register('status', { required: true })}
                     id="status"
                   >
-                    {' '}
                     <option value="true">Người đại diện</option>
                   </select>
                 ) : (
@@ -142,7 +141,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                 )}
                 {errors.cardNumber?.type === 'maxLength' && (
-                  <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                 )}
                 {errors.cardNumber?.type === 'pattern' && (
                   <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
@@ -171,7 +170,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                 )}
                 {errors.phoneNumber?.type === 'maxLength' && (
-                  <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                 )}
                 {errors.phoneNumber?.type === 'pattern' && (
                   <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>

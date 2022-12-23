@@ -119,7 +119,7 @@ const AccountInformation = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập nơi cấp"
+                placeholder="Nhập nơi cấp...."
                 {...register('issuedBy', { required: true })}
               />
               {errors.issuedBy?.type === 'required' && (
@@ -133,7 +133,7 @@ const AccountInformation = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập số điện thoại"
+                placeholder="Nhập số điện thoại....."
                 {...register('phoneNumber', {
                   required: true,
                   minLength: 10,
@@ -148,7 +148,7 @@ const AccountInformation = (props: Props) => {
                 <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
               )}
               {errors.phoneNumber?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
               )}
               {errors.phoneNumber?.type === 'pattern' && (
                 <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
@@ -161,7 +161,7 @@ const AccountInformation = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập địa chỉ"
+                placeholder="Nhập địa chỉ....."
                 {...register('address', { required: true })}
               />
               {errors.address?.type === 'required' && (

@@ -363,10 +363,10 @@ const Booking = (props: Props) => {
                     {...register('email', { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ })}
                   />
                   {errors.email?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
                   )}
                   {errors.email?.type === 'pattern' && (
-                    <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
+                    <span className="text-[red] mt-1 block">Địa chỉ email không đúng định dạng!</span>
                   )}
                 </div>
               </div>
@@ -388,17 +388,21 @@ const Booking = (props: Props) => {
                     {...register('phoneNumber', {
                       required: true,
                       minLength: 10,
+                      maxLength: 10,
                       pattern: /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/,
                     })}
                   />
                   {errors.phoneNumber?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                   )}
                   {errors.phoneNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại của bạn tối thiểu 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+                  )}
+                  {errors.phoneNumber?.type === 'maxLength' && (
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.phoneNumber?.type === 'pattern' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                 </div>
               </div>
@@ -458,12 +462,6 @@ const Booking = (props: Props) => {
                       setValue('bookMoney', Number(e.target.value.split(',').join('')))
                     }}
                   />
-                  {errors.bookMoney?.type === 'min' && (
-                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 0!</span>
-                  )}
-                  {/* {errors.bookMoney?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 500000!</span>
-                  )} */}
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
                   )}

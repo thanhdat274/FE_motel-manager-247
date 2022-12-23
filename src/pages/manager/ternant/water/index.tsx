@@ -107,7 +107,7 @@ const ListWater = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số nước tiêu thu
+                          Số nước tiêu thu (m3)
                         </th>
                       </tr>
                     </thead>
@@ -117,14 +117,14 @@ const ListWater = (props: Props) => {
                           <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.inputValue} số</div>
+                          <div className="text-center">{listBillData.inputValue}</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.outputValue} số</div>
+                          <div className="text-center">{listBillData.outputValue}</div>
                         </td>
                         <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
-                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} số</div>
+                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue}</div>
                         </td>
                       </tr>
                     </tbody>

@@ -114,7 +114,6 @@ const Resport = () => {
                                 className=" p-2 text-center text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
                                 role="alert"
                             >
-
                                 <div>
                                     <span className="font-medium">Đã xử lý</span>
                                 </div>
@@ -130,9 +129,6 @@ const Resport = () => {
                     );
                 }} />
             </Table>
-
-
-
         </div >
     )
 }

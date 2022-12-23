@@ -391,7 +391,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
                   )}
                   {errors.LLcardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.LLcardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
@@ -445,10 +445,10 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại tối thiểu 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
@@ -488,7 +488,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
                   )}
                   {errors.TNcardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.TNcardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
@@ -544,7 +544,7 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.TNphoneNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại tối đa 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.TNphoneNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
