@@ -87,16 +87,16 @@ const AccountInformation = (props: Props) => {
                 })}
               />
               {errors.cardNumber?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập số  CMT/CCCD của bạn!</span>
               )}
               {errors.cardNumber?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 9 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số CMT/CCCD của bạn không đúng dịnh dạng!</span>
               )}
               {errors.cardNumber?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số CMT/CCCD của bạn không đúng dịnh dạng!</span>
               )}
               {errors.cardNumber?.type === 'pattern' && (
-                <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                <span className="text-[red] mt-1 block">Số CMT/CCCD của bạn không đúng dịnh dạng!</span>
               )}
             </div>
             <div className="mt-4">

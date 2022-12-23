@@ -39,8 +39,6 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
       setOpen(false);
       Toast('success', result.data.message);
     }).catch((err) => {
-    
-      
       setLoading(false);
       Toast('error', err.message);
     }).finally(() => {
@@ -133,7 +131,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   placeholder="Xin mời nhập  CMT/CCCD"
                   {...register('cardNumber', {
                     required: true,
-                    minLength: 12,
+                    minLength: 9,
                     maxLength: 12,
                     pattern: /^[0-9]+$/
                   })}
@@ -142,10 +140,10 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                   <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
                 )}
                 {errors.cardNumber?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 12 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số CMT/CCCD của bạn không đúng dịnh dạng!</span>
                 )}
                 {errors.cardNumber?.type === 'maxLength' && (
-                  <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                  <span className="text-[red] mt-1 block">Số CMT/CCCD của bạn không đúng dịnh dạng!</span>
                 )}
                 {errors.cardNumber?.type === 'pattern' && (
                   <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
