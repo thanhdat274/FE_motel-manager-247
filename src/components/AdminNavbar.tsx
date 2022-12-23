@@ -12,13 +12,12 @@ import moment from 'moment';
 type Props = {};
 
 const Navbar = (props: Props) => {
-  // const [modalIsOpen, setIsOpen] = useState(false);
-  // const [modalIsOpen1, setIsOpen1] = useState(false);
+ 
   const { logoutResetData } = useUserContext();
   const [status, setStatus] = useState<any>({});
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
-
+  const { resetPage, setResetPage } = useUserContext()
   const { cookies, setLoading } = useUserContext();
   const [report, setReport] = useState<any>();
   const userData = cookies?.user;
@@ -35,12 +34,14 @@ const Navbar = (props: Props) => {
   useEffect(() => {
     if (id) {
       const getStatus = async () => {
-        const { data } = await listReportStatus(id);
-        setStatus(data);
-      };
-      getStatus();
+
+        const { data } = await listReportStatus(id)
+        setStatus(data)
+      }
+      getStatus()
     }
-  }, [id]);
+
+  }, [id, resetPage])
   // ------------------------------------
   useEffect(() => {
     if (id) {
@@ -54,7 +55,10 @@ const Navbar = (props: Props) => {
       getReport();
       setLoading(false);
     }
-  }, [id]);
+
+
+  }, [id, resetPage]);
+
   return (
     <div>
       <nav className="left-0 w-full z-50 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">

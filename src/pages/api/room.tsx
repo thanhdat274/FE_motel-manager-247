@@ -49,6 +49,11 @@ export const updateRoom = (newData: any) => {
     },
   });
 };
+// update people
+export const updatePeople = (listMember: any , idRoom:any) => {
+  const url = `/room/${idRoom}/updateInfoMember`;
+  return instance.post(url, listMember);
+};
 
 //  api people
 
