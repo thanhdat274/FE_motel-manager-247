@@ -44,7 +44,6 @@ const Resport = () => {
         await updateReport(report)
 
             .then((result: any) => {
-                console.log(result);
 
                 setLoading(false);
                 Toast('success', 'Update thành công');

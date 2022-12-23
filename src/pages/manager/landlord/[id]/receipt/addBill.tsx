@@ -160,11 +160,13 @@ const AddBill = (props: Props) => {
           >
             {rooms &&
               rooms.map((item: any, index: number) => {
-                return (
-                  <Option key={index} value={item._id}>
-                    {item.name}
-                  </Option>
-                );
+                if (item.status && item.listMember.length) {
+                  return (
+                    <Option key={index} value={item._id}>
+                      {item.name}
+                    </Option>
+                  );
+                }
               })}
           </Select>
         )}

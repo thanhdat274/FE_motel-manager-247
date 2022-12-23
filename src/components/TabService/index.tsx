@@ -185,7 +185,7 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                         </tbody>
                                         <button
                                             type="submit"
-                                            className="text-white bg-blue-400 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
+                                            className="ml-4 text-white bg-blue-400 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
                                         >
                                             Lưu
                                         </button>
