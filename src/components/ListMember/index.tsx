@@ -74,8 +74,6 @@ const ListMember = (props: IMember) => {
       setOpen(false);
       Toast('success', result.data.message);
     }).catch((err) => {
-      console.log('error', err?.response?.data?.message);
-
 
       setLoading(false);
       Toast('error', err?.response?.data?.message);
