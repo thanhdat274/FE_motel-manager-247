@@ -47,7 +47,7 @@ const ListWater = (props: Props) => {
       };
       getListBillData();
     }
-  }, [codeRoom?._id,monthCheck, yearCheck, NameBuild]);
+  }, [codeRoom?._id, monthCheck, yearCheck, NameBuild]);
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -117,14 +117,14 @@ const ListWater = (props: Props) => {
                           <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.inputValue} khối</div>
+                          <div className="text-center">{listBillData.inputValue} số</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.outputValue} khối</div>
+                          <div className="text-center">{listBillData.outputValue} số</div>
                         </td>
                         <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
-                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} khối</div>
+                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} số</div>
                         </td>
                       </tr>
                     </tbody>

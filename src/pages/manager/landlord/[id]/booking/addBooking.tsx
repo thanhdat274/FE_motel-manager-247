@@ -11,9 +11,8 @@ import { faArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { message } from 'antd';
 type Props = {
-  item1: any,
-  item2: any
-
+  item1: any;
+  item2: any;
 };
 const AddBooking = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
@@ -31,43 +30,32 @@ const AddBooking = (props: Props) => {
   } = useForm<any>();
 
   const onCreateRoom = async (data: any) => {
-    setLoading(true)
+    setLoading(true);
     const newData = { ...data, userData: userData };
     if (id) {
       await createBookingRoom(newData)
         .then((result: any) => {
-          setLoading(false)
-          Toast('success', result?.response?.data?.message);
+          setLoading(false);
+          Toast('success', result?.data?.message);
           router.push(`/manager/landlord/${id}/list-room`);
         })
         .catch((err) => {
-          setLoading(false)
-          setOpen(true)
+          setLoading(false);
+          setOpen(true);
           Toast('error', err?.response?.data?.message);
         });
-    };
-  }
+    }
+  };
   return (
     <div>
       <form action="" onSubmit={handleSubmit(onCreateRoom)}>
         <div className="hidden">
           <div>
-            {' '}
-            <input
-              type="text"
-              value={props.item1}
-              {...register('idBooking', { required: true })}
-            />
+            <input type="text" value={props.item1} {...register('idBooking', { required: true })} />
           </div>
           <div>
-            {' '}
-            <input
-              type="text"
-              value={props.item2}
-              {...register('idRoom', { required: true })}
-            />
+            <input type="text" value={props.item2} {...register('idRoom', { required: true })} />
           </div>
-
         </div>
         <div>
           <button
@@ -85,7 +73,7 @@ const AddBooking = (props: Props) => {
           <div className="w-full mb-3">
             <h2>Mời bạn nhập số CMND/CCCD</h2>
           </div>
-          <CardNumber itemm1={props.item1} itemm2={props.item2} ></CardNumber>
+          <CardNumber itemm1={props.item1} itemm2={props.item2}></CardNumber>
         </Modal>
       </div>
     </div>

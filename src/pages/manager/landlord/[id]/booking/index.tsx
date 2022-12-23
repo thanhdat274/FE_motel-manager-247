@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import { createBooking, createBookingRoom, deleteBooking, listBooking } from 'src/pages/api/booking';
+import { createBooking, deleteBooking, listBooking } from 'src/pages/api/booking';
 import { listRoom } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 import AddBooking from './addBooking';
@@ -12,9 +12,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NumericFormat } from 'react-number-format';
 type Props = {
-  expectTime: Date
+  expectTime: Date;
 };
-
 
 const Booking = (props: Props) => {
   const [open, setOpen] = useState(false);
@@ -41,7 +40,6 @@ const Booking = (props: Props) => {
     const value = event.target.value;
     setfillter(value);
   };
-
   const [listBookings, setListBookings] = useState<any>({});
   useEffect(() => {
     if (id) {
@@ -54,22 +52,21 @@ const Booking = (props: Props) => {
   }, [id]);
 
   const onHandleRemove = async (id: any) => {
-    const confirm = window.confirm("Bạn có chắc chắn muốn xóa không?")
+    const confirm = window.confirm('Bạn có chắc chắn muốn xóa không?');
     if (confirm) {
-      setLoading(true)
+      setLoading(true);
       await deleteBooking(id, userData)
         .then((result: any) => {
-          setListBookings(listBookings.filter((item: { _id: any; }) => item._id !== id))
-          setLoading(false)
+          setListBookings(listBookings.filter((item: { _id: any }) => item._id !== id));
+          setLoading(false);
           Toast('success', result?.data?.message);
         })
         .catch((err) => {
-          setLoading(false)
+          setLoading(false);
           Toast('error', err?.response?.data?.message);
         });
     }
   };
-
   useEffect(() => {
     if (id) {
       const getListRoom = async () => {
@@ -80,11 +77,9 @@ const Booking = (props: Props) => {
     }
   }, [id]);
 
-
   const onSubmit = async (data1: any) => {
     if (id) {
-
-      const newData = { ...data1, bookMoney: Number(data1.bookMoney.replace(/[^0-9\.]+/g, "")), userData: userData }
+      const newData = { ...data1, bookMoney: Number(data1.bookMoney), userData: userData };
       try {
         if (data1.expectTime < date) {
           Toast('error', 'Ngày tháng phải lớn hơn  thời gian hiện tại');
@@ -107,9 +102,7 @@ const Booking = (props: Props) => {
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
-              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Đặt cọc
-              </h2>
+              <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">Đặt cọc</h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4 items-center">
               <div className="mr-[20px]">
@@ -162,7 +155,7 @@ const Booking = (props: Props) => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className=' ' >
+                  <tbody className=" ">
                     {listBookings && listBookings.length > 0 ? (
                       listBookings &&
                       listBookings
@@ -249,7 +242,9 @@ const Booking = (props: Props) => {
                           );
                         })
                     ) : (
-                      <tr className='text-red-500 p-5'><td className='p-5'>Không có dữ liệu</td></tr>
+                      <tr className="text-red-500 p-5">
+                        <td className="p-5">Không có dữ liệu</td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
@@ -258,7 +253,6 @@ const Booking = (props: Props) => {
           </div>
         </div>
       </div>
-
 
       <Modal open={open} onClose={onCloseModal} center>
         <div className="w-full">
@@ -283,7 +277,7 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="text"
-                    placeholder='Xin mời nhập họ và tên'
+                    placeholder="Xin mời nhập họ và tên"
                     {...register('fullName', { required: true, minLength: 3 })}
                   />
                   {errors.fullName?.type === 'required' && (
@@ -294,7 +288,6 @@ const Booking = (props: Props) => {
                   )}
                 </div>
               </div>
-
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/5">
                   <label
@@ -312,11 +305,13 @@ const Booking = (props: Props) => {
                   >
                     {listRooms &&
                       listRooms.map((item: any, index: number) => {
-                        return (
-                          <>
-                            <option value={item._id}>{item.name}</option>
-                          </>
-                        );
+                        if (item?.status === true && !item?.listMember?.length) {
+                          return (
+                            <>
+                              <option value={item._id}>{item.name}</option>
+                            </>
+                          );
+                        }
                       })}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -347,7 +342,6 @@ const Booking = (props: Props) => {
                   </div>
                 </div>
               </div>
-
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/5">
                   <label
@@ -362,8 +356,7 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-password"
                     type="email"
-                    placeholder='Xin mời nhập email'
-
+                    placeholder="Xin mời nhập email"
                     {...register('email', { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ })}
                   />
                   {errors.email?.type === 'required' && (
@@ -388,9 +381,12 @@ const Booking = (props: Props) => {
                     className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-full-name"
                     type="text"
-                    placeholder='Xin mời nhập số điện thoại'
-
-                    {...register('phoneNumber', { required: true, minLength: 10, pattern: /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/ })}
+                    placeholder="Xin mời nhập số điện thoại"
+                    {...register('phoneNumber', {
+                      required: true,
+                      minLength: 10,
+                      pattern: /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/,
+                    })}
                   />
                   {errors.phoneNumber?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
@@ -419,14 +415,16 @@ const Booking = (props: Props) => {
                     type="text"
                     placeholder='Xin mời nhập CCCD hoặc CMND'
                     {...register('cardNumber', {
-                      minLength: 9, maxLength: 12, pattern: /^[0-9]+$/
+                      minLength: 9,
+                      maxLength: 12,
+                      pattern: /^[0-9]+$/,
                     })}
                   />
                   {errors.cardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD tối thiểu 9 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CCCD hoặc CMND không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CCCD hoặc CMND không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CCCD hoặc CMND không đúng dịnh dạng!</span>
@@ -443,24 +441,25 @@ const Booking = (props: Props) => {
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <NumericFormat className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                  <NumericFormat
+                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="bookMoney"
                     type="text"
                     thousandSeparator=","
-                    placeholder='Xin mời nhập số tiền cọc'
+                    placeholder="Xin mời nhập số tiền cọc"
                     {...register('bookMoney', {
                       required: true,
-                      minLength: 8,
+                      min: 0,
                     })}
                     onChange={(e) => {
-                      setValue('bookMoney', e.target.value)
+                      setValue('bookMoney', Number(e.target.value.split(',').join('')))
                     }}
                   />
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
                   )}
-                  {errors.bookMoney?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 100.000 VNĐ</span>
+                  {errors.bookMoney?.type === 'min' && (
+                    <span className="text-[red] mt-1 block">Số tiền cọc không được nhỏ hơn 0!</span>
                   )}
                 </div>
               </div>
@@ -485,7 +484,7 @@ const Booking = (props: Props) => {
                   )}
                 </div>
               </div>
-              <div className=" text-center">
+              <div className="text-center">
                 <button
                   className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                   type="submit"
@@ -498,7 +497,6 @@ const Booking = (props: Props) => {
         </div>
       </Modal>
     </div>
-
   );
 };
 

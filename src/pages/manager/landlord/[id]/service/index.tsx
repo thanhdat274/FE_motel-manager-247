@@ -118,12 +118,12 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Đơn vị
                         </th>
-                        <th
+                        {/* <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           trạng thái sử dụng
-                        </th>
+                        </th> */}
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -154,9 +154,9 @@ const ListServiceRoom = (props: Props) => {
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.unit}</div>
                               </td>
-                              <td className="px-6 py-4 whitespace">
+                              {/* <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.type ? 'Theo tháng' : 'không theo tháng'}</div>
-                              </td>
+                              </td> */}
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-center flex">
                                   <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>

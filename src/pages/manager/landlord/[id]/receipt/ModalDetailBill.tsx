@@ -91,8 +91,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
         return sumWithInitial - (Number(getValues('paidAmount')) || 0);
     }, [watchAllFields]);
 
-    console.log('sumWithInitial', sumWithInitial);
-
     const submitHandle = async (data1: any) => {
         const newData = {
             debt: data1?.debt,
@@ -155,7 +153,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                     </strong>
                                 </p>
                             </div>
-
                             <div>
                                 <p>
                                     <strong>{readBills && readBills.roomName}</strong>
@@ -173,7 +170,7 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                                                 <td className="w-[2%]">{index + 1}.</td>
                                                                 <td className="w-[70%]">{name.serviceName} </td>
                                                                 <td className="w-[25%] text-right">
-                                                                    {name.amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                                                    {name?.amount?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                                                 </td>
                                                             </tr>
                                                         </>
@@ -205,7 +202,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                     </strong>
                                 </div>
                             </div>
-                            <div>-</div>
                             <div
                                 className={
                                     errors.paidAmount?.type == 'max'

@@ -118,11 +118,13 @@ const AddServiceRoom = (props: Props) => {
                         <span className="text-[red] mt-1 block">Vui lòng nhập đơn vị dịch vụ!</span>
                       )}
                     </div>
-                    <div>
+                    <div
+                      hidden>
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Trạng thái thanh toán
                       </label>
                       <select
+
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('type', { required: false })}
                         id="type"

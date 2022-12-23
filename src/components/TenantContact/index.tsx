@@ -174,7 +174,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           });
       }).catch(async (err) => {
         Toast('error', 'Thêm ảnh thất bại!');
-
         const newValue = {
           contract: {
             startTime: data.startTime,
@@ -230,7 +229,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   <Image key="img" style={{ width: '200px', height: '200px', objectFit: 'cover' }} src={item} alt="" />
                 ))}
             </div>
-
             <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
               <div className="space-y-1 text-center">
                 <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
@@ -317,7 +315,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
                 <div className="md:grid grid-cols-1">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -334,7 +331,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -363,7 +359,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 ">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -379,7 +374,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của chủ trọ!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Số CMND/CCCD <span className="text-[red]">*</span>
@@ -405,7 +399,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -434,7 +427,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 md:pb-10 pb-8">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -464,7 +456,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -480,7 +471,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của người đại diện!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Số CMND/CCCD <span className="text-[red]">*</span>
@@ -506,7 +496,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -521,7 +510,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp của CMND/CCCD!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Nơi cấp <span className="text-[red]">*</span>
@@ -535,7 +523,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">

@@ -7,7 +7,6 @@ import useCookies from 'react-cookie/cjs/useCookies';
 export interface UserState {
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  
   user: any;
   setUser: (loading: any) => void;
   dateOfBirth: number;
@@ -56,7 +55,6 @@ export const UserProvider = ({ children }: any) => {
   const value: UserState = {
     loading,
     setLoading,
-   
     user,
     setUser,
     dateOfBirth,
@@ -72,7 +70,6 @@ export const UserProvider = ({ children }: any) => {
     setCookie,
     actives,
     setActives,
-   
   };
 
   return (

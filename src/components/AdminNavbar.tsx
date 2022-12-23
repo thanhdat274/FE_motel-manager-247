@@ -13,19 +13,13 @@ type Props = {
   isShowIcon?: boolean
 };
 
-
-
 const Navbar = (props: Props) => {
- 
-  const { logoutResetData } = useUserContext();
-  const [status, setStatus] = useState<any>({})
+  const { cookies, setLoading, logoutResetData, resetPage, setResetPage } = useUserContext();
+  const [status, setStatus] = useState<any>({});
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
-  const { resetPage, setResetPage } = useUserContext()
-  const { cookies, setLoading } = useUserContext();
   const [report, setReport] = useState<any>();
   const userData = cookies?.user;
-
   const router = useRouter();
   const { id } = router.query;
   function closeModal() {
@@ -34,7 +28,6 @@ const Navbar = (props: Props) => {
   function closeModal1() {
     setOpen1(false);
   }
-
   useEffect(() => {
     if (id) {
       const getStatus = async () => {
@@ -43,12 +36,11 @@ const Navbar = (props: Props) => {
       }
       getStatus()
     }
-
   }, [id, resetPage])
   // ------------------------------------
   useEffect(() => {
     if (id) {
-      const newData1 = { id, userData }
+      const newData1 = { id, userData };
       setLoading(true);
       const getReport = async () => {
         const { data } = await listReports(newData1);
@@ -58,8 +50,8 @@ const Navbar = (props: Props) => {
       getReport();
       setLoading(false);
     }
-
   }, [id, resetPage]);
+
   return (
     <div>
       <nav className="left-0 w-full z-50 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
@@ -91,7 +83,6 @@ const Navbar = (props: Props) => {
           </div>
         </div>
       </nav>
-
       <Modal open={open} onClose={closeModal} center>
         <div className="w-full text-end">
           <div className="cursor-pointer" onClick={() => closeModal()}>
@@ -100,7 +91,7 @@ const Navbar = (props: Props) => {
         </div>
         <ReactCalculator key="Calculator" />
       </Modal>
-      <Modal open={open1} onClose={closeModal1} center >
+      <Modal open={open1} onClose={closeModal1} center>
         <div className="w-full text-end">
           <div>
             <div className="">
