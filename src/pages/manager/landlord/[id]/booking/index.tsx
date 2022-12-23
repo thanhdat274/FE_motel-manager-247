@@ -25,7 +25,9 @@ const Booking = (props: Props) => {
   const param = router.query;
   const id = param.id;
   const [listRooms, setListRooms] = useState<any>();
+
   var today = new Date();
+
   var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
   const [fillter, setfillter] = useState('');
   const {
@@ -41,6 +43,7 @@ const Booking = (props: Props) => {
     setfillter(value);
   };
   const [listBookings, setListBookings] = useState<any>({});
+
   useEffect(() => {
     if (id) {
       const getListBooking = async () => {
@@ -455,6 +458,12 @@ const Booking = (props: Props) => {
                       setValue('bookMoney', Number(e.target.value.split(',').join('')))
                     }}
                   />
+                  {errors.bookMoney?.type === 'min' && (
+                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 0!</span>
+                  )}
+                  {/* {errors.bookMoney?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Số tiền không được nhỏ hơn 500000!</span>
+                  )} */}
                   {errors.bookMoney?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập tiền cọc!</span>
                   )}

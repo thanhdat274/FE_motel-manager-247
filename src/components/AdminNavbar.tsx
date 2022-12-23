@@ -31,6 +31,7 @@ const Navbar = (props: Props) => {
   useEffect(() => {
     if (id) {
       const getStatus = async () => {
+
         const { data } = await listReportStatus(id)
         setStatus(data)
       }

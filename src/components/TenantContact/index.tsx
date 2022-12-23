@@ -55,7 +55,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   const [contractData, setContractData] = useState<IContractData>();
   const [progress, setProgress] = useState(0);
   const [selectedImages, setSelectedImages] = useState<any[]>();
-
   const [images, setImages] = useState<any>(dataContract.imageContract);
   const maxNumber = 69;
   const onChange = (imageList: any, addUpdateIndex: any) => {
