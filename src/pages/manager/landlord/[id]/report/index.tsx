@@ -17,15 +17,10 @@ interface DataType {
 const Resport = () => {
     const { cookies, setLoading } = useUserContext();
     const [report, setReport] = useState<any>([]);
-    const [reset, reset1] = useState<any>([]);
     const userData = cookies?.user;
     const router = useRouter();
     const { id } = router.query;
-
-    const handleResetPage = () => {
-        reset1(reset + 1)
-    }
-
+    const { resetPage, setResetPage } = useUserContext()
     useEffect(() => {
         if (id) {
             const newData1 = { id, userData }
@@ -38,7 +33,8 @@ const Resport = () => {
             getReport();
             setLoading(false);
         }
-    }, [id, reset, setLoading, userData]);
+    }, [id, resetPage]);
+
     const onHandleUpdate = async (report: any) => {
         setLoading(true);
         await updateReport(report)
@@ -50,15 +46,17 @@ const Resport = () => {
                 setLoading(false);
                 Toast('error', err?.response?.data?.message);
             }).finally(() => {
-                handleResetPage()
+                setResetPage(resetPage + 1)
             });
     };
-    const adss = report?.filter((report: { status: boolean; }) => report.status == true)
-    const ads = report?.filter((report: { status: boolean; }) => report.status == false)
+    const noProcess = report?.filter((report: { status: boolean; }) => report.status == true)
+    noProcess?.reverse()
+    const processed = report?.filter((report: { status: boolean; }) => report.status == false)
+    processed?.reverse()
     return (
         <div className="">
             <Table
-                dataSource={ads?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                dataSource={processed?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
                     index: index + 1,
                     key: item._id,
                     name: item.roomName,
@@ -95,7 +93,7 @@ const Resport = () => {
                 }} />
             </Table>
             <Table
-                dataSource={adss?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
+                dataSource={noProcess?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput; status: any; }, index: number) => ({
                     index: index + 1,
                     key: item._id,
                     name: item.roomName,

@@ -93,7 +93,7 @@ const AccountInformation = (props: Props) => {
                 <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
               )}
               {errors.cardNumber?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Số CMND/CCCD tối đa 12 chữ số!</span>
+                <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
               )}
               {errors.cardNumber?.type === 'pattern' && (
                 <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
