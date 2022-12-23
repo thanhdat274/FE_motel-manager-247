@@ -74,10 +74,11 @@ const ListMember = (props: IMember) => {
       setOpen(false);
       Toast('success', result.data.message);
     }).catch((err) => {
+      console.log('error', err?.response?.data?.message);
 
 
       setLoading(false);
-      Toast('error', err.message);
+      Toast('error', err?.response?.data?.message);
     }).finally(() => {
       props.handleResetPage()
     });
@@ -94,6 +95,7 @@ const ListMember = (props: IMember) => {
         setLoading(false);
 
       }).catch((error) => {
+
         Toast('error', error.message);
         setLoading(false);
       }).finally(() => {
@@ -214,7 +216,7 @@ const ListMember = (props: IMember) => {
                     placeholder="Xin mời nhập  CMT/CCCD"
                     {...register('cardNumber', {
                       required: true,
-                      minLength: 12,
+                      minLength: 9,
                       maxLength: 12,
                       pattern: /^[0-9]+$/
                     })}
@@ -223,10 +225,10 @@ const ListMember = (props: IMember) => {
                     <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
                   )}
                   {errors.cardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối thiểu 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD của bạn phải tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
@@ -243,20 +245,14 @@ const ListMember = (props: IMember) => {
                     placeholder="Xin mời nhập số điện thoại"
                     {...register('phoneNumber', {
                       required: true,
-                      minLength: 10,
-                      maxLength: 10,
+
                       pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
                     })}
                   />
                   {errors.phoneNumber?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
                   )}
-                  {errors.phoneNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối thiểu 10 chữ số!</span>
-                  )}
-                  {errors.phoneNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại của bạn phải tối đa 10 chữ số!</span>
-                  )}
+
                   {errors.phoneNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
                   )}
