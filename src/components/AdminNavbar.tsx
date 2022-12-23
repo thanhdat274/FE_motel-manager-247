@@ -8,21 +8,19 @@ import 'react-responsive-modal/styles.css';
 import { ReactCalculator } from 'simple-react-calculator';
 import { useRouter } from 'next/router';
 import { listReports, listReportStatus } from 'src/pages/api/notification';
-import moment from "moment"
+import moment from 'moment';
 type Props = {};
-
-
 
 const Navbar = (props: Props) => {
   // const [modalIsOpen, setIsOpen] = useState(false);
   // const [modalIsOpen1, setIsOpen1] = useState(false);
   const { logoutResetData } = useUserContext();
-  const [status, setStatus] = useState<any>({})
+  const [status, setStatus] = useState<any>({});
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
   const { cookies, setLoading } = useUserContext();
-  const [report, setReport] = useState<any>();  
+  const [report, setReport] = useState<any>();
   const userData = cookies?.user;
 
   const router = useRouter();
@@ -35,16 +33,18 @@ const Navbar = (props: Props) => {
   }
 
   useEffect(() => {
-    const getStatus = async () => {
-      const { data } = await listReportStatus(id)
-      setStatus(data)
+    if (id) {
+      const getStatus = async () => {
+        const { data } = await listReportStatus(id);
+        setStatus(data);
+      };
+      getStatus();
     }
-    getStatus()
-  }, [id])
+  }, [id]);
   // ------------------------------------
   useEffect(() => {
     if (id) {
-      const newData1 = { id, userData }
+      const newData1 = { id, userData };
       setLoading(true);
       const getReport = async () => {
         const { data } = await listReports(newData1);
@@ -54,13 +54,11 @@ const Navbar = (props: Props) => {
       getReport();
       setLoading(false);
     }
-
   }, [id]);
   return (
     <div>
       <nav className="left-0 w-full z-50 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
         <div className="flex w-full mx-auto items-center justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
-
           <div className="md:flex hidden flex-row items-center w-full justify-end mr-3">
             <div className="relative  mt-2" onClick={() => setOpen1(true)}>
               <div className="absolute left-0 top-0  bg-red-500 rounded-full">
@@ -83,9 +81,7 @@ const Navbar = (props: Props) => {
               <FontAwesomeIcon className="w-[16px] text-white" icon={faRightFromBracket} /> Đăng xuất
             </button>
           </div>
-
         </div>
-
       </nav>
 
       <Modal open={open} onClose={closeModal} center>
@@ -96,53 +92,54 @@ const Navbar = (props: Props) => {
         </div>
         <ReactCalculator key="Calculator" />
       </Modal>
-      <Modal open={open1} onClose={closeModal1} center >
+      <Modal open={open1} onClose={closeModal1} center>
         <div className="w-full text-end">
-
           <div>
-            <div className="  " >
+            <div className="  ">
               <div className="">
                 <div className="flex items-center justify-between">
-                  <p tabIndex={0} className="focus:outline-none text-2xl font-semibold leading-6 text-gray-800">Thông báo</p>
-
-                </div>{report?.map((item: any, index: number) => {
+                  <p tabIndex={0} className="focus:outline-none text-2xl font-semibold leading-6 text-gray-800">
+                    Thông báo
+                  </p>
+                </div>
+                {report?.map((item: any, index: number) => {
                   var timeAgo = moment(item.createdAt).format('DD/MM/YYYY');
                   return (
                     <>
-
-                      {item.status == true ? (<div></div>) : (
+                      {item.status == true ? (
+                        <div></div>
+                      ) : (
                         <>
-
-
                           <div className="text-left p-3 border border-blue-500 border-opacity-25 mt-3 ">
-
-                            <div className='font-bold'>{item.roomName}</div>
-                            <div className='flex'>  <p className="w-full"><span className="text-indigo-700 ">{item.content}</span></p>  <p className='w-full text-right '>{timeAgo}</p></div>
-                            <Link href={`/manager/landlord/${id}/report`} >
-                              <a >
-
-                                <div className='text-xs text-cyan-700 hover:text-cyan-500' onClick={() => setOpen1(false)}>Xem thêm</div>
+                            <div className="font-bold">{item.roomName}</div>
+                            <div className="flex">
+                              {' '}
+                              <p className="w-full">
+                                <span className="text-indigo-700 ">{item.content}</span>
+                              </p>{' '}
+                              <p className="w-full text-right ">{timeAgo}</p>
+                            </div>
+                            <Link href={`/manager/landlord/${id}/report`}>
+                              <a>
+                                <div
+                                  className="text-xs text-cyan-700 hover:text-cyan-500"
+                                  onClick={() => setOpen1(false)}
+                                >
+                                  Xem thêm
+                                </div>
                               </a>
                             </Link>
                           </div>
-
-
-
-
-
-
                         </>
-
-
                       )}
-
                     </>
-                  )
-                })} </div>
-            </div></div>
+                  );
+                })}{' '}
+              </div>
+            </div>
+          </div>
         </div>
       </Modal>
-
     </div>
   );
 };
