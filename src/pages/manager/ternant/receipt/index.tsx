@@ -106,7 +106,7 @@ const InfoReceipt = (props: Props) => {
                               </svg>
                               <span className="text-sm">www.quanlyphongtro247.com</span>
                             </li>
-                            <li className="flex flex-col p-2 border-l-2 border-indigo-200">
+                            <li className="flex flex-col p-2 border-l-2 border-indigo-200 items-center">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="w-6 h-6 text-blue-600"
@@ -136,12 +136,12 @@ const InfoReceipt = (props: Props) => {
                       <div className="flex justify-between p-4">
                         <div>
                           <h6 className="font-bold">
-                            Ngày gửi hóa đơn : <span className="text-sm font-medium"> {bill.createdAt}</span>
+                            Ngày gửi hóa đơn: <span className="text-sm font-medium">{moment(bill.createdAt).format('DD/MM/YYYY')}</span>
                           </h6>
                         </div>
                         <div className="w-40">
                           <address className="text-sm">
-                            <span className="font-bold"> Thanh toán cho : </span>
+                            <span className="font-bold"> Thanh toán cho: </span>
                             {bill.memberName}
                             {/* 795 Folsom Ave
                           San Francisco, CA 94107
@@ -220,25 +220,21 @@ const InfoReceipt = (props: Props) => {
                           </table>
                         </div>
                       </div>
-                      <div className="flex justify-between p-4">
+                      {/* <div className="flex justify-between p-4">
                         <div>
                           <h3 className="text-xl">Điều khoản và điều kiện :</h3>
                           <ul className="text-md list-disc list-inside">
                             <li>
                               Tất cả các tài khoản sẽ được thanh toán trong vòng 7 ngày kể từ ngày nhận được hóa đơn.
                             </li>
-                            <li>Được thanh toán bằng séc hoặc thẻ tín dụng hoặc thanh toán trực tiếp trực tuyến.</li>
+                            <li>Được thanh toán qua thẻ tín dụng hoặc thanh toán trực tiếp.</li>
                             <li>
                               Nếu tài khoản không được thanh toán trong vòng 7 ngày, các chi tiết tín dụng được cung
                               cấp.
                             </li>
                           </ul>
                         </div>
-                        <div className="p-4">
-                          <h3>Chữ ký</h3>
-                          <div className="text-4xl italic text-indigo-500">Demo</div>
-                        </div>
-                      </div>
+                      </div> */}
                       <div className="w-full h-0.5 bg-indigo-500" />
                       <div className="p-4">
                         <div className="flex items-center justify-center font-extrabold text-indigo-500">
@@ -247,9 +243,9 @@ const InfoReceipt = (props: Props) => {
                         <div className="flex items-end justify-end space-x-3">
                           {/* <button className="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>
                         <button className="px-4 py-2 text-sm text-blue-600 bg-blue-100">Save</button> */}
-                          <button className="px-4 py-2 text-sm text-red-600 bg-red-100 font-extrabold tracking-widest">
+                          {/* <button className="px-4 py-2 text-sm text-red-600 bg-red-100 font-extrabold tracking-widest">
                             Phản hồi
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>

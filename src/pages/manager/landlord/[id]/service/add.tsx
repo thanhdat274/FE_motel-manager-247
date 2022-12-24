@@ -10,7 +10,7 @@ import { addService } from 'src/pages/api/service';
 type Props = {};
 interface IFormInputs {
   label: string;
-  price: string;
+  price: number;
   unit: string;
   type: boolean;
   idHouse: string;
@@ -30,7 +30,7 @@ const AddServiceRoom = (props: Props) => {
   } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data: any) => {
-    const newData = { ...data,price: Number(data.price.replace(/[^0-9\.]+/g, "")) , idHouse: id, userData: userData };
+    const newData = { ...data, price: Number(data.price), idHouse: id, userData: userData };
     setLoading(true);
     await addService(newData)
       .then((data: any) => {
@@ -90,20 +90,17 @@ const AddServiceRoom = (props: Props) => {
                         placeholder="Nhập giá dịch vụ..." thousandSeparator=","
                         {...register('price', {
                           required: true,
-                          validate: value => value > '0',
-                          onChange(e) {
-                            setValue('price', e.target.value)
-                          },
-                          min: 1000
-                        })} />
+                          min: 1000,
+                        })}
+                        onChange={(e) => {
+                          setValue('price', Number(e.target.value.split(',').join('')))
+                        }}
+                      />
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
                       )}
-                      {errors.price?.type === 'validate' && (
-                        <span className="text-[red] mt-1 block">Giá dịch vụ không được nhỏ hơn 0 VND</span>
-                      )}
                       {errors.price?.type === 'min' && (
-                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
+                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu và không được nhỏ hơn 1,000 VND!</span>
                       )}
                     </div>
                     <div className="col-span-6">
@@ -121,11 +118,13 @@ const AddServiceRoom = (props: Props) => {
                         <span className="text-[red] mt-1 block">Vui lòng nhập đơn vị dịch vụ!</span>
                       )}
                     </div>
-                    <div>
+                    <div
+                      hidden>
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Trạng thái thanh toán
                       </label>
                       <select
+
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('type', { required: false })}
                         id="type"

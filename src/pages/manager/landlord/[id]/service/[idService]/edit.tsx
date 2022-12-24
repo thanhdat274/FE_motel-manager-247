@@ -107,7 +107,7 @@ const EditService = (props: Props) => {
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('price', {
                           required: true,
-                          minLength: 4
+                          min: 1000
                         })}
                         onChange={(e) => {
                           setValue('price', Number(e.target.value.split(',').join('')))
@@ -116,8 +116,8 @@ const EditService = (props: Props) => {
                       {errors.price?.type === 'required' && (
                         <span className="text-[red] mt-1 block">Vui lòng nhập giá dịch vụ!</span>
                       )}
-                      {errors.price?.type === 'minLength' && (
-                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu 1.000 VNĐ</span>
+                      {errors.price?.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu và không được nhỏ hơn 1,000 VND!</span>
                       )}
                     </div>
                     <div className="col-span-6">

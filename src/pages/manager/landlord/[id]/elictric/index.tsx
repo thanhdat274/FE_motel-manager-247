@@ -279,7 +279,7 @@ const LisElectric = () => {
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
                                       <div className="text-rose-600">
-                                        <p role="alert">Số điện cũ phải lớn hơn 0</p>
+                                        <p role="alert">Số điện cũ phải lớn hơn 0!</p>
                                       </div>
                                     )}
                                   </div>
@@ -299,11 +299,11 @@ const LisElectric = () => {
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số điện mới phải lớn hơn 0
+                                        Số điện mới phải lớn hơn 0!
                                       </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
-                                      <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>
+                                      <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ!</div>
                                     ) : (
                                       ''
                                     )}
@@ -325,9 +325,7 @@ const LisElectric = () => {
                           {listRoomData &&
                             listRoomData.map((item: any, index: any) => {
                               const getInputValue = getValues(`data.${index}.inputValue`);
-
                               const getOuputValue = getValues(`data.${index}.outputValue`);
-
                               return (
                                 <div className="table-row divide-y divide-x" key={listBillData._id}>
                                   <div className="table-cell border-t px-4 py-4 whitespace">
@@ -358,7 +356,7 @@ const LisElectric = () => {
                                       })}
                                     />
                                     {getInputValue < 0 && (
-                                      <p role="alert">Số điện cũ phải lớn hơn 0</p>
+                                      <p role="alert">Số điện cũ phải lớn hơn 0!</p>
                                     )}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
@@ -376,7 +374,7 @@ const LisElectric = () => {
                                       })}
                                     />
                                     {getOuputValue < 0 && <p role="alert">Số điện mới phải lớn hơn 0</p>}
-                                    {getOuputValue < getInputValue && <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ</div>}
+                                    {getOuputValue < getInputValue && <div className="text-rose-600">Số điện mới phải lớn hơn hoặc bằng số điện cũ!</div>}
                                   </div>
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">

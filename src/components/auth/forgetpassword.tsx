@@ -21,7 +21,7 @@ const Forgetpassword = (props: Props) => {
     setLoading(true);
     await fogetPassword(data)
       .then((data: any) => {
-        Toast('success', 'Vui lòng check Email của bạn !');
+        Toast('success', 'Vui lòng check Email !');
         setLoading(false);
       })
       .catch((error) => {
@@ -37,22 +37,22 @@ const Forgetpassword = (props: Props) => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label className="block" htmlFor="full_name">
-                Email <span className="text-[red]">*</span>
+                Địa chỉ email <span className="text-[red]">*</span>
               </label>
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập email đã đăng kí"
+                placeholder="Nhập địa chỉ email đã đăng kí"
                 {...register('email', {
                   required: true,
                   pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 })}
               />
               {errors.email?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
               )}
               {errors.email?.type === 'pattern' && (
-                <span className="text-[red] mt-3 block">Địa chỉ email của bạn không đúng định dạng!</span>
+                <span className="text-[red] mt-3 block">Địa chỉ email không đúng định dạng!</span>
               )}
             </div>
 

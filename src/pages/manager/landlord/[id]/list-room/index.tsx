@@ -69,7 +69,7 @@ const ListRoom = () => {
   const genData = (data: any, color?: string) => {
     return (
       <div className="w-full grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-        {data.length > 0 ? (
+        {data?.length > 0 ? (
           data
             .filter((val: any) => {
               if (fillter == '') {
@@ -260,10 +260,10 @@ const ListRoom = () => {
                 Quản lý phòng
               </h2>
             </div>
-            <div className="mt-5 flex flex-col gap-4 md:flex-row md:gap-0 lg:mt-0 lg:ml-4">
+            <div className="mt-5 flex flex-col gap-4 md:flex-row md:gap-0 lg:mt-0 lg:ml-4 items-center">
               <div className="mr-[20px]">
                 <form className="flex flex-row gap-4">
-                  <select onChange={(e) => setSelectValue(e.target.value)} name="" id="">
+                  <select onChange={(e) => setSelectValue(e.target.value)} name="" id="" className='border focus:outline-none focus:shadow-outline rounded'>
                     <option value="0">Toàn bộ</option>
                     <option value="1">Phòng đang sử dụng</option>
                     <option value="2">Phòng đang sửa chữa</option>

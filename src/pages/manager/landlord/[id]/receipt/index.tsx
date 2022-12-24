@@ -80,19 +80,14 @@ const Receipt = () => {
                 Quản lý hóa đơn
               </h2>
             </div>
-            <div className="flex gap-2 flex-col md:flex-row md:gap-4">
-              <div>
-                <Space direction="vertical">{datePickerShow} </Space>
-              </div>
-
-              <div className="">
-                <button
-                  onClick={onOpenModal1}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full "
-                >
-                  Tính hóa đơn
-                </button>
-              </div>
+            <div className="mt-5 flex gap-2 lg:mt-0 lg:ml-4 md:gap-4 items-center">
+              {datePickerShow}
+              <button
+                onClick={onOpenModal1}
+                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Tính hóa đơn
+              </button>
             </div>
           </div>
         </div>
@@ -230,7 +225,7 @@ const Receipt = () => {
 
       <div>
         <Modal open={open1} onClose={onCloseModal1} center>
-          <div className="w-full">
+          <div className="w-full pt-3">
             <div className="grid grid-flow-col px-4 py-2 text-white bg-cyan-500 mt-4">
               <div className="">
                 <h2 className="pt-2 text-xl">Tính tiền </h2>

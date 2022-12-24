@@ -36,10 +36,7 @@ const SideBarTenants = (props: Props) => {
           </button>
           {/* Brand */}
           <Link href="/">
-            <a
-              href="#pablo"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            >
+            <a className="md:block text-left md:pb-2 text-black hover:text-black mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
               Quản Lý Phòng Trọ 24/7
             </a>
           </Link>

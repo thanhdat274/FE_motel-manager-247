@@ -15,16 +15,16 @@ type Props = {};
 
 const ListReport = (props: Props) => {
   const [repost, setReport] = useState<any>();
+  const { resetPage, setResetPage } = useUserContext()
 
   const [codeRoom, setCodeRoom] = useState<any>();
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);
   const onOpenModal = () => setOpen(true);
-  console.log("code", codeRoom);
   const {
     register,
     handleSubmit,
-    reset,
+    
     formState: { errors },
   } = useForm<any>();
   const idd = codeRoom && codeRoom._id;
@@ -47,7 +47,7 @@ const ListReport = (props: Props) => {
       };
       getReport();
     }
-  }, [idd]);
+  }, [idd,resetPage]);
 
   // -------------------Add  repost------------------
   const onSubmit = async (data2: any) => {
@@ -56,14 +56,15 @@ const ListReport = (props: Props) => {
     await addReport(data2)
       .then((result: any) => {
         setLoading(false);
-        setReport([...repost, result.data.data]);
         setOpen(false);
         Toast('success', result?.data?.message);
       })
       .catch((err) => {
         Toast('error', err?.data?.message);
         setLoading(false);
-      });
+      }).finally(() => {
+        setResetPage(resetPage + 1)
+    });
   };
   // -------------------End   repost------------------
 
@@ -71,15 +72,12 @@ const ListReport = (props: Props) => {
 
     await removeReport(id)
       .then((result) => {
-        setReport(repost.filter((item: { _id: any; }) => item._id !== id))
         Toast('success', result?.data?.message);
       }).catch((err) => {
         Toast('error', err?.data?.message);
-      });
-
-
-
-
+      }).finally(() => {
+        setResetPage(resetPage + 1)
+    });
   }
 
   return (

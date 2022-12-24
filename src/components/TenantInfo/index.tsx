@@ -72,10 +72,10 @@ const TenantInformation = ({ data }: any) => {
                     {...register('name', { required: true, minLength: 6 })}
                   />
                   {errors.name?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập tên phòng của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập tên phòng!</span>
                   )}
                   {errors.name?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Tên phòng của bạn phải tối thiểu 6 ký tự!</span>
+                    <span className="text-[red] mt-1 block">Tên phòng phải tối thiểu 6 ký tự!</span>
                   )}
                 </div>
                 <div className="col-span-6">
@@ -102,13 +102,17 @@ const TenantInformation = ({ data }: any) => {
                     className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     {...register('price', {
                       required: true,
+                      min: 1000
                     })}
                     onChange={(e) => {
                       setValue('price', Number(e.target.value.split(',').join('')))
                     }}
                   />
                   {errors.price?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng!</span>
+                  )}
+                  {errors.price?.type === 'min' && (
+                    <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu và không được nhỏ hơn 1,000 VND!</span>
                   )}
                 </div>
                 <div className="col-span-6">
@@ -125,10 +129,10 @@ const TenantInformation = ({ data }: any) => {
                     })}
                   />
                   {errors.emailOfAuth?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
                   )}
                   {errors.emailOfAuth?.type === 'pattern' && (
-                    <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
+                    <span className="text-[red] mt-1 block">Địa chỉ email không đúng định dạng!</span>
                   )}
                 </div>
 
@@ -146,7 +150,7 @@ const TenantInformation = ({ data }: any) => {
                     <span className="text-[red] mt-1 block">Vui lòng nhập số người ở tối đa của phòng!</span>
                   )}
                   {errors.maxMember && errors.maxMember.type === 'min' && (
-                    <span className="text-[red] mt-1 block">Số người ở tối đa của phòng Không được nhỏ hơn 0!</span>
+                    <span className="text-[red] mt-1 block">Số người ở tối đa của phòng không được nhỏ hơn 0!</span>
                   )}
                 </div>
 
@@ -161,10 +165,10 @@ const TenantInformation = ({ data }: any) => {
                     {...register('area', { required: true, min: 0 })}
                   />
                   {errors.area && errors.area.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập diện tích phòng của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập diện tích phòng!</span>
                   )}
                   {errors.area && errors.area.type === 'min' && (
-                    <span className="text-[red] mt-1 block">Diện tích phòng của bạn không được nhỏ hơn 0m2!</span>
+                    <span className="text-[red] mt-1 block">Diện tích phòng không được nhỏ hơn 0m2!</span>
                   )}
                 </div>
               </div>

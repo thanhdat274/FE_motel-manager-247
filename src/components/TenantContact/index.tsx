@@ -55,7 +55,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
   const [contractData, setContractData] = useState<IContractData>();
   const [progress, setProgress] = useState(0);
   const [selectedImages, setSelectedImages] = useState<any[]>();
-
   const [images, setImages] = useState<any>(dataContract.imageContract);
   const maxNumber = 69;
   const onChange = (imageList: any, addUpdateIndex: any) => {
@@ -174,7 +173,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
           });
       }).catch(async (err) => {
         Toast('error', 'Thêm ảnh thất bại!');
-
         const newValue = {
           contract: {
             startTime: data.startTime,
@@ -230,7 +228,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   <Image key="img" style={{ width: '200px', height: '200px', objectFit: 'cover' }} src={item} alt="" />
                 ))}
             </div>
-
             <div className="mt-5 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-white">
               <div className="space-y-1 text-center">
                 <ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
@@ -317,7 +314,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
                 <div className="md:grid grid-cols-1">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -334,7 +330,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -363,7 +358,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 ">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -379,7 +373,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của chủ trọ!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Số CMND/CCCD <span className="text-[red]">*</span>
@@ -395,17 +388,16 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                   )}
                   {errors.LLcardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">CMND/CCCD không đúng định dạng</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
                   )}
                   {errors.LLcardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.LLcardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -434,7 +426,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 md:pb-10 pb-8">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -454,17 +445,16 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại phải tối thiểu 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại phải tối đa 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.LLphoneNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -477,10 +467,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     {...register('TNname', { required: true })}
                   />
                   {errors.TNname?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên người đại diện!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của người đại diện!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Số CMND/CCCD <span className="text-[red]">*</span>
@@ -496,17 +485,16 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                   )}
                   {errors.TNcardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">CMND/CCCD không đúng định dạng</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng định dạng!</span>
                   )}
                   {errors.TNcardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CMND/CCCD phải tối đa 12 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.TNcardNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -521,7 +509,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng chọn ngày cấp của CMND/CCCD!</span>
                   )}
                 </div>
-
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
                     Nơi cấp <span className="text-[red]">*</span>
@@ -535,7 +522,6 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                   )}
                 </div>
               </div>
-
               <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4">
                 <div className="md:grid grid-cols-1 mb-4">
                   <label className="block text-gray-700 text-sm font-bold">
@@ -555,10 +541,10 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                   )}
                   {errors.TNphoneNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại phải tối thiểu 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.TNphoneNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại phải tối đa 10 chữ số!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                   {errors.TNphoneNumber?.type === 'pattern' && (
                     <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
@@ -574,9 +560,9 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     <NumericFormat
                       value={String(contractData?.fine)}
                       thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('fine', {
-                      required: false,
-                      minLength: 4
-                    })}
+                        required: false,
+                        min: 1000
+                      })}
                       onChange={(e) => {
                         setValue('fine', Number(e.target.value.split(',').join('')))
                       }}
@@ -584,8 +570,8 @@ const TenantContract = ({ dataContract, leadMember, roomPrice, dataLandlord, roo
                     {errors.fine?.type === 'required' && (
                       <span className="text-[red] mt-1 block">Nhập số tiền phạt!</span>
                     )}
-                    {errors.fine?.type === 'minLength' && (
-                      <span className="text-[red] mt-1 block">Tiền cọc tối thiểu 1.000 VNĐ</span>
+                    {errors.fine?.type === 'min' && (
+                      <span className="text-[red] mt-1 block">Tiền phạt tối thiểu và không được nhỏ hơn 1,000 VNĐ!</span>
                     )}
                   </div>
                 </div>

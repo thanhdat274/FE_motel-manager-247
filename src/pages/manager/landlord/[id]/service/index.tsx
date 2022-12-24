@@ -63,7 +63,7 @@ const ListServiceRoom = (props: Props) => {
                 Quản lý dịch vụ
               </h2>
             </div>
-            <div className="mt-5 flex lg:mt-0 lg:ml-4">
+            <div className="mt-5 flex lg:mt-0 lg:ml-4 items-center">
               <div className="mr-[20px]">
                 <form>
                   <input
@@ -106,7 +106,6 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Tên
                         </th>
-
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -119,12 +118,12 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Đơn vị
                         </th>
-                        <th
+                        {/* <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
                           trạng thái sử dụng
-                        </th>
+                        </th> */}
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -137,7 +136,7 @@ const ListServiceRoom = (props: Props) => {
                           .filter((val: any) => {
                             if (fillter == '') {
                               return val;
-                            } else if (val.name.toLocaleLowerCase().includes(fillter.toLowerCase())) {
+                            } else if (val.label.toLocaleLowerCase().includes(fillter.toLowerCase())) {
                               return val;
                             }
                           })
@@ -149,16 +148,15 @@ const ListServiceRoom = (props: Props) => {
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.label}</div>
                               </td>
-
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                               </td>
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.unit}</div>
                               </td>
-                              <td className="px-6 py-4 whitespace">
+                              {/* <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.type ? 'Theo tháng' : 'không theo tháng'}</div>
-                              </td>
+                              </td> */}
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-center flex">
                                   <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>

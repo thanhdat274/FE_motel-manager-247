@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { CookiesProvider } from 'react-cookie';
-import { CheckUser, PrivateRouter } from './PrivateRouter';
+import { CheckCodeRoom, CheckUser, PrivateRouter } from './PrivateRouter';
 import { useEffect, useState } from 'react';
 
 config.autoAddCss = false;
@@ -67,9 +67,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       return (
         <div className="bg-gray-200">
           <LayoutIntro>
-            <CheckUser>
-              <Component {...pageProps} />
-            </CheckUser>
+            <CheckCodeRoom>
+              <CheckUser>
+                <Component {...pageProps} />
+              </CheckUser>
+            </CheckCodeRoom>
           </LayoutIntro>
         </div>
       );

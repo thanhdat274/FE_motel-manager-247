@@ -1,20 +1,22 @@
 import { useUserContext } from '@/context/UserContext';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { loginCode } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 
 type Props = {
   data: any;
+  handleResetPage: () => void
+
 };
 
-const LoginCode = ({ data }: Props) => {
+const LoginCode = ({ data, handleResetPage }: Props) => {
+  console.log('data', data.subName);
+  const codeRoomProp = data?.subName
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     formState: { errors },
   } = useForm<any>();
   const { cookies, setLoading, user } = useUserContext();
@@ -24,15 +26,23 @@ const LoginCode = ({ data }: Props) => {
   const idRoom = param?.id_room;
 
   const onSubmit = async (data: any) => {
-    setLoading(true)
-    try {
-      const newData = { ...data, idRoom: idRoom, userData: userData };
-      await loginCode(newData);
-      Toast('success', 'Cập nhật mã đăng nhập thành công');
-      setLoading(false)
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.message);
-      setLoading(false)
+    console.log('data submit', data);
+    if (data?.codeRoom == codeRoomProp) {
+      Toast('error', 'Bạn cần thay đổi mã trước khi gửi đi!');
+
+    } else {
+      setLoading(true)
+      try {
+        const newData = { ...data, idRoom: idRoom, userData: userData };
+        await loginCode(newData).finally(() => {
+          handleResetPage()
+        });
+        Toast('success', 'Cập nhật mã đăng nhập thành công');
+        setLoading(false)
+      } catch (error: any) {
+        Toast('error', error?.response?.data?.message);
+        setLoading(false)
+      }
     }
   };
   return (
@@ -45,7 +55,7 @@ const LoginCode = ({ data }: Props) => {
               <input
                 type="text"
                 defaultValue={data.subName}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:shadow-outline"
                 placeholder="Mã đăng nhập"
                 {...register('codeRoom', {
                   required: true,
@@ -53,21 +63,19 @@ const LoginCode = ({ data }: Props) => {
                   pattern: /^[a-zA-Z0-9&@.$%\-_,():;`]+$/,
                 })}
               />
-
               <div className="mt-2 text-red-500">
                 {errors.codeRoom?.type === 'required' && (
                   <span className="text-[red] mt-1 block">Vui lòng nhập mã đăng nhập!</span>
                 )}
                 {errors.codeRoom?.type === 'minLength' && (
-                  <span className="text-[red] mt-1 block">Mã đăng nhập tối thiểu 4 ký tự</span>
+                  <span className="text-[red] mt-1 block">Mã đăng nhập tối thiểu 4 ký tự!</span>
                 )}
                 {errors.codeRoom?.type === 'pattern' && (
-                  <span className="text-[red] mt-1 block">Mã đăng nhập không chứa dấu cách và chữ có dấu</span>
+                  <span className="text-[red] mt-1 block">Mã đăng nhập không chứa dấu cách và chữ có dấu!</span>
                 )}
               </div>
               <p>VD: abc_12345</p>
             </div>
-
             <div className="ml-5">
               <button
                 type="submit"
