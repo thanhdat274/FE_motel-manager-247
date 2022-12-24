@@ -127,7 +127,6 @@ const InfoRoom = (props: Props) => {
                       >
                         Tên thành viên
                       </th>
-
                       <th
                         scope="col"
                         className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"

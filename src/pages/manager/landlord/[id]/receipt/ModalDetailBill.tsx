@@ -153,7 +153,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                     </strong>
                                 </p>
                             </div>
-
                             <div>
                                 <p>
                                     <strong>{readBills && readBills.roomName}</strong>
@@ -203,7 +202,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
                                     </strong>
                                 </div>
                             </div>
-                            <div>-</div>
                             <div
                                 className={
                                     errors.paidAmount?.type == 'max'

@@ -148,11 +148,13 @@ const ListHome = () => {
                     </>
                   );
                 })
-            ) : <div>
-              <p className="text-blue-600/100 " >Không có dữ liệu</p></div>}
+            ) : (
+              <div>
+                <p className="text-blue-600/100 " >Không có dữ liệu</p>
+              </div>
+            )}
           </div>
         </div>
-
       </div>
     );
   };

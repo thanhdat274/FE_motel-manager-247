@@ -122,7 +122,6 @@ const AddBill = (props: Props) => {
             <br />
             Nếu chỉ muốn tính lại 1 phòng hoặc một vài phòng, chúng ta có thể chọn Tính tiền và chọn Tính hóa đơn theo phòng.
             <br />
-
           </small>
           <div className="text-red-500">
             Dữ liệu cũ không thể phục hồi nên bạn hãy cần trọng trước khi tính lại hóa đơn
@@ -132,7 +131,6 @@ const AddBill = (props: Props) => {
           <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
             Tháng/Năm
           </label>
-
           <Space direction="vertical">{datePickerShow}</Space>
         </div>
         <div className="mt-5 mb-2">
@@ -170,23 +168,6 @@ const AddBill = (props: Props) => {
               })}
           </Select>
         )}
-        {/* <div className="mt-5">
-          <label htmlFor="small" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-            Phòng
-          </label>
-          <select
-            className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            {...register('idHouse', { required: true })}
-          >
-            {rooms?.map((room: any, index: number) => {
-              return (
-                <option value={room._id} key={index}>
-                  {room.name}
-                </option>
-              );
-            })}
-          </select>
-        </div> */}
         <div className="flex items-center mt-5">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

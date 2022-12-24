@@ -50,17 +50,17 @@ const Signin = (props: Props) => {
               <input
                 type="text"
                 className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                placeholder="Nhập email"
+                placeholder="Nhập địa chỉ email"
                 {...register('email', {
                   required: true,
                   pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 })}
               />
               {errors.email?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
               )}
               {errors.email?.type === 'pattern' && (
-                <span className="text-[red] mt-1 block">Địa chỉ email của bạn không đúng định dạng!</span>
+                <span className="text-[red] mt-1 block">Địa chỉ email không đúng định dạng!</span>
               )}
             </div>
             <div className="mt-4">
@@ -74,7 +74,7 @@ const Signin = (props: Props) => {
                 {...register('password', { required: true })}
               />
               {errors.password?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu!</span>
               )}
             </div>
             <div className="flex items-center justify-end">

@@ -132,7 +132,7 @@ const ListMember = (props: IMember) => {
         </div>
         <div className="flex flex-row justify-between">
           <div className="cart-number">
-            <strong>CMT/CCCD:</strong> {showData(cardNumber, !hiddenCardNumber)}
+            <strong>CMND/CCCD:</strong> {showData(cardNumber, !hiddenCardNumber)}
           </div>
           <FontAwesomeIcon
             className="w-[20px] text-[10px] pt-[2px]"
@@ -141,7 +141,7 @@ const ListMember = (props: IMember) => {
             size={'lg'}
           />
         </div>
-        <div className="name-member">{status == true ? <div>Chủ Phòng</div> : <div>{null}</div>}</div>
+        <div className="name-member">{status == true ? <div>Chủ Phòng</div> : <div>Thành viên</div>}</div>
 
         <div className="control-member flex flex-row gap-2">
           <div
@@ -205,13 +205,13 @@ const ListMember = (props: IMember) => {
                 </div>
                 <div className="mb-4 mt-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                    CMT/CCCD
+                    CMND/CCCD
                   </label>
                   <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="cardNumber"
                     type="text"
-                    placeholder="Xin mời nhập  CMT/CCCD"
+                    placeholder="Xin mời nhập  CMND/CCCD"
                     {...register('cardNumber', {
                       required: true,
                       minLength: 9,
@@ -220,16 +220,16 @@ const ListMember = (props: IMember) => {
                     })}
                   />
                   {errors.cardNumber?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập số CCCD của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập số CMND/CCCD!</span>
                   )}
                   {errors.cardNumber?.type === 'minLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'maxLength' && (
-                    <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                   {errors.cardNumber?.type === 'pattern' && (
-                    <span className="text-[red] mt-1 block">Số CCCD của bạn không đúng dịnh dạng!</span>
+                    <span className="text-[red] mt-1 block">Số CMND/CCCD không đúng dịnh dạng!</span>
                   )}
                 </div>
                 <div className="mb-4">
@@ -243,16 +243,22 @@ const ListMember = (props: IMember) => {
                     placeholder="Xin mời nhập số điện thoại"
                     {...register('phoneNumber', {
                       required: true,
-
+                      minLength: 10,
+                      maxLength: 10,
                       pattern: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
                     })}
                   />
                   {errors.phoneNumber?.type === 'required' && (
-                    <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại của bạn!</span>
+                    <span className="text-[red] mt-1 block">Vui lòng nhập số điện thoại!</span>
                   )}
-
+                  {errors.phoneNumber?.type === 'minLength' && (
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+                  )}
+                  {errors.phoneNumber?.type === 'maxLength' && (
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+                  )}
                   {errors.phoneNumber?.type === 'pattern' && (
-                    <span className="text-[red] mt-1 block">Số điện thoại của bạn không đúng định dạng!</span>
+                    <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
                   )}
                 </div>
 
@@ -261,7 +267,7 @@ const ListMember = (props: IMember) => {
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit"
                   >
-                    Sửa thành viên
+                    Cập nhật
                   </button>
                 </div>
               </form>
