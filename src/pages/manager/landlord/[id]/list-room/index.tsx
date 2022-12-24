@@ -69,7 +69,7 @@ const ListRoom = () => {
   const genData = (data: any, color?: string) => {
     return (
       <div className="w-full grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
-        {data.length > 0 ? (
+        {data?.length > 0 ? (
           data
             .filter((val: any) => {
               if (fillter == '') {
