@@ -1,20 +1,22 @@
 import { useUserContext } from '@/context/UserContext';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { loginCode } from 'src/pages/api/room';
 import { Toast } from 'src/hooks/toast';
 
 type Props = {
   data: any;
+  handleResetPage: () => void
+
 };
 
-const LoginCode = ({ data }: Props) => {
+const LoginCode = ({ data, handleResetPage }: Props) => {
+  console.log('data', data.subName);
+  const codeRoomProp = data?.subName
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
     formState: { errors },
   } = useForm<any>();
   const { cookies, setLoading, user } = useUserContext();
@@ -24,15 +26,23 @@ const LoginCode = ({ data }: Props) => {
   const idRoom = param?.id_room;
 
   const onSubmit = async (data: any) => {
-    setLoading(true)
-    try {
-      const newData = { ...data, idRoom: idRoom, userData: userData };
-      await loginCode(newData);
-      Toast('success', 'Cập nhật mã đăng nhập thành công');
-      setLoading(false)
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.message);
-      setLoading(false)
+    console.log('data submit', data);
+    if (data?.codeRoom == codeRoomProp) {
+      Toast('error', 'Bạn cần thay đổi mã trước khi gửi đi!');
+
+    } else {
+      setLoading(true)
+      try {
+        const newData = { ...data, idRoom: idRoom, userData: userData };
+        await loginCode(newData).finally(() => {
+          handleResetPage()
+        });
+        Toast('success', 'Cập nhật mã đăng nhập thành công');
+        setLoading(false)
+      } catch (error: any) {
+        Toast('error', error?.response?.data?.message);
+        setLoading(false)
+      }
     }
   };
   return (

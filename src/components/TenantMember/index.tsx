@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useUserContext } from '@/context/UserContext';
 import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';

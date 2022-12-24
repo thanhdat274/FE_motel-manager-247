@@ -19,17 +19,16 @@ const ManageRoom = () => {
   const { cookies, setLoading } = useUserContext();
   const [setFirstTab, setSetFirstTab] = useState(0);
   const [infoLandlord, setInfoLandlord] = useState();
-  const [resetPage, setResetPage] = useState(0)
+  const [resetPage, setResetPage] = useState(0);
   const [listServices, setListServices] = useState([]);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
   const { id } = router.query;
 
-
   const handleResetPage = () => {
-    setResetPage(resetPage + 1)
-  }
+    setResetPage(resetPage + 1);
+  };
 
   const getInfoLandlord = async () => {
     setLoading(true);
@@ -85,7 +84,6 @@ const ManageRoom = () => {
     setSetFirstTab(number);
   };
 
-
   const data = [
     {
       label: 'Thông tin phòng trọ',
@@ -119,13 +117,22 @@ const ManageRoom = () => {
     {
       label: 'Mã đăng nhập',
       value: 3,
-      children: <LoginCode data={roomData} />,
+      children: <LoginCode data={roomData} handleResetPage={() => handleResetPage()} />,
     },
     {
       label: 'Dịch vụ',
       value: 4,
-      children: <TabService data={listServices} id={id} idRoom={param.id_room} userData={userData} dataRoom={roomData} setSetFirstTab={(value: number) => setDataFromChild(value)} />,
-    }
+      children: (
+        <TabService
+          data={listServices}
+          id={id}
+          idRoom={param.id_room}
+          userData={userData}
+          dataRoom={roomData}
+          setSetFirstTab={(value: number) => setDataFromChild(value)}
+        />
+      ),
+    },
   ];
 
   return (
