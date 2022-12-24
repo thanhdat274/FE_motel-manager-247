@@ -22,11 +22,14 @@ const LoginCode = ({ data }: Props) => {
   const router = useRouter();
   const param = router.query;
   const idRoom = param?.id_room;
+  console.log(idRoom);
+  
 
   const onSubmit = async (data: any) => {
     setLoading(true)
+    const newData = { ...data, idRoom: idRoom, userData: userData };
     try {
-      const newData = { ...data, idRoom: idRoom, userData: userData };
+      
       await loginCode(newData);
       Toast('success', 'Cập nhật mã đăng nhập thành công');
       setLoading(false)

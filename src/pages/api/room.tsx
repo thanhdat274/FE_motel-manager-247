@@ -77,7 +77,7 @@ export const removePeople = (_id: any, data: any) => {
 // api ma dang nhap
 
 export const loginCode = (data: any) => {
-  const url = `/rom/edit-code-room`;
+  const url = `/room/edit-code-room`;
   return instance.post(url, data, {
     headers: {
       Authorization: `Bearer ${data?.userData?.token}`,
