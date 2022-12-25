@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { Toast } from 'src/hooks/toast';
-import { updateRoom } from 'src/pages/api/room';
+import { liquidRoom, updateRoom } from 'src/pages/api/room';
 
 type IForm = {
   name: string;
@@ -18,9 +18,11 @@ type IForm = {
 };
 type Props = {
   data: IForm | any;
+  handleResetPage: () => void
+
 };
 
-const TenantInformation = ({ data }: any) => {
+const TenantInformation = ({ data, handleResetPage }: Props) => {
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -38,6 +40,22 @@ const TenantInformation = ({ data }: any) => {
       reset(data);
     }
   }, [data, reset]);
+
+  const handleLiquid = async () => {
+    setLoading(true);
+    await liquidRoom({ idRoom: param?.id_room, idHouse: param?.id, name: getValues('name') }, userData?.token).then((result) => {
+      console.log('réult', result);
+
+      Toast('success', result?.data?.message);
+    }).catch((err) => {
+      setLoading(false);
+      Toast('error', err?.response?.data?.message);
+    }).finally(() => {
+      setLoading(false);
+      handleResetPage()
+
+    });
+  }
 
   const onSubmit = async (data: any) => {
     const newData = { ...data, price: Number(data.price), idRoom: param?.id_room, token: userData?.token };
@@ -183,6 +201,10 @@ const TenantInformation = ({ data }: any) => {
                   </a>
                 </Link>
 
+                <div className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 cursor-pointer' onClick={() => handleLiquid()}>
+                  Thanh lý hợp đồng
+                </div>
+
                 <button
                   type="submit"
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -192,6 +214,7 @@ const TenantInformation = ({ data }: any) => {
               </div>
             </div>
           </form>
+
         </div>
       </div>
     </div>

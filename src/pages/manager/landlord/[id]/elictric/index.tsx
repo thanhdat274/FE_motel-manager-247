@@ -78,7 +78,7 @@ const LisElectric = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading,NameBuild]);
+  }, [id, NameBuild]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -131,7 +131,7 @@ const LisElectric = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck,NameBuild]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, userData, yearCheck, NameBuild]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -139,7 +139,7 @@ const LisElectric = () => {
     } else {
       setValue('data', listRoomData);
     }
-  }, [listBillData, listRoomData, setValue]);
+  }, [listBillData, listRoomData]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {
