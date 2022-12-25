@@ -99,7 +99,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
             month: data1?.month,
             year: data1?.year,
             paidAmount: Number(getValues('paidAmount')) || 0,
-            paymentStatus: sumWithInitial - Number(getValues('paidAmount')) > 0 ? false : true,
         };
         setLoading(true);
         await paymentStatus(newData, readBills._id, userData)
