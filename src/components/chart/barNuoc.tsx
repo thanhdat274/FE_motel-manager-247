@@ -16,6 +16,9 @@ export const options = {
     title: {
       display: true,
       text: 'Số lượng nước tiêu thụ hàng tháng',
+      font: {
+        size: 24
+      }
     },
   },
 };

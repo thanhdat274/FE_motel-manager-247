@@ -16,6 +16,9 @@ export const options = {
     title: {
       display: true,
       text: 'Số lượng điện tiêu thụ hàng tháng',
+      font: {
+        size: 24
+      }
     },
   },
 };

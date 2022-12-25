@@ -176,8 +176,8 @@ const HomeManagerPage = () => {
             <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-yellow-200 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
-                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng chưa có người ở</p>
-                  <h5 className="mb-0">{roomStatisticals.countRoomsNotUsing} phòng</h5>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng trống</p>
+                  <h5 className="mb-0">{roomStatisticals.roomReadyEmpty} phòng</h5>
                 </div>
               </div>
               <div className="max-w-full ">
