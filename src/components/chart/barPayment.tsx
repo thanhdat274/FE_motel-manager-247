@@ -16,6 +16,9 @@ export const options = {
     title: {
       display: true,
       text: 'Doanh thu hàng tháng',
+      font: {
+        size: 24
+      }
     },
   },
 };
@@ -42,7 +45,7 @@ const BarPayment = (dataPayment: any) => {
     var data = {
       labels,
       datasets: [
-        
+
         {
           label: 'Số tiền đã thu',
           data: dataPayment.dataPayment.fullPayment,
