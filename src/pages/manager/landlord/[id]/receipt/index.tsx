@@ -170,30 +170,27 @@ const Receipt = () => {
                                       {sumWithInitial.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                     </div>
                                   </td>
-                                  <td>
+                                  <td className='px-6 py-4 whitespace'>
                                     <div className="">
-                                      <p>
-                                        {status && (
-                                          <div className=" text-green-600 flex ">
-                                            <p className="w-full pt-4 text-right"> Đã thanh toán</p>
-                                            <span className="w-full pt-5 pl-3 ">
-                                              {' '}
-                                              <FontAwesomeIcon className="w-[16px] " icon={faCheck} />
-                                            </span>
-                                          </div>
-                                        )}
-                                      </p>
-                                      <p>
-                                        {!status && (
-                                          <div className=" text-red-500 flex ">
-                                            <p className="w-full pt-3 text-right"> Chưa thanh toán</p>
-                                            <span className="w-full pt-3 pl-3 ">
-                                              {' '}
-                                              <FontAwesomeIcon className="w-[12px] " icon={faXmark} />
-                                            </span>
-                                          </div>
-                                        )}
-                                      </p>
+                                      {status === 2 ? (
+                                        <div className="text-green-600 text-center py-4">
+                                          Đã thanh toán
+                                        </div>
+                                      ) : (<div></div>)}
+                                      {status === 1 ? (
+                                        <div className="text-yellow-500 text-center py-4">
+                                          Còn nợ
+                                        </div>
+                                      ) : (
+                                        <div></div>
+                                      )}
+                                      {status === 0 ? (
+                                        <div className="text-red-500 text-center py-4">
+                                          Chưa thanh toán
+                                        </div>
+                                      ) : (
+                                        <div></div>
+                                      )}
                                     </div>
                                   </td>
                                   <td className="px-6 py-4 whitespace">

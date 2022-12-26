@@ -77,7 +77,7 @@ const ListWaterUsed = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading]);
+  }, [id]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -96,7 +96,7 @@ const ListWaterUsed = () => {
       }
     };
     getListBillData();
-  }, [id, monthCheck, setLoading, yearCheck]);
+  }, [id, monthCheck, yearCheck]);
 
   const useWater = outputVs - inputVs;
 
@@ -130,7 +130,7 @@ const ListWaterUsed = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, userData, yearCheck]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -138,7 +138,7 @@ const ListWaterUsed = () => {
     } else {
       setValue('data', listRoomData);
     }
-  }, [listBillData, listRoomData, setValue]);
+  }, [listBillData, listRoomData]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {

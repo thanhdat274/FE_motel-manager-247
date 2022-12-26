@@ -41,10 +41,12 @@ const AddRoom = (props: Props) => {
     await addRoom(newData)
       .then((data: any) => {
         setLoading(false);
-        Toast('success', 'Thêm mới phòng thành công');
+        Toast('success', data?.response?.data?.message);
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((error) => {
+        console.log('error', error);
+
         Toast('error', error?.response?.data?.message);
         setLoading(false);
       });

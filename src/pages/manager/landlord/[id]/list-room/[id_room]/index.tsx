@@ -88,7 +88,7 @@ const ManageRoom = () => {
     {
       label: 'Thông tin phòng trọ',
       value: 0,
-      children: <TenantInformation data={roomData} />,
+      children: <TenantInformation data={roomData} handleResetPage={() => handleResetPage()} />,
     },
     // LoginCode
     {
