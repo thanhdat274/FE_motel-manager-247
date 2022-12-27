@@ -38,6 +38,8 @@ const Booking = (props: Props) => {
     formState: { errors },
   } = useForm<any>();
 
+
+
   const handleSearch = (event: any) => {
     const value = event.target.value;
     setfillter(value);
@@ -70,6 +72,7 @@ const Booking = (props: Props) => {
         });
     }
   };
+
   useEffect(() => {
     if (id) {
       const getListRoom = async () => {
@@ -79,6 +82,8 @@ const Booking = (props: Props) => {
       getListRoom();
     }
   }, [id]);
+
+
 
   const onSubmit = async (data1: any) => {
     if (id) {
