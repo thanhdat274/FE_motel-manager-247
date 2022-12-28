@@ -19,7 +19,6 @@ type IForm = {
 type Props = {
   data: IForm | any;
   handleResetPage: () => void
-
 };
 
 const TenantInformation = ({ data, handleResetPage }: Props) => {
@@ -44,8 +43,6 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
   const handleLiquid = async () => {
     setLoading(true);
     await liquidRoom({ idRoom: param?.id_room, idHouse: param?.id, name: getValues('name') }, userData?.token).then((result) => {
-      console.log('réult', result);
-
       Toast('success', result?.data?.message);
     }).catch((err) => {
       setLoading(false);
@@ -53,7 +50,6 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
     }).finally(() => {
       setLoading(false);
       handleResetPage()
-
     });
   }
 
@@ -137,15 +133,32 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
                   <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                     Email người đại diện <span className="text-[red]">*</span>
                   </label>
-                  <input
-                    className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="emailOfAuth"
-                    type="emailOfAuth"
-                    {...register('emailOfAuth', {
-                      required: false,
-                      pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    })}
-                  />
+                  {data?.listMember?.length == 0 ? (
+                    <div>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="emailOfAuth"
+                        disabled
+                        type="emailOfAuth"
+                        {...register('emailOfAuth', {
+                          required: false,
+                          pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        })}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="emailOfAuth"
+                        type="emailOfAuth"
+                        {...register('emailOfAuth', {
+                          required: false,
+                          pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        })}
+                      />
+                    </div>
+                  )}
                   {errors.emailOfAuth?.type === 'required' && (
                     <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
                   )}
