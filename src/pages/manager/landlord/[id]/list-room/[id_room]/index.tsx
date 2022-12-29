@@ -101,6 +101,7 @@ const ManageRoom = () => {
       value: 2,
       children: (
         <TenantContract
+          data={roomData}
           dataContract={roomData.contract}
           leadMember={
             roomData?.listMember?.length > 0
