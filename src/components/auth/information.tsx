@@ -27,6 +27,7 @@ const AccountInformation = (props: Props) => {
     formState: { errors },
   } = useForm<FormInputs>();
   useEffect(() => {
+
     const getUsers = async () => {
       setLoading(true);
       try {
@@ -38,6 +39,8 @@ const AccountInformation = (props: Props) => {
       }
     };
     getUsers();
+
+
   }, [reset, setLoading, userData]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
