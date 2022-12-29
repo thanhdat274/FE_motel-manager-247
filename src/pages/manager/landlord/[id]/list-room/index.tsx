@@ -47,22 +47,28 @@ const ListRoom = () => {
     }
   }, [userData, id, setLoading, changeValue]);
 
-  const removeRooms = async (_id: number, userData: any) => {
+  const removeRooms = async (_id: number, userData: any, check: []) => {
     const confirm = window.confirm('Bạn có muốn xóa không?');
     if (confirm) {
       setLoading(true);
-      await removeRoom({ _id: _id, userData: userData })
-        .then(() => {
-          Toast('success', 'Xóa phòng thành công');
-          setLoading(false);
-        })
-        .catch((error) => {
-          Toast('error', error?.response?.data?.message);
-          setLoading(false);
-        })
-        .finally(() => {
-          setChangeValue(changeValue + 1);
-        });
+      if (check.length > 0) {
+        Toast('error', 'Không thể xóa phòng này vì đang có người ở!');
+        setLoading(false);
+      } else {
+        await removeRoom({ _id: _id, userData: userData })
+          .then(() => {
+            Toast('success', 'Xóa phòng thành công');
+            setLoading(false);
+          })
+          .catch((error) => {
+            Toast('error', error?.response?.data?.message);
+            setLoading(false);
+          })
+          .finally(() => {
+            setChangeValue(changeValue + 1);
+          });
+      }
+
     }
   };
 
@@ -146,8 +152,9 @@ const ListRoom = () => {
 
                         <button
                           onClick={() => {
-                            removeRooms(item._id, userData);
+                            removeRooms(item._id, userData, item.listMember);
                           }}
+
                           className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                         >
                           <FontAwesomeIcon className="h-[20px]" icon={faTrash} /> Xóa
@@ -194,7 +201,7 @@ const ListRoom = () => {
 
                         <button
                           onClick={() => {
-                            removeRooms(item._id, userData);
+                            removeRooms(item._id, userData, item.listMember);
                           }}
                           className="btn text-red-500 hover:text-red-600 flex gap-1 items-center"
                         >
