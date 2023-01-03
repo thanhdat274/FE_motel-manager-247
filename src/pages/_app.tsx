@@ -57,9 +57,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/ternant') >= 0) {
       return (
         <div>
-          <LayoutTenants>
-            <Component {...pageProps} />
-          </LayoutTenants>
+          <CheckCodeRoom>
+            <LayoutTenants>
+              <Component {...pageProps} />
+            </LayoutTenants>
+          </CheckCodeRoom>
         </div>
       );
     }
@@ -67,11 +69,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       return (
         <div className="bg-gray-200">
           <LayoutIntro>
-            <CheckCodeRoom>
-              <CheckUser>
-                <Component {...pageProps} />
-              </CheckUser>
-            </CheckCodeRoom>
+            <CheckUser>
+              <Component {...pageProps} />
+            </CheckUser>
           </LayoutIntro>
         </div>
       );
