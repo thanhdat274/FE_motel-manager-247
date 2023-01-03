@@ -20,7 +20,6 @@ export type IContractData = {
   endTime: string;
   additional: any;
   fine: number;
-  timeContract: string;
   infoTenant: Info;
   infoLandlord: Info;
   imageContract: any;
@@ -94,7 +93,6 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
       setValue('startTime', contractData.startTime);
       setValue('endTime', contractData.endTime);
       setValue('additional', contractData.additional.join('\n'));
-      setValue('timeContract', contractData.timeContract);
       setValue('fine', String(contractData.fine));
 
       //tenant
@@ -147,7 +145,6 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
             startTime: data.startTime,
             endTime: data.endTime,
             additional: newAdditional,
-            timeContract: data.timeContract,
             fine: Number(data.fine),
             timeCT: data.timeCT,
             addressCT: data.addressCT,
@@ -188,7 +185,6 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
             startTime: data.startTime,
             endTime: data.endTime,
             additional: newAdditional,
-            timeContract: data.timeContract,
             fine: Number(data.fine),
             timeCT: data.timeCT,
             addressCT: data.addressCT,
@@ -329,22 +325,7 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                     )}
                   </div>
                 </div>
-                <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
-                  <div className="md:grid grid-cols-1">
-                    <label className="block text-gray-700 text-sm font-bold">
-                      Thời gian HĐ  <span className="text-[red]">*</span>
-                    </label>
-                    <input
-                      type="string"
-                      placeholder="3 tháng"
-                      className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3"
-                      {...register('timeContract', { required: true, maxLength: 80 })}
-                    />
-                    {errors.timeContract?.type === 'required' && (
-                      <span className="text-[red] mt-1 block">Vui lòng nhập thời gian hiệu lực của hợp đồng!</span>
-                    )}
-                  </div>
-                </div>
+
                 <div className="md:grid grid-cols-2 md:gap-10 sm:gap-6 gap-4 mb-6">
                   <div className="md:grid grid-cols-1 mb-4">
                     <label className="block text-gray-700 text-sm font-bold">
