@@ -66,7 +66,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
             )}
           </div>
         ) : (
-          <div>Phòng chưa sẵn sàng</div>
+          <div>Phòng đang sửa chữa</div>
         )}
 
         <Modal open={open} onClose={onCloseModal} center>
