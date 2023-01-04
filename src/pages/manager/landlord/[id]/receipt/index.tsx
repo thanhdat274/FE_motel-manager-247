@@ -70,8 +70,32 @@ const Receipt = () => {
     );
   }, [monthCheckk, yearCheckk]);
 
+  const [filterBill, setFilterBill] = useState("all")
+
+  const filterBillLisst = bill.filter((bil: any) => {
+    if (filterBill === "conlo") {
+      return bil.paymenStatus === 1;
+    } else if (filterBill === "chuatt") {
+      return bil.paymenStatus === 0;
+    } else if (filterBill === "datt") {
+      return bil.paymenStatus === 2;
+    } else {
+      return bil;
+    }
+  })
+  const onFilterBill = (event: any) => {
+    setFilterBill(event.target.value);
+
+  }
+
   return (
     <div className="h-screen">
+      <select name="" id="" onChange={onFilterBill}>
+        <option value="all">Tất cả</option>
+        <option value="conlo">Còn lợ</option>
+        <option value="chuatt">Chưa thanh toán</option>
+        <option value="datt">Đã thanh toán</option>
+      </select>
       <header className="bg-white shadow">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -138,7 +162,7 @@ const Receipt = () => {
                       </thead>
 
                       <>
-                        {bill?.map((item: any, index: number) => {
+                        {filterBillLisst?.map((item: any, index: number) => {
                           const initialValue = 0;
                           const sumWithInitial =
                             item?.invoiceService.reduce(
