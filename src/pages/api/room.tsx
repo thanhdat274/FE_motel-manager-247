@@ -49,8 +49,17 @@ export const updateRoom = (newData: any) => {
     },
   });
 };
+
+export const liquidRoom = (data: any, token?: any) => {
+  const url = `/room/liquidation`;
+  return instance.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
 // update people
-export const updatePeople = (listMember: any , idRoom:any) => {
+export const updatePeople = (listMember: any, idRoom: any) => {
   const url = `/room/${idRoom}/updateInfoMember`;
   return instance.post(url, listMember);
 };

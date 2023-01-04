@@ -77,7 +77,7 @@ const ListWaterUsed = () => {
       }
     };
     getServiceData();
-  }, [id, setLoading]);
+  }, [id]);
 
   useEffect(() => {
     const getListBillData = async () => {
@@ -96,7 +96,7 @@ const ListWaterUsed = () => {
       }
     };
     getListBillData();
-  }, [id, monthCheck, setLoading, yearCheck]);
+  }, [id, monthCheck, yearCheck]);
 
   const useWater = outputVs - inputVs;
 
@@ -130,7 +130,7 @@ const ListWaterUsed = () => {
       }
     };
     getListRoom();
-  }, [id, monthCheck, serviceData?.price, serviceData?.unit, setLoading, userData, yearCheck]);
+  }, [id, monthCheck, serviceData?.price, serviceData?.unit, userData, yearCheck]);
 
   useEffect(() => {
     if (listBillData.length) {
@@ -138,7 +138,7 @@ const ListWaterUsed = () => {
     } else {
       setValue('data', listRoomData);
     }
-  }, [listBillData, listRoomData, setValue]);
+  }, [listBillData, listRoomData]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     if (monthCheck && yearCheck) {
@@ -277,7 +277,7 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước cũ phải lớn hơn 0
+                                        Số nước cũ phải lớn hơn 0!
                                       </p>
                                     )}
                                   </div>
@@ -297,11 +297,11 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước mới phải lớn hơn 0
+                                        Số nước mới phải lớn hơn 0!
                                       </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
-                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>
+                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ!</div>
                                     ) : (
                                       ''
                                     )}
@@ -353,7 +353,7 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.inputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước cũ phải lớn hơn 0
+                                        Số nước cũ phải lớn hơn 0!
                                       </p>
                                     )}
                                   </div>
@@ -373,11 +373,11 @@ const ListWaterUsed = () => {
                                     />
                                     {getValues(`data.${index}.outputValue`) < 0 && (
                                       <p className="text-rose-600" role="alert">
-                                        Số nước mới phải lớn hơn 0
+                                        Số nước mới phải lớn hơn 0!
                                       </p>
                                     )}
                                     {getValues(`data.${index}.outputValue`) < getValues(`data.${index}.inputValue`) ? (
-                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ</div>
+                                      <div className="text-rose-600">Số nước mới phải lớn hơn hoặc bằng số nước cũ!</div>
                                     ) : (
                                       ''
                                     )}

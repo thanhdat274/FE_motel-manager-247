@@ -61,13 +61,13 @@ const ChangePassword = (props: Props) => {
                 {...register('oldPassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.oldPassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu cũ của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu cũ!</span>
               )}
               {errors.oldPassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu cũ của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu cũ tối thiểu 8 ký tự!</span>
               )}
               {errors.oldPassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu cũ của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu cũ tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="mt-4">
@@ -81,13 +81,13 @@ const ChangePassword = (props: Props) => {
                 {...register('newPassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.newPassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu mới của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu mới!</span>
               )}
               {errors.newPassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu mới của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu mới tối thiểu 8 ký tự!</span>
               )}
               {errors.newPassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu mới của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu mới tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="mt-4">
@@ -101,13 +101,13 @@ const ChangePassword = (props: Props) => {
                 {...register('verifyPassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.verifyPassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu mới của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu mới!</span>
               )}
               {errors.verifyPassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu mới của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu mới tối thiểu 8 ký tự!</span>
               )}
               {errors.verifyPassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu mới của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu mới tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="flex mt-[20px]">

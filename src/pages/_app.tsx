@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { CookiesProvider } from 'react-cookie';
-import { CheckUser, PrivateRouter } from './PrivateRouter';
+import { CheckCodeRoom, CheckUser, PrivateRouter } from './PrivateRouter';
 import { useEffect, useState } from 'react';
 
 config.autoAddCss = false;
@@ -57,9 +57,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (router.pathname.search('/manager/ternant') >= 0) {
       return (
         <div>
-          <LayoutTenants>
-            <Component {...pageProps} />
-          </LayoutTenants>
+          <CheckCodeRoom>
+            <LayoutTenants>
+              <Component {...pageProps} />
+            </LayoutTenants>
+          </CheckCodeRoom>
         </div>
       );
     }

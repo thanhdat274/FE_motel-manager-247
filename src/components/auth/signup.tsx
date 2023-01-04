@@ -61,10 +61,10 @@ const Signup = (props: Props) => {
                 })}
               />
               {errors.email?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập email của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập địa chỉ email!</span>
               )}
               {errors.email?.type === 'pattern' && (
-                <span className="text-[red] mt-1 block">Email không đúng định dạng</span>
+                <span className="text-[red] mt-1 block">Địa chỉ email không đúng định dạng!</span>
               )}
             </div>
             <div className="mt-4">
@@ -80,7 +80,7 @@ const Signup = (props: Props) => {
                 })}
               />
               {errors.name?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập họ và tên!</span>
               )}
             </div>
 
@@ -95,13 +95,13 @@ const Signup = (props: Props) => {
                 {...register('password', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.password?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu của bạn</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu!</span>
               )}
               {errors.password?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối thiểu 8 ký tự!</span>
               )}
               {errors.password?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="mt-4">
@@ -115,13 +115,13 @@ const Signup = (props: Props) => {
                 {...register('repassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.repassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu của bạn</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu!</span>
               )}
               {errors.repassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối thiểu 8 ký tự!</span>
               )}
               {errors.repassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="flex mt-[20px]">

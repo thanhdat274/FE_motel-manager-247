@@ -60,13 +60,13 @@ const Resetpassword = (props: Props) => {
                 {...register('newPassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.newPassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập mật khẩu!</span>
               )}
               {errors.newPassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối thiểu 8 ký tự!</span>
               )}
               {errors.newPassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối đa 20 ký tự!</span>
               )}
             </div>
             <div className="mt-4">
@@ -80,16 +80,15 @@ const Resetpassword = (props: Props) => {
                 {...register('verifyPassword', { required: true, minLength: 8, maxLength: 20 })}
               />
               {errors.verifyPassword?.type === 'required' && (
-                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu của bạn!</span>
+                <span className="text-[red] mt-1 block">Vui lòng nhập lại mật khẩu!</span>
               )}
               {errors.verifyPassword?.type === 'minLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối thiểu 8 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối thiểu 8 ký tự!</span>
               )}
               {errors.verifyPassword?.type === 'maxLength' && (
-                <span className="text-[red] mt-1 block">Mật khẩu của bạn phải tối đa 20 ký tự!</span>
+                <span className="text-[red] mt-1 block">Mật khẩu tối đa 20 ký tự!</span>
               )}
             </div>
-
             <div className="flex mt-[20px]">
               <button
                 type="submit"

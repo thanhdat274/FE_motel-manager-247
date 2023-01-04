@@ -116,7 +116,7 @@ const HomeManagerPage = () => {
         </div>
       </header>
       {(
-        <div className="w-full ">
+        <div className="w-full">
           <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 gap-y-2 md:gap-2 justify-between">
             <Link href={`${id}/list-room`}>
               <a className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-blue-300 shadow border rounded-md">
@@ -158,8 +158,8 @@ const HomeManagerPage = () => {
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
-            </div>     <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-red-300 shadow border rounded-md">
-
+            </div>
+            <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-red-300 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
@@ -176,8 +176,8 @@ const HomeManagerPage = () => {
             <div className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-yellow-200 shadow border rounded-md">
               <div className="max-w-full">
                 <div>
-                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng chưa có người ở</p>
-                  <h5 className="mb-0">{roomStatisticals.countRoomsNotUsing} phòng</h5>
+                  <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng trống</p>
+                  <h5 className="mb-0">{roomStatisticals.roomReadyEmpty} phòng</h5>
                 </div>
               </div>
               <div className="max-w-full ">
@@ -189,7 +189,6 @@ const HomeManagerPage = () => {
           </div>
         </div>
       )}
-
       {yearShow}
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">

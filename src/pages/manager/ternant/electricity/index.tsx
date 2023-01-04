@@ -49,7 +49,7 @@ const ListElectricity = (props: Props) => {
       };
       getListBillData();
     }
-  }, [codeRoom?._id,monthCheck, yearCheck, NameBuild]);
+  }, [codeRoom?._id, monthCheck, yearCheck, NameBuild]);
 
 
   return (
@@ -59,7 +59,7 @@ const ListElectricity = (props: Props) => {
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Số lượng điện tiêu thụ hàng tháng
+                quản lý số điện hàng tháng
               </h2>
             </div>
             <div className="mt-5 flex lg:mt-0 lg:ml-4">
@@ -113,7 +113,7 @@ const ListElectricity = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Số điện tiêu thu
+                          Số điện tiêu thu (KWH)
                         </th>
                       </tr>
                     </thead>
@@ -123,14 +123,14 @@ const ListElectricity = (props: Props) => {
                           <div className="text-center">{monthCheck}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.inputValue} Kwh</div>
+                          <div className="text-center">{listBillData.inputValue}</div>
                         </td>
 
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{listBillData.outputValue} Kwh</div>
+                          <div className="text-center">{listBillData.outputValue}</div>
                         </td>
                         <td className="px-6 py-4 whitespace text-yellow-500 font-bold">
-                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue} Kwh</div>
+                          <div className="text-center">{listBillData.outputValue - listBillData.inputValue}</div>
                         </td>
                       </tr>
                     </tbody>

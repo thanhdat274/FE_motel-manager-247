@@ -16,12 +16,12 @@ type IData = {
   children?: React.ReactNode;
 };
 
-type ITabPanel = {
+type ITabHistory = {
   data: IData[];
   valueInit?: number;
 };
 
-function TabPanel(props: TabPanelProps) {
+function TabHistory(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
   return (
     <div
@@ -47,7 +47,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function TabPanelComponent({ data, valueInit }: ITabPanel) {
+export default function TabHistoryComponent({ data, valueInit }: ITabHistory) {
   const [value, setValue] = React.useState(valueInit || 0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -70,9 +70,9 @@ export default function TabPanelComponent({ data, valueInit }: ITabPanel) {
       </Box>
 
       {data.map((data: IData, index: number) => (
-        <TabPanel key={data.label + 1} value={value} index={index}>
+        <TabHistory key={data.label + 1} value={value} index={index}>
           {data.children && data.children}
-        </TabPanel>
+        </TabHistory>
       ))}
     </Box>
   );

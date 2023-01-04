@@ -171,12 +171,12 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                                                 </div>
                                                             </td>
                                                             <td className="px-6 py-4 whitespace 2xs:hidden ">
-                                                                <div className="text-center">{service?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                                                <div className="text-center">{service?.price?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                                                                     <input type="text" value={service?.price} className='hidden' {...register(`service.${index}.price`, { required: true })} />
                                                                 </div>
                                                             </td>
                                                             <td className="2xs:hidden px-6 py-4 whitespace">
-                                                                <div className="text-center">{service?.type ? 'Theo tháng' : "Không theo tháng"}</div>
+                                                                <div className="text-center">{service?.type ? 'Trả theo số lượng sử dụng.' : "Trả theo tháng"}</div>
                                                             </td>
                                                         </tr>
                                                     )
@@ -185,7 +185,7 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                         </tbody>
                                         <button
                                             type="submit"
-                                            className="text-white bg-blue-400 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
+                                            className="ml-4 text-white bg-blue-400 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-4"
                                         >
                                             Lưu
                                         </button>

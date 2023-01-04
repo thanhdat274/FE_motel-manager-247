@@ -12,6 +12,9 @@ export const options = {
     title: {
       display: true,
       text: 'Thống kê phòng',
+      font: {
+        size: 24
+      }
     },
   },
 };

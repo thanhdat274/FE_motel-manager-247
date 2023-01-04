@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContext'
 import React from 'react'
-import { createOrder } from '../api/payment'
+import { createBillUpdateAccount } from '../api/payment'
 
 
 const OptionalPayment = () => {
@@ -19,7 +19,7 @@ const OptionalPayment = () => {
 
         if (cookies.user.user._id) {
             setLoading(true)
-            await createOrder(dataPayment).then((result) => {
+            await createBillUpdateAccount(dataPayment).then((result) => {
                 setLoading(false);
                 window.location.href = result.data.redirect
             }).catch((err) => {

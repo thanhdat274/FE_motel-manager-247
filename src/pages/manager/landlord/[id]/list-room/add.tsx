@@ -13,7 +13,7 @@ type Props = {};
 type FromValues = {
   _id: string;
   name: string;
-  price: string;
+  price: number;
   area: number;
   maxMember: number;
   status: string;
@@ -36,15 +36,17 @@ const AddRoom = (props: Props) => {
   const { id } = router.query;
 
   const onSubmit: SubmitHandler<FromValues> = async (data: any) => {
-    const newData = { ...data, price: Number(data.price.replace(/[^0-9\.]+/g, "")), userData: userData, idHouse: id, idAuth: userData?.user?._id };
+    const newData = { ...data, price: Number(data.price), userData: userData, idHouse: id, idAuth: userData?.user?._id };
     setLoading(true);
     await addRoom(newData)
       .then((data: any) => {
         setLoading(false);
-        Toast('success', 'Thêm mới phòng thành công');
+        Toast('success', data?.response?.data?.message);
         router.push(`/manager/landlord/${id}/list-room`);
       })
       .catch((error) => {
+        console.log('error', error);
+
         Toast('error', error?.response?.data?.message);
         setLoading(false);
       });
@@ -82,10 +84,10 @@ const AddRoom = (props: Props) => {
                         {...register('name', { required: true, minLength: 6 })}
                       />
                       {errors.name?.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Vui lòng nhập tên phòng của bạn!</span>
+                        <span className="text-[red] mt-1 block">Vui lòng nhập tên phòng!</span>
                       )}
                       {errors.name?.type === 'minLength' && (
-                        <span className="text-[red] mt-1 block">Tên phòng của bạn phải tối thiểu 6 ký tự!</span>
+                        <span className="text-[red] mt-1 block">Tên phòng tối thiểu 6 ký tự!</span>
                       )}
                     </div>
 
@@ -110,16 +112,17 @@ const AddRoom = (props: Props) => {
                       <NumericFormat className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" thousandSeparator=","
                         {...register('price', {
                           required: true,
-                          validate: value => value > '0',
-                          onChange(e) {
-                            setValue('price', e.target.value)
-                          },
-                        })}  />
+                          min: 1000
+                        })}
+                        onChange={(e) => {
+                          setValue('price', Number(e.target.value.split(',').join('')))
+                        }}
+                      />
                       {errors.price?.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng của bạn!</span>
+                        <span className="text-[red] mt-1 block">Vui lòng nhập giá phòng!</span>
                       )}
-                      {errors.price?.type === 'validate' && (
-                        <span className="text-[red] mt-1 block"> Giá phòng không nhỏ hớn 1.000 VNĐ</span>
+                      {errors.price?.type === 'min' && (
+                        <span className="text-[red] mt-1 block">Giá dịch vụ tối thiểu và không được nhỏ hơn 1,000 VND!</span>
                       )}
                     </div>
 
@@ -152,10 +155,10 @@ const AddRoom = (props: Props) => {
                         {...register('area', { required: true, min: 0 })}
                       />
                       {errors.area && errors.area.type === 'required' && (
-                        <span className="text-[red] mt-1 block">Vui lòng nhập diện tích phòng của bạn!</span>
+                        <span className="text-[red] mt-1 block">Vui lòng nhập diện tích phòng!</span>
                       )}
                       {errors.area && errors.area.type === 'min' && (
-                        <span className="text-[red] mt-1 block">Diện tích phòng của bạn không được nhỏ hơn 0m2!</span>
+                        <span className="text-[red] mt-1 block">Diện tích phòng không được nhỏ hơn 0m2!</span>
                       )}
                     </div>
                   </div>

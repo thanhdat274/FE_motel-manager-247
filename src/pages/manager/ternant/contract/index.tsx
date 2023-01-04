@@ -14,7 +14,6 @@ const ContractTernant = (props: Props) => {
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
   const arrImage = codeRoom?.contract?.imageContract
-console.log(arrImage);
 
   return (
     <div>
