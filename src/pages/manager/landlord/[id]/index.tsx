@@ -117,7 +117,7 @@ const HomeManagerPage = () => {
       </header>
       {(
         <div className="w-full">
-          <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 gap-y-2 md:gap-2 justify-between">
+          {/* <div className="flex flex-[100%] xl:flex-nowrap flex-wrap lg:gap-5 sm:gap-2 gap-y-2 md:gap-2 justify-between">
             <Link href={`${id}/list-room`}>
               <a className="flex-[100%] sm:flex-[50%] lg:flex-[25%] xl:flex-[25%] flex flex-wrap justify-between items-center p-5 bg-blue-300 shadow border rounded-md">
                 <div className="max-w-full">
@@ -186,7 +186,7 @@ const HomeManagerPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
       {yearShow}
