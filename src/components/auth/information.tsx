@@ -17,8 +17,9 @@ type FormInputs = {
 };
 
 const AccountInformation = (props: Props) => {
-  const { cookies, setLoading } = useUserContext();
+  const { cookies, setLoading, setCookie } = useUserContext();
   const userData = cookies?.user;
+
   const {
     register,
     handleSubmit,
@@ -27,7 +28,6 @@ const AccountInformation = (props: Props) => {
     formState: { errors },
   } = useForm<FormInputs>();
   useEffect(() => {
-
     const getUsers = async () => {
       setLoading(true);
       try {
@@ -39,17 +39,18 @@ const AccountInformation = (props: Props) => {
       }
     };
     getUsers();
-
-
   }, [reset, setLoading, userData]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     const newData = { ...data, userData: userData };
+    const newCookie = { ...userData, user: data };
     setLoading(true);
     await UpdateUserInfo(newData)
       .then((newData: any) => {
         Toast('success', 'Cập nhật tài khoản thành công');
+        setCookie('user', JSON.stringify(newCookie), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         setLoading(false);
+        console.log(userData);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);

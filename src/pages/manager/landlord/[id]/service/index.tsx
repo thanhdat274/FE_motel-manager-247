@@ -118,12 +118,7 @@ const ListServiceRoom = (props: Props) => {
                         >
                           Đơn vị
                         </th>
-                        {/* <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          trạng thái sử dụng
-                        </th> */}
+
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -140,43 +135,48 @@ const ListServiceRoom = (props: Props) => {
                               return val;
                             }
                           })
-                          .map((item: any, index) => (
-                            <tr key={index}>
-                              <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                                <div className="text-center">{index + 1}</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.label}</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
-                              </td>
-                              <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.unit}</div>
-                              </td>
-                              {/* <td className="px-6 py-4 whitespace">
+                          .map((item: any, index) => {
+                            console.log('item', item.doNotDelete);
+
+                            return (
+                              <tr key={index}>
+                                <td className="px-9 py-4 whitespace text-sm text-gray-500">
+                                  <div className="text-center">{index + 1}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace">
+                                  <div className="text-center">{item.label}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace">
+                                  <div className="text-center">{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace">
+                                  <div className="text-center">{item.unit}</div>
+                                </td>
+                                {/* <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{item.type ? 'Theo tháng' : 'không theo tháng'}</div>
                               </td> */}
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-center flex">
-                                  <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>
-                                    <a className="text-amber-500 hover:text-amber-600 mx-[10px]">
-                                      <FontAwesomeIcon
-                                        className="w-[20px] cursor-pointer"
-                                        icon={faPenToSquare}
-                                      ></FontAwesomeIcon>
-                                    </a>
-                                  </Link>
-                                  <button
-                                    className="text-red-500 hover:text-red-500 mx-[10px]"
-                                    onClick={() => remove(item._id, id, userData)}
-                                  >
-                                    <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="text-center flex">
+                                    <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>
+                                      <a className="text-amber-500 hover:text-amber-600 mx-[10px]">
+                                        <FontAwesomeIcon
+                                          className="w-[20px] cursor-pointer"
+                                          icon={faPenToSquare}
+                                        ></FontAwesomeIcon>
+                                      </a>
+                                    </Link>
+                                    {!item.doNotDelete && < button
+                                      className="text-red-500 hover:text-red-500 mx-[10px]"
+                                      onClick={() => remove(item._id, id, userData)}
+                                    >
+                                      <FontAwesomeIcon className="w-[20px]" icon={faTrash}></FontAwesomeIcon>
+                                    </button>}
+
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          })}
                     </tbody>
                   </table>
                 </div>
@@ -184,8 +184,8 @@ const ListServiceRoom = (props: Props) => {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 };
 

@@ -171,12 +171,12 @@ const TabService = ({ data, id, idRoom, userData, dataRoom, setSetFirstTab }: Pr
                                                                 </div>
                                                             </td>
                                                             <td className="px-6 py-4 whitespace 2xs:hidden ">
-                                                                <div className="text-center">{service?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                                                <div className="text-center">{service?.price?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                                                                     <input type="text" value={service?.price} className='hidden' {...register(`service.${index}.price`, { required: true })} />
                                                                 </div>
                                                             </td>
                                                             <td className="2xs:hidden px-6 py-4 whitespace">
-                                                                <div className="text-center">{service?.type ? 'Theo tháng' : "Không theo tháng"}</div>
+                                                                <div className="text-center">{service?.type ? 'Trả theo số lượng sử dụng.' : "Trả theo tháng"}</div>
                                                             </td>
                                                         </tr>
                                                     )

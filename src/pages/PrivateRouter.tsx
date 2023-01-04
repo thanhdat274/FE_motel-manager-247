@@ -22,6 +22,7 @@ export const PrivateRouter = (props: PrivateRouterProps) => {
 export const CheckUser = (props: PrivateRouterProps) => {
   const { cookies, logoutResetData } = useUserContext();
   const userData = cookies?.user;
+  const router = useRouter();
   if (cookies?.user) {
     const getUsers = async () => {
       await getInfoUser(userData?.user._id, userData?.token)
@@ -37,6 +38,9 @@ export const CheckUser = (props: PrivateRouterProps) => {
     };
     getUsers();
   }
+  if (cookies?.code_room) {
+    router.push('/manager/ternant');
+  }
   return props.children;
 };
 
@@ -44,8 +48,8 @@ export const CheckCodeRoom = (props: PrivateRouterProps) => {
   const { cookies, logoutResetData } = useUserContext();
   const router = useRouter();
   useEffect(() => {
-    if (cookies?.code_room) {
-      router.push('/manager/ternant');
+    if (!cookies?.code_room) {
+      router.push('/');
     }
   }, [cookies?.code_room, router]);
   return props.children;
