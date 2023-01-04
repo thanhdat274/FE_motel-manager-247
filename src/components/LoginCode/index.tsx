@@ -28,18 +28,6 @@ const LoginCode = ({ data, handleResetPage }: Props) => {
   
 
   const onSubmit = async (data: any) => {
-<<<<<<< HEAD
-    setLoading(true)
-    const newData = { ...data, idRoom: idRoom, userData: userData };
-    try {
-      
-      await loginCode(newData);
-      Toast('success', 'Cập nhật mã đăng nhập thành công');
-      setLoading(false)
-    } catch (error: any) {
-      Toast('error', error?.response?.data?.message);
-      setLoading(false)
-=======
     console.log('data submit', data);
     if (data?.codeRoom == codeRoomProp) {
       Toast('error', 'Bạn cần thay đổi mã trước khi gửi đi!');
@@ -57,7 +45,6 @@ const LoginCode = ({ data, handleResetPage }: Props) => {
         Toast('error', error?.response?.data?.message);
         setLoading(false)
       }
->>>>>>> e33c21e537e02665e781e6f9fa02ef5c6da43705
     }
   };
   return (
