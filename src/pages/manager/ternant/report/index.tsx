@@ -60,7 +60,8 @@ const ListReport = (props: Props) => {
         Toast('success', result?.data?.message);
       })
       .catch((err) => {
-        Toast('error', err?.data?.message);
+        Toast('error', err?.response?.data);
+        setOpen(false);
         setLoading(false);
       }).finally(() => {
         setResetPage(resetPage + 1)
