@@ -61,7 +61,7 @@ const HomeManagerPage = () => {
           console.log('error', error);
         }
       };
-      getStatusRoom();
+      // getStatusRoom();
       if (checkYear) {
         const getTotalWater = async () => {
           try {

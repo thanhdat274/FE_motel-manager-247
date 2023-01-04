@@ -5,6 +5,7 @@ import Modal from 'react-responsive-modal';
 import 'antd/dist/antd.css';
 import { getBillIdRoom } from 'src/pages/api/bill';
 import { useUserContext } from '@/context/UserContext';
+import { createPaymentInTenant } from 'src/pages/api/payment';
 type Props = {};
 
 const InfoReceipt = (props: Props) => {
@@ -20,6 +21,9 @@ const InfoReceipt = (props: Props) => {
     const data = cookies?.code_room;
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
+
+  console.log('code_room', cookies?.code_room);
+
 
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -56,6 +60,28 @@ const InfoReceipt = (props: Props) => {
         );
       var debtTotal = totalPrice - bills[i]?.paidAmount;
     }
+  }
+
+  const handlePaymentBill = async () => {
+    console.log('thanh toan');
+
+
+    const data = {
+      amount: debtTotal,
+      orderDescription: `${monthCheckk},${yearCheckk},${debtTotal}`,
+      orderType: "billpayment",
+      language: 'vn',
+      bankCode: '',
+      month: monthCheckk,
+      year: yearCheckk
+    }
+    await createPaymentInTenant(cookies?.code_room?.idHouse, data).then((result) => {
+      console.log('result', result);
+
+    }).catch((err) => {
+      console.log('err', err);
+
+    });
   }
 
   return (
@@ -143,9 +169,7 @@ const InfoReceipt = (props: Props) => {
                           <address className="text-sm">
                             <span className="font-bold"> Thanh toán cho: </span>
                             {bill.memberName}
-                            {/* 795 Folsom Ave
-                          San Francisco, CA 94107
-                          P: (123) 456-7890 */}
+
                           </address>
                         </div>
                         <div />
@@ -156,12 +180,7 @@ const InfoReceipt = (props: Props) => {
                             <thead className="bg-gray-50">
                               <tr>
                                 <th className="px-4 py-2 text-xs text-gray-500 ">Loại hóa đơn</th>
-                                {/* <th className="px-4 py-2 text-xs text-gray-500 ">
-                                Số lượng
-                              </th>
-                              <th className="px-4 py-2 text-xs text-gray-500 ">
-                                Đơn giá
-                              </th> */}
+
                                 <th className="px-4 py-2 text-xs text-gray-500 ">Thành tiền</th>
                               </tr>
                             </thead>
@@ -175,12 +194,7 @@ const InfoReceipt = (props: Props) => {
                                     <td className="px-6 py-4">
                                       <div className="text-sm text-gray-900">{totalBill?.serviceName}</div>
                                     </td>
-                                    {/* <td className="2xs:hidden px-6 py-4">
-                                  <div className="text-sm text-gray-500">4</div>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-gray-500">
-                                  $20
-                                </td> */}
+
                                     <td className="px-6 py-4">
                                       {totalBill?.amount.toLocaleString('it-IT', {
                                         style: 'currency',
@@ -220,32 +234,16 @@ const InfoReceipt = (props: Props) => {
                           </table>
                         </div>
                       </div>
-                      {/* <div className="flex justify-between p-4">
-                        <div>
-                          <h3 className="text-xl">Điều khoản và điều kiện :</h3>
-                          <ul className="text-md list-disc list-inside">
-                            <li>
-                              Tất cả các tài khoản sẽ được thanh toán trong vòng 7 ngày kể từ ngày nhận được hóa đơn.
-                            </li>
-                            <li>Được thanh toán qua thẻ tín dụng hoặc thanh toán trực tiếp.</li>
-                            <li>
-                              Nếu tài khoản không được thanh toán trong vòng 7 ngày, các chi tiết tín dụng được cung
-                              cấp.
-                            </li>
-                          </ul>
-                        </div>
-                      </div> */}
+                      <div onClick={() => handlePaymentBill()} className='cursor-pointer w-full px-6 py-4 my-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600'>Thanh toán hóa đơn</div>
+
+
                       <div className="w-full h-0.5 bg-indigo-500" />
                       <div className="p-4">
                         <div className="flex items-center justify-center font-extrabold text-indigo-500">
                           Cảm ơn bạn rất nhiều vì đã sử dụng dịch vụ của chúng tôi.
                         </div>
                         <div className="flex items-end justify-end space-x-3">
-                          {/* <button className="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>
-                        <button className="px-4 py-2 text-sm text-blue-600 bg-blue-100">Save</button> */}
-                          {/* <button className="px-4 py-2 text-sm text-red-600 bg-red-100 font-extrabold tracking-widest">
-                            Phản hồi
-                          </button> */}
+
                         </div>
                       </div>
                     </div>
@@ -253,6 +251,7 @@ const InfoReceipt = (props: Props) => {
                 </div>
               </main>
             );
+
           })
         ) : (
           <main className="bg-white relative overflow-hidden h-screen">

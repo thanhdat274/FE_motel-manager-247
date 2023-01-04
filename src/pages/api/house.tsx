@@ -42,3 +42,12 @@ export const updateHouse = (house: any) => {
     },
   });
 };
+
+export const updateInfoPaymentForHouse = (idHouse: any, user: any, data: any) => {
+  const url = `/house/updatePayment/${idHouse}`;
+  return instance.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${user?.token}`,
+    },
+  });
+}
