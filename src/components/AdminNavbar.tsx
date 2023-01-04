@@ -33,7 +33,7 @@ const Navbar = (props: Props) => {
   // ------------------------------------
   useEffect(() => {
     if (id) {
-      const newData1 = { id, userData };
+      const newData1 = { id: id, userData: userData };
       setLoading(true);
       const getReport = async () => {
         const { data } = await listReports(newData1);
@@ -43,7 +43,7 @@ const Navbar = (props: Props) => {
       getReport();
       setLoading(false);
     }
-  }, [id, resetPage]);
+  }, [id, resetPage, setLoading, userData]);
 
   useEffect(() => {
     const getStatus = async () => {
@@ -59,11 +59,11 @@ const Navbar = (props: Props) => {
       }
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [id]);
+  }, [id, setLoading]);
 
   useEffect(() => {
     if (id) {
-      const newData1 = { id, userData };
+      const newData1 = { id: id, userData: userData };
       const getReport = async () => {
         const { data } = await listReports(newData1);
         setReport(data.data);
@@ -75,8 +75,12 @@ const Navbar = (props: Props) => {
 
   const CountValueStatus = useMemo(() => {
     return (
-      <div className="absolute left-0 top-0  bg-red-500 rounded-full">
-        <span className="text-sm text-white p-2">{status.count || 0}</span>
+      <div>
+        {status.count === 0 ? (<div></div>) : (
+          <div className="absolute left-0 top-0  bg-red-500 rounded-full">
+            <span className="text-sm text-white p-2">{status.count || 0}</span>
+          </div>
+        )}
       </div>
     );
   }, [status.count]);

@@ -1,16 +1,27 @@
 import { useUserContext } from '@/context/UserContext';
 import React, { useEffect, useState } from 'react';
+import { readRoomData } from 'src/pages/api/room';
 
 type Props = {};
 
 const InfoRoom = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
   const { cookies } = useUserContext();
-  
+  const [roomData, setRoomData] = useState<any>();
   useEffect(() => {
-    const  data  = cookies?.code_room;
+    const data = cookies?.code_room;
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
+
+  useEffect(() => {
+    if (codeRoom?._id) {
+      const getRoomData = async () => {
+        const { data } = await readRoomData(codeRoom?._id)
+        setRoomData(data?.data)
+      };
+      getRoomData();
+    }
+  }, [codeRoom?._id])
   return (
     <div className="h-auto">
       <div className="bg-white shadow">
@@ -68,19 +79,19 @@ const InfoRoom = (props: Props) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     <tr>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center font-bold">{codeRoom?.name}</div>
+                        <div className="text-center font-bold">{roomData?.name}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                        <div className="text-center">{roomData?.price?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center">{codeRoom?.area} m2</div>
+                        <div className="text-center">{roomData?.area} m2</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center font-bold">{codeRoom?.maxMember}</div>
+                        <div className="text-center font-bold">{roomData?.maxMember}</div>
                       </td>
                       <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                        <div className="text-center font-bold">{codeRoom?.listMember?.length}</div>
+                        <div className="text-center font-bold">{roomData?.listMember?.length}</div>
                       </td>
                     </tr>
                   </tbody>
@@ -148,7 +159,7 @@ const InfoRoom = (props: Props) => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {codeRoom?.listMember?.map((item: any, index: number) => (
+                    {roomData?.listMember?.map((item: any, index: number) => (
                       <tr key={index}>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
                           <div className="text-center font-bold">{item.memberName}</div>
@@ -175,6 +186,4 @@ const InfoRoom = (props: Props) => {
   );
 };
 
-
 export default InfoRoom;
-
