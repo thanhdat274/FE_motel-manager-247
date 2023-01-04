@@ -70,8 +70,28 @@ const Receipt = () => {
     );
   }, [monthCheckk, yearCheckk]);
 
+  const [filterBill, setFilterBill] = useState("all")
+
+  const filterBillLisst = bill?.filter((bil: any) => {
+
+    if (filterBill === "conlo") {
+      return bil.paymentStatus === 1;
+    } else if (filterBill == "chuatt") {
+      return bil.paymentStatus === 0;
+    } else if (filterBill === "datt") {
+      return bil.paymentStatus === 2;
+    } else {
+      return bil;
+    }
+  })
+  const onFilterBill = (event: any) => {
+    setFilterBill(event.target.value);
+
+  }
+
   return (
     <div className="h-screen">
+      
       <header className="bg-white shadow">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -79,6 +99,14 @@ const Receipt = () => {
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
                 Quản lý hóa đơn
               </h2>
+            </div>
+            <div>
+              <select onChange={onFilterBill} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="all">Tất cả</option>
+                <option value="conlo">Còn lợ</option>
+                <option value="chuatt">Chưa thanh toán</option>
+                <option value="datt">Đã thanh toán</option>
+              </select>
             </div>
             <div className="mt-5 flex gap-2 lg:mt-0 lg:ml-4 md:gap-4 items-center">
               {datePickerShow}
@@ -138,7 +166,7 @@ const Receipt = () => {
                       </thead>
 
                       <>
-                        {bill?.map((item: any, index: number) => {
+                        {filterBillLisst?.map((item: any, index: number) => {
                           const initialValue = 0;
                           const sumWithInitial =
                             item?.invoiceService.reduce(
