@@ -41,6 +41,11 @@ export const readRoom = (id_room: string, userData: any) => {
     },
   });
 };
+
+export const readRoomData = (id_room: string) => {
+  const url = `/room/${id_room}`;
+  return instance.get(url);
+};
 export const updateRoom = (newData: any) => {
   const url = `/room/update/${newData?.idRoom}`;
   return instance.put(url, newData, {
@@ -108,3 +113,4 @@ export const upload = async (file: any) => {
 
   return data.url;
 };
+

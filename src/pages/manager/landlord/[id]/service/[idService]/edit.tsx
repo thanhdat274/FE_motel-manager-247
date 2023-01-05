@@ -135,17 +135,18 @@ const EditService = (props: Props) => {
                         <span className="text-[red] mt-1 block">Vui lòng nhập đơn vị dịch vụ!</span>
                       )}
                     </div>
-                    <div>
+                    <div className="col-span-6">
                       <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
                         Trạng thái thanh toán
                       </label>
                       <select
+
                         className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         {...register('type', { required: false })}
                         id="type"
                       >
-                        <option value="true">Theo tháng</option>
-                        <option value="false">Không theo tháng</option>
+                        <option value="true">Trả theo số lượng sử dụng</option>
+                        <option value="false">Trả theo tháng</option>
                       </select>
                     </div>
                   </div>
