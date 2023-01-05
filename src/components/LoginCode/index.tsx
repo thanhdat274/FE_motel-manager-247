@@ -24,6 +24,8 @@ const LoginCode = ({ data, handleResetPage }: Props) => {
   const router = useRouter();
   const param = router.query;
   const idRoom = param?.id_room;
+  console.log(idRoom);
+  
 
   const onSubmit = async (data: any) => {
     console.log('data submit', data);

@@ -75,7 +75,7 @@ const HomeManagerPage = () => {
           console.log('error', error);
         }
       };
-      getStatusRoom();
+      // getStatusRoom();
       if (checkYear) {
         const getTotalWater = async () => {
           try {
@@ -219,7 +219,7 @@ const HomeManagerPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <h3 className='font-bold text-xl m-4 text-center border-0 border-b-[1px] pb-2'>Danh sách các phòng đang sửa chữa</h3>

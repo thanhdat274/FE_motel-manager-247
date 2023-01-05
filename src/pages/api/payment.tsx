@@ -18,3 +18,8 @@ export const checkPaymentBill = (infoOrder: any) => {
     const url = `/payment/payment-return`;
     return instance.post(url, infoOrder);
 }
+
+export const createPaymentInTenant = (idHouse: any, data: any) => {
+    const url = `/payment/${idHouse}/create-payment`;
+    return instance.post(url, data);
+}
