@@ -68,7 +68,7 @@ const InfoReceipt = (props: Props) => {
 
     const data = {
       amount: debtTotal,
-      orderDescription: `${monthCheckk},${yearCheckk},${debtTotal}`,
+      orderDescription: `${monthCheckk},${yearCheckk},${debtTotal},${cookies?.code_room?._id},${cookies?.code_room?.idHouse},${cookies?.code_room?.name}`,
       orderType: "billpayment",
       language: 'vn',
       bankCode: '',
@@ -77,7 +77,7 @@ const InfoReceipt = (props: Props) => {
     }
     await createPaymentInTenant(cookies?.code_room?.idHouse, data).then((result) => {
       console.log('result', result);
-
+      window.location.href = result.data.redirect
     }).catch((err) => {
       console.log('err', err);
 
