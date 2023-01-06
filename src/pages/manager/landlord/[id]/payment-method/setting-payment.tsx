@@ -51,7 +51,6 @@ const SettingPayment = () => {
   const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     setLoading(true);
 
-    console.log('data', data);
     await updateInfoPaymentForHouse(idHouse, userData, data)
       .then((result) => {
         setLoading(false);
