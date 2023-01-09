@@ -25,7 +25,7 @@ export const CheckUser = (props: PrivateRouterProps) => {
   const router = useRouter();
   if (cookies?.user) {
     const getUsers = async () => {
-      await getInfoUser(userData?.user._id, userData?.token)
+      await getInfoUser(userData?.user?._id, userData?.token)
         .then(() => {
           return props.children;
         })

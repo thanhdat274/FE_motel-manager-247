@@ -25,9 +25,9 @@ const Signin = (props: Props) => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setLoading(true);
     await SignIn(data)
-      .then((data) => {
+      .then(({ data }) => {
         setLoading(false);
-        setCookie('user', JSON.stringify(data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
+        setCookie('user', JSON.stringify(data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
         Toast('success', 'Đăng nhập thành công');
         router.push(`/`);
       })

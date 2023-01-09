@@ -1,15 +1,27 @@
 import { useUserContext } from '@/context/UserContext';
 import React, { useEffect, useState } from 'react';
+import { readRoomData } from 'src/pages/api/room';
 
 type Props = {};
 
 const InfoService = (props: Props) => {
   const [codeRoom, setCodeRoom] = useState<any>();
   const { cookies } = useUserContext();
+  const [roomData, setRoomData] = useState<any>();
   useEffect(() => {
     const data = cookies?.code_room;
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
+
+  useEffect(() => {
+    if (codeRoom?._id) {
+      const getRoomData = async () => {
+        const { data } = await readRoomData(codeRoom?._id)
+        setRoomData(data?.data)
+      };
+      getRoomData();
+    }
+  }, [codeRoom?._id])
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -57,8 +69,8 @@ const InfoService = (props: Props) => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {codeRoom &&
-                        codeRoom?.service?.map((service: any, index: any) => {
+                      {roomData &&
+                        roomData?.service?.map((service: any, index: any) => {
                           const pricePar = parseInt(service?.price)
                           if (service?.status == true) {
                             return (

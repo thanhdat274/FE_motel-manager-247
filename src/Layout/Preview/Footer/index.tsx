@@ -85,7 +85,7 @@ const FooterPreview = (props: Props) => {
           </p>
         </div>
       </div> */}
-      <div className="py-10 text-center bg-slate-200 md:text-left">
+      <div className="py-10 text-center bg-white md:text-left ">
         <div className="grid grid-1 md:grid-cols-2 mx-6 lg:grid-cols-4 gap-8">
           <div>
             <h6 className="

@@ -22,9 +22,6 @@ const InfoReceipt = (props: Props) => {
     setCodeRoom(data as any);
   }, [cookies?.code_room]);
 
-  console.log('code_room', cookies?.code_room);
-
-
   const datePickerShow = React.useMemo(() => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
       setMonthh(parseInt(dateString.slice(5, 7)));
@@ -63,12 +60,9 @@ const InfoReceipt = (props: Props) => {
   }
 
   const handlePaymentBill = async () => {
-    console.log('thanh toan');
-
-
     const data = {
       amount: debtTotal,
-      orderDescription: `${monthCheckk},${yearCheckk},${debtTotal}`,
+      orderDescription: `${monthCheckk},${yearCheckk},${debtTotal},${cookies?.code_room?._id},${cookies?.code_room?.idHouse},${cookies?.code_room?.name},${bills[0]?._id}`,
       orderType: "billpayment",
       language: 'vn',
       bankCode: '',
@@ -76,8 +70,7 @@ const InfoReceipt = (props: Props) => {
       year: yearCheckk
     }
     await createPaymentInTenant(cookies?.code_room?.idHouse, data).then((result) => {
-      console.log('result', result);
-
+      window.location.href = result.data.redirect
     }).catch((err) => {
       console.log('err', err);
 
@@ -227,14 +220,16 @@ const InfoReceipt = (props: Props) => {
                                   <b>Số tiền còn nợ</b>
                                 </td>
                                 <td className="text-sm font-bold text-yellow-400">
-                                  <b>{debtTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
+                                  <b className='flex'>{debtTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} {"- "} {debtTotal == 0 && <div className='text-sm font-bold text-green-400'> Đã thanh toán </div>}</b>
+
+
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
-                      <div onClick={() => handlePaymentBill()} className='cursor-pointer w-full px-6 py-4 my-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600'>Thanh toán hóa đơn</div>
+                      {debtTotal != 0 && <div onClick={() => handlePaymentBill()} className='cursor-pointer w-full px-6 py-4 my-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600'>Thanh toán hóa đơn</div>}
 
 
                       <div className="w-full h-0.5 bg-indigo-500" />

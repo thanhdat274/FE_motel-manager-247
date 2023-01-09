@@ -37,8 +37,7 @@ const HeaderPreview = (props: Props) => {
     await getRoomBySubName(data.code_room)
       .then((result) => {
         setLoading(false);
-        setCookie('code_room', JSON.stringify(result.data.data), { path: '/', maxAge: 30 * 24 * 60 * 60 });
-        // localStorage.setItem('code_room', JSON.stringify(result.data.data));
+        setCookie('code_room', JSON.stringify({ _id: result?.data?.data?._id, idHouse: result?.data?.data?.idHouse, name: result?.data?.data?.name }), { path: '/', maxAge: 7 * 24 * 60 * 60 });
         router.push(`/manager/ternant`);
         Toast('success', 'Đăng nhập thành công');
       })
@@ -89,7 +88,7 @@ const HeaderPreview = (props: Props) => {
 
                   <div className={`${styles['dropdown']} inline-block relative`}>
                     <button className="bg-[#ffc107] lg:bg-[#3961fb] font-bold text-black lg:text-white px-[15px] py-[10px]">
-                      Xin chào: {cookies?.user?.user.name}
+                      Xin chào: {cookies?.user?.user?.name}
                     </button>
                     <div className={`${styles['dropdown-menu']} absolute hidden text-gray-700 pt-2 rounded-md`}>
                       <Link href={'/auth/information'}>

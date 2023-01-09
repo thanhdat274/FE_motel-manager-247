@@ -611,44 +611,46 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                 </div>
                 <div>
                   <p className="text-xs  pt-5  leading-5">
-                    Hôm nay, ngày {getValues('timeCT') ? getValues('timeCT').slice(8, 10) : '……'} tháng
-                    {getValues('timeCT') ? getValues('timeCT').slice(5, 7) : '……'} năm{' '}
-                    {getValues('timeCT') ? getValues('timeCT').slice(0, 4) : '……'}., tại địa chỉ :
-                    {getValues('addressCT')
-                      ? getValues('addressCT')
+                    Hôm nay, ngày {contractData?.timeCT ? contractData?.timeCT.slice(8, 10) : '……'} tháng{' '}
+                    {contractData?.timeCT ? contractData?.timeCT.slice(5, 7) : '……'} năm{' '}
+                    {contractData?.timeCT ? contractData?.timeCT.slice(0, 4) : '……'}., tại địa chỉ:{' '}
+                    {contractData?.addressCT
+                      ? contractData?.addressCT
                       : '……………………………...............................................'}
                     <br />
                     Chúng tôi gồm có:
                   </p>
                 </div>
-                <div className="pt-5  ">
+                <div className="pt-5">
                   <h1 className="font-bold text-sm  leading-5">BÊN CHO THUÊ: </h1>
                   <p className="text-xs  leading-5">
-                    <strong>Ông/bà: {getValues('LLname') ? getValues('LLname') : '………………'} </strong> Năm Sinh:
+                    <strong>Ông/bà: {contractData?.infoLandlord?.name ? contractData?.infoLandlord?.name : '………………'} </strong> Năm Sinh:
                   </p>
-                  <p className="text-xs  leading-5">
-                    CMND số: {getValues('LLcardNumber') ? getValues('LLcardNumber') : '………………'}, Ngày cấp:{' '}
-                    {getValues('LLdateRange') ? moment(getValues('LLdateRange')).format('DD/MM/YYYY') : '………………'}. Nơi cấp:{' '}
-                    {getValues('LLIssuedBy') ? getValues('LLIssuedBy') : '………………'}
+                  <p className="text-xs leading-5">
+                    CMND số: {contractData?.infoLandlord?.cardNumber ? contractData?.infoLandlord?.cardNumber : '………………'} <span className='ml-5'>Ngày cấp:{' '}
+                      {contractData?.infoLandlord?.dateRange ? moment(`${contractData?.infoLandlord?.dateRange}`).format('DD/MM/YYYY') : '………………'}</span> <span className='ml-5'>Nơi cấp:{' '}
+                      {contractData?.infoLandlord?.issuedBy ? contractData?.infoLandlord?.issuedBy : '………………'}</span>
                   </p>
                   <p className="text-xs  leading-5">Địa chỉ: </p>
                   <p className="text-xs  leading-5">
-                    Điện thoại: {getValues('LLphoneNumber') ? getValues('LLphoneNumber') : '………………'}
+                    Điện thoại: {contractData?.infoLandlord?.phoneNumber ? contractData?.infoLandlord?.phoneNumber : '………………'}
                   </p>
                   <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên a)</p>
                 </div>
                 <div>
                   <h1 className="font-bold text-sm  leading-5">BÊN THUÊ: </h1>
                   <p className="text-xs  leading-5">
-                    <strong>Ông/bà: {getValues('TNname') ? getValues('TNname') : '………………'}</strong> Năm Sinh:
+                    <strong>Ông/bà: {contractData?.infoTenant?.name ? contractData?.infoTenant?.name : '………………'}</strong> Năm Sinh:
                   </p>
                   <p className="text-xs  leading-5">
-                    CMND số: {getValues('TNcardNumber') ? getValues('TNcardNumber') : '………………'}, Ngày cấp:{' '}
-                    {getValues('TNdateRange') ? moment(getValues('TNdateRange')).format('DD/MM/YYYY') : '………………'}. Nơi cấp:
-                    {getValues('TNIssuedBy') ? getValues('TNIssuedBy') : '………………'}
+                    CMND số: {contractData?.infoTenant?.cardNumber ? contractData?.infoTenant?.cardNumber : '………………'}, <span className='ml-5'>Ngày cấp:{' '}
+                      {contractData?.infoTenant?.dateRange ? moment(`${contractData?.infoTenant?.dateRange}`).format('DD/MM/YYYY') : '………………'}</span> <span className='ml-5'>Nơi cấp:{' '}
+                      {contractData?.infoTenant?.issuedBy ? contractData?.infoTenant?.issuedBy : '………………'}</span>
                   </p>
                   <p className="text-xs  leading-5">Địa chỉ: </p>
-                  <p className="text-xs  leading-5">Điện thoại: </p>
+                  <p className="text-xs  leading-5">
+                    Điện thoại: {contractData?.infoTenant?.phoneNumber ? contractData?.infoTenant?.phoneNumber : '………………'}
+                  </p>
                   <p className="text-xs italic  leading-5">(Sau đây được gọi tắt là Bên B)</p>
                 </div>
                 <div className="text-xs  leading-5">
@@ -684,12 +686,12 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                   </h1>
                   <p className="font-bold text-sm  leading-5">1. Thời hạn cho thuê:</p>
                   <p>
-                    Từ ngày {getValues('startTime') ? getValues('startTime').slice(8, 10) : '……'} tháng Từ ngày{' '}
-                    {getValues('startTime') ? getValues('startTime').slice(5, 7) : '……'} năm Từ ngày{' '}
-                    {getValues('startTime') ? getValues('startTime').slice(0, 4) : '……'} đến hết ngày Từ ngày{' '}
-                    {getValues('endTime') ? getValues('endTime').slice(8, 10) : '……'} tháng{' '}
-                    {getValues('endTime') ? getValues('endTime').slice(5, 7) : '……'} năm{' '}
-                    {getValues('endTime') ? getValues('endTime').slice(0, 4) : '……'}
+                    Từ ngày {contractData?.startTime ? contractData?.startTime.slice(8, 10) : '……'} tháng{' '}
+                    {contractData?.startTime ? contractData?.startTime.slice(5, 7) : '……'} năm{' '}
+                    {contractData?.startTime ? contractData?.startTime.slice(0, 4) : '……'} đến hết ngày{' '}
+                    {contractData?.endTime ? contractData?.endTime.slice(8, 10) : '……'} tháng{' '}
+                    {contractData?.endTime ? contractData?.endTime.slice(5, 7) : '……'} năm{' '}
+                    {contractData?.endTime ? contractData?.endTime.slice(0, 4) : '……'}
                   </p>
                   <p className="font-bold text-sm  leading-5">2. Giá cho thuê: đồng/01/tháng.</p>
                   <p className="font-bold text-sm  leading-5">3. Điều kiện thanh toán:</p>
@@ -776,8 +778,8 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                     thuận trong Hợp đồng này, Bên B phải có nghĩa vụ nộp phạt vi phạm cho Bên A số tiền là{' '}
                     {roomPrice ? roomPrice : '…………………'} đồng ({roomPrice ? roomPrice : '…………………'} đồng Việt Nam).
                   </p>
-                  {getValues('additional')
-                    ? getValues('additional')
+                  {contractData?.additional
+                    ? `${contractData?.additional.join('\n')}`
                       .split('\n')
                       .map((item: any) => <p key={item}>{item}</p>)
                     : '…………………'}
@@ -800,12 +802,12 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                   <div className="grid grid-cols-2 text-center pt-5">
                     <div className="grid grid-cols-1">
                       <p> BÊN A</p>
-                      <p className="pt-14">{getValues('LLname')}</p>
+                      <p className="pt-14">{contractData?.infoLandlord?.name}</p>
                     </div>
 
                     <div>
                       <p className="">BÊN B</p>
-                      <p className="pt-14">{getValues('TNname')}</p>
+                      <p className="pt-14">{contractData?.infoTenant?.name}</p>
                     </div>
                   </div>
                 </div>
