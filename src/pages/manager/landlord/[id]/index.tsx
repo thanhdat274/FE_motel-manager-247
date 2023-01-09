@@ -21,7 +21,6 @@ const HomeManagerPage = () => {
   const [totalElictic, setTotalElictric] = useState<any>([]);
   const [totalMoneys, setTotalMoneys] = useState<any>([]);
   const [checkYear, setCheckYear] = useState(new Date().getFullYear());
-  const [checkDate, setCheckDate] = useState(new Date());
   const router = useRouter();
   const { id } = router.query;
   const yearStatistical = new Date().getFullYear();
@@ -29,7 +28,6 @@ const HomeManagerPage = () => {
   const checkNameNuoc = 'nuoc';
   const checkNameDien = 'dien';
   const today = new Date()
-  const endDay = new Date()
 
   const yearShow = React.useMemo(() => {
     const onChange = (data: any) => {
@@ -67,15 +65,16 @@ const HomeManagerPage = () => {
             setRoomReadyUsing(data?.roomReadyUsing)
             setRoomReadyEmpty(data?.roomReadyEmpty)
             setRoomStatisticals(data as any);
-            setRoomExpiration(data?.listRoomContractExpiration?.sort((Room1: any, Room2: any) => {
+            const arrData = data?.listRoomContractExpiration?.sort((Room1: any, Room2: any) => {
               return (new Date(Room1.contract?.endTime).getTime() - today.getTime()) - (new Date(Room2.contract?.endTime).getTime() - today.getTime());
-            }))
+            })
+            setRoomExpiration(arrData)
           }
         } catch (error) {
           console.log('error', error);
         }
       };
-      // getStatusRoom();
+      getStatusRoom();
       if (checkYear) {
         const getTotalWater = async () => {
           try {
@@ -114,20 +113,7 @@ const HomeManagerPage = () => {
       }
     }
   }, [id, checkYear]);
-  let totalRooms = roomStatisticals.roomNotReady + roomStatisticals.roomReadyEmpty + roomStatisticals.roomReadyUsing;
 
-
-  const clickLog = () => {
-    // console.log("Phòng đang sửa chữa", roomNotUsing)
-    // console.log("Phòng đang sử dụng", roomReadyUsing)
-    // console.log("Phòng trống", roomReadyEmpty)
-    console.log(roomStatisticals);
-
-
-    // console.log("Danh sách phòng sắp hêt hợp đồng ", roomStatisticals?.listRoomContractExpiration);
-    // console.log("Số lượng phòng không sử dụng ", roomStatisticals?.countRoomsNotUsing);
-    // console.log("Tổng số người trong nhà : ", roomStatisticals?.listRoomContractExpiration);
-  }
 
   return (
     <div className="w-full gap-4 flex flex-col ">
@@ -141,9 +127,6 @@ const HomeManagerPage = () => {
             </div>
           </div>
         </div>
-        <div>
-          <button onClick={() => clickLog()} className='p-4 round bg-red-200'>Click log</button>
-        </div>
       </header>
       <div className='w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap'>
         <div className="w-full lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
@@ -153,10 +136,10 @@ const HomeManagerPage = () => {
                 <div className="max-w-full">
                   <div>
                     <p className="mb-0 font-sans font-bold leading-normal text-sm text-black dark:opacity-60 pr-4 h-[40px]">Tổng số</p>
-                    <h5 className="mb-0">{roomStatisticals?.roomReadyEmpty?.count + roomStatisticals?.roomNotReady?.count + roomStatisticals?.roomReadyUsing?.count} phòng</h5>
+                    <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomReadyEmpty?.count + roomStatisticals?.roomNotReady?.count + roomStatisticals?.roomReadyUsing?.count} phòng</h5>
                   </div>
                 </div>
-                <div className="max-w-full ">
+                <div className="max-w-full block lg:hidden">
                   <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                     <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                   </div>
@@ -168,10 +151,10 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
                   {/* <h5 className="mb-0">{roomStatisticals.numberMemberInHouse} người</h5> */}
-                  <h5 className="mb-0">{roomStatisticals?.numberMemberInHouse} người</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.numberMemberInHouse} người</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full block lg:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faPerson} />
                 </div>
@@ -182,10 +165,10 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomReadyUsing} phòng</h5> */}
-                  <h5 className="mb-0"> {roomStatisticals?.roomReadyUsing?.count} phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4"> {roomStatisticals?.roomReadyUsing?.count} phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full block lg:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
@@ -196,10 +179,10 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomNotReady} phòng</h5> */}
-                  <h5 className="mb-0">{roomStatisticals?.roomNotReady?.count}  phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomNotReady?.count}  phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full block lg:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faChartSimple} />
                 </div>
@@ -210,20 +193,20 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60 pr-4">Phòng trống</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomReadyEmpty} phòng</h5> */}
-                  <h5 className="mb-0">{roomStatisticals?.roomReadyEmpty?.count} phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomReadyEmpty?.count} phòng</h5>
                 </div>
               </div>
-              <div className="max-w-full ">
+              <div className="max-w-full block lg:hidden">
                 <div className="flex items-center w-[40px] h-[40px]  text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl">
                   <FontAwesomeIcon className="w-[20px] mx-auto text-white" icon={faHouse} />
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <h3 className='font-bold text-xl m-4 text-center border-0 border-b-[1px] pb-2'>Danh sách các phòng đang sửa chữa</h3>
-          <div className='overflow-x-auto max-h-[250px]'>
+          <div className='overflow-x-auto max-h-[200px]'>
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -239,11 +222,18 @@ const HomeManagerPage = () => {
                   >
                     Tên phòng
                   </th>
+                  <th
+                    scope="col"
+                    className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Giá phòng
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 max-h-5 overflow-auto">
                 {
                   roomNotUsing?.list?.map((roomReady: any, index: number) => {
+                    const priceRoom = parseInt(roomReady?.price)
                     return (
                       <tr className='cursor-pointer' key={index} onClick={() => router.push(`/manager/landlord/${id}/list-room/${roomReady?._id}`)}>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
@@ -252,7 +242,10 @@ const HomeManagerPage = () => {
                         <td className="px-6 py-4 whitespace">
                           <div className="text-center">{roomReady?.name}</div>
                         </td>
-
+                        <td className="px-6 py-4 whitespace">
+                          <div className="text-center">{priceRoom?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                          {/* {?.amount.toLocaleString('it-IT', { style: 'currency', currency: 'VND'})} */}
+                        </td>
                       </tr>
                     )
                   })
@@ -293,6 +286,7 @@ const HomeManagerPage = () => {
               <tbody className="bg-white divide-y divide-gray-200 max-h-5 overflow-auto">
                 {
                   roomReadyEmpty?.list?.map((roomReady: any, index: number) => {
+                    const priceRoom = parseInt(roomReady?.price)
                     return (
                       <tr className='cursor-pointer' key={index} onClick={() => router.push(`/manager/landlord/${id}/list-room/${roomReady?._id}`)}>
                         <td className="px-9 py-4 whitespace text-sm text-gray-500">
@@ -302,7 +296,7 @@ const HomeManagerPage = () => {
                           <div className="text-center">{roomReady?.name}</div>
                         </td>
                         <td className="px-6 py-4 whitespace">
-                          <div className="text-center">{roomReady?.price}</div>
+                          <div className="text-center">{priceRoom?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                         </td>
                       </tr>
                     )
@@ -341,8 +335,10 @@ const HomeManagerPage = () => {
               <tbody className="bg-white divide-y divide-gray-200 max-h-5 overflow-auto">
                 {
                   roomExpiration?.map((roomReady: any, index: number) => {
+
                     const endDate1 = new Date(roomReady?.contract?.endTime)
-                    if (Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)) < 15 && Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)) >= 0) {
+                    const timeEnd = Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))
+                    if (timeEnd < 15) {
                       return (
                         <tr className={`cursor-pointer ` + (Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)) <= 5 ? 'bg-red-200' : "")} key={index} onClick={() => router.push(`/manager/landlord/${id}/list-room/${roomReady?._id}`)}>
                           <td className="px-9 py-4 whitespace text-sm text-gray-500">
@@ -352,7 +348,7 @@ const HomeManagerPage = () => {
                             <div className="text-center">{roomReady?.name}</div>
                           </td>
                           <td className="px-6 py-4 whitespace">
-                            <div className="text-center">{Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))}</div>
+                            <div className="text-center">{Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))} ngày</div>
                           </td>
                         </tr>
                       )
