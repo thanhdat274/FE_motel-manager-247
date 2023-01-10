@@ -59,15 +59,14 @@ const PaymentHistory = ({ listData, filter }: Props) => {
     const onFilterBill = (event: any) => {
         setFilterBill(event.target.value);
     }
-    useEffect(() => {
-        if (filterBill === "all") {
-            const getListRoom = async () => {
-                const data = await listData;
-                setFilterData(data);
-            };
-            getListRoom();
-        }
-    }, [filterBill]);
+    if (filterBill === "all") {
+        const getListRoom = async () => {
+            const data = await listData;
+            setFilterData(data);
+        };
+        getListRoom();
+    }
+
     const onSubmit = async () => {
         await filterBillPayment(yearCheck, monthCheck, filterBill)
             .then((data: any) => {
