@@ -1,16 +1,37 @@
 import TabPanelComponent from '@/components/TabPanel';
-import React from 'react'
-import PaymentHistory from './payment-history'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { getListBill } from 'src/pages/api/payment';
+import PaymentHistory from './payment-history';
 import SettingPayment from './setting-payment';
 
-type Props = {}
+const Payment = () => {
+    const router = useRouter();
+    const { id } = router.query;
+    const [listData, setListData] = useState([]);
 
-const Payment = (props: Props) => {
+    const getReport = async () => {
+        await getListBill(id)
+            .then(({ data }) => {
+                setListData(data?.data);
+                // console.log('data', data?.data);
+            })
+            .catch((err) => {
+                console.log('err');
+            });
+    };
+
+    useEffect(() => {
+        if (id) {
+            getReport();
+        }
+    }, []);
+
     const data = [
         {
             label: 'Lịch sử thanh toán',
             value: 0,
-            children: <PaymentHistory />
+            children: <PaymentHistory listData={listData} />,
         },
 
         {
@@ -18,7 +39,6 @@ const Payment = (props: Props) => {
             value: 1,
             children: <SettingPayment />,
         },
-
     ];
     return (
         <div className="w-full">
@@ -37,7 +57,7 @@ const Payment = (props: Props) => {
                 <TabPanelComponent data={data} />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Payment
+export default Payment;

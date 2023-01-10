@@ -33,3 +33,8 @@ export const checkPaymentReturn = (idHouse: any, params: any) => {
     const url = `/payment/payment-return/${idHouse}`;
     return instance.post(url, params);
 };
+
+export const getListBill = (idHouse: any) => {
+    const url = `/payment/list/${idHouse}`;
+    return instance.get(url)
+}
