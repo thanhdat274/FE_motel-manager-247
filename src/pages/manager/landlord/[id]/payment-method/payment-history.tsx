@@ -58,13 +58,7 @@ const PaymentHistory = ({ listData, filter }: Props) => {
     const [filterData, setFilterData] = useState<any>()
     const onFilterBill = (event: any) => {
         setFilterBill(event.target.value);
-    }
-    if (filterBill === "all") {
-        const getListRoom = async () => {
-            const data = await listData;
-            setFilterData(data);
-        };
-        getListRoom();
+        setFilterData(listData);
     }
 
     const onSubmit = async () => {
@@ -73,7 +67,6 @@ const PaymentHistory = ({ listData, filter }: Props) => {
                 setFilterData(data?.data?.data);
             })
             .catch((error) => {
-                console.log('error', error);
             });
     };
     return (
@@ -101,20 +94,39 @@ const PaymentHistory = ({ listData, filter }: Props) => {
                 </form>
             </div>
             <div>
-                {filterData?.length ? (
+                {filterBill === "all" ? (
                     <div>
-                        {
-                            filterData && filterData?.map((item: any, index: number) =>
-                                <p key={index}>{item.content}</p>
-                            )
-                        }
+                        {listData?.length ? (
+                            <div>
+                                {
+                                    listData && listData?.map((item: any, index: number) =>
+                                        <p key={index}>{item.content}</p>
+                                    )
+                                }
+                            </div>
+                        ) : (
+                            <div>
+                                <p>Chưa có lịch sử thanh toán hóa đơn</p>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div>
-                        <p>Chưa có thanh toán</p>
+                        {filterData?.length ? (
+                            <div>
+                                {
+                                    filterData && filterData?.map((item: any, index: number) =>
+                                        <p key={index}>{item.content}</p>
+                                    )
+                                }
+                            </div>
+                        ) : (
+                            <div>
+                                <p>Tháng này chưa thanh toán hóa đơn</p>
+                            </div>
+                        )}
                     </div>
                 )}
-
             </div>
 
             <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8">
