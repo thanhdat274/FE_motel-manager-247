@@ -158,23 +158,21 @@ const InfoReceipt = (props: Props) => {
                             Ngày gửi hóa đơn: <span className="text-sm font-medium">{moment(bill.createdAt).format('DD/MM/YYYY')}</span>
                           </h6>
                         </div>
-                        <div className="w-40">
-                          <address className="text-sm">
-                            <span className="font-bold"> Thanh toán cho: </span>
+                        <div>
+                          <p className="text-sm">
+                            <span className="font-bold">Thanh toán cho: </span>
                             {bill.memberName}
-
-                          </address>
+                          </p>
                         </div>
                         <div />
                       </div>
-                      <div className="flex r p-4 max-w-[100%] justify-center">
+                      <div className="flex max-w-[100%] justify-center">
                         <div className="border-b border-gray-200 justify-between shadow w-full">
                           <table className="2xs:overflow-x-auto 2xs:overflow-y-auto w-full text-left">
                             <thead className="bg-gray-50">
                               <tr>
-                                <th className="px-4 py-2 text-xs text-gray-500 ">Loại hóa đơn</th>
-
-                                <th className="px-4 py-2 text-xs text-gray-500 ">Thành tiền</th>
+                                <th className="px-4 py-2 text-base text-gray-500 ">Loại hóa đơn</th>
+                                <th className="px-4 py-2 text-base text-gray-500 text-right">Thành tiền</th>
                               </tr>
                             </thead>
                             <tbody className="bg-white">
@@ -188,7 +186,7 @@ const InfoReceipt = (props: Props) => {
                                       <div className="text-sm text-gray-900">{totalBill?.serviceName}</div>
                                     </td>
 
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-right">
                                       {totalBill?.amount.toLocaleString('it-IT', {
                                         style: 'currency',
                                         currency: 'VND',
@@ -197,41 +195,41 @@ const InfoReceipt = (props: Props) => {
                                   </tr>
                                 );
                               })}
+
                               <tr className="text-white bg-gray-800">
-                                <td className="text-sm font-bold text-green-400 p-4">
+                                <td className="text-sm font-bold px-6 py-4">
+                                  <b>Tổng tiền</b>
+                                </td>
+                                <td className="text-sm font-bold text-right px-6 py-4">
+                                  <b>{totalPrice?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
+                                </td>
+                              </tr>
+                              <tr className="text-white bg-gray-800">
+                                <td className="text-sm font-bold text-green-400 px-6 py-4">
                                   <b>Số tiền đã đóng</b>
                                 </td>
-                                <td className="text-sm font-bold  text-green-400">
+                                <td className="text-sm font-bold  text-green-400 text-right px-6 py-4">
                                   <b>
-                                    {bill?.paidAmount.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                    {bill?.paidAmount?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
                                   </b>
                                 </td>
                               </tr>
                               <tr className="text-white bg-gray-800">
-                                <td className="text-sm font-bold p-4">
-                                  <b>Tổng tiền</b>
-                                </td>
-                                <td className="text-sm font-bold text-red-500">
-                                  <b>{totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
-                                </td>
-                              </tr>
-                              <tr className="text-white bg-gray-800">
-                                <td className="text-sm font-bold p-4 text-yellow-400">
+                                <td className="text-sm font-bold text-yellow-400 px-6 py-4">
                                   <b>Số tiền còn nợ</b>
                                 </td>
-                                <td className="text-sm font-bold text-yellow-400">
-                                  <b className='flex'>{debtTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })} {"- "} {debtTotal == 0 && <div className='text-sm font-bold text-green-400'> Đã thanh toán </div>}</b>
-
-
+                                <td className="text-sm font-bold text-yellow-400 text-right px-6 py-4">
+                                  <b>{debtTotal?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
-                      {debtTotal != 0 && <div onClick={() => handlePaymentBill()} className='cursor-pointer w-full px-6 py-4 my-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600'>Thanh toán hóa đơn</div>}
-
-
+                      <div className='px-4'>
+                        {debtTotal == 0 && <div className="border border-transparent shadow-sm text-sm font-medium rounded-lg text-white text-center bg-green-400 hover:green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full px-6 py-4 my-4 "> Đã thanh toán </div>}
+                        {debtTotal != 0 && <div onClick={() => handlePaymentBill()} className='cursor-pointer w-full px-6 py-4 my-4 text-white bg-blue-600 rounded-lg hover:bg-blue-600 border border-transparent shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center'>Thanh toán hóa đơn</div>}
+                      </div>
                       <div className="w-full h-0.5 bg-indigo-500" />
                       <div className="p-4">
                         <div className="flex items-center justify-center font-extrabold text-indigo-500">
