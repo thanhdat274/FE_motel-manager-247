@@ -25,7 +25,7 @@ const Payment = () => {
         if (id) {
             getReport();
         }
-    }, []);
+    }, [id]);
 
     const data = [
         {
