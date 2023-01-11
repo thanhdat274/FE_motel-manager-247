@@ -38,9 +38,3 @@ export const getListBill = (idHouse: any) => {
     const url = `/payment/list/${idHouse}`;
     return instance.get(url)
 }
-
-export const filterBillPayment = (yearCheck: any, monthCheck: any, idRoom: any) => {
-    const url = `/payment/filter`;
-    const dataBody = { month: monthCheck, year: yearCheck, idRoom: idRoom };
-    return instance.post(url, dataBody)
-}
