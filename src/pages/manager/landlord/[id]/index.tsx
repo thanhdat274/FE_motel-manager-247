@@ -336,6 +336,7 @@ const HomeManagerPage = () => {
                 {
                   roomExpiration?.map((roomReady: any, index: number) => {
 
+
                     const endDate1 = new Date(roomReady?.contract?.endTime)
                     const timeEnd = Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))
                     if (timeEnd < 15) {
@@ -348,7 +349,7 @@ const HomeManagerPage = () => {
                             <div className="text-center">{roomReady?.name}</div>
                           </td>
                           <td className="px-6 py-4 whitespace">
-                            <div className="text-center">{Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))} ngày</div>
+                            <div className="text-center">{timeEnd < 0 ? `Đã quá hạn ${timeEnd * -1} ` : timeEnd} ngày</div>
                           </td>
                         </tr>
                       )
