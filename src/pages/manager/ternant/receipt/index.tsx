@@ -49,12 +49,11 @@ const InfoReceipt = (props: Props) => {
   if (bills) {
     for (var i = 0; i < bills.length; i++) {
       const initialValue = 0;
-      var totalPrice =
-        bills &&
-        bills[i]?.invoiceService.reduce(
-          (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
-          initialValue,
-        );
+      var totalPrice = bills[i]?.invoiceService.reduce(
+        (previousValue: number, currentValue: any) => previousValue + currentValue.amount,
+        initialValue,
+      ) + bills[i]?.debt;
+
       var debtTotal = totalPrice - bills[i]?.paidAmount;
     }
   }
@@ -195,7 +194,17 @@ const InfoReceipt = (props: Props) => {
                                   </tr>
                                 );
                               })}
+                              {bill?.debt !== 0 &&
+                                <tr className="whitespace-nowrap">
+                                  <td className="px-6 py-4">
+                                    <div className="text-sm text-gray-900">Tiền nợ tháng trước</div>
+                                  </td>
 
+                                  <td className="px-6 py-4 text-right">
+                                    {bill?.debt?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
+                                  </td>
+                                </tr>
+                              }
                               <tr className="text-white bg-gray-800">
                                 <td className="text-sm font-bold px-6 py-4">
                                   <b>Tổng tiền</b>
