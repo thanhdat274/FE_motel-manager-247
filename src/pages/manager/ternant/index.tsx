@@ -38,7 +38,7 @@ const Ternant = () => {
           id="status"
           onChange={onChange}
         >
-          {years.map((year, index) => {
+          {years?.map((year, index) => {
             return (
               <option key={index} value={year}>
                 {year}
@@ -55,8 +55,8 @@ const Ternant = () => {
       const getTotalWater = async () => {
         try {
           const { data } = await getBillServiceByYear(codeRoom?._id, checkNameNuoc, checkYear)
-          if (data.data) {
-            setTotalWater(data.data as any);
+          if (data?.data) {
+            setTotalWater(data?.data as any);
           }
         } catch (error) {
           console.log('error', error);
@@ -67,8 +67,8 @@ const Ternant = () => {
       const getTotalElictric = async () => {
         try {
           const { data } = await getBillServiceByYear(codeRoom?._id, checkNameDien, checkYear)
-          if (data.data) {
-            setTotalElictric(data.data as any);
+          if (data?.data) {
+            setTotalElictric(data?.data as any);
           }
         } catch (error) {
           console.log('error', error);
@@ -79,8 +79,8 @@ const Ternant = () => {
       const getTotalElictricDetail = async () => {
         try {
           const { data } = await getDetailBillServiceByMonthYear(codeRoom?._id, checkNameDien, 7, checkYear)
-          if (data.data) {
-            setTotalElictricDetail(data.data as any);
+          if (data?.data) {
+            setTotalElictricDetail(data?.data as any);
           }
         } catch (error) {
           console.log('error', error);
@@ -90,7 +90,7 @@ const Ternant = () => {
 
     }
   }, [codeRoom?._id, checkYear, checkNameDien]);
-  
+
   return (
     <div className="w-full gap-4 flex flex-col ">
       <header className="bg-white shadow border rounded-md">
@@ -107,7 +107,7 @@ const Ternant = () => {
       {YearShow}
       <div className="w-full flex gap-y-4 lg:flex-nowrap lg:gap-4 xl:flex-nowrap flex-wrap">
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
-          <BarDien data={totalElictic}/>
+          <BarDien data={totalElictic} />
         </div>
         <div className="w-[100%] lg:w-[50%] xl:w-[50%] bg-white shadow border rounded-md p-2">
           <BarNuoc dataNuoc={totalWater} />

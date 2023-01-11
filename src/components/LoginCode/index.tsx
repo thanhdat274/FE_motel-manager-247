@@ -12,7 +12,6 @@ type Props = {
 };
 
 const LoginCode = ({ data, handleResetPage }: Props) => {
-  console.log('data', data.subName);
   const codeRoomProp = data?.subName
   const {
     register,
@@ -26,7 +25,6 @@ const LoginCode = ({ data, handleResetPage }: Props) => {
   const idRoom = param?.id_room;
 
   const onSubmit = async (data: any) => {
-    console.log('data submit', data);
     if (data?.codeRoom == codeRoomProp) {
       Toast('error', 'Bạn cần thay đổi mã trước khi gửi đi!');
 

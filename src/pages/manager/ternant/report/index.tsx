@@ -24,7 +24,7 @@ const ListReport = (props: Props) => {
   const {
     register,
     handleSubmit,
-    
+
     formState: { errors },
   } = useForm<any>();
   const idd = codeRoom && codeRoom._id;
@@ -47,7 +47,7 @@ const ListReport = (props: Props) => {
       };
       getReport();
     }
-  }, [idd,resetPage]);
+  }, [idd, resetPage]);
 
   // -------------------Add  repost------------------
   const onSubmit = async (data2: any) => {
@@ -65,9 +65,10 @@ const ListReport = (props: Props) => {
         setLoading(false);
       }).finally(() => {
         setResetPage(resetPage + 1)
-    });
+      });
   };
-  // -------------------End   repost------------------
+
+  // -------------------End repost------------------
 
   const handleRemove = async (id: any) => {
 
@@ -78,7 +79,7 @@ const ListReport = (props: Props) => {
         Toast('error', err?.data?.message);
       }).finally(() => {
         setResetPage(resetPage + 1)
-    });
+      });
   }
 
   return (

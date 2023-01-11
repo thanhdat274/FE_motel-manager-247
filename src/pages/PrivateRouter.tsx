@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Toast } from 'src/hooks/toast';
 import { getInfoUser } from 'src/pages/api/auth';
+import { readRoomData } from 'src/pages/api/room';
 
 type PrivateRouterProps = {
   children: JSX.Element;
@@ -25,7 +26,7 @@ export const CheckUser = (props: PrivateRouterProps) => {
   const router = useRouter();
   if (cookies?.user) {
     const getUsers = async () => {
-      await getInfoUser(userData?.user._id, userData?.token)
+      await getInfoUser(userData?.user?._id, userData?.token)
         .then(() => {
           return props.children;
         })
@@ -39,7 +40,19 @@ export const CheckUser = (props: PrivateRouterProps) => {
     getUsers();
   }
   if (cookies?.code_room) {
-    router.push('/manager/ternant');
+    const getDataRoom = async () => {
+      await readRoomData(cookies?.code_room?._id)
+        .then(() => {
+          router.push('/manager/ternant');
+        })
+        .catch((error) => {
+          Toast('error', error?.response?.data?.message + 'và đăng xuất sau 2s');
+          setTimeout(() => {
+            logoutResetData();
+          }, 2000);
+        });
+    };
+    getDataRoom();
   }
   return props.children;
 };
