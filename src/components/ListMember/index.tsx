@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { faEye, faEyeSlash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faPenToSquare, faTrashCan, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import { Toast } from 'src/hooks/toast';
-import axios from 'axios';
 import { Modal } from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import { useForm } from 'react-hook-form';
-import { readRoom, removePeople, updatePeople } from 'src/pages/api/room';
+import { removePeople, updatePeople } from 'src/pages/api/room';
+import ModalChangeMember from './modal-change-member';
 
 export type IMember = {
   status: boolean;
@@ -33,12 +32,10 @@ export type IMember2 = {
 
 const ListMember = (props: IMember) => {
   const { _id, memberName, phoneNumber, cardNumber, status } = props;
-
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
   const { cookies, setLoading, user } = useUserContext();
-
-
+  const [modalChangeOneMember, setModalChangeOneMember] = useState<boolean>(false);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
@@ -58,7 +55,10 @@ const ListMember = (props: IMember) => {
   useEffect(() => {
     reset(props)
   }, [])
+  const onHandleOpenModalChangeMember = () => {
+    setModalChangeOneMember(true);
 
+  }
   const onSubmit = async (listMember: any) => {
 
     const newData = {
@@ -146,19 +146,27 @@ const ListMember = (props: IMember) => {
         <div className="control-member flex flex-row gap-2">
           <div
             onClick={onOpenModal}
-            className="rounded edit-member flex flex-row gap-2 p-2 bg-indigo-600 text-white border border-solid border-indigo-600 base-1/2 cursor-pointer"
+            className="rounded edit-member flex flex-row gap-2 p-2 bg-blue-500 text-white border border-solid border-blue-500 base-1/2 cursor-pointer"
           >
             <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
             <span>Sửa</span>
           </div>
-          <div className="rounded edit-member flex flex-row gap-2 p-2 bg-red-600 hover:bg-red-400 text-white border border-solid border-red-600 hover:border-red-400 base-1/2 cursor-pointer">
-            <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faPenToSquare} height={20} />
+          <div className="rounded edit-member flex flex-row gap-2 p-2 bg-red-500 hover:bg-red-400 text-white border border-solid border-red-500 hover:border-red-400 base-1/2 cursor-pointer">
+            <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faTrashCan} height={20} />
             <span
               onClick={() => {
                 removeRoom(props);
               }}
             >
               Xóa
+            </span>
+          </div>
+          <div className="rounded edit-member flex flex-row gap-2 p-2 bg-blue-500 text-white border border-solid border-blue-500 base-1/2 cursor-pointer">
+            <FontAwesomeIcon className="w-[10px] text-[10px] pt-[2px]" icon={faHandPointRight} height={20} />
+            <span
+              onClick={() => onHandleOpenModalChangeMember()}
+            >
+              Chuyển phòng
             </span>
           </div>
         </div>
@@ -274,7 +282,7 @@ const ListMember = (props: IMember) => {
             </div>
           </div>
         </Modal>
-
+        <ModalChangeMember openModal={modalChangeOneMember} setOpenModal={setModalChangeOneMember} name={memberName} phoneNumber={phoneNumber} cardNumber={cardNumber} idMember={_id}></ModalChangeMember>
       </div>
     </div>
   );

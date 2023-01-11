@@ -1,5 +1,6 @@
 import instance from './instance';
 import axios from "axios";
+import { IChangeOneMember } from './type';
 
 export const listRoom = (id: any, userData: any) => {
   const url = `/list-room/${userData?.user?._id}/${id}`;
@@ -112,5 +113,15 @@ export const upload = async (file: any) => {
   });
 
   return data.url;
+};
+// chuyển 1 người qua phòng khác 
+
+export const changeOneMemberApi = (data: IChangeOneMember) => {
+  const url = '/room/change-one-member';
+  return instance.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${data?.userData?.token}`,
+    },
+  });
 };
 
