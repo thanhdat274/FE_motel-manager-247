@@ -62,6 +62,7 @@ const ModalChangeMember = (props: Props) => {
     <Modal
       centered
       open={props.openModal}
+      onCancel={() => props.setOpenModal(false)}
       footer={[
         <Button key="cancel" onClick={() => props.setOpenModal(false)}>
           Quay lại
