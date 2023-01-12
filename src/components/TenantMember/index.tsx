@@ -8,8 +8,11 @@ import { useRouter } from 'next/router';
 import { Toast } from 'src/hooks/toast';
 import { IMember, IMember2 } from '@/components/ListMember';
 import { addPeople } from 'src/pages/api/room';
+import ModalChangeMember from '../ListMember/modal-change-member';
+
 
 const ListMember = dynamic(() => import('@/components/ListMember'), { ssr: false });
+
 
 type IProps = {
   data: IMember2;
@@ -18,10 +21,12 @@ type IProps = {
 };
 
 const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [modalChangeOneMember, setModalChangeOneMember] = useState<boolean>(false);
+  const [check, setCheck] = useState<string>('');
   const router = useRouter();
   const param = router.query;
-  const { cookies, setLoading, user } = useUserContext();
+  const { cookies, setLoading } = useUserContext();
   const userData = cookies?.user;
   const {
     register,
@@ -30,10 +35,13 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
   } = useForm();
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+  const onHandleOpenModalChangeMember = () => {
+    setModalChangeOneMember(true);
+    setCheck('2');
+  }
   const onSubmit = async (listMember: any) => {
     setLoading(true);
     const newData = { ...{ listMember }, userData: userData };
-
     await addPeople(param.id_room, newData).then((result) => {
       setLoading(false);
       setOpen(false);
@@ -53,16 +61,33 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
           <div>
             {' '}
             {data1.length < data.maxMember ? (
-              <button
-                onClick={onOpenModal}
-                className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Thêm thành viên
-              </button>
+              <div className='flex'>
+                <button
+                  onClick={onOpenModal}
+                  className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                >
+                  Thêm thành viên
+                </button>
+                <button
+                  onClick={() => onHandleOpenModalChangeMember()}
+                  className="block mb-5 ml-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                >
+                  Chuyển tất cả thành viên
+                </button>
+
+
+              </div>
+
             ) : (
-              <>
-                <button disabled className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Đủ người</button>
-              </>
+              <div className='flex'>
+                <button disabled className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2">Đủ người</button>
+                <button
+                  onClick={() => onHandleOpenModalChangeMember()}
+                  className="block mb-5 ml-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                >
+                  Chuyển tất cả thành viên
+                </button>
+              </div>
             )}
           </div>
         ) : (
@@ -204,7 +229,9 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
       ) : (
         <div></div>
       )}
+      <ModalChangeMember openModal={modalChangeOneMember} setOpenModal={setModalChangeOneMember} data={data1} cardNumber='' idMember='' name='' phoneNumber='' check={check}></ModalChangeMember>
     </div>
+
   );
 };
 
