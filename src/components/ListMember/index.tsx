@@ -33,6 +33,7 @@ export type IMember2 = {
 const ListMember = (props: IMember) => {
   const { _id, memberName, phoneNumber, cardNumber, status } = props;
   const [hiddenPhone, setHiddenphone] = useState<boolean>(true);
+  const [check, setCheck] = useState<string>('');
   const [hiddenCardNumber, setHiddenCardNumber] = useState<boolean>(true);
   const { cookies, setLoading, user } = useUserContext();
   const [modalChangeOneMember, setModalChangeOneMember] = useState<boolean>(false);
@@ -57,6 +58,7 @@ const ListMember = (props: IMember) => {
   }, [])
   const onHandleOpenModalChangeMember = () => {
     setModalChangeOneMember(true);
+    setCheck('1');
 
   }
   const onSubmit = async (listMember: any) => {
@@ -282,7 +284,7 @@ const ListMember = (props: IMember) => {
             </div>
           </div>
         </Modal>
-        <ModalChangeMember openModal={modalChangeOneMember} setOpenModal={setModalChangeOneMember} name={memberName} phoneNumber={phoneNumber} cardNumber={cardNumber} idMember={_id}></ModalChangeMember>
+        <ModalChangeMember openModal={modalChangeOneMember} setOpenModal={setModalChangeOneMember} name={memberName} phoneNumber={phoneNumber} cardNumber={cardNumber} idMember={_id} data='' check={check}></ModalChangeMember>
       </div>
     </div>
   );

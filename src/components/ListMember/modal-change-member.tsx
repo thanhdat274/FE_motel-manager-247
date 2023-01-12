@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Select, Typography } from 'antd';
-import { changeOneMemberApi, listRoom } from 'src/pages/api/room';
+import { changeAllMemberApi, changeOneMemberApi, listRoom } from 'src/pages/api/room';
 import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import { IListRoomType, ITypeChangeOneMember } from './type';
@@ -12,6 +12,8 @@ type Props = {
   phoneNumber: string
   cardNumber: string
   idMember: string
+  data: any
+  check: string
 }
 const { Option } = Select;
 const { Title } = Typography;
@@ -27,7 +29,6 @@ const ModalChangeMember = (props: Props) => {
     if (id) {
       const getListRoom = async () => {
         const { data } = await listRoom(id, userData);
-        console.log(data);
         setListRooms(data.data);
       };
       getListRoom();
@@ -35,26 +36,47 @@ const ModalChangeMember = (props: Props) => {
   }, [id]);
   const [form] = Form.useForm();
   const onFinish = async (values: ITypeChangeOneMember) => {
-    try {
-      setLoading(true);
-      const data = {
-        idOldRoom: param.id_room,
-        dataMember: {
-          _id: props.idMember,
-          cardNumber: props.cardNumber,
-          memberName: props.name,
-          phoneNumber: props.phoneNumber,
-        },
-        idNewRoom: values.idNewRoom
+    if (props.check == '1') {
+      try {
+        setLoading(true);
+        const data = {
+          idOldRoom: param.id_room,
+          dataMember: {
+            _id: props.idMember,
+            cardNumber: props.cardNumber,
+            memberName: props.name,
+            phoneNumber: props.phoneNumber,
+          },
+          idNewRoom: values.idNewRoom
+        }
+        await changeOneMemberApi(data);
+        Toast('success', 'Chuyển sang phòng mới thành công!');
+        props.setOpenModal(false);
+        router.push(`/manager/landlord/${id}/list-room`);
+      } catch (error: any) {
+        Toast('error', error?.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
-      await changeOneMemberApi(data);
-      Toast('success', 'Chuyển sang phòng mới thành công!');
-      props.setOpenModal(false);
-      router.push(`/manager/landlord/${id}/list-room`);
-    } catch (error) {
-      Toast('error', 'Chuyển sang phòng mới không thành công!');
-    } finally {
-      setLoading(false);
+
+    } else {
+      try {
+        setLoading(true);
+        const data = {
+          idOldRoom: param.id_room,
+          dataMember: props.data,
+          idNewRoom: values.idNewRoom
+        }
+        await changeAllMemberApi(data);
+        Toast('success', 'Chuyển sang phòng mới thành công!');
+        props.setOpenModal(false);
+        router.push(`/manager/landlord/${id}/list-room`);
+      } catch (error: any) {
+        Toast('error', error?.response?.data?.message);
+      } finally {
+        setLoading(false);
+      }
+
     }
   };
 
