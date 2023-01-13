@@ -9,6 +9,7 @@ import BarDien from '@/components/chart/barDien';
 import BarNuoc from '@/components/chart/barNuoc';
 import BarPayment from '@/components/chart/barPayment';
 import Link from 'next/link';
+import { useUserContext } from '@/context/UserContext';
 
 const HomeManagerPage = () => {
   const [roomStatisticals, setRoomStatisticals] = useState<any>([]);
@@ -16,6 +17,8 @@ const HomeManagerPage = () => {
   const [roomReadyUsing, setRoomReadyUsing] = useState<any>();
   const [roomReadyEmpty, setRoomReadyEmpty] = useState<any>();
   const [roomExpiration, setRoomExpiration] = useState<any>();
+  const { setActives } = useUserContext();
+
 
   const [totalWater, setTotalWater] = useState<any>([]);
   const [totalElictic, setTotalElictric] = useState<any>([]);
@@ -136,7 +139,7 @@ const HomeManagerPage = () => {
                 <div className="max-w-full">
                   <div>
                     <p className="mb-0 font-sans font-bold leading-normal text-sm text-black dark:opacity-60 pr-4 h-[40px]">Tổng số</p>
-                    <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomReadyEmpty?.count + roomStatisticals?.roomNotReady?.count + roomStatisticals?.roomReadyUsing?.count} phòng</h5>
+                    <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals.roomReadyEmpty ? roomStatisticals?.roomReadyEmpty?.count + roomStatisticals?.roomNotReady?.count + roomStatisticals?.roomReadyUsing?.count : 0} phòng</h5>
                   </div>
                 </div>
                 <div className="max-w-full block lg:hidden">
@@ -151,7 +154,7 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Người thuê phòng</p>
                   {/* <h5 className="mb-0">{roomStatisticals.numberMemberInHouse} người</h5> */}
-                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.numberMemberInHouse} người</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals.numberMemberInHouse ? roomStatisticals?.numberMemberInHouse : 0} người</h5>
                 </div>
               </div>
               <div className="max-w-full block lg:hidden">
@@ -165,7 +168,7 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sử dụng</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomReadyUsing} phòng</h5> */}
-                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4"> {roomStatisticals?.roomReadyUsing?.count} phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4"> {roomStatisticals.roomReadyUsing ? roomStatisticals?.roomReadyUsing?.count : 0} phòng</h5>
                 </div>
               </div>
               <div className="max-w-full block lg:hidden">
@@ -179,7 +182,7 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60">Phòng đang sửa chữa</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomNotReady} phòng</h5> */}
-                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomNotReady?.count}  phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals.roomNotReady ? roomStatisticals?.roomNotReady?.count : 0}  phòng</h5>
                 </div>
               </div>
               <div className="max-w-full block lg:hidden">
@@ -193,7 +196,7 @@ const HomeManagerPage = () => {
                 <div>
                   <p className="mb-0 font-sans font-bold leading-normal text-sm dark:opacity-60 pr-4">Phòng trống</p>
                   {/* <h5 className="mb-0">{roomStatisticals.roomReadyEmpty} phòng</h5> */}
-                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals?.roomReadyEmpty?.count} phòng</h5>
+                  <h5 className="mb-0 lg:text-xl italic font-bold mt-4">{roomStatisticals.roomReadyEmpty ? roomStatisticals?.roomReadyEmpty?.count : 0} phòng</h5>
                 </div>
               </div>
               <div className="max-w-full block lg:hidden">
@@ -341,7 +344,7 @@ const HomeManagerPage = () => {
                     const timeEnd = Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000))
                     if (timeEnd < 15) {
                       return (
-                        <tr className={`cursor-pointer ` + (Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)) <= 5 ? 'bg-red-200' : "")} key={index} onClick={() => router.push(`/manager/landlord/${id}/list-room/${roomReady?._id}`)}>
+                        <tr className={`cursor-pointer ` + (Math.ceil((endDate1.getTime() - today.getTime()) / (24 * 60 * 60 * 1000)) <= 5 ? 'bg-red-200' : "")} key={index} onClick={() => { setActives('landlord'); router.push(`/manager/landlord/${id}/list-room/${roomReady?._id}`) }}>
                           <td className="px-9 py-4 whitespace text-sm text-gray-500">
                             <div className="text-center">{index + 1}</div>
                           </td>

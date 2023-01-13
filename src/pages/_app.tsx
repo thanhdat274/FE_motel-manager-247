@@ -9,6 +9,7 @@ import LayoutListHome from 'src/Layout/ListHome';
 import UserProvider from '@/context/UserContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NextNProgress from 'nextjs-progressbar';
 
 import { CookiesProvider } from 'react-cookie';
 import { CheckCodeRoom, CheckUser, PrivateRouter } from './PrivateRouter';
@@ -80,6 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div>
+      <NextNProgress />
       <CookiesProvider>
         <UserProvider>
           {switchLayout()}
