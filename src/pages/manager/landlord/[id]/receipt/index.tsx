@@ -74,7 +74,7 @@ const Receipt = () => {
 
   const filterBillLisst = bill?.filter((bil: any) => {
 
-    if (filterBill === "conlo") {
+    if (filterBill === "conno") {
       return bil.paymentStatus === 1;
     } else if (filterBill == "chuatt") {
       return bil.paymentStatus === 0;
@@ -91,7 +91,7 @@ const Receipt = () => {
 
   return (
     <div className="h-screen">
-      
+
       <header className="bg-white shadow">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
@@ -101,9 +101,9 @@ const Receipt = () => {
               </h2>
             </div>
             <div>
-              <select onChange={onFilterBill} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <select onChange={onFilterBill} id="countries" className="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:outline-none focus:shadow-outline">
                 <option value="all">Tất cả</option>
-                <option value="conlo">Còn lợ</option>
+                <option value="conno">Còn nợ</option>
                 <option value="chuatt">Chưa thanh toán</option>
                 <option value="datt">Đã thanh toán</option>
               </select>
