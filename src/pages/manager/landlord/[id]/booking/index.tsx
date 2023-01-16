@@ -97,6 +97,7 @@ const Booking = (props: Props) => {
           const daata = data.data
           setListBookings([...listBookings, daata])
           setOpen(false)
+          reset()
           Toast('success', 'Đặt tiền cọc thành công');
         }
       } catch (error: any) {
