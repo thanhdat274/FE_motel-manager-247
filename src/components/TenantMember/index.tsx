@@ -30,6 +30,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
   const userData = cookies?.user;
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -45,10 +46,11 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
     await addPeople(param.id_room, newData).then((result) => {
       setLoading(false);
       setOpen(false);
-      Toast('success', result.data.message);
+      reset()
+      Toast('success', result?.data?.message);
     }).catch((err) => {
       setLoading(false);
-      Toast('error', err.message);
+      Toast('error', err?.message);
     }).finally(() => {
       handleResetPage()
     });
@@ -59,8 +61,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
       <div>
         {data?.status == true ? (
           <div>
-            {' '}
-            {data1.length < data.maxMember ? (
+            {data1?.length < data?.maxMember ? (
               <div className='flex'>
                 <button
                   onClick={onOpenModal}
@@ -68,16 +69,17 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
                 >
                   Thêm thành viên
                 </button>
-                <button
-                  onClick={() => onHandleOpenModalChangeMember()}
-                  className="block mb-5 ml-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                >
-                  Chuyển tất cả thành viên
-                </button>
-
-
+                {data1?.length ? (
+                  <button
+                    onClick={() => onHandleOpenModalChangeMember()}
+                    className="block mb-5 ml-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  >
+                    Chuyển tất cả thành viên
+                  </button>
+                ) : (
+                  <div></div>
+                )}
               </div>
-
             ) : (
               <div className='flex'>
                 <button disabled className="block mb-5 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:text-white bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2">Đủ người</button>
@@ -214,7 +216,7 @@ const TenantMember = ({ data, data1, handleResetPage }: IProps) => {
           </div>
         </Modal>
       </div>
-      {data.status == true ? (
+      {data?.status == true ? (
         <div className="flex flex-row flex-wrap w-full gap-4">
           {data1.length > 0 ? (
             data1?.map((item: IMember) => (

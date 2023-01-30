@@ -121,7 +121,7 @@ const ManageRoom = () => {
       children: <LoginCode data={roomData} handleResetPage={() => handleResetPage()} />,
     },
     {
-      label: 'Dịch vụ',
+      label: 'Dịch vụ riêng',
       value: 4,
       children: (
         <TabService
