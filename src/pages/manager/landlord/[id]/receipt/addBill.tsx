@@ -69,7 +69,7 @@ const AddBill = (props: Props) => {
         })
           .catch((error: any) => {
 
-            Toast('error', error.response.data.message);
+            Toast('error', error?.response?.data?.message);
             props.onclose();
 
             setLoading(false);
