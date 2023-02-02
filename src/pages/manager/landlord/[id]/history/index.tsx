@@ -52,14 +52,18 @@ const HistoryDelete = (props: Props) => {
       <main>
         <div className="mt-10">
           <Table
-            dataSource={historyReverse?.map((item: { _id: any; roomName: any; content: any; createdAt: moment.MomentInput}, index: number) => ({
+            dataSource={historyReverse?.map((item: { _id: any; roomName: any;title:any; content: any;model:any; createdAt: moment.MomentInput}, index: number) => ({
               index: index + 1,
               content:  item.content,
+              model: item.model,
+              title:item.title,
               date: moment(item.createdAt).format('DD/MM/YYYY'),
             }))}
             pagination={{ pageSize: 6 }}
           >
             <Column title="STT" dataIndex="index" key="name" />
+            <Column title="" dataIndex="model" key="model" />
+            <Column title="Tiêu đề" dataIndex="title" key="title" />
             <Column title="Nội dung"  dataIndex="content" key="contents" width={500} render={(content)  =>{
               return(
                   <div dangerouslySetInnerHTML={{__html: content}}></div>
