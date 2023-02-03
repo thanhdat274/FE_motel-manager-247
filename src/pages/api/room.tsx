@@ -57,7 +57,7 @@ export const updateRoom = (newData: any) => {
 };
 
 export const liquidRoom = (data: any, token?: any) => {
-  const url = `/room/liquidation`;
+  const url = `/room/review`;
   return instance.post(url, data, {
     headers: {
       Authorization: `Bearer ${token}`,
