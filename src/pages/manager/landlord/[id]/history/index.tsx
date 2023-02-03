@@ -1,17 +1,22 @@
 
-import { useUserContext } from '@/context/UserContext';
-import { Table } from 'antd';
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
-import { historyDelete } from 'src/pages/api/history';
-import 'antd/dist/antd.css';
 
-const { Column, ColumnGroup } = Table;
+import TabHistoryComponent from '@/components/TabHistory'
+import TabPeople from '@/components/TabPeople';
+import React, { useState,useEffect } from 'react'
+import { useRouter } from 'next/router';
+import { useUserContext } from '@/context/UserContext';
+import { historyDelete } from 'src/pages/api/history';
+import TabServiceHistory from '@/components/TabServiceHistory';
+import TabBillHistory from '@/components/TabBillHistory';
+import TabBillServiceHistory from '@/components/TabBillServiceHistory';
+// import React, { useEffect, useState } from 'react'
+
 type Props = {}
 
 const HistoryDelete = (props: Props) => {
-  
+  const [setFirstTab, setSetFirstTab] = useState(0);
+
+
 
   const { cookies, setLoading } = useUserContext();
   const userData = cookies?.user;
@@ -20,61 +25,64 @@ const HistoryDelete = (props: Props) => {
   const id = param.id;
   const [history, setHistory] = useState([])
   var historyReverse = [...history].reverse();
-  const hist = 
   
   
 
   useEffect(() => {
+    setLoading(true)
     if (id) {
       const getHistory = async () => {
         const { data } = await historyDelete(id, userData)
         setHistory(data.data)
+        setLoading(false)
+
       }
       getHistory()
     }
 
   }, [id])
 
+  const data = [
+    {
+      label: 'Thông tin phòng trọ',
+      value: 0,
+      children: <TabPeople data= {historyReverse} />,
+    },
+  
+    {
+      label: 'Điện nước',
+      value: 2,
+      children: <TabBillServiceHistory data= {historyReverse}/>
+    },
+    {
+      label: 'Dịch vụ',
+      value: 4,
+      children:<TabServiceHistory data= {historyReverse}/>
+
+    },
+    {
+      label: 'Hoá đơn',
+      value: 4,
+      children: <TabBillHistory data= {historyReverse}/>
+
+    },
+  ];
   return (
-    <div className="h-screen">
-      <header className="bg-white shadow">
+    <div className="w-full">
+      <header className="bg-white shadow border rounded-md">
         <div className="max-w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate uppercase">
-                Lịch sử
+                quản lý lịch sử
               </h2>
             </div>
-
           </div>
         </div>
       </header>
-      <main>
-        <div className="mt-10">
-          <Table
-            dataSource={historyReverse?.map((item: { _id: any; roomName: any;title:any; content: any;model:any; createdAt: moment.MomentInput}, index: number) => ({
-              index: index + 1,
-              content:  item.content,
-              model: item.model,
-              title:item.title,
-              date: moment(item.createdAt).format('DD/MM/YYYY'),
-            }))}
-            pagination={{ pageSize: 6 }}
-          >
-            <Column title="STT" dataIndex="index" key="name" />
-            <Column title="" dataIndex="model" key="model" />
-            <Column title="Tiêu đề" dataIndex="title" key="title" />
-            <Column title="Nội dung"  dataIndex="content" key="contents" width={500} render={(content)  =>{
-              return(
-                  <div dangerouslySetInnerHTML={{__html: content}}></div>
-              )
-            }} />
-            <Column title="Ngày xóa" dataIndex="date" key="date"  />
-
-          </Table>
-
-        </div >
-      </main>
+      <div className="manage-room-container ">
+        <TabHistoryComponent data={data} valueInit={setFirstTab} />
+      </div>
     </div>
   )
 }

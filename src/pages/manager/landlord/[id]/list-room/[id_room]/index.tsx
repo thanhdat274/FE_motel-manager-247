@@ -15,7 +15,7 @@ import { ListService } from 'src/pages/api/service';
 const TenantInformation = dynamic(() => import('@/components/TenantInfo'), { ssr: false });
 
 const ManageRoom = () => {
-  const [roomData, setRoomData] = useState<any>({});
+  const [roomData, setRoomData] = useState<any>({});  
   const { cookies, setLoading } = useUserContext();
   const [setFirstTab, setSetFirstTab] = useState(0);
   const [infoLandlord, setInfoLandlord] = useState();
