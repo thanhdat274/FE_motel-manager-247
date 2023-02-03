@@ -40,8 +40,16 @@ export const MENU_LANDLORD = [
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faPlug} />,
   },
   { url: 'water', title: 'Số nước', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faShower} /> },
-  { url: 'receipt', title: 'Hóa đơn', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faReceipt} /> },
-  { url: 'report', title: 'Thông báo', icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBell} /> },
+  {
+    url: 'receipt',
+    title: 'Hóa đơn hàng tháng',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faReceipt} />,
+  },
+  {
+    url: 'liquidation-bill',
+    title: 'Hóa đơn thanh lý',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBell} />,
+  },
   {
     url: 'history',
     title: 'Lịch sử',
@@ -50,6 +58,19 @@ export const MENU_LANDLORD = [
   {
     url: 'payment-method',
     title: 'Quản lý thanh toán',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faClockRotateLeft} />,
+  },
+];
+
+export const SUB_MENU_RECEIPT = [
+  {
+    url: 'monthly-bill',
+    title: 'Hóa đơn hàng tháng',
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faClockRotateLeft} />,
+  },
+  {
+    url: 'liquidation-bill',
+    title: 'Hóa đơn thanh lý',
     icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faClockRotateLeft} />,
   },
 ];

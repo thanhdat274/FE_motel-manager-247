@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Navbar = (props: Props) => {
-  const { cookies, setLoading, logoutResetData, resetPage, setResetPage } = useUserContext();
+  const { cookies, setLoading, logoutResetData, resetPage, setResetPage, setActives } = useUserContext();
   const [status, setStatus] = useState<any>({});
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -91,7 +91,7 @@ const Navbar = (props: Props) => {
         <div className="flex w-full mx-auto items-center justify-between md:flex-nowrap flex-wrap md:px-10 px-4">
           <div className="md:flex hidden flex-row items-center w-full justify-end mr-3">
             {props.isShowIcon === true ? (
-              <div className="relative cursor-pointer" onClick={() => setOpen1(true)}>
+              <div className="relative cursor-pointer" onClick={() => { router.push(`/manager/landlord/${id}/report`); setActives('report') }}>
                 {CountValueStatus}
                 <div className="p-3">
                   <FontAwesomeIcon className="w-[20px] text-black" icon={faBell} />
@@ -120,7 +120,7 @@ const Navbar = (props: Props) => {
         </div>
         <ReactCalculator key="Calculator" />
       </Modal>
-      <Modal open={open1} onClose={closeModal1} center>
+      {/* <Modal open={open1} onClose={closeModal1} center>
         <div className="w-full text-end">
           <div>
             <div className="">
@@ -174,7 +174,7 @@ const Navbar = (props: Props) => {
             </div>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
