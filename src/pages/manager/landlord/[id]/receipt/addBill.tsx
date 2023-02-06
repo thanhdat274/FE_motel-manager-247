@@ -66,12 +66,12 @@ const AddBill = (props: Props) => {
           setLoading(false);
           props.onclose();
           props.data();
+        }).finally(() => {
+          props.data();
         })
           .catch((error: any) => {
-
             Toast('error', error?.response?.data?.message);
             props.onclose();
-
             setLoading(false);
           });
       } else {
@@ -79,8 +79,9 @@ const AddBill = (props: Props) => {
           Toast('success', 'Tạo hóa đơn thành công');
           props.onclose();
           props.data();
+        }).finally(() => {
+          props.data();
         })
-
           .catch((error: any) => {
             setLoading(false);
           });
