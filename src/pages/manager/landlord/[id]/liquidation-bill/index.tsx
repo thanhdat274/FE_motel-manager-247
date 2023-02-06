@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
 import { getBillLiquidation } from 'src/pages/api/bill';
+import { listRoom } from 'src/pages/api/room';
+import moment from 'moment';
 
 type Props = {}
 
@@ -11,6 +13,7 @@ const LiquidationBill = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
   const userData = cookies?.user;
   const [listBillLiqui, setListBillLiqui] = useState<any>([])
+  const [listRooms, setListRooms] = useState<any[]>([]);
 
   useEffect(() => {
     if (param?.id) {
@@ -30,7 +33,17 @@ const LiquidationBill = (props: Props) => {
       getBillLiqui()
     }
   }, [param?.id, setLoading])
+  useEffect(() => {
+    if (param?.id) {
+      const getListRoom = async () => {
+        const { data } = await listRoom(param?.id, userData);
+        setListRooms(data.data);
+      };
+      getListRoom();
+    }
+  }, [param?.id, userData]);
   console.log(listBillLiqui)
+
   return (
     <div className="h-screen">
       <header className="bg-white shadow">
@@ -63,45 +76,49 @@ const LiquidationBill = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Tên
+                          Tên người đại diện
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Giá
+                          Phòng
                         </th>
                         <th
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                          Đơn vị
+                          Ngày thanh lý
                         </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        >
-                          Trạng thái sử dụng
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-                        ></th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {listBillLiqui &&
                         listBillLiqui?.map((item: any, index: any) => {
+                          const idRoom = item?.idRoom;
+                          let target = listRooms?.find((item: any) => item?._id == idRoom);
+                          let roomName = target?.name ?? ""
+                          let timeAgo = moment(item.createdAt).format('DD/MM/YYYY');
                           return (
                             <tr key={index}>
                               <td className="px-9 py-4 whitespace text-sm text-gray-500">
                                 <div className="text-center">{index + 1}</div>
                               </td>
                               <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.detailRoom.listMember.memberName}</div>
+                                <div className="text-center">{item?.detailRoom?.listMember?.map((item: any, index: any) => {
+                                  return (
+                                    <div key={index}>
+                                      {item.status===true? <p>{item.memberName}</p>: ""}
+                                    </div>
+                                  )
+                                })}</div>
                               </td>
-                              
-
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{roomName}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">{timeAgo}</div>
+                              </td>
                             </tr>
                           )
                         })}

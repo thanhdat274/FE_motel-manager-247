@@ -16,9 +16,10 @@ type Props = {
   open: boolean;
   onCloseModal: () => void;
   setOpen: (data: boolean) => void;
+  resetDataLiquid: () => void;
 };
 
-const ModailLiquidation = ({ open, onCloseModal, setOpen }: Props) => {
+const ModailLiquidation = ({ open, onCloseModal, setOpen, resetDataLiquid }: Props) => {
   const [roomData, setRoomData] = useState<any>({});
   const [liquidationBill, setLiquidationBill] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
@@ -51,44 +52,43 @@ const ModailLiquidation = ({ open, onCloseModal, setOpen }: Props) => {
   }, [param.id, param.id_room, setLoading, userData, setFirstTab, resetPage]);
 
   useEffect(() => {
-    const getRoom = async () => {
+    const getRoom1 = async () => {
       setLoading(true);
       const { data } = await liquiBill({ idRoom: param?.id_room, idHouse: param?.id }, userData?.token)
       setLiquidationBill(data)
     };
-    getRoom();
+    getRoom1();
   }, [param?.id, param?.id_room, setFirstTab]);
 
   const setDataFromChild = (number: number) => {
     setSetFirstTab(number);
   };
   const onSubmit = async () => {
-    const data = { idRoom: param?.id_room, idHouse: param?.id, invoiceService: liquidationBill, listMember: roomData?.listMember, contract: roomData?.contract?.imageContract, idAuth: userData?.user?._id, deposit:roomData?.contract?.infoTenant?.deposit };
-    console.log(data);
-
+    const data = { idRoom: param?.id_room, idHouse: param?.id, invoiceService: liquidationBill, listMember: roomData?.listMember, contract: roomData?.contract?.imageContract, idAuth: userData?.user?._id, deposit: roomData?.contract?.infoTenant?.deposit };
     setLoading(true);
     await createBillLiquidation(data)
       .then((result) => {
         setLoading(false);
         Toast('success', result?.data?.message);
-        router.push(`/manager/landlord/${param.id}/list-room`);
+        setOpen(false);
+        resetDataLiquid()
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);
         setLoading(false);
-      });
+      })
   }
 
   const data = [
     {
       label: 'Hóa đơn',
       value: 0,
-      children: (<LiquidationBill data={liquidationBill}  dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
+      children: (<LiquidationBill data={liquidationBill} dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
     },
     {
       label: 'Tiền cọc',
       value: 1,
-      children: (<Deposit  dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
+      children: (<Deposit dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
     },
     {
       label: 'Thành viên',

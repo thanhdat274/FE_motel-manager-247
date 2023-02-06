@@ -19,10 +19,11 @@ type IForm = {
 };
 type Props = {
   data: IForm | any;
+  resetDataLiquid: () => void;
   handleResetPage: () => void
 };
 
-const TenantInformation = ({ data, handleResetPage }: Props) => {
+const TenantInformation = ({ data, handleResetPage, resetDataLiquid }: Props) => {
   const router = useRouter();
   const param = router.query;
   const { cookies, setLoading } = useUserContext();
@@ -218,7 +219,7 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
               </div>
             </div>
           </form>
-          <ModailLiquidation open={open} onCloseModal={onCloseModal} setOpen={setOpen} />
+          <ModailLiquidation open={open} onCloseModal={onCloseModal} setOpen={setOpen} resetDataLiquid={resetDataLiquid} />
         </div>
       </div>
     </div>

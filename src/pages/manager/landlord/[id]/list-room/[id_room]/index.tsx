@@ -48,21 +48,20 @@ const ManageRoom = () => {
       getInfoLandlord();
     }
   }, []);
-
+  const getRoom = async () => {
+    setLoading(true);
+    try {
+      const { data } = await readRoom(`${param.id_room}`, userData as any);
+      if (data.data) {
+        setRoomData(data.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     if (param.id) {
-      const getRoom = async () => {
-        setLoading(true);
-        try {
-          const { data } = await readRoom(`${param.id_room}`, userData as any);
-          if (data.data) {
-            setRoomData(data.data);
-            setLoading(false);
-          }
-        } catch (error) {
-          setLoading(false);
-        }
-      };
       getRoom();
     }
   }, [param.id, param.id_room, setLoading, userData, setFirstTab, resetPage]);
@@ -88,7 +87,7 @@ const ManageRoom = () => {
     {
       label: 'Thông tin phòng trọ',
       value: 0,
-      children: <TenantInformation data={roomData} handleResetPage={() => handleResetPage()} />,
+      children: <TenantInformation data={roomData} resetDataLiquid={getRoom} handleResetPage={() => handleResetPage()} />,
     },
     // LoginCode
     {
