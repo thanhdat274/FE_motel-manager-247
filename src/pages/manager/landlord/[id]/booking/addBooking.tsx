@@ -11,8 +11,9 @@ import { faArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { message } from 'antd';
 type Props = {
-  item1: any;
-  item2: any;
+  item1?: any;
+  item2?: any;
+  deposit?: any;
 };
 const AddBooking = (props: Props) => {
   const { cookies, setLoading } = useUserContext();
@@ -55,6 +56,9 @@ const AddBooking = (props: Props) => {
           </div>
           <div>
             <input type="text" value={props.item2} {...register('idRoom', { required: true })} />
+          </div>
+          <div>
+            <input type="text" value={props.deposit} {...register('deposit', { required: true })} />
           </div>
         </div>
         <div>
