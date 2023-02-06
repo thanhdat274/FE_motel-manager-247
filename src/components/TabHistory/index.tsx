@@ -66,6 +66,7 @@ export default function TabHistoryComponent({ data, valueInit }: ITabHistory) {
           {data.map((data: IData) => (
             <Tab className="overflow-auto" key={data.label} label={data?.label} {...a11yProps(data?.value)} />
           ))}
+         
         </Tabs>
       </Box>
 
