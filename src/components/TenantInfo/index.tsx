@@ -41,6 +41,7 @@ const TenantInformation = ({ data, handleResetPage, resetDataLiquid }: Props) =>
       reset(data);
     }
   }, [data, reset]);
+  console.log(data)
   const [open, setOpen] = useState(false);
   const onCloseModal = () => setOpen(false);
   const handleLiquid = async () => {
@@ -207,9 +208,10 @@ const TenantInformation = ({ data, handleResetPage, resetDataLiquid }: Props) =>
                     Quay lại
                   </a>
                 </Link>
-                <div className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 cursor-pointer' onClick={() => handleLiquid()}>
+                {data.listMember.length ? <div className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 cursor-pointer' onClick={() => handleLiquid()}>
                   Thanh lý hợp đồng
-                </div>
+                </div> : ""}
+
                 <button
                   type="submit"
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
