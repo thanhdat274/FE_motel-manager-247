@@ -1,12 +1,8 @@
 import instance from './instance';
 
-export const ListService = (id: string, userData: any) => {
+export const ListService = (id: string) => {
   const url = `/service-house/${id}`;
-  return instance.get(url, {
-    headers: {
-      Authorization: `Bearer ${userData?.token}`,
-    },
-  });
+  return instance.get(url);
 };
 
 export const getInfoService = (idHouse: any, name: string) => {

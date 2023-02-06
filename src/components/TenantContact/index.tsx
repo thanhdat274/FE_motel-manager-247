@@ -31,6 +31,7 @@ type Info = {
   dateRange: String;
   phoneNumber: String;
   issuedBy: String;
+  deposit: number
 };
 
 type IForm = {
@@ -101,6 +102,9 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
       setValue('TNphoneNumber', infoTenant?.phoneNumber ? infoTenant?.phoneNumber : leadMember?.phoneNumber);
       setValue('TNdateRange', infoTenant?.dateRange);
       setValue('TNIssuedBy', infoTenant?.issuedBy);
+      setValue('TNDeposit', String(infoTenant?.deposit));
+      console.log(String(infoTenant?.deposit));
+
 
       //lanlord
       setValue('LLname', infoLandlord?.name ? infoLandlord?.name : dataLandlord?.name);
@@ -155,6 +159,7 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
               phoneNumber: data.TNphoneNumber,
               issuedBy: data.TNIssuedBy,
               dateRange: data.TNdateRange,
+              deposit: Number(data.TNDeposit)
             },
             infoLandlord: {
               name: data.LLname,
@@ -195,6 +200,7 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
               phoneNumber: data.TNphoneNumber,
               issuedBy: data.TNIssuedBy,
               dateRange: data.TNdateRange,
+              deposit: Number(data.TNDeposit)
             },
             infoLandlord: {
               name: data.LLname,
@@ -544,6 +550,27 @@ const TenantContract = ({ data, dataContract, leadMember, roomPrice, dataLandlor
                     )}
                     {errors.TNphoneNumber?.type === 'pattern' && (
                       <span className="text-[red] mt-1 block">Số điện thoại không đúng định dạng!</span>
+                    )}
+                  </div>
+                  <div className="md:grid grid-cols-1 mb-4">
+                    <label className="block text-gray-700 text-sm font-bold">
+                      Tiền cọc phòng <span className="text-[red]">*</span>
+                    </label>
+                    <NumericFormat
+                      value={String(contractData?.infoTenant?.deposit)}
+                      thousandSeparator="," className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-h-10 md:col-span-3" defaultValue="0" {...register('TNDeposit', {
+                        required: false,
+                        min: 0
+                      })}
+                      onChange={(e) => {
+                        setValue('TNDeposit', Number(e.target.value.split(',').join('')))
+                      }}
+                    />
+                    {errors.TNDeposit?.type === 'required' && (
+                      <span className="text-[red] mt-1 block">Nhập số tiền phạt!</span>
+                    )}
+                    {errors.TNDeposit?.type === 'min' && (
+                      <span className="text-[red] mt-1 block">Tiền cọc không được nhỏ hơn 0 VNĐ!</span>
                     )}
                   </div>
                 </div>

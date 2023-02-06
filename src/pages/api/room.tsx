@@ -64,6 +64,14 @@ export const liquidRoom = (data: any, token?: any) => {
     },
   })
 }
+export const liquiBill = (data: any, token?: any) => {
+  const url = `/room/review`;
+  return instance.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
 // update people
 export const updatePeople = (listMember: any, idRoom: any) => {
   const url = `/room/${idRoom}/updateInfoMember`;

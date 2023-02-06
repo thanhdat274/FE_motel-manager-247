@@ -9,8 +9,8 @@ export const listBill = (userData: any, idHouse: any, year: number, month: numbe
     },
   });
 };
-export const readBill = (id: any, newData: any) => {
 
+export const readBill = (id: any, newData: any) => {
   const url = `/bill/detail/${id}`;
   return instance.get(url, {
     headers: {
@@ -18,6 +18,7 @@ export const readBill = (id: any, newData: any) => {
     },
   });
 };
+
 export const CreateBillHouseAll = (newData: any) => {
   const url = `/bill-house-all/${newData?.idHouse}`;
   return instance.post(url, newData, {
@@ -26,6 +27,7 @@ export const CreateBillHouseAll = (newData: any) => {
     },
   });
 };
+
 export const CreateBillRooms = (newDataRooms: any) => {
   const url = `/bill-room`;
   return instance.post(url, newDataRooms, {
@@ -34,6 +36,7 @@ export const CreateBillRooms = (newDataRooms: any) => {
     },
   });
 };
+
 export const paymentStatus = (data: any, id: any, userData: any) => {
   const url = `/bill-update/${id}`;
   return instance.put(url, data, {
@@ -42,7 +45,20 @@ export const paymentStatus = (data: any, id: any, userData: any) => {
     },
   });
 };
+
 export const getBillIdRoom = (idRoom: string, year: number, month: number) => {
   const url = `/bill-room/${idRoom}/${year}/${month}`;
   return instance.get(url);
 };
+
+// hóa dơn thanh lý hợp đồng
+export const getBillLiquidation = (idHouse: string) => {
+  const url = `/bill-liqui/${idHouse}`;
+  return instance.get(url);
+};
+
+export const createBillLiquidation = (data: any) => {
+  const url = `/bill-liqui/create`;
+  return instance.post(url, data);
+};
+

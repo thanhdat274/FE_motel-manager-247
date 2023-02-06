@@ -33,7 +33,6 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
         watch,
         formState: { errors },
     } = useForm<FormInputs>();
-
     const { setLoading } = useUserContext();
     const { cookies } = useUserContext();
     const userData = cookies?.user;
@@ -61,28 +60,58 @@ const ModalDetailBill = ({ open, onCloseModal, setOpen, readBills }: Props) => {
     const initValuePaidAmount = useMemo(() => {
         if (readBills) {
             return (
-                <NumericFormat
-                    value={String(readBills?.paidAmount)}
-                    thousandSeparator=","
-                    type="text"
-                    className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                    {...register('paidAmount', { max: sumWithInitial })}
-                    onChange={(e) => {
-                        setValue(
-                            'paidAmount',
-                            Number(e.target.value.split(',').join('')) > sumWithInitial
-                                ? String(sumWithInitial)
-                                : e.target.value.split(',').join(''),
-                        );
-                    }}
-                    max={sumWithInitial}
-                    min={0}
-                    isAllowed={(values: any) => {
-                        const { floatValue } = values;
-
-                        return floatValue <= sumWithInitial;
-                    }}
-                />
+                <div>
+                    {readBills?.paymentStatus == 2 ? (
+                        <div>
+                            <NumericFormat
+                                value={String(readBills?.paidAmount)}
+                                thousandSeparator=","
+                                type="text"
+                                disabled
+                                className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                {...register('paidAmount', { max: sumWithInitial })}
+                                onChange={(e) => {
+                                    setValue(
+                                        'paidAmount',
+                                        Number(e.target.value.split(',').join('')) > sumWithInitial
+                                            ? String(sumWithInitial)
+                                            : e.target.value.split(',').join(''),
+                                    );
+                                }}
+                                max={sumWithInitial}
+                                min={0}
+                                isAllowed={(values: any) => {
+                                    const { floatValue } = values;
+                                    return floatValue <= sumWithInitial;
+                                }}
+                            />
+                        </div>
+                    ) : (
+                        <div>
+                            <NumericFormat
+                                value={String(readBills?.paidAmount)}
+                                thousandSeparator=","
+                                type="text"
+                                className="value-right icon-vnd px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                {...register('paidAmount', { max: sumWithInitial })}
+                                onChange={(e) => {
+                                    setValue(
+                                        'paidAmount',
+                                        Number(e.target.value.split(',').join('')) > sumWithInitial
+                                            ? String(sumWithInitial)
+                                            : e.target.value.split(',').join(''),
+                                    );
+                                }}
+                                max={sumWithInitial}
+                                min={0}
+                                isAllowed={(values: any) => {
+                                    const { floatValue } = values;
+                                    return floatValue <= sumWithInitial;
+                                }}
+                            />
+                        </div>
+                    )}
+                </div>
             );
         }
     }, [readBills, open]);
