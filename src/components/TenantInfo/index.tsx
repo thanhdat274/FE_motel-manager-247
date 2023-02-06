@@ -44,15 +44,6 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
   const onCloseModal = () => setOpen(false);
   const handleLiquid = async () => {
     setOpen(true);
-    await liquidRoom({ idRoom: param?.id_room, idHouse: param?.id, name: getValues('name') }, userData?.token).then((result) => {
-      Toast('success', result?.data?.message);
-    }).catch((err) => {
-      setLoading(false);
-      Toast('error', err?.response?.data?.message);
-    }).finally(() => {
-      setLoading(false);
-      handleResetPage()
-    });
   }
 
   const onSubmit = async (data: any) => {
@@ -215,7 +206,6 @@ const TenantInformation = ({ data, handleResetPage }: Props) => {
                     Quay lại
                   </a>
                 </Link>
-
                 <div className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 cursor-pointer' onClick={() => handleLiquid()}>
                   Thanh lý hợp đồng
                 </div>

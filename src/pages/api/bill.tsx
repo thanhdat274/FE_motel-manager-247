@@ -46,3 +46,8 @@ export const getBillIdRoom = (idRoom: string, year: number, month: number) => {
   const url = `/bill-room/${idRoom}/${year}/${month}`;
   return instance.get(url);
 };
+
+export const createBillLiquidation = (data: any) => {
+  const url = `/bill-liqui/create`;
+  return instance.post(url, data);
+};

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Modal from 'react-responsive-modal';
-import { Toast } from 'src/hooks/toast';
-import { readRoom } from 'src/pages/api/room';
+import { liquiBill, readRoom } from 'src/pages/api/room';
 import { useRouter } from 'next/router';
 import { useUserContext } from '@/context/UserContext';
-import { getInfoUser } from 'src/pages/api/auth';
-import { ListService } from 'src/pages/api/service';
 import TabPanelComponent from '@/components/TabPanel';
-import TenantMember from '@/components/TenantMember';
+import { Modal } from 'antd';
+import 'antd/dist/antd.css';
+import LiquidationBill from './LiquidationBill';
+import Member from './Member';
+import Contact from './Contact';
+import { createBillLiquidation } from 'src/pages/api/bill';
+import { Toast } from 'src/hooks/toast';
+import Deposit from './Deposit';
 
 type Props = {
   open: boolean;
@@ -17,13 +20,13 @@ type Props = {
 
 const ModailLiquidation = ({ open, onCloseModal, setOpen }: Props) => {
   const [roomData, setRoomData] = useState<any>({});
+  const [liquidationBill, setLiquidationBill] = useState<any>({});
   const { cookies, setLoading } = useUserContext();
   const [setFirstTab, setSetFirstTab] = useState(0);
   const [resetPage, setResetPage] = useState(0);
   const userData = cookies?.user;
   const router = useRouter();
   const param = router.query;
-  const { id } = router.query;
 
   const handleResetPage = () => {
     setResetPage(resetPage + 1);
@@ -47,47 +50,69 @@ const ModailLiquidation = ({ open, onCloseModal, setOpen }: Props) => {
     }
   }, [param.id, param.id_room, setLoading, userData, setFirstTab, resetPage]);
 
+  useEffect(() => {
+    const getRoom = async () => {
+      setLoading(true);
+      const { data } = await liquiBill({ idRoom: param?.id_room, idHouse: param?.id }, userData?.token)
+      setLiquidationBill(data)
+    };
+    getRoom();
+  }, [param?.id, param?.id_room, setFirstTab]);
+
   const setDataFromChild = (number: number) => {
     setSetFirstTab(number);
   };
+  const onSubmit = async () => {
+    const data = { idRoom: param?.id_room, idHouse: param?.id, invoiceService: liquidationBill, listMember: roomData?.listMember, contract: roomData?.contract?.imageContract, idAuth: userData?.user?._id, deposit:roomData?.contract?.infoTenant?.deposit };
+    console.log(data);
+
+    setLoading(true);
+    await createBillLiquidation(data)
+      .then((result) => {
+        setLoading(false);
+        Toast('success', result?.data?.message);
+        // router.push(`/manager/landlord/${param.id}/list-room`);
+      })
+      .catch((error) => {
+        Toast('error', error?.response?.data?.message);
+        setLoading(false);
+      });
+  }
 
   const data = [
     {
-      label: 'Thành viên',
-      value: 1,
-      children: <TenantMember data={roomData} data1={roomData.listMember} handleResetPage={() => handleResetPage()} />,
+      label: 'Hóa đơn',
+      value: 0,
+      children: (<LiquidationBill data={liquidationBill}  dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
     },
     {
-      label: 'Hóa đơn',
+      label: 'Tiền cọc',
+      value: 1,
+      children: (<Deposit  dataContract={roomData.contract} handleResetPage={() => handleResetPage()} />),
+    },
+    {
+      label: 'Thành viên',
       value: 2,
-      children: <TenantMember data={roomData} data1={roomData.listMember} handleResetPage={() => handleResetPage()} />,
+      children: <Member data={roomData} data1={roomData.listMember} handleResetPage={() => handleResetPage()} />,
     },
     {
       label: 'Hợp đồng',
       value: 3,
-      // children: (
-      //   <TenantContract
-      //     data={roomData}
-      //     dataContract={roomData.contract}
-      //     leadMember={
-      //       roomData?.listMember?.length > 0
-      //         ? roomData?.listMember.find((element: any) => element.status == true)
-      //         : null
-      //     }
-      //     roomArea={roomData.area}
-      //     roomPrice={roomData.price}
-      //     dataLandlord={infoLandlord}
-      //     setSetFirstTab={(value: number) => setDataFromChild(value)}
-      //   />
-      // ),
+      children: (
+        <Contact
+          data={roomData}
+          dataContract={roomData.contract}
+          handleResetPage={() => handleResetPage()}
+        />
+      ),
     },
   ];
   return (
     <div>
-      <Modal open={open} onClose={onCloseModal} center>
-
-        <div className="manage-room-container ">
+      <Modal open={open} onCancel={onCloseModal} okButtonProps={{ hidden: true }} cancelButtonProps={{ hidden: true }}>
+        <div className="manage-room-container">
           <TabPanelComponent data={data} valueInit={setFirstTab} />
+          <button onClick={() => onSubmit()} className="flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Thanh lý</button>
         </div>
       </Modal>
     </div>
