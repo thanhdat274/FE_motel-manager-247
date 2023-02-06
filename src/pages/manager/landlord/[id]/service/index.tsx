@@ -122,7 +122,7 @@ const ListServiceRoom = (props: Props) => {
                           scope="col"
                           className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                         >
-                        Trạng thái sử dụng
+                          Trạng thái sử dụng
                         </th>
                         <th
                           scope="col"
@@ -156,8 +156,8 @@ const ListServiceRoom = (props: Props) => {
                                   <div className="text-center">{item.unit}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace">
-                                <div className="text-center">{item.type ? 'Trả theo số lượng sử dụng' : 'Trả theo tháng'}</div>
-                              </td>
+                                  <div className="text-center">{item.type ? 'Trả theo số lượng sử dụng' : 'Trả theo tháng'}</div>
+                                </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="text-center flex">
                                     <Link href={`/manager/landlord/${id}/service/${item._id}/edit`}>

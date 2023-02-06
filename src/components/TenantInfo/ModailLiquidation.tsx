@@ -71,7 +71,7 @@ const ModailLiquidation = ({ open, onCloseModal, setOpen }: Props) => {
       .then((result) => {
         setLoading(false);
         Toast('success', result?.data?.message);
-        // router.push(`/manager/landlord/${param.id}/list-room`);
+        router.push(`/manager/landlord/${param.id}/list-room`);
       })
       .catch((error) => {
         Toast('error', error?.response?.data?.message);
