@@ -311,7 +311,7 @@ const LisElectric = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
                                       {getValues(`data.${index}.outputValue`) - getValues(`data.${index}.inputValue`)}
-                                      KWH
+                                      {' '}KWH
                                     </div>
                                   </div>
                                 </div>
@@ -379,7 +379,7 @@ const LisElectric = () => {
                                   <div className="table-cell px-4 py-4 whitespace">
                                     <div className="text-center">
                                       {getOuputValue - getInputValue < 0 ? 0 : getOuputValue - getInputValue}
-                                      KWH
+                                      {' '} KWH
                                     </div>
                                   </div>
                                 </div>

@@ -48,7 +48,7 @@ export const MENU_LANDLORD = [
   {
     url: 'liquidation-bill',
     title: 'Hóa đơn thanh lý',
-    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faBell} />,
+    icon: <FontAwesomeIcon className="w-[16px] text-black" icon={faReceipt} />,
   },
   {
     url: 'history',
