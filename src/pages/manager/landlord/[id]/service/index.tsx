@@ -25,7 +25,7 @@ const ListServiceRoom = (props: Props) => {
       const getService = async () => {
         setLoading(true);
         try {
-          const { data } = await ListService(id as string, userData as any);
+          const { data } = await ListService(id as string);
           setListServices(data.data);
           setLoading(false);
         } catch (error) {

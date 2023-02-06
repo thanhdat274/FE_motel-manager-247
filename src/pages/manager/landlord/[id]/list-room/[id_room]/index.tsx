@@ -71,7 +71,7 @@ const ManageRoom = () => {
     if (id) {
       const getService = async () => {
         try {
-          const { data } = await ListService(id as string, userData as any);
+          const { data } = await ListService(id as string);
           setListServices(data.data);
         } catch (error) {
           setLoading(false);
@@ -79,7 +79,7 @@ const ManageRoom = () => {
       };
       getService();
     }
-  }, [id, setLoading, userData]);
+  }, [id, setLoading]);
   const setDataFromChild = (number: number) => {
     setSetFirstTab(number);
   };
