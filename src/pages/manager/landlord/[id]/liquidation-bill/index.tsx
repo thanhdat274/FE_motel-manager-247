@@ -119,7 +119,7 @@ const LiquidationBill = (props: Props) => {
                           const idRoom = item?.idRoom;
                           let target = listRooms?.find((item: any) => item?._id == idRoom);
                           let roomName = target?.name ?? ""
-                          let timeAgo = moment(item.createdAt).format('DD/MM/YYYY');
+                          let timeAgo = moment(item?.createdAt).format('DD/MM/YYYY');
                           return (
                             <tr key={index}>
                               <td className="px-9 py-4 whitespace text-sm text-gray-500">
@@ -129,7 +129,7 @@ const LiquidationBill = (props: Props) => {
                                 <div className="text-center">{item?.detailRoom?.listMember?.map((item: any, index: any) => {
                                   return (
                                     <div key={index}>
-                                      {item.status === true ? <p>{item.memberName}</p> : ""}
+                                      {item.status === true ? <p>{item?.memberName}</p> : ""}
                                     </div>
                                   )
                                 })}</div>

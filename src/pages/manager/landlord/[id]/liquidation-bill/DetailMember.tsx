@@ -16,7 +16,7 @@ type Props = {
   data: IMember2;
 };
 const DetailMember = ({ data }: Props) => {
-  const dataa: any[] = data.detailRoom?.listMember?.map((item: any, index: any) => {
+  const dataa: any[] = data?.detailRoom?.listMember?.map((item: any, index: any) => {
 
     return {
       index: index + 1,

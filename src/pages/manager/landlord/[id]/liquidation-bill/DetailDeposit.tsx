@@ -23,7 +23,7 @@ const DetailDeposit = ({ data }: Props) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   <tr>
                     <td className="px-9 py-4 whitespace text-sm text-gray-500">
-                      <div className="text-center">{data?.payment?.deposit.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                      <div className="text-center">{data?.payment?.deposit?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                     </td>
                   </tr>
                 </tbody>

@@ -47,10 +47,10 @@ const BillLiqui = ({ data }: Props) => {
                             <div className="text-center">{index + 1}</div>
                           </td>
                           <td className="px-6 py-4 whitespace">
-                            <div className="text-center">{item.serviceName}</div>
+                            <div className="text-center">{item?.serviceName}</div>
                           </td>
                           <td className="px-6 py-4 whitespace">
-                            <div className="text-center">{item.amount.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                            <div className="text-center">{item?.amount?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                           </td>
                         </tr>
                       )
@@ -64,7 +64,7 @@ const BillLiqui = ({ data }: Props) => {
 
                     </td>
                     <td className="px-6 py-4 whitespace">
-                      <div className="text-center">{sumWithInitial.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
+                      <div className="text-center">{sumWithInitial?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</div>
                     </td>
                   </tr>
                 </tbody>
