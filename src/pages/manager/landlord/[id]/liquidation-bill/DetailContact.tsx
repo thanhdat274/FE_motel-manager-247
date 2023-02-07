@@ -27,7 +27,7 @@ type Props = {
   handleResetPage: () => void
 };
 const DetailContact = ({ data }: Props) => {
-  const arrImage = data?.detailRoom?.contract?.imageContract
+  const arrImage = data?.detailRoom?.contract
   return (
     <div>
       {arrImage?.length ? (
