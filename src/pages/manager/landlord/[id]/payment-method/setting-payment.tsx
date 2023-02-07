@@ -1,4 +1,5 @@
 import { useUserContext } from '@/context/UserContext';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -101,8 +102,13 @@ const SettingPayment = () => {
               </div>
             </div>
           </form>
+
         </div>
-      </div>
+      </div>Đăng kí mã thanh toán
+      <> </>
+      <Link href="https://sandbox.vnpayment.vn/devreg/">
+        tại đây!
+      </Link>
     </div>
   );
 };
