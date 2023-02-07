@@ -59,6 +59,7 @@ const ModailLiquidation = ({ open, onCloseModal, setOpen, resetDataLiquid }: Pro
     };
     getRoom1();
   }, [param?.id, param?.id_room, setFirstTab]);
+  
 
   const setDataFromChild = (number: number) => {
     setSetFirstTab(number);

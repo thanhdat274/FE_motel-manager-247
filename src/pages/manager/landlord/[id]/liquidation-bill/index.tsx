@@ -4,6 +4,7 @@ import { useUserContext } from '@/context/UserContext';
 import { getBillLiquidation } from 'src/pages/api/bill';
 import { listRoom } from 'src/pages/api/room';
 import moment from 'moment';
+import ModalDeatil from './ModalDeatil';
 
 type Props = {}
 
@@ -14,6 +15,11 @@ const LiquidationBill = (props: Props) => {
   const userData = cookies?.user;
   const [listBillLiqui, setListBillLiqui] = useState<any>([])
   const [listRooms, setListRooms] = useState<any[]>([]);
+  const [detailBill, setDetailBill] = useState<any[]>([]);
+
+  const [open, setOpen] = useState(false);
+  const onCloseModal = () => setOpen(false);
+
 
   useEffect(() => {
     if (param?.id) {
@@ -43,6 +49,15 @@ const LiquidationBill = (props: Props) => {
     }
   }, [param?.id, userData]);
   console.log(listBillLiqui)
+
+  const onSubmit = (_id: any) => { 
+    let target = listBillLiqui?.find((item: any) => item?._id == _id);
+    setDetailBill(target)
+    setOpen(true);
+    console.log(target);
+  }
+
+
 
   return (
     <div className="h-screen">
@@ -90,6 +105,12 @@ const LiquidationBill = (props: Props) => {
                         >
                           Ngày thanh lý
                         </th>
+                        <th
+                          scope="col"
+                          className="px-9 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -98,7 +119,7 @@ const LiquidationBill = (props: Props) => {
                           const idRoom = item?.idRoom;
                           let target = listRooms?.find((item: any) => item?._id == idRoom);
                           let roomName = target?.name ?? ""
-                          let timeAgo = moment(item.createdAt).format('DD/MM/YYYY');
+                          let timeAgo = moment(item?.createdAt).format('DD/MM/YYYY');
                           return (
                             <tr key={index}>
                               <td className="px-9 py-4 whitespace text-sm text-gray-500">
@@ -108,7 +129,7 @@ const LiquidationBill = (props: Props) => {
                                 <div className="text-center">{item?.detailRoom?.listMember?.map((item: any, index: any) => {
                                   return (
                                     <div key={index}>
-                                      {item.status===true? <p>{item.memberName}</p>: ""}
+                                      {item.status === true ? <p>{item?.memberName}</p> : ""}
                                     </div>
                                   )
                                 })}</div>
@@ -118,6 +139,11 @@ const LiquidationBill = (props: Props) => {
                               </td>
                               <td className="px-6 py-4 whitespace">
                                 <div className="text-center">{timeAgo}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace">
+                                <div className="text-center">
+                                  <button className="flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={()=> onSubmit(item?._id)}  >Xem chi tiết</button>
+                                </div>
                               </td>
                             </tr>
                           )
@@ -129,8 +155,9 @@ const LiquidationBill = (props: Props) => {
             </div>
           </div>
         </div>
-      </main >
-    </div >
+      </main>
+      <ModalDeatil open={open} onCloseModal={onCloseModal} setOpen={setOpen} detailBill={ detailBill} />
+    </div>
   )
 }
 
